@@ -1,8 +1,8 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
 import java.util.Map;
 
-import chanjarster.weixin.out.WxUserMessage;
+import chanjarster.weixin.bean.WxXmlMessage;
 
 
 /**
@@ -17,6 +17,6 @@ public interface WxMessageInterceptor {
    * @param wxMessage
    * @return  true代表OK，false代表不OK
    */
-  public boolean intercept(WxUserMessage wxMessage, Map<String, Object> context);
+  public boolean intercept(WxXmlMessage wxMessage, Map<String, Object> context);
   
 }

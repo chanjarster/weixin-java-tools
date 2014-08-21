@@ -1,9 +1,9 @@
-package chanjarster.weixin.in;
+package chanjarster.weixin.bean;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import chanjarster.weixin.in.WxError;
+import chanjarster.weixin.bean.WxError;
 
 @Test
 public class WxErrorTest {

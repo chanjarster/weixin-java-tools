@@ -1,7 +1,11 @@
-package chanjarster.weixin.out;
+package chanjarster.weixin.bean;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import chanjarster.weixin.util.WxGsonBuilder;
 
 /**
  * 公众号菜单
@@ -18,6 +22,18 @@ public class WxMenu {
 
   public void setButton(List<WxMenuButton> button) {
     this.button = button;
+  }
+  
+  public String toJson() {
+    return WxGsonBuilder.create().toJson(this);
+  }
+  
+  public static WxMenu fromJson(String json) {
+    return WxGsonBuilder.create().fromJson(json, WxMenu.class);
+  }
+  
+  public static WxMenu fromJson(InputStream is) {
+    return WxGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
   }
   
   public static class WxMenuButton {

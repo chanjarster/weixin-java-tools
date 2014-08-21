@@ -1,6 +1,7 @@
 package chanjarster.weixin.util;
 
-import chanjarster.weixin.out.WxCustomMessage;
+import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxMenu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,7 @@ public class WxGsonBuilder {
   static {
     INSTANCE.disableHtmlEscaping();
     INSTANCE.registerTypeAdapter(WxCustomMessage.class, new WxCustomMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMenu.class, new WxMenuGsonAdapter());
   }
   
   public static Gson create() {

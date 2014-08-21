@@ -1,4 +1,4 @@
-package chanjarster.weixin.in;
+package chanjarster.weixin.bean;
 
 import chanjarster.weixin.util.WxGsonBuilder;
 

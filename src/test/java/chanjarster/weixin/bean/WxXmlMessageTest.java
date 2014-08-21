@@ -1,13 +1,13 @@
-package chanjarster.weixin.out;
+package chanjarster.weixin.bean;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import chanjarster.weixin.out.WxUserMessage;
-import chanjarster.weixin.service.WxMsgType;
+import chanjarster.weixin.api.WxConsts;
+import chanjarster.weixin.bean.WxXmlMessage;
 
 @Test
-public class WxUserMessageTest {
+public class WxXmlMessageTest {
 
   public void testFromXml() {
 
@@ -36,11 +36,11 @@ public class WxUserMessageTest {
                 + "<Longitude>113.352425</Longitude>"
                 + "<Precision>119.385040</Precision>"
                 + "</xml>";
-    WxUserMessage wxMessage = WxUserMessage.fromXml(xml);
+    WxXmlMessage wxMessage = WxXmlMessage.fromXml(xml);
     Assert.assertEquals(wxMessage.getToUserName(), "toUser");
     Assert.assertEquals(wxMessage.getFromUserName(), "fromUser");
     Assert.assertEquals(wxMessage.getCreateTime(), new Long(1348831860l));
-    Assert.assertEquals(wxMessage.getMsgType(), WxMsgType.TEXT);
+    Assert.assertEquals(wxMessage.getMsgType(), WxConsts.TEXT);
     Assert.assertEquals(wxMessage.getContent(), "this is a test");
     Assert.assertEquals(wxMessage.getMsgId(), new Long(1234567890123456l));
     Assert.assertEquals(wxMessage.getPicUrl(), "this is a url");
@@ -63,11 +63,11 @@ public class WxUserMessageTest {
   }
   
   public void testToXml() {
-    WxUserMessage wxMessage = new WxUserMessage();
+    WxXmlMessage wxMessage = new WxXmlMessage();
     wxMessage.setToUserName("toUser");
     wxMessage.setFromUserName("fromUser");
     wxMessage.setCreateTime(new Long(1348831860l));
-    wxMessage.setMsgType(WxMsgType.TEXT);
+    wxMessage.setMsgType(WxConsts.TEXT);
     wxMessage.setContent("this is a test");
     wxMessage.setMsgId(new Long(1234567890123456l));
     wxMessage.setPicUrl("this is a url");

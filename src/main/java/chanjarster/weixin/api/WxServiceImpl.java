@@ -1,4 +1,4 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -14,11 +14,11 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import chanjarster.weixin.bean.WxAccessToken;
+import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxError;
+import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.exception.WxErrorException;
-import chanjarster.weixin.in.WxAccessToken;
-import chanjarster.weixin.in.WxError;
-import chanjarster.weixin.out.WxCustomMessage;
-import chanjarster.weixin.out.WxMenu;
 
 public class WxServiceImpl implements WxService {
 
@@ -35,12 +35,6 @@ public class WxServiceImpl implements WxService {
   
   protected WxConfigProvider wxConfigProvider;
   
-  /**
-   * 获得access_token
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
-   * @return
-   * @throws WxErrorException 
-   */
   public void refreshAccessToken() throws WxErrorException {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
       try {

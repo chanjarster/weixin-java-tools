@@ -1,4 +1,4 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
 import java.io.InputStream;
 
@@ -12,14 +12,18 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import chanjarster.weixin.api.WxConsts;
+import chanjarster.weixin.api.WxMemoryConfigProvider;
+import chanjarster.weixin.api.WxService;
+import chanjarster.weixin.api.WxServiceImpl;
+import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.exception.WxErrorException;
-import chanjarster.weixin.out.WxCustomMessage;
 import chanjarster.weixin.util.XmlTransformer;
 
 public class WxServiceTest {
 
   @Test(dataProvider = "configs")
-  public void testRefreshAccessToken(WxConfigProvider config) throws WxErrorException {
+  public void testRefreshAccessToken(WxTestConfigProvider config) throws WxErrorException {
     String before = config.getAccessToken();
     
     WxService wxService = new WxServiceImpl();
@@ -33,12 +37,12 @@ public class WxServiceTest {
   }
   
   @Test(dataProvider = "configs")
-  public void sendCustomMessage(SimpleWxConfigProvider config) throws WxErrorException {
+  public void sendCustomMessage(WxTestConfigProvider config) throws WxErrorException {
     WxService wxService = new WxServiceImpl();
     wxService.setWxConfigProvider(config);
     
     WxCustomMessage message = new WxCustomMessage();
-    message.setMsgtype(WxMsgType.TEXT);
+    message.setMsgtype(WxConsts.TEXT);
     message.setTouser(config.getOpenId());
     message.setContent("欢迎使用教务系统微信公众号\n下面\n<a href=\"http://192.168.1.249:9180/eams-rc/login.action\">Hello World</a>");
 
@@ -56,7 +60,7 @@ public class WxServiceTest {
      */
     // 没有access_token
     InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-    SimpleWxConfigProvider config1 = XmlTransformer.fromXml(SimpleWxConfigProvider.class, is1);
+    WxTestConfigProvider config1 = XmlTransformer.fromXml(WxTestConfigProvider.class, is1);
     return new Object[][] {
         new Object[] {
             config1
@@ -66,47 +70,10 @@ public class WxServiceTest {
   
   @XmlRootElement(name = "xml")
   @XmlAccessorType(XmlAccessType.FIELD)
-  public static class SimpleWxConfigProvider implements WxConfigProvider {
-    private String appId;
-    private String secret;
-    private String accessToken = "";
-    private Integer expiresIn;
-    private String token;
-    private String openId;
-    public void updateAccessToken(String accessToken, Integer expiresIn) {
-      this.accessToken = accessToken;
-      this.expiresIn = expiresIn;
-    }
-    public String getAccessToken() {
-      return accessToken;
-    }
-    public String getAppId() {
-      return appId;
-    }
-    public String getSecret() {
-      return secret;
-    }
-    public String getToken() {
-      return token;
-    }
-    public void setAppId(String appId) {
-      this.appId = appId;
-    }
-    public void setSecret(String secret) {
-      this.secret = secret;
-    }
-    public void setToken(String token) {
-      this.token = token;
-    }
-    public Integer getExpiresIn() {
-      return expiresIn;
-    }
-    public void setExpiresIn(Integer expiresIn) {
-      this.expiresIn = expiresIn;
-    }
-    public void setAccessToken(String accessToken) {
-      this.accessToken = accessToken;
-    }
+  public static class WxTestConfigProvider extends WxMemoryConfigProvider {
+    
+    protected String openId;
+    
     public String getOpenId() {
       return openId;
     }

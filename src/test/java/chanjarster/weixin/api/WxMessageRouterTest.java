@@ -1,4 +1,4 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
 // TODO
 public class WxMessageRouterTest {

@@ -1,6 +1,6 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
-public class WxMsgType {
+public class WxConsts {
 
   public static final String TEXT = "text";
   public static final String IMAGE = "image";

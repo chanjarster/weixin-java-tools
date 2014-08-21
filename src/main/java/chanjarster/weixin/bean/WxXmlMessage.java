@@ -1,10 +1,11 @@
-package chanjarster.weixin.out;
+package chanjarster.weixin.bean;
+
+import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -13,7 +14,7 @@ import chanjarster.weixin.util.XmlTransformer;
 
 /**
  * <pre>
- * 微信推送过来的消息，同时也是同步回复给用户的消息
+ * 微信推送过来的消息，也是同步回复给用户的消息，xml格式
  * 相关字段的解释看微信开发者文档：
  * http://mp.weixin.qq.com/wiki/index.php?title=接收普通消息
  * http://mp.weixin.qq.com/wiki/index.php?title=接收事件推送
@@ -24,7 +25,7 @@ import chanjarster.weixin.util.XmlTransformer;
  */
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxUserMessage {
+public class WxXmlMessage {
 
   ///////////////////////
   // 以下都是微信推送过来的消息的xml的element所对应的属性
@@ -288,21 +289,31 @@ public class WxUserMessage {
   
   public String toXml() {
     try {
-      return XmlTransformer.toXml(WxUserMessage.class, this);
+      return XmlTransformer.toXml(WxXmlMessage.class, this);
     } catch (JAXBException e) {
       e.printStackTrace();
     }
     return "";
   }
   
-  public static WxUserMessage fromXml(String xml) {
+  public static WxXmlMessage fromXml(String xml) {
     try {
-      return XmlTransformer.fromXml(WxUserMessage.class, xml);
+      return XmlTransformer.fromXml(WxXmlMessage.class, xml);
     } catch (JAXBException e) {
       e.printStackTrace();
     }
     return null;
   }
+  
+  public static WxXmlMessage fromXml(InputStream is) {
+    try {
+      return XmlTransformer.fromXml(WxXmlMessage.class, is);
+    } catch (JAXBException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+  
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -338,7 +349,7 @@ public class WxUserMessage {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    WxUserMessage other = (WxUserMessage) obj;
+    WxXmlMessage other = (WxXmlMessage) obj;
     if (Content == null) {
       if (other.Content != null) return false;
     } else if (!Content.equals(other.Content)) return false;

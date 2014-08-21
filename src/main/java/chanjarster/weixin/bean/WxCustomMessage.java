@@ -1,4 +1,4 @@
-package chanjarster.weixin.out;
+package chanjarster.weixin.bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import chanjarster.weixin.util.WxGsonBuilder;
 
 /**
- * 回复给用户的客服消息
+ * 客服消息
  * @author chanjarster
  *
  */

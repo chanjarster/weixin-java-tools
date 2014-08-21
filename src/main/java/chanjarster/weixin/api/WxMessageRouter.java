@@ -1,11 +1,11 @@
-package chanjarster.weixin.service;
+package chanjarster.weixin.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import chanjarster.weixin.out.WxUserMessage;
+import chanjarster.weixin.bean.WxXmlMessage;
 
 /**
  * 微信消息路由器，通过代码化的配置，把来自微信的消息交给某个的handler处理
@@ -28,7 +28,7 @@ public class WxMessageRouter {
    * 处理微信消息
    * @param wxMessage
    */
-  public void route(WxUserMessage wxMessage) {
+  public void route(WxXmlMessage wxMessage) {
     for (Rule rule : rules) {
       boolean doNext = rule.service(wxMessage);
       if (!doNext) {
@@ -148,7 +148,7 @@ public class WxMessageRouter {
       return this.routerBuilder;
     }
     
-    protected boolean test(WxUserMessage wxMessage) {
+    protected boolean test(WxXmlMessage wxMessage) {
       return 
           (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
           &&
@@ -165,7 +165,7 @@ public class WxMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected boolean service(WxUserMessage wxMessage) {
+    protected boolean service(WxXmlMessage wxMessage) {
       // 如果不匹配本规则，那么接着执行后面的Rule
       if (!test(wxMessage)) {
         return true;

@@ -1,18 +1,19 @@
-package chanjarster.weixin.out;
+package chanjarster.weixin.bean;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import chanjarster.weixin.out.WxCustomMessage;
-import chanjarster.weixin.out.WxCustomMessage.WxArticle;
-import chanjarster.weixin.service.WxMsgType;
+import chanjarster.weixin.api.WxConsts;
+import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxCustomMessage.WxArticle;
+
 @Test
 public class WxCustomMessageTest {
 
   public void testTextReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.TEXT);
+    reply.setMsgtype(WxConsts.TEXT);
     reply.setContent("sfsfdsdf");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
@@ -20,7 +21,7 @@ public class WxCustomMessageTest {
   public void testImageReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.IMAGE);
+    reply.setMsgtype(WxConsts.IMAGE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -28,7 +29,7 @@ public class WxCustomMessageTest {
   public void testVoiceReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.VOICE);
+    reply.setMsgtype(WxConsts.VOICE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -36,7 +37,7 @@ public class WxCustomMessageTest {
   public void testVideoReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.VIDEO);
+    reply.setMsgtype(WxConsts.VIDEO);
     reply.setMedia_id("MEDIA_ID");
     reply.setThumb_media_id("MEDIA_ID");
     reply.setTitle("TITLE");
@@ -47,7 +48,7 @@ public class WxCustomMessageTest {
   public void testMusicReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.MUSIC);
+    reply.setMsgtype(WxConsts.MUSIC);
     reply.setThumb_media_id("MEDIA_ID");
     reply.setDescription("DESCRIPTION");
     reply.setTitle("TITLE");
@@ -59,7 +60,7 @@ public class WxCustomMessageTest {
   public void testNewsReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxMsgType.NEWS);
+    reply.setMsgtype(WxConsts.NEWS);
     
     WxArticle article1 = new WxArticle();
     article1.setUrl("URL");
