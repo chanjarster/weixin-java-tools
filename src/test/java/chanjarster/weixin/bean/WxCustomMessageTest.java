@@ -13,7 +13,7 @@ public class WxCustomMessageTest {
   public void testTextReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.TEXT);
+    reply.setMsgtype(WxConsts.MSG_TEXT);
     reply.setContent("sfsfdsdf");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
@@ -21,7 +21,7 @@ public class WxCustomMessageTest {
   public void testImageReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.IMAGE);
+    reply.setMsgtype(WxConsts.MSG_IMAGE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -29,7 +29,7 @@ public class WxCustomMessageTest {
   public void testVoiceReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.VOICE);
+    reply.setMsgtype(WxConsts.MSG_VOICE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -37,7 +37,7 @@ public class WxCustomMessageTest {
   public void testVideoReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.VIDEO);
+    reply.setMsgtype(WxConsts.MSG_VIDEO);
     reply.setMedia_id("MEDIA_ID");
     reply.setThumb_media_id("MEDIA_ID");
     reply.setTitle("TITLE");
@@ -48,7 +48,7 @@ public class WxCustomMessageTest {
   public void testMusicReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MUSIC);
+    reply.setMsgtype(WxConsts.MSG_MUSIC);
     reply.setThumb_media_id("MEDIA_ID");
     reply.setDescription("DESCRIPTION");
     reply.setTitle("TITLE");
@@ -60,7 +60,7 @@ public class WxCustomMessageTest {
   public void testNewsReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.NEWS);
+    reply.setMsgtype(WxConsts.MSG_NEWS);
     
     WxArticle article1 = new WxArticle();
     article1.setUrl("URL");
@@ -77,7 +77,6 @@ public class WxCustomMessageTest {
     reply.getArticles().add(article2);
 
     
-    System.out.println(reply.toJson());
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"news\",\"articles\":[{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"},{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"}]}");
   }
   

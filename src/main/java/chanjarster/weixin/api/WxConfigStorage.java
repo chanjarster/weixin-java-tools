@@ -7,7 +7,7 @@ import chanjarster.weixin.bean.WxAccessToken;
  * @author chanjarster
  *
  */
-public interface WxConfigProvider {
+public interface WxConfigStorage {
 
   public void updateAccessToken(WxAccessToken accessToken);
   

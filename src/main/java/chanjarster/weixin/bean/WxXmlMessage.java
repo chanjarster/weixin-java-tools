@@ -2,6 +2,7 @@ package chanjarster.weixin.bean;
 
 import java.io.InputStream;
 
+import javax.management.RuntimeErrorException;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -291,27 +292,24 @@ public class WxXmlMessage {
     try {
       return XmlTransformer.toXml(WxXmlMessage.class, this);
     } catch (JAXBException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return "";
   }
   
   public static WxXmlMessage fromXml(String xml) {
     try {
       return XmlTransformer.fromXml(WxXmlMessage.class, xml);
     } catch (JAXBException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return null;
   }
   
   public static WxXmlMessage fromXml(InputStream is) {
     try {
       return XmlTransformer.fromXml(WxXmlMessage.class, is);
     } catch (JAXBException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return null;
   }
   
   @Override

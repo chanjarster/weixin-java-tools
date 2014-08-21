@@ -5,10 +5,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import chanjarster.weixin.api.WxMessageRouterTest.WxEchoMessageHandler;
 import chanjarster.weixin.bean.WxXmlMessage;
 
 /**
- * 微信消息路由器，通过代码化的配置，把来自微信的消息交给某个的handler处理
+ * <pre>
+ * 微信消息路由器，通过代码化的配置，把来自微信的消息交给handler处理
+ * 
+ * 使用方法：
+ * WxMessageRouter router = new WxMessageRouter();
+ * router
+ *   .rule()
+ *       .msgType("MSG_TYPE").event("EVENT").eventKey("EVENT_KEY").content("CONTENT")
+ *       .interceptor(interceptor, ...).handler(handler, ...)
+ *   .end()
+ *   .rule()
+ *       // 另外一个匹配规则
+ *   .end()
+ * ;
+ * 
+ * // 将WxXmlMessage交给消息路由器
+ * router.route(message);
+ * 
+ * 说明：
+ * 1. 配置路由规则时要按照从细到粗的原则
+ * 2. 默认情况下消息只会被处理一次，除非使用 {@link Rule#reEnter()}
+ * </pre>
  * @author qianjia
  *
  */
@@ -20,7 +42,7 @@ public class WxMessageRouter {
    * 开始一个新的Route规则
    * @return
    */
-  public Rule start() {
+  public Rule rule() {
     return new Rule(this);
   }
 
@@ -49,7 +71,7 @@ public class WxMessageRouter {
     
     private String content;
     
-    private boolean forward = false;
+    private boolean reEnter = false;
     
     private List<WxMessageHandler> handlers = new ArrayList<WxMessageHandler>();
     
@@ -100,11 +122,11 @@ public class WxMessageRouter {
     }
     
     /**
-     * 如果本规则命中，在执行完handler后，还会接着给后面的Rule执行
+     * 将消息交给后面的Rule处理
      * @return
      */
-    public Rule forward() {
-      this.forward = true;
+    public Rule reEnter() {
+      this.reEnter = true;
       return this;
     }
     
@@ -175,7 +197,7 @@ public class WxMessageRouter {
       // 如果拦截器不通过
       for (WxMessageInterceptor interceptor : this.interceptors) {
         if (!interceptor.intercept(wxMessage, context)) {
-          return this.forward;
+          return this.reEnter;
         }
       }
       
@@ -184,7 +206,7 @@ public class WxMessageRouter {
         interceptor.handle(wxMessage, context);
       }
       
-      return this.forward;
+      return this.reEnter;
     }
     
   }

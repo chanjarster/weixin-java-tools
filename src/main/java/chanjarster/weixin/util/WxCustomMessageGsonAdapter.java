@@ -32,25 +32,25 @@ public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessag
     messageJson.addProperty("touser", message.getTouser());
     messageJson.addProperty("msgtype", message.getMsgtype());
     
-    if (WxConsts.TEXT.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_TEXT.equals(message.getMsgtype())) {
       JsonObject text = new JsonObject();
       text.addProperty("content", message.getContent());
       messageJson.add("text", text);
     }
 
-    if (WxConsts.IMAGE.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_IMAGE.equals(message.getMsgtype())) {
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMedia_id());
       messageJson.add("image", image);
     }
 
-    if (WxConsts.VOICE.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_VOICE.equals(message.getMsgtype())) {
       JsonObject voice = new JsonObject();
       voice.addProperty("media_id", message.getMedia_id());
       messageJson.add("voice", voice);
     }
 
-    if (WxConsts.VIDEO.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_VIDEO.equals(message.getMsgtype())) {
       JsonObject video = new JsonObject();
       video.addProperty("media_id", message.getMedia_id());
       video.addProperty("thumb_media_id", message.getThumb_media_id());
@@ -59,7 +59,7 @@ public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessag
       messageJson.add("video", video);
     }
 
-    if (WxConsts.MUSIC.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_MUSIC.equals(message.getMsgtype())) {
       JsonObject music = new JsonObject();
       music.addProperty("title", message.getTitle());
       music.addProperty("description", message.getDescription());
@@ -69,7 +69,7 @@ public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessag
       messageJson.add("music", music);
     }
     
-    if (WxConsts.NEWS.equals(message.getMsgtype())) {
+    if (WxConsts.MSG_NEWS.equals(message.getMsgtype())) {
       JsonArray articleJsonArray = new JsonArray();
       for (WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();

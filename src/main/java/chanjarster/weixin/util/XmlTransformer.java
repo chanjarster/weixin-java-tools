@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.xml.sax.InputSource;
+
 import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 
 public class XmlTransformer {
@@ -32,7 +34,9 @@ public class XmlTransformer {
   public static <T> T fromXml(Class<T> clazz, InputStream is) throws JAXBException {
     JAXBContext context = JAXBContext.newInstance(clazz);
     Unmarshaller um = context.createUnmarshaller();
-    T object = (T) um.unmarshal(is);
+    InputSource inputSource = new InputSource(is);
+    inputSource.setEncoding("utf-8");
+    T object = (T) um.unmarshal(inputSource);
     return object;
   }
   

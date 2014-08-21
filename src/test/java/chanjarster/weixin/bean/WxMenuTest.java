@@ -1,6 +1,5 @@
 package chanjarster.weixin.bean;
 
-import org.apache.http.util.Asserts;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -10,13 +9,13 @@ import chanjarster.weixin.bean.WxMenu.WxMenuButton;
 @Test
 public class WxMenuTest {
 
-  @Test(dataProvider="json")
+  @Test(dataProvider="wxReturnMenu")
   public void testFromJson(String json) {
     WxMenu menu = WxMenu.fromJson(json);
     Assert.assertEquals(menu.getButton().size(), 3);
   }
   
-  @Test(dataProvider="json")
+  @Test(dataProvider="wxPushMenu")
   public void testToJson(String json) {
     WxMenu menu = new WxMenu();
     WxMenuButton button1 = new WxMenuButton();
@@ -55,12 +54,20 @@ public class WxMenuTest {
     button3.getSub_button().add(button32);
     button3.getSub_button().add(button33);
     
-    System.out.println(menu.toJson());
     Assert.assertEquals(menu.toJson(), json);
   }
   
-  @DataProvider(name="json")
-  public Object[][] getMenuJson() {
+  @Test(dataProvider="wxReturnMenu")
+  public Object[][] wxReturnMenu() {
+    Object[][]  res = menuJson();
+    String json = "{ \"menu\" : " + res[0][0] + " }";
+    return new Object[][] {
+        new Object[] { json }
+    };
+  }
+  
+  @DataProvider(name="wxPushMenu")
+  public Object[][] menuJson() {
     String json = 
         "{"
             +"\"button\":["

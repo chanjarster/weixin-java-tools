@@ -59,8 +59,14 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
   }
 
   public WxMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    /*
+     * 操蛋的微信
+     * 创建菜单时是 { button : ... }
+     * 查询菜单时是 { menu : { button : ... } }
+     */
     WxMenu menu = new WxMenu();
-    JsonArray buttonsJson = json.getAsJsonObject().get("button").getAsJsonArray();
+    JsonObject menuJson = json.getAsJsonObject().get("menu").getAsJsonObject();
+    JsonArray buttonsJson = menuJson.get("button").getAsJsonArray();
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
       WxMenuButton button = convertFromJson(buttonJson);

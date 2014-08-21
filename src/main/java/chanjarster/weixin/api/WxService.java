@@ -10,45 +10,58 @@ import chanjarster.weixin.exception.WxErrorException;
 public interface WxService {
   
   /**
-   * 刷新access_token，这个方法是线程安全的
-   * 且在高并发情况下只会刷新一次，而不是刷新多次
-   * 在非必要情况下不要主动调用此方法
-   * 本service的所有方法都会在access_token过期的情况下调用此方法
+   * <pre>
+   * 获取access_token，本方法线程安全
+   * 且在多线程同时刷新时只刷新一次，避免超出1200次的调用次数上限
    * 
+   * 另：本service的所有方法都会在access_token过期是调用此方法
+   * 
+   * 程序员在非必要情况下尽量不要主动调用此方法
+
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
+   * </pre>
    * @throws WxErrorException
    */
   public void refreshAccessToken() throws WxErrorException;
   
   /**
+   * <pre>
    * 发送客服消息
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
+   * </pre>
    * @param message
-   * @return
    * @throws WxErrorException
    */
   public String sendCustomMessage(WxCustomMessage message) throws WxErrorException;
   
   /**
-   * 创建菜单
+   * <pre>
+   * 自定义菜单创建接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   * </pre>
    * @param menu
-   * @return
    * @throws WxErrorException
    */
   public String createMenu(WxMenu menu) throws WxErrorException;
   
   /**
-   * 删除菜单
-   * @return
+   * <pre>
+   * 自定义菜单删除接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+   * </pre>
    * @throws WxErrorException
    */
   public String deleteMenu() throws WxErrorException;
   
   /**
-   * 获得菜单
+   * <pre>
+   * 自定义菜单查询接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+   * </pre>
    * @return
    * @throws WxErrorException
    */
   public WxMenu getMenu() throws WxErrorException;
 
-  public void setWxConfigProvider(WxConfigProvider wxConfigProvider);
+  public void setWxConfigProvider(WxConfigStorage wxConfigProvider);
 }

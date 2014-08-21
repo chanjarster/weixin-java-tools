@@ -2,13 +2,14 @@ package chanjarster.weixin.api;
 
 public class WxConsts {
 
-  public static final String TEXT = "text";
-  public static final String IMAGE = "image";
-  public static final String VOICE = "voice";
-  public static final String MUSIC = "music";
-  public static final String VIDEO = "video";
-  public static final String NEWS = "news";
-  public static final String LOCATION = "location";
-  public static final String LINK = "link";
+  public static final String MSG_TEXT = "text";
+  public static final String MSG_IMAGE = "image";
+  public static final String MSG_VOICE = "voice";
+  public static final String MSG_MUSIC = "music";
+  public static final String MSG_VIDEO = "video";
+  public static final String MSG_NEWS = "news";
+  public static final String MSG_LOCATION = "location";
+  public static final String MSG_LINK = "link";
 
+  
 }

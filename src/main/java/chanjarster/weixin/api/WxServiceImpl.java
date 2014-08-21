@@ -1,14 +1,15 @@
 package chanjarster.weixin.api;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Consts;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -19,6 +20,7 @@ import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxError;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.exception.WxErrorException;
+import chanjarster.weixin.util.Utf8StringResponseHandler;
 
 public class WxServiceImpl implements WxService {
 
@@ -31,9 +33,7 @@ public class WxServiceImpl implements WxService {
   
   protected static final CloseableHttpClient httpclient = HttpClients.createDefault();
   
-  protected static final Charset UTF8 = Charset.forName("UTF-8");
-  
-  protected WxConfigProvider wxConfigProvider;
+  protected WxConfigStorage wxConfigProvider;
   
   public void refreshAccessToken() throws WxErrorException {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
@@ -46,6 +46,10 @@ public class WxServiceImpl implements WxService {
           HttpGet httpGet = new HttpGet(url);
           CloseableHttpResponse response = httpclient.execute(httpGet);
           String resultContent = new BasicResponseHandler().handleResponse(response);
+          WxError error = WxError.fromJson(resultContent);
+          if (error.getErrcode() != 0) {
+            throw new WxErrorException(error);
+          }
           WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
           wxConfigProvider.updateAccessToken(accessToken.getAccess_token(), accessToken.getExpires_in());
         } catch (ClientProtocolException e) {
@@ -68,17 +72,35 @@ public class WxServiceImpl implements WxService {
     }
   }
   
-  /**
-   * 发送客服消息
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
-   * @param message
-   * @throws WxErrorException
-   */
   public String sendCustomMessage(WxCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     return post(url, message.toJson());
   }
   
+  public String createMenu(WxMenu menu) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+    return post(url, menu.toJson());
+  }
+  
+  public String deleteMenu() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
+    return get(url, null);
+  }
+
+  public WxMenu getMenu() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
+    try {
+      String resultContent = get(url, null);
+      return WxMenu.fromJson(resultContent);
+    } catch (WxErrorException e) {
+      // 46003 不存在的菜单数据
+      if (e.getError().getErrcode() == 46003) {
+        return null;
+      }
+      throw e;
+    }
+  }
+
   protected String post(String uri, String data) throws WxErrorException {
     return execute("POST", uri, data);
   }
@@ -106,20 +128,26 @@ public class WxServiceImpl implements WxService {
       String resultContent = null;
       if ("POST".equals(method)) {
         HttpPost httpPost = new HttpPost(uriWithAccessToken);
-        StringEntity entity = new StringEntity(data, UTF8);
-        httpPost.setEntity(entity);
+        if (data != null) {
+          StringEntity entity = new StringEntity(data, Consts.UTF_8);
+          httpPost.setEntity(entity);
+        }
         CloseableHttpResponse response = httpclient.execute(httpPost);
-        resultContent = new BasicResponseHandler().handleResponse(response);
+        resultContent = Utf8StringResponseHandler.INSTANCE.handleResponse(response);
       } else if ("GET".equals(method)) {
+        if (data != null) {
+          uriWithAccessToken += uriWithAccessToken.endsWith("&") ? data : '&' + data;
+        }
         HttpGet httpGet = new HttpGet(uriWithAccessToken);
         CloseableHttpResponse response = httpclient.execute(httpGet);
-        resultContent = new BasicResponseHandler().handleResponse(response);
+        response.setHeader("Content-Type", ContentType.APPLICATION_JSON.toString());
+        resultContent = Utf8StringResponseHandler.INSTANCE.handleResponse(response);
       }
       
       WxError error = WxError.fromJson(resultContent);
       /*
-       * 关于微信返回错误码 详情请看 http://mp.weixin.qq.com/wiki/index.php?title=全局返回码说明
-       * 40001 微信图片不对
+       * 发生以下情况时尝试刷新access_token
+       * 40001 获取access_token时AppSecret错误，或者access_token无效
        * 42001 access_token超时
        */
       if (error.getErrcode() == 42001 || error.getErrcode() == 40001) {
@@ -137,36 +165,7 @@ public class WxServiceImpl implements WxService {
     }
   }
   
-  /**
-   * 
-   * @param menu
-   * @throws WxErrorException
-   */
-  public String createMenu(WxMenu menu) throws WxErrorException {
-    // TODO
-    return null;
-  }
-  
-  /**
-   * 
-   * @throws WxErrorException
-   */
-  public String deleteMenu() throws WxErrorException {
- // TODO
-    return null;
-  }
-
-  /**
-   * 
-   * @return
-   * @throws WxErrorException
-   */
-  public WxMenu getMenu() throws WxErrorException {
-    // TODO
-    return null;
-  }
-  
-  public void setWxConfigProvider(WxConfigProvider wxConfigProvider) {
+  public void setWxConfigProvider(WxConfigStorage wxConfigProvider) {
     this.wxConfigProvider = wxConfigProvider;
   }
 
