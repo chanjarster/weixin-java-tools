@@ -43,18 +43,18 @@ public class WxServiceTest {
     Assert.assertTrue(StringUtils.isNotBlank(after));
   }
   
-  @Test(dependsOnMethods = "testRefreshAccessToken", enabled = false)
+  @Test(dependsOnMethods = "testRefreshAccessToken")
   public void sendCustomMessage() throws WxErrorException {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigProvider;
     WxCustomMessage message = new WxCustomMessage();
     message.setMsgtype(WxConsts.MSG_TEXT);
     message.setTouser(configProvider.getOpenId());
-    message.setContent("欢迎使用教务系统微信公众号\n下面\n<a href=\"http://www.baidu.com\">Hello World</a>");
+    message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
     wxService.sendCustomMessage(message);
   }
   
-  @Test(dataProvider = "menu", enabled = true, dependsOnMethods = "testRefreshAccessToken")
+  @Test(dataProvider = "menu", dependsOnMethods = "testRefreshAccessToken")
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
     wxService.createMenu(wxMenu);
   }
@@ -64,7 +64,7 @@ public class WxServiceTest {
     Assert.assertNotNull(wxService.getMenu());
   }
   
-  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" }, enabled = false)
+  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" })
   public void testDeleteMenu() throws WxErrorException {
     wxService.deleteMenu();
   }

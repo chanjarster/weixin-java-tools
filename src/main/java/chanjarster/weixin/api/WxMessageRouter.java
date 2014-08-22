@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import chanjarster.weixin.api.WxMessageRouterTest.WxEchoMessageHandler;
 import chanjarster.weixin.bean.WxXmlMessage;
 
 /**
  * <pre>
  * 微信消息路由器，通过代码化的配置，把来自微信的消息交给handler处理
+ * 
+ * 说明：
+ * 1. 配置路由规则时要按照从细到粗的原则，否则可能消息可能会被提前处理
+ * 2. 默认情况下消息只会被处理一次，除非使用 {@link Rule#next()}
+ * 3. 规则的结束必须用{@link Rule#end()}或者{@link Rule#next()}，否则不会生效
  * 
  * 使用方法：
  * WxMessageRouter router = new WxMessageRouter();
@@ -27,9 +31,6 @@ import chanjarster.weixin.bean.WxXmlMessage;
  * // 将WxXmlMessage交给消息路由器
  * router.route(message);
  * 
- * 说明：
- * 1. 配置路由规则时要按照从细到粗的原则
- * 2. 默认情况下消息只会被处理一次，除非使用 {@link Rule#reEnter()}
  * </pre>
  * @author qianjia
  *
@@ -52,9 +53,11 @@ public class WxMessageRouter {
    */
   public void route(WxXmlMessage wxMessage) {
     for (Rule rule : rules) {
-      boolean doNext = rule.service(wxMessage);
-      if (!doNext) {
-        break;
+      if (rule.test(wxMessage)) {
+        boolean reEnter = rule.service(wxMessage);
+        if (!reEnter) {
+          break;
+        }
       }
     }
   }
@@ -122,16 +125,16 @@ public class WxMessageRouter {
     }
     
     /**
-     * 将消息交给后面的Rule处理
+     * 设置微信消息拦截器
+     * @param interceptor
      * @return
      */
-    public Rule reEnter() {
-      this.reEnter = true;
-      return this;
+    public Rule interceptor(WxMessageInterceptor interceptor) {
+      return interceptor(interceptor, (WxMessageInterceptor[]) null);
     }
     
     /**
-     * 添加interceptor
+     * 设置微信消息拦截器
      * @param interceptor
      * @param otherInterceptors
      * @return
@@ -147,8 +150,18 @@ public class WxMessageRouter {
     }
     
     /**
-     * 添加handler
+     * 设置微信消息处理器
      * @param handler
+     * @return
+     */
+    public Rule handler(WxMessageHandler handler) {
+      return handler(handler, (WxMessageHandler[]) null);
+    }
+    
+    /**
+     * 设置微信消息处理器
+     * @param handler
+     * @param otherHandlers
      * @return
      */
     public Rule handler(WxMessageHandler handler, WxMessageHandler... otherHandlers) {
@@ -162,12 +175,21 @@ public class WxMessageRouter {
     }
     
     /**
-     * 规则结束
+     * 规则结束，代表如果一个消息匹配该规则，那么它将不再会进入其他规则
      * @return
      */
     public WxMessageRouter end() {
       this.routerBuilder.rules.add(this);
       return this.routerBuilder;
+    }
+    
+    /**
+     * 规则结束，但是消息还会进入其他规则
+     * @return
+     */
+    public WxMessageRouter next() {
+      this.reEnter = true;
+      return end();
     }
     
     protected boolean test(WxXmlMessage wxMessage) {
@@ -188,11 +210,6 @@ public class WxMessageRouter {
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
     protected boolean service(WxXmlMessage wxMessage) {
-      // 如果不匹配本规则，那么接着执行后面的Rule
-      if (!test(wxMessage)) {
-        return true;
-      }
-      
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMessageInterceptor interceptor : this.interceptors) {

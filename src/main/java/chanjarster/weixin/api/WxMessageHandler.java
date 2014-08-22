@@ -5,7 +5,7 @@ import java.util.Map;
 import chanjarster.weixin.bean.WxXmlMessage;
 
 /**
- * 处理微信推送消息的处理器
+ * 处理微信推送消息的处理器接口
  * @author chanjarster
  *
  */

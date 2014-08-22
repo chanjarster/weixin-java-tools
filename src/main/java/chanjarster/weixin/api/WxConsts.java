@@ -10,6 +10,14 @@ public class WxConsts {
   public static final String MSG_NEWS = "news";
   public static final String MSG_LOCATION = "location";
   public static final String MSG_LINK = "link";
+  public static final String MSG_EVENT = "event";
 
-  
+  public static final String EVT_SUBSCRIBE = "subscribe";
+  public static final String EVT_UNSUBSCRIBE = "unsubscribe";
+  public static final String EVT_SCAN = "SCAN";
+  public static final String EVT_LOCATION = "LOCATION";
+  public static final String EVT_CLICK = "LOCATION";
+  public static final String EVT_VIEW = "VIEW";
+
+
 }

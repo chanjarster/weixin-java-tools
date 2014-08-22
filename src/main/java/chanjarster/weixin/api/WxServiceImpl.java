@@ -20,7 +20,7 @@ import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxError;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.exception.WxErrorException;
-import chanjarster.weixin.util.Utf8StringResponseHandler;
+import chanjarster.weixin.util.Utf8ResponseHandler;
 
 public class WxServiceImpl implements WxService {
 
@@ -133,7 +133,7 @@ public class WxServiceImpl implements WxService {
           httpPost.setEntity(entity);
         }
         CloseableHttpResponse response = httpclient.execute(httpPost);
-        resultContent = Utf8StringResponseHandler.INSTANCE.handleResponse(response);
+        resultContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       } else if ("GET".equals(method)) {
         if (data != null) {
           uriWithAccessToken += uriWithAccessToken.endsWith("&") ? data : '&' + data;
@@ -141,7 +141,7 @@ public class WxServiceImpl implements WxService {
         HttpGet httpGet = new HttpGet(uriWithAccessToken);
         CloseableHttpResponse response = httpclient.execute(httpGet);
         response.setHeader("Content-Type", ContentType.APPLICATION_JSON.toString());
-        resultContent = Utf8StringResponseHandler.INSTANCE.handleResponse(response);
+        resultContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       }
       
       WxError error = WxError.fromJson(resultContent);

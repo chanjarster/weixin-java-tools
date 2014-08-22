@@ -15,9 +15,9 @@ import org.apache.http.util.EntityUtils;
  * @author chanjarster
  *
  */
-public class Utf8StringResponseHandler implements ResponseHandler<String> {
+public class Utf8ResponseHandler implements ResponseHandler<String> {
 
-  public static final ResponseHandler<String> INSTANCE = new Utf8StringResponseHandler();
+  public static final ResponseHandler<String> INSTANCE = new Utf8ResponseHandler();
   
   public String handleResponse(final HttpResponse response) throws HttpResponseException, IOException {
     final StatusLine statusLine = response.getStatusLine();
