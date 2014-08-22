@@ -119,6 +119,32 @@ public class WxXmlMessage {
   @XmlJavaTypeAdapter(AdapterCDATA.class)
   private String Recognition;
   
+  ///////////////////////////////////////
+  // 群发消息返回的结果
+  ///////////////////////////////////////
+  /**
+   * 群发的结果
+   */
+  @XmlElement(name="Status")
+  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  private String Status;
+  /**
+   * group_id下粉丝数；或者openid_list中的粉丝数
+   */
+  private int TotalCount;
+  /**
+   * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，FilterCount = SentCount + ErrorCount 
+   */
+  private int FilterCount;
+  /**
+   * 发送成功的粉丝数
+   */
+  private int SentCount;
+  /**
+   * 发送失败的粉丝数
+   */
+  private int ErrorCount;
+  
   public String getToUserName() {
     return ToUserName;
   }
@@ -420,6 +446,36 @@ public class WxXmlMessage {
       if (other.Url != null) return false;
     } else if (!Url.equals(other.Url)) return false;
     return true;
+  }
+  public String getStatus() {
+    return Status;
+  }
+  public void setStatus(String status) {
+    Status = status;
+  }
+  public int getTotalCount() {
+    return TotalCount;
+  }
+  public void setTotalCount(int totalCount) {
+    TotalCount = totalCount;
+  }
+  public int getFilterCount() {
+    return FilterCount;
+  }
+  public void setFilterCount(int filterCount) {
+    FilterCount = filterCount;
+  }
+  public int getSentCount() {
+    return SentCount;
+  }
+  public void setSentCount(int sentCount) {
+    SentCount = sentCount;
+  }
+  public int getErrorCount() {
+    return ErrorCount;
+  }
+  public void setErrorCount(int errorCount) {
+    ErrorCount = errorCount;
   }
 
   
