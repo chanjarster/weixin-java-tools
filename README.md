@@ -25,7 +25,7 @@ router
 router.route(message);
 ```
 
-说明：
+1. 开发人员需实现自己的``WxMessageHandler``和``WxMessageInterceptor``
 1. 配置路由规则时要按照从细到粗的原则，否则可能消息可能会被提前处理
 2. 默认情况下消息只会被处理一次，除非使用 {@link Rule#next()}
 3. 规则的结束必须用{@link Rule#end()}或者{@link Rule#next()}，否则不会生效
