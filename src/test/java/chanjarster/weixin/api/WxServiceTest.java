@@ -69,6 +69,14 @@ public class WxServiceTest {
     wxService.deleteMenu();
   }
   
+  @Test
+  public void testCheckSignature() throws WxErrorException {
+    String timestamp = "23234235423246";
+    String nonce = "y7didfkcmvnbd90sdofjkiefhsd";
+    String signature = "77b6651628dfb9a64bfb0d3432ee053ac566a459";
+    Assert.assertTrue(wxService.checkSignature(timestamp, nonce, signature));
+  }
+  
   @DataProvider(name="menu")
   public Object[][] getMenu() throws JAXBException {
     WxMenu menu = new WxMenu();
@@ -115,7 +123,6 @@ public class WxServiceTest {
     };
   
   }
-  
   
   @XmlRootElement(name = "xml")
   @XmlAccessorType(XmlAccessType.FIELD)

@@ -11,6 +11,18 @@ public interface WxService {
   
   /**
    * <pre>
+   * 验证推送过来的消息的正确性
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=接入指南
+   * </pre>
+   * @param timestamp
+   * @param nonce
+   * @param signature
+   * @return
+   */
+  public boolean checkSignature(String timestamp, String nonce, String signature);
+  
+  /**
+   * <pre>
    * 获取access_token，本方法线程安全
    * 且在多线程同时刷新时只刷新一次，避免超出1200次的调用次数上限
    * 

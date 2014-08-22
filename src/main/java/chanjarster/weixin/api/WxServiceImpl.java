@@ -1,6 +1,8 @@
 package chanjarster.weixin.api;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +36,35 @@ public class WxServiceImpl implements WxService {
   protected static final CloseableHttpClient httpclient = HttpClients.createDefault();
   
   protected WxConfigStorage wxConfigProvider;
+  
+  public boolean checkSignature(String timestamp, String nonce, String signature) {
+    try {
+      String token = wxConfigProvider.getToken();
+      MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+      String[] arr = new String[] { token, timestamp, nonce };
+      Arrays.sort(arr);
+      StringBuilder sb = new StringBuilder();
+      for(String a : arr) {
+        sb.append(a);
+      }
+      sha1.update(sb.toString().getBytes());
+      byte[] output = sha1.digest();
+      return bytesToHex(output).equals(signature);
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  
+  protected static String bytesToHex(byte[] b) {
+    char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                       '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    StringBuffer buf = new StringBuffer();
+    for (int j = 0; j < b.length; j++) {
+      buf.append(hexDigit[(b[j] >> 4) & 0x0f]);
+      buf.append(hexDigit[b[j] & 0x0f]);
+    }
+    return buf.toString();
+ }
   
   public void refreshAccessToken() throws WxErrorException {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
