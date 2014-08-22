@@ -35,11 +35,11 @@ public class WxServiceImpl implements WxService {
   
   protected static final CloseableHttpClient httpclient = HttpClients.createDefault();
   
-  protected WxConfigStorage wxConfigProvider;
+  protected WxConfigStorage wxConfigStorage;
   
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
-      String token = wxConfigProvider.getToken();
+      String token = wxConfigStorage.getToken();
       MessageDigest sha1 = MessageDigest.getInstance("SHA1");
       String[] arr = new String[] { token, timestamp, nonce };
       Arrays.sort(arr);
@@ -70,8 +70,8 @@ public class WxServiceImpl implements WxService {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
       try {
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
-            + "&appid=" + wxConfigProvider.getAppId() 
-            + "&secret=" + wxConfigProvider.getSecret()
+            + "&appid=" + wxConfigStorage.getAppId() 
+            + "&secret=" + wxConfigStorage.getSecret()
             ;
         try {
           HttpGet httpGet = new HttpGet(url);
@@ -82,7 +82,7 @@ public class WxServiceImpl implements WxService {
             throw new WxErrorException(error);
           }
           WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-          wxConfigProvider.updateAccessToken(accessToken.getAccess_token(), accessToken.getExpires_in());
+          wxConfigStorage.updateAccessToken(accessToken.getAccess_token(), accessToken.getExpires_in());
         } catch (ClientProtocolException e) {
           throw new RuntimeException(e);
         } catch (IOException e) {
@@ -147,10 +147,10 @@ public class WxServiceImpl implements WxService {
    * @throws WxErrorException 
    */
   protected String execute(String method, String uri, String data) throws WxErrorException {
-    if (StringUtils.isBlank(wxConfigProvider.getAccessToken())) {
+    if (StringUtils.isBlank(wxConfigStorage.getAccessToken())) {
       refreshAccessToken();
     }
-    String accessToken = wxConfigProvider.getAccessToken();
+    String accessToken = wxConfigStorage.getAccessToken();
     
     String uriWithAccessToken = uri;
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
@@ -196,8 +196,8 @@ public class WxServiceImpl implements WxService {
     }
   }
   
-  public void setWxConfigProvider(WxConfigStorage wxConfigProvider) {
-    this.wxConfigProvider = wxConfigProvider;
+  public void setWxConfigStorage(WxConfigStorage wxConfigProvider) {
+    this.wxConfigStorage = wxConfigProvider;
   }
 
 }

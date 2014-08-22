@@ -3,8 +3,6 @@ package chanjarster.weixin.bean;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import chanjarster.weixin.bean.WxError;
-
 @Test
 public class WxErrorTest {
 

@@ -2,7 +2,6 @@ package chanjarster.weixin.bean;
 
 import java.io.InputStream;
 
-import javax.management.RuntimeErrorException;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

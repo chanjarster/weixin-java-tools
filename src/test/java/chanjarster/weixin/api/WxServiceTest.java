@@ -28,16 +28,16 @@ public class WxServiceTest {
     InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
     WxXmlConfigStorage config1 = XmlTransformer.fromXml(WxXmlConfigStorage.class, is1);
     this.wxService = new WxServiceImpl();
-    this.wxService.setWxConfigProvider(config1);
+    this.wxService.setWxConfigStorage(config1);
   }
   
   @Test
   public void testRefreshAccessToken() throws WxErrorException {
-    WxConfigStorage configProvider = wxService.wxConfigProvider;
-    String before = configProvider.getAccessToken();
+    WxConfigStorage configStorage = wxService.wxConfigStorage;
+    String before = configStorage.getAccessToken();
     wxService.refreshAccessToken();
     
-    String after = configProvider.getAccessToken();
+    String after = configStorage.getAccessToken();
     
     Assert.assertNotEquals(before, after);
     Assert.assertTrue(StringUtils.isNotBlank(after));
@@ -45,7 +45,7 @@ public class WxServiceTest {
   
   @Test(dependsOnMethods = "testRefreshAccessToken")
   public void sendCustomMessage() throws WxErrorException {
-    WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigProvider;
+    WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
     message.setMsgtype(WxConsts.MSG_TEXT);
     message.setTouser(configProvider.getOpenId());

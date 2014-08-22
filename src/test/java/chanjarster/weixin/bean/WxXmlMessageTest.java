@@ -4,7 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import chanjarster.weixin.api.WxConsts;
-import chanjarster.weixin.bean.WxXmlMessage;
 
 @Test
 public class WxXmlMessageTest {

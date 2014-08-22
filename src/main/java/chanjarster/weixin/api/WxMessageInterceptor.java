@@ -6,7 +6,7 @@ import chanjarster.weixin.bean.WxXmlMessage;
 
 
 /**
- * 微信消息拦截器，可以用来做一些验证
+ * 微信消息拦截器，可以用来做验证
  * @author qianjia
  *
  */

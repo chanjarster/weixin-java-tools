@@ -75,5 +75,5 @@ public interface WxService {
    */
   public WxMenu getMenu() throws WxErrorException;
 
-  public void setWxConfigProvider(WxConfigStorage wxConfigProvider);
+  public void setWxConfigStorage(WxConfigStorage wxConfigProvider);
 }
