@@ -1,26 +1,33 @@
 package chanjarster.weixin.api;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import chanjarster.weixin.bean.WxAccessToken;
 import chanjarster.weixin.bean.WxCustomMessage;
-import chanjarster.weixin.bean.WxError;
 import chanjarster.weixin.bean.WxMenu;
+import chanjarster.weixin.bean.result.WxError;
+import chanjarster.weixin.bean.result.WxUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.Utf8ResponseHandler;
 
@@ -132,11 +139,21 @@ public class WxServiceImpl implements WxService {
     }
   }
 
-  protected String post(String uri, String data) throws WxErrorException {
+  public WxUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
+    return uploadMedia(mediaType, createTmpFile(inputStream, fileType));
+  }
+  
+  public WxUploadResult uploadMedia(String mediaType, File file) throws WxErrorException {
+    String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
+    String json = post(url, file);
+    return WxUploadResult.fromJson(json);
+  }
+  
+  protected String post(String uri, Object data) throws WxErrorException {
     return execute("POST", uri, data);
   }
   
-  protected String get(String uri, String data) throws WxErrorException {
+  protected String get(String uri, Object data) throws WxErrorException {
     return execute("GET", uri, data);
   }
 
@@ -146,7 +163,7 @@ public class WxServiceImpl implements WxService {
    * @return 微信服务端返回的结果
    * @throws WxErrorException 
    */
-  protected String execute(String method, String uri, String data) throws WxErrorException {
+  protected String execute(String method, String uri, Object data) throws WxErrorException {
     if (StringUtils.isBlank(wxConfigStorage.getAccessToken())) {
       refreshAccessToken();
     }
@@ -160,18 +177,30 @@ public class WxServiceImpl implements WxService {
       if ("POST".equals(method)) {
         HttpPost httpPost = new HttpPost(uriWithAccessToken);
         if (data != null) {
-          StringEntity entity = new StringEntity(data, Consts.UTF_8);
-          httpPost.setEntity(entity);
+          if (data instanceof String) {
+            StringEntity entity = new StringEntity((String)data, Consts.UTF_8);
+            httpPost.setEntity(entity);
+          }
+          if (data instanceof File) {
+            File file = (File) data;
+            HttpEntity entity = MultipartEntityBuilder
+                  .create()
+                  .addBinaryBody("media", file)
+                  .build();
+            httpPost.setEntity(entity);
+            httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
+          }
         }
         CloseableHttpResponse response = httpclient.execute(httpPost);
         resultContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       } else if ("GET".equals(method)) {
         if (data != null) {
-          uriWithAccessToken += uriWithAccessToken.endsWith("&") ? data : '&' + data;
+          if (data instanceof String) {
+            uriWithAccessToken += uriWithAccessToken.endsWith("&") ? data : '&' + (String)data;
+          }
         }
         HttpGet httpGet = new HttpGet(uriWithAccessToken);
         CloseableHttpResponse response = httpclient.execute(httpGet);
-        response.setHeader("Content-Type", ContentType.APPLICATION_JSON.toString());
         resultContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       }
       
@@ -196,8 +225,38 @@ public class WxServiceImpl implements WxService {
     }
   }
   
+  protected File createTmpFile(InputStream inputStream, String fileType) throws IOException {
+    FileOutputStream fos = null;
+    try {
+      File tmpFile = File.createTempFile(UUID.randomUUID().toString(), '.' + fileType);
+      tmpFile.deleteOnExit();
+      fos = new FileOutputStream(tmpFile);
+      int read = 0;
+      byte[] bytes = new byte[1024 * 100];
+      while ((read = inputStream.read(bytes)) != -1) {
+        fos.write(bytes, 0, read);
+      }
+      fos.flush();
+      return tmpFile;
+    } finally {
+      if (inputStream != null) {
+        try {
+          inputStream.close();
+        } catch (IOException e) {
+        }
+      }
+      if (fos != null) {
+        try {
+          fos.close();
+        } catch (IOException e) {
+        }
+      }
+    }
+  }
+  
   public void setWxConfigStorage(WxConfigStorage wxConfigProvider) {
     this.wxConfigStorage = wxConfigProvider;
   }
+
 
 }

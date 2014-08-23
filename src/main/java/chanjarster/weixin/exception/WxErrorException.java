@@ -1,6 +1,6 @@
 package chanjarster.weixin.exception;
 
-import chanjarster.weixin.bean.WxError;
+import chanjarster.weixin.bean.result.WxError;
 
 public class WxErrorException extends Exception {
 

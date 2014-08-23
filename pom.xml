@@ -12,6 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadJavadocs>true</downloadJavadocs>
 		<downloadSources>true</downloadSources>
+		<httpclient.version>4.3.5</httpclient.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -23,8 +24,13 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>fluent-hc</artifactId>
-			<version>4.3.5</version>
+			<version>${httpclient.version}</version>
 		</dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>${httpclient.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>

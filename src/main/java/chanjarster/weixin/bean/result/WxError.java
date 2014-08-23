@@ -1,4 +1,4 @@
-package chanjarster.weixin.bean;
+package chanjarster.weixin.bean.result;
 
 import java.util.HashMap;
 import java.util.Map;

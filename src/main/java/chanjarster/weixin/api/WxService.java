@@ -1,7 +1,12 @@
 package chanjarster.weixin.api;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxMenu;
+import chanjarster.weixin.bean.result.WxUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 
 /**
@@ -24,7 +29,7 @@ public interface WxService {
   /**
    * <pre>
    * 获取access_token，本方法线程安全
-   * 且在多线程同时刷新时只刷新一次，避免超出200次/日的调用次数上限
+   * 且在多线程同时刷新时只刷新一次，避免超出2000次/日的调用次数上限
    * 
    * 另：本service的所有方法都会在access_token过期是调用此方法
    * 
@@ -35,6 +40,32 @@ public interface WxService {
    * @throws WxErrorException
    */
   public void refreshAccessToken() throws WxErrorException;
+  
+  /**
+   * <pre>
+   * 上传多媒体文件
+   * 上传的多媒体文件有格式和大小限制，如下：
+   *   图片（image）: 1M，支持JPG格式
+   *   语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
+   *   视频（video）：10MB，支持MP4格式
+   *   缩略图（thumb）：64KB，支持JPG格式
+   *    
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
+   * </pre>
+   * @param mediaType         媒体类型, 请看{@link WxConsts}
+   * @param fileType          文件类型，请看{@link WxConsts}
+   * @param inputStream       输入流
+   * @throws WxErrorException
+   */
+  public WxUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
+
+  /**
+   * @see #uploadMedia(String, String, InputStream)
+   * @param mediaType
+   * @param file
+   * @throws WxErrorException
+   */
+  public WxUploadResult uploadMedia(String mediaType, File file) throws WxErrorException;
   
   /**
    * <pre>

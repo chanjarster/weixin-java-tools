@@ -1,5 +1,6 @@
 package chanjarster.weixin.api;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.WxMenu.WxMenuButton;
+import chanjarster.weixin.bean.result.WxUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.XmlTransformer;
 
@@ -26,12 +28,12 @@ public class WxServiceTest {
   @BeforeTest
   public void prepare() throws JAXBException {
     InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-    WxXmlConfigStorage config1 = XmlTransformer.fromXml(WxXmlConfigStorage.class, is1);
+    WxXmlConfigStorage config = XmlTransformer.fromXml(WxXmlConfigStorage.class, is1);
     this.wxService = new WxServiceImpl();
-    this.wxService.setWxConfigStorage(config1);
+    this.wxService.setWxConfigStorage(config);
   }
   
-  @Test
+  @Test()
   public void testRefreshAccessToken() throws WxErrorException {
     WxConfigStorage configStorage = wxService.wxConfigStorage;
     String before = configStorage.getAccessToken();
@@ -43,7 +45,7 @@ public class WxServiceTest {
     Assert.assertTrue(StringUtils.isNotBlank(after));
   }
   
-  @Test(dependsOnMethods = "testRefreshAccessToken")
+  @Test(dependsOnMethods = "testRefreshAccessToken", enabled = false)
   public void sendCustomMessage() throws WxErrorException {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
@@ -54,22 +56,41 @@ public class WxServiceTest {
     wxService.sendCustomMessage(message);
   }
   
-  @Test(dataProvider = "menu", dependsOnMethods = "testRefreshAccessToken")
+  @Test(dataProvider = "menu", dependsOnMethods = "testRefreshAccessToken", enabled = false)
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
     wxService.createMenu(wxMenu);
   }
   
-  @Test(dependsOnMethods = { "testRefreshAccessToken" , "testCreateMenu"})
+  @Test(dependsOnMethods = { "testRefreshAccessToken" , "testCreateMenu"}, enabled = false)
   public void testGetMenu() throws WxErrorException {
     Assert.assertNotNull(wxService.getMenu());
   }
   
-  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" })
+  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" }, enabled = false)
   public void testDeleteMenu() throws WxErrorException {
     wxService.deleteMenu();
   }
   
-  @Test
+  @Test(dependsOnMethods = { "testRefreshAccessToken" }, dataProvider="uploadFiles", enabled = true)
+  public void testUploadMedia1(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
+    InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
+    WxUploadResult res = wxService.uploadMedia(mediaType, fileType, inputStream);
+    System.out.println(res.toString());
+  }
+  
+  @DataProvider
+  public Object[][] uploadFiles() {
+    return new Object[][] {
+        new Object[] { WxConsts.MEDIA_IMAGE, WxConsts.FILE_PNG, "mm.png" },
+        new Object[] { WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, "mm.jpeg" },
+        new Object[] { WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, "mm.mp3" },
+        new Object[] { WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, "mm.mp4" },
+        new Object[] { WxConsts.MEDIA_THUMB, WxConsts.FILE_PNG, "mm.png" },
+        new Object[] { WxConsts.MEDIA_THUMB, WxConsts.FILE_JPG, "mm.jpeg" }
+    };
+  }
+  
+  @Test(enabled = false)
   public void testCheckSignature() throws WxErrorException {
     String timestamp = "23234235423246";
     String nonce = "y7didfkcmvnbd90sdofjkiefhsd";

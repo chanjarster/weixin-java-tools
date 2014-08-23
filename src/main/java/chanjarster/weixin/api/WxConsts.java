@@ -20,6 +20,17 @@ public class WxConsts {
   public static final String EVT_VIEW = "VIEW";
   public static final String EVT_MASS_SEND_JOB_FINISH = "MASSSENDJOBFINISH";
 
+  public static final String MEDIA_IMAGE = "image";
+  public static final String MEDIA_VOICE = "voice";
+  public static final String MEDIA_VIDEO = "video";
+  public static final String MEDIA_THUMB = "thumb";
+  
+  public static final String FILE_JPG = "jpeg";
+  public static final String FILE_PNG = "png";
+  public static final String FILE_MP3 = "mp3";
+  public static final String FILE_ARM = "arm";
+  public static final String FILE_MP4 = "mp4";
+
   public static final String ST_SEND_SUCCESS = "send success";
   public static final String ST_SEND_FAIL = "send fail";
   public static final String ST_涉嫌广告 = "err(10001)"; 
