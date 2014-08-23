@@ -337,6 +337,36 @@ public class WxXmlMessage {
     }
   }
   
+  public String getStatus() {
+    return Status;
+  }
+  public void setStatus(String status) {
+    Status = status;
+  }
+  public int getTotalCount() {
+    return TotalCount;
+  }
+  public void setTotalCount(int totalCount) {
+    TotalCount = totalCount;
+  }
+  public int getFilterCount() {
+    return FilterCount;
+  }
+  public void setFilterCount(int filterCount) {
+    FilterCount = filterCount;
+  }
+  public int getSentCount() {
+    return SentCount;
+  }
+  public void setSentCount(int sentCount) {
+    SentCount = sentCount;
+  }
+  public int getErrorCount() {
+    return ErrorCount;
+  }
+  public void setErrorCount(int errorCount) {
+    ErrorCount = errorCount;
+  }
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -344,8 +374,10 @@ public class WxXmlMessage {
     result = prime * result + ((Content == null) ? 0 : Content.hashCode());
     result = prime * result + ((CreateTime == null) ? 0 : CreateTime.hashCode());
     result = prime * result + ((Description == null) ? 0 : Description.hashCode());
+    result = prime * result + ErrorCount;
     result = prime * result + ((Event == null) ? 0 : Event.hashCode());
     result = prime * result + ((EventKey == null) ? 0 : EventKey.hashCode());
+    result = prime * result + FilterCount;
     result = prime * result + ((Format == null) ? 0 : Format.hashCode());
     result = prime * result + ((FromUserName == null) ? 0 : FromUserName.hashCode());
     result = prime * result + ((Label == null) ? 0 : Label.hashCode());
@@ -360,10 +392,13 @@ public class WxXmlMessage {
     result = prime * result + ((Precision == null) ? 0 : Precision.hashCode());
     result = prime * result + ((Recognition == null) ? 0 : Recognition.hashCode());
     result = prime * result + ((Scale == null) ? 0 : Scale.hashCode());
+    result = prime * result + SentCount;
+    result = prime * result + ((Status == null) ? 0 : Status.hashCode());
     result = prime * result + ((ThumbMediaId == null) ? 0 : ThumbMediaId.hashCode());
     result = prime * result + ((Ticket == null) ? 0 : Ticket.hashCode());
     result = prime * result + ((Title == null) ? 0 : Title.hashCode());
     result = prime * result + ((ToUserName == null) ? 0 : ToUserName.hashCode());
+    result = prime * result + TotalCount;
     result = prime * result + ((Url == null) ? 0 : Url.hashCode());
     return result;
   }
@@ -382,12 +417,14 @@ public class WxXmlMessage {
     if (Description == null) {
       if (other.Description != null) return false;
     } else if (!Description.equals(other.Description)) return false;
+    if (ErrorCount != other.ErrorCount) return false;
     if (Event == null) {
       if (other.Event != null) return false;
     } else if (!Event.equals(other.Event)) return false;
     if (EventKey == null) {
       if (other.EventKey != null) return false;
     } else if (!EventKey.equals(other.EventKey)) return false;
+    if (FilterCount != other.FilterCount) return false;
     if (Format == null) {
       if (other.Format != null) return false;
     } else if (!Format.equals(other.Format)) return false;
@@ -430,6 +467,10 @@ public class WxXmlMessage {
     if (Scale == null) {
       if (other.Scale != null) return false;
     } else if (!Scale.equals(other.Scale)) return false;
+    if (SentCount != other.SentCount) return false;
+    if (Status == null) {
+      if (other.Status != null) return false;
+    } else if (!Status.equals(other.Status)) return false;
     if (ThumbMediaId == null) {
       if (other.ThumbMediaId != null) return false;
     } else if (!ThumbMediaId.equals(other.ThumbMediaId)) return false;
@@ -442,41 +483,11 @@ public class WxXmlMessage {
     if (ToUserName == null) {
       if (other.ToUserName != null) return false;
     } else if (!ToUserName.equals(other.ToUserName)) return false;
+    if (TotalCount != other.TotalCount) return false;
     if (Url == null) {
       if (other.Url != null) return false;
     } else if (!Url.equals(other.Url)) return false;
     return true;
   }
-  public String getStatus() {
-    return Status;
-  }
-  public void setStatus(String status) {
-    Status = status;
-  }
-  public int getTotalCount() {
-    return TotalCount;
-  }
-  public void setTotalCount(int totalCount) {
-    TotalCount = totalCount;
-  }
-  public int getFilterCount() {
-    return FilterCount;
-  }
-  public void setFilterCount(int filterCount) {
-    FilterCount = filterCount;
-  }
-  public int getSentCount() {
-    return SentCount;
-  }
-  public void setSentCount(int sentCount) {
-    SentCount = sentCount;
-  }
-  public int getErrorCount() {
-    return ErrorCount;
-  }
-  public void setErrorCount(int errorCount) {
-    ErrorCount = errorCount;
-  }
 
-  
 }

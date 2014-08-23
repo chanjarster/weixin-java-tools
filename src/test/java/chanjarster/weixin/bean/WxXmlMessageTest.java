@@ -87,32 +87,7 @@ public class WxXmlMessageTest {
     wxMessage.setLongitude(new Double(113.352425));
     wxMessage.setPrecision(new Double(119.385040));
     
-    String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
-        + "<xml>\n"
-        + "    <ToUserName><![CDATA[toUser]]></ToUserName>\n"
-        + "    <FromUserName><![CDATA[fromUser]]></FromUserName>\n"
-        + "    <CreateTime>1348831860</CreateTime>\n"
-        + "    <MsgType><![CDATA[text]]></MsgType>\n"
-        + "    <Content><![CDATA[this is a test]]></Content>\n"
-        + "    <MsgId>1234567890123456</MsgId>\n"
-        + "    <PicUrl><![CDATA[this is a url]]></PicUrl>\n"
-        + "    <MediaId><![CDATA[media_id]]></MediaId>\n"
-        + "    <Format><![CDATA[Format]]></Format>\n"
-        + "    <ThumbMediaId><![CDATA[thumb_media_id]]></ThumbMediaId>\n"
-        + "    <Location_X>23.134521</Location_X>\n"
-        + "    <Location_Y>113.358803</Location_Y>\n"
-        + "    <Scale>20.0</Scale>\n"
-        + "    <Label><![CDATA[位置信息]]></Label>\n"
-        + "    <Title><![CDATA[公众平台官网链接]]></Title>\n"
-        + "    <Description><![CDATA[公众平台官网链接]]></Description>\n"
-        + "    <Url><![CDATA[url]]></Url>\n"
-        + "    <Event><![CDATA[subscribe]]></Event>\n"
-        + "    <EventKey><![CDATA[qrscene_123123]]></EventKey>\n"
-        + "    <Ticket><![CDATA[TICKET]]></Ticket>\n"
-        + "    <Latitude>23.137466</Latitude>\n"
-        + "    <Longitude>113.352425</Longitude>\n"
-        + "    <Precision>119.38504</Precision>\n"
-        + "</xml>\n";
-    Assert.assertEquals(wxMessage.toXml(), xml);
+    String xml = wxMessage.toXml();
+    Assert.assertEquals(wxMessage, WxXmlMessage.fromXml(xml));
   }
 }
