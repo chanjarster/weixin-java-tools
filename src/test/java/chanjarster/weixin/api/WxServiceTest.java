@@ -45,7 +45,7 @@ public class WxServiceTest {
     Assert.assertTrue(StringUtils.isNotBlank(after));
   }
   
-  @Test(dependsOnMethods = "testRefreshAccessToken", enabled = false)
+  @Test(dependsOnMethods = "testRefreshAccessToken", enabled = true)
   public void sendCustomMessage() throws WxErrorException {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
@@ -56,17 +56,17 @@ public class WxServiceTest {
     wxService.sendCustomMessage(message);
   }
   
-  @Test(dataProvider = "menu", dependsOnMethods = "testRefreshAccessToken", enabled = false)
+  @Test(dataProvider = "menu", dependsOnMethods = "testRefreshAccessToken", enabled = true)
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
     wxService.createMenu(wxMenu);
   }
   
-  @Test(dependsOnMethods = { "testRefreshAccessToken" , "testCreateMenu"}, enabled = false)
+  @Test(dependsOnMethods = { "testRefreshAccessToken" , "testCreateMenu"}, enabled = true)
   public void testGetMenu() throws WxErrorException {
     Assert.assertNotNull(wxService.getMenu());
   }
   
-  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" }, enabled = false)
+  @Test(dependsOnMethods = { "testRefreshAccessToken", "testGetMenu" }, enabled = true)
   public void testDeleteMenu() throws WxErrorException {
     wxService.deleteMenu();
   }
@@ -75,7 +75,9 @@ public class WxServiceTest {
   public void testUploadMedia1(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
     InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
     WxUploadResult res = wxService.uploadMedia(mediaType, fileType, inputStream);
-    System.out.println(res.toString());
+    Assert.assertNotNull(res.getType());
+    Assert.assertNotNull(res.getCreated_at());
+    Assert.assertTrue(res.getMedia_id() != null || res.getThumb_media_id() != null);
   }
   
   @DataProvider
@@ -90,7 +92,7 @@ public class WxServiceTest {
     };
   }
   
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testCheckSignature() throws WxErrorException {
     String timestamp = "23234235423246";
     String nonce = "y7didfkcmvnbd90sdofjkiefhsd";

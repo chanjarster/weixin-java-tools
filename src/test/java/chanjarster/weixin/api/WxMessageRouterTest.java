@@ -50,6 +50,7 @@ public class WxMessageRouterTest {
   public void test() {
     
   }
+  
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxXmlMessage message1 = new WxXmlMessage();
