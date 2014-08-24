@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import chanjarster.weixin.util.AdapterCDATA;
-import chanjarster.weixin.util.XmlTransformer;
+import chanjarster.weixin.util.xml.AdapterCDATA;
+import chanjarster.weixin.util.xml.XmlTransformer;
 
 /**
  * <pre>

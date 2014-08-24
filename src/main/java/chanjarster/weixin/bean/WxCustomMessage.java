@@ -3,7 +3,7 @@ package chanjarster.weixin.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import chanjarster.weixin.util.WxGsonBuilder;
+import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
  * 客服消息

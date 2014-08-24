@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import chanjarster.weixin.util.WxGsonBuilder;
+import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
  * 公众号菜单

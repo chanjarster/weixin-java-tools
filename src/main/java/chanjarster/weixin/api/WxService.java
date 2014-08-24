@@ -44,6 +44,7 @@ public interface WxService {
   /**
    * <pre>
    * 上传多媒体文件
+   * 
    * 上传的多媒体文件有格式和大小限制，如下：
    *   图片（image）: 1M，支持JPG格式
    *   语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
@@ -69,13 +70,25 @@ public interface WxService {
   
   /**
    * <pre>
+   * 下载多媒体文件
+   * 
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
+   * </pre>
+   * @params media_id
+   * @return 保存到本地的临时文件
+   * @throws WxErrorException
+   */
+  public File downloadMedia(String media_id) throws WxErrorException;
+  
+  /**
+   * <pre>
    * 发送客服消息
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
    * </pre>
    * @param message
    * @throws WxErrorException
    */
-  public String sendCustomMessage(WxCustomMessage message) throws WxErrorException;
+  public void sendCustomMessage(WxCustomMessage message) throws WxErrorException;
   
   /**
    * <pre>
@@ -85,7 +98,7 @@ public interface WxService {
    * @param menu
    * @throws WxErrorException
    */
-  public String createMenu(WxMenu menu) throws WxErrorException;
+  public void createMenu(WxMenu menu) throws WxErrorException;
   
   /**
    * <pre>
@@ -94,7 +107,7 @@ public interface WxService {
    * </pre>
    * @throws WxErrorException
    */
-  public String deleteMenu() throws WxErrorException;
+  public void deleteMenu() throws WxErrorException;
   
   /**
    * <pre>

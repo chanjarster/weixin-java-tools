@@ -1,4 +1,4 @@
-package chanjarster.weixin.util;
+package chanjarster.weixin.util.xml;
 
 import java.io.IOException;
 import java.io.InputStream;

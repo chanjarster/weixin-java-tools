@@ -3,7 +3,7 @@ package chanjarster.weixin.bean.result;
 import java.util.HashMap;
 import java.util.Map;
 
-import chanjarster.weixin.util.WxGsonBuilder;
+import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
  * 微信错误码说明

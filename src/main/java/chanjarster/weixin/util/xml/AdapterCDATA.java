@@ -1,4 +1,4 @@
-package chanjarster.weixin.util;
+package chanjarster.weixin.util.xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

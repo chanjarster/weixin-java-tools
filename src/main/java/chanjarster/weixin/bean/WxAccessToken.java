@@ -1,6 +1,6 @@
 package chanjarster.weixin.bean;
 
-import chanjarster.weixin.util.WxGsonBuilder;
+import chanjarster.weixin.util.json.WxGsonBuilder;
 
 public class WxAccessToken {
 

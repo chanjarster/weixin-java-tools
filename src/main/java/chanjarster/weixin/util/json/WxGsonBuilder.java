@@ -1,4 +1,4 @@
-package chanjarster.weixin.util;
+package chanjarster.weixin.util.json;
 
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxMenu;

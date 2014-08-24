@@ -26,7 +26,6 @@ public class WxConsts {
   public static final String MEDIA_THUMB = "thumb";
   
   public static final String FILE_JPG = "jpeg";
-  public static final String FILE_PNG = "png";
   public static final String FILE_MP3 = "mp3";
   public static final String FILE_ARM = "arm";
   public static final String FILE_MP4 = "mp4";
