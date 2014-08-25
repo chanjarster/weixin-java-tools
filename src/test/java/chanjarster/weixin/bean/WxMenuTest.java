@@ -57,7 +57,7 @@ public class WxMenuTest {
     Assert.assertEquals(menu.toJson(), json);
   }
   
-  @Test(dataProvider="wxReturnMenu")
+  @DataProvider
   public Object[][] wxReturnMenu() {
     Object[][]  res = menuJson();
     String json = "{ \"menu\" : " + res[0][0] + " }";

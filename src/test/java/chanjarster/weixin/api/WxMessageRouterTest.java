@@ -46,11 +46,6 @@ public class WxMessageRouterTest {
     Assert.assertEquals(sb.toString(), expected);
   }
   
-  @Test()
-  public void test() {
-    
-  }
-  
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxXmlMessage message1 = new WxXmlMessage();

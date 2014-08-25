@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Weixin-java-tool-suite" verbose="1">
+	<test name="API_Test">
+		<classes>
+			<class name="chanjarster.weixin.api.WxBaseAPITest" />
+			<class name="chanjarster.weixin.api.WxCustomMessageAPITest" />
+			<class name="chanjarster.weixin.api.WxMenuAPITest" />
+			<class name="chanjarster.weixin.api.WxMessageRouterTest" />
+		</classes>
+	</test>
+
+	<test name="Util_Test">
+		<classes>
+			<class name="chanjarster.weixin.bean.WxAccessTokenTest" />
+			<class name="chanjarster.weixin.bean.WxCustomMessageTest" />
+			<class name="chanjarster.weixin.bean.WxErrorTest" />
+			<class name="chanjarster.weixin.bean.WxMenuTest" />
+			<class name="chanjarster.weixin.bean.WxXmlMessageTest" />
+		</classes>
+	</test>
+</suite>
