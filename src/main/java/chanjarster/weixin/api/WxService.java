@@ -201,6 +201,18 @@ public interface WxService {
   
   /**
    * <pre>
+   * 分组管理接口 - 修改分组名
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * 
+   * 如果id为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
+   * </pre>
+   * @param group 要更新的group，group的id,name必须设置 
+   * @throws WxErrorException
+   */
+  public void groupUpdate(WxGroup group) throws WxErrorException;
+  
+  /**
+   * <pre>
    * 分组管理接口 - 查询所有分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>

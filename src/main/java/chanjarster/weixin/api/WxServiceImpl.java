@@ -196,7 +196,10 @@ public class WxServiceImpl implements WxService {
   
   public WxGroup groupCreate(String name) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
-    String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"group\":'{'\"name\":\"{0}\"}}", name));
+    String responseContent = execute(
+        new SimplePostRequestExecutor(), 
+        url, 
+        MessageFormat.format("'{'\"group\":'{'\"name\":\"{0}\"}}", name));
     return WxGroup.fromJson(responseContent);
   }
 
@@ -216,6 +219,11 @@ public class WxServiceImpl implements WxService {
     String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"openid\":\"{0}\"}", openid));
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
+  }
+  
+  public void groupUpdate(WxGroup group) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/groups/update";
+    execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
   
   /**
@@ -255,11 +263,11 @@ public class WxServiceImpl implements WxService {
         if(retryTimes.get() == null) {
           retryTimes.set(0);
         }
-        if (retryTimes.get() > 5) {
+        if (retryTimes.get() > 4) {
           retryTimes.set(0);
           throw new RuntimeException("微信服务端异常，超出重试次数");
         }
-        int sleepMillis = 1000 *  (1 >> (retryTimes.get() - 1));
+        int sleepMillis = 1000 *  (1 << retryTimes.get());
         try {
           System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试");
           Thread.sleep(sleepMillis);

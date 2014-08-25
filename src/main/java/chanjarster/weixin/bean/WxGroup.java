@@ -35,7 +35,7 @@ public class WxGroup {
     return WxGsonBuilder.create().fromJson(json, WxGroup.class);
   }
   
-  public String toJson(String json) {
+  public String toJson() {
     return WxGsonBuilder.create().toJson(this);
   }
   @Override

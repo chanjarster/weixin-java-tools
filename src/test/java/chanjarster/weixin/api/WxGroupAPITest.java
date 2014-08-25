@@ -35,14 +35,21 @@ public class WxGroupAPITest {
     Assert.assertNotNull(groupList);
     Assert.assertTrue(groupList.size() > 0);
     for (WxGroup g : groupList) {
+      System.out.println(g.toString());
       Assert.assertNotNull(g.getName());
     }
   }
   
   @Test(dependsOnMethods="testGroupCreate")
-  public void groupQueryUserGroup() throws WxErrorException {
+  public void testGroupQueryUserGroup() throws WxErrorException {
     WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
     long groupid = wxService.groupQueryUserGroup(configStorage.getOpenId());
   }
   
+  public void getGroupUpdate() throws WxErrorException {
+    WxGroup group = new WxGroup();
+    group.setId(3);
+    group.setName("未命名分组");
+    wxService.groupUpdate(group);
+  }
 }
