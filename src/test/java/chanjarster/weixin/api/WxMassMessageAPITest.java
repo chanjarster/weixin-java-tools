@@ -41,7 +41,7 @@ public class WxMassMessageAPITest {
     massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
     massMessage.getTouser().add(configProvider.getOpenId());
 
-    WxMassSendResult massResult = wxService.sendMassMessageByOpenIds(massMessage);
+    WxMassSendResult massResult = wxService.massOpenIdsMessageSend(massMessage);
     Assert.assertNotNull(massResult);
     Assert.assertNotNull(massResult.getMsg_id());
   }
@@ -55,7 +55,7 @@ public class WxMassMessageAPITest {
     massMessage.setMedia_id(mediaId);
     massMessage.getTouser().add(configProvider.getOpenId());
 
-    WxMassSendResult massResult = wxService.sendMassMessageByOpenIds(massMessage);
+    WxMassSendResult massResult = wxService.massOpenIdsMessageSend(massMessage);
     Assert.assertNotNull(massResult);
     Assert.assertNotNull(massResult.getMsg_id());
   }
@@ -69,7 +69,7 @@ public class WxMassMessageAPITest {
     {
       // 上传视频到媒体库
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp4");
-      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
       
@@ -78,7 +78,7 @@ public class WxMassMessageAPITest {
       video.setTitle("测试标题");
       video.setDescription("测试描述");
       video.setMedia_id(uploadMediaRes.getMedia_id());
-      WxMassUploadResult uploadResult = wxService.uploadMassVideo(video);
+      WxMassUploadResult uploadResult = wxService.massVideoUpload(video);
       Assert.assertNotNull(uploadResult);
       Assert.assertNotNull(uploadResult.getMedia_id());
       messages[0] = new Object[] { WxConsts.MASS_MSG_VIDEO, uploadResult.getMedia_id() };
@@ -88,7 +88,7 @@ public class WxMassMessageAPITest {
      */
     {
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
-      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
       messages[1] = new Object[] { WxConsts.MASS_MSG_IMAGE, uploadMediaRes.getMedia_id() };
@@ -98,7 +98,7 @@ public class WxMassMessageAPITest {
      */
     {
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp3");
-      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
       messages[2] = new Object[] { WxConsts.MASS_MSG_VOICE, uploadMediaRes.getMedia_id() };
@@ -109,7 +109,7 @@ public class WxMassMessageAPITest {
     {
       // 上传照片到媒体库
       InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
-      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      WxMediaUploadResult uploadMediaRes = wxService.mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
       Assert.assertNotNull(uploadMediaRes);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
       
@@ -131,7 +131,7 @@ public class WxMassMessageAPITest {
       article2.setDigest("摘要2");
       news.addArticle(article2);
       
-      WxMassUploadResult massUploadResult = wxService.uploadMassNews(news);
+      WxMassUploadResult massUploadResult = wxService.massNewsUpload(news);
       Assert.assertNotNull(massUploadResult);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
       messages[3] = new Object[] { WxConsts.MASS_MSG_VIDEO, massUploadResult.getMedia_id() };

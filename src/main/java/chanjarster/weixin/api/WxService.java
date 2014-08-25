@@ -45,7 +45,7 @@ public interface WxService {
    * </pre>
    * @throws WxErrorException
    */
-  public void refreshAccessToken() throws WxErrorException;
+  public void accessTokenRefresh() throws WxErrorException;
   
   /**
    * <pre>
@@ -64,15 +64,15 @@ public interface WxService {
    * @param inputStream       输入流
    * @throws WxErrorException
    */
-  public WxMediaUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
+  public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
 
   /**
-   * @see #uploadMedia(String, String, InputStream)
+   * @see #mediaUpload(String, String, InputStream)
    * @param mediaType
    * @param file
    * @throws WxErrorException
    */
-  public WxMediaUploadResult uploadMedia(String mediaType, File file) throws WxErrorException;
+  public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException;
   
   /**
    * <pre>
@@ -84,7 +84,7 @@ public interface WxService {
    * @return 保存到本地的临时文件
    * @throws WxErrorException
    */
-  public File downloadMedia(String media_id) throws WxErrorException;
+  public File mediaDownload(String media_id) throws WxErrorException;
   
   /**
    * <pre>
@@ -94,54 +94,58 @@ public interface WxService {
    * @param message
    * @throws WxErrorException
    */
-  public void sendCustomMessage(WxCustomMessage message) throws WxErrorException;
+  public void customMessageSend(WxCustomMessage message) throws WxErrorException;
   
   /**
    * <pre>
-   * 上传群发用的图文消息，上传后才能群发图文消息 {@link #sendMassMessage(WxMassMessage)}
+   * 上传群发用的图文消息，上传后才能群发图文消息 
    * 
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    * @param news
    * @throws WxErrorException
+   * @see #massGroupMessageSend(WxMassGroupMessage)
+   * @see #massOpenIdsMessageSend(WxMassOpenIdsMessage)
    */
-  public WxMassUploadResult uploadMassNews(WxMassNews news) throws WxErrorException;
+  public WxMassUploadResult massNewsUpload(WxMassNews news) throws WxErrorException;
   
   /**
    * <pre>
-   * 上传群发用的视频，上传后才能群发视频消息 {@link #sendMassMessage(WxMassMessage)}
+   * 上传群发用的视频，上传后才能群发视频消息
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    * @return
    * @throws WxErrorException
+   * @see #massGroupMessageSend(WxMassGroupMessage)
+   * @see #massOpenIdsMessageSend(WxMassOpenIdsMessage)
    */
-  public WxMassUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException;
+  public WxMassUploadResult massVideoUpload(WxMassVideo video) throws WxErrorException;
 
   /**
    * <pre>
    * 分组群发消息
-   * 如果发送图文消息，必须先使用 {@link #uploadMassNews(WxMassNews)} 获得media_id，然后再发送
-   * 如果发送视频消息，必须先使用 {@link #uploadMassVideo(WxMassVideo)} 获得media_id，然后再发送
+   * 如果发送图文消息，必须先使用 {@link #massNewsUpload(WxMassNews)} 获得media_id，然后再发送
+   * 如果发送视频消息，必须先使用 {@link #massVideoUpload(WxMassVideo)} 获得media_id，然后再发送
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    * @param message
    * @throws WxErrorException
    * @return 
    */
-  public WxMassSendResult sendMassMessageByGroup(WxMassGroupMessage message) throws WxErrorException;
+  public WxMassSendResult massGroupMessageSend(WxMassGroupMessage message) throws WxErrorException;
   
   /**
    * <pre>
    * 按openId列表群发消息
-   * 如果发送图文消息，必须先使用 {@link #uploadMassNews(WxMassNews)} 获得media_id，然后再发送
-   * 如果发送视频消息，必须先使用 {@link #uploadMassVideo(WxMassVideo)} 获得media_id，然后再发送
+   * 如果发送图文消息，必须先使用 {@link #massNewsUpload(WxMassNews)} 获得media_id，然后再发送
+   * 如果发送视频消息，必须先使用 {@link #massVideoUpload(WxMassVideo)} 获得media_id，然后再发送
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    * @param message
    * @return
    * @throws WxErrorException
    */
-  public WxMassSendResult sendMassMessageByOpenIds(WxMassOpenIdsMessage message) throws WxErrorException;
+  public WxMassSendResult massOpenIdsMessageSend(WxMassOpenIdsMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -151,7 +155,7 @@ public interface WxService {
    * @param menu
    * @throws WxErrorException
    */
-  public void createMenu(WxMenu menu) throws WxErrorException;
+  public void menuCreate(WxMenu menu) throws WxErrorException;
   
   /**
    * <pre>
@@ -160,7 +164,7 @@ public interface WxService {
    * </pre>
    * @throws WxErrorException
    */
-  public void deleteMenu() throws WxErrorException;
+  public void menuDelete() throws WxErrorException;
   
   /**
    * <pre>
@@ -170,7 +174,7 @@ public interface WxService {
    * @return
    * @throws WxErrorException
    */
-  public WxMenu getMenu() throws WxErrorException;
+  public WxMenu menuGet() throws WxErrorException;
 
   public void setWxConfigStorage(WxConfigStorage wxConfigProvider);
 }

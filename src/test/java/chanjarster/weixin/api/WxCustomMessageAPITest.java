@@ -28,7 +28,7 @@ public class WxCustomMessageAPITest {
     message.setTouser(configProvider.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
-    wxService.sendCustomMessage(message);
+    wxService.customMessageSend(message);
   }
 
 }

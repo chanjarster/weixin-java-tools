@@ -32,7 +32,7 @@ public class WxMediaAPITest {
   @Test(dataProvider="uploadMedia", enabled = true)
   public void testUploadMedia(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
     InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
-    WxMediaUploadResult res = wxService.uploadMedia(mediaType, fileType, inputStream);
+    WxMediaUploadResult res = wxService.mediaUpload(mediaType, fileType, inputStream);
     Assert.assertNotNull(res.getType());
     Assert.assertNotNull(res.getCreated_at());
     Assert.assertTrue(res.getMedia_id() != null || res.getThumb_media_id() != null);
@@ -57,7 +57,7 @@ public class WxMediaAPITest {
   
   @Test(dependsOnMethods = { "testUploadMedia" }, dataProvider="downloadMedia")
   public void testDownloadMedia(String media_id) throws WxErrorException {
-    wxService.downloadMedia(media_id);
+    wxService.mediaDownload(media_id);
   }
   
   @DataProvider

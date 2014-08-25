@@ -24,7 +24,7 @@ public class WxBaseAPITest {
   public void testRefreshAccessToken() throws WxErrorException {
     WxConfigStorage configStorage = wxService.wxConfigStorage;
     String before = configStorage.getAccessToken();
-    wxService.refreshAccessToken();
+    wxService.accessTokenRefresh();
 
     String after = configStorage.getAccessToken();
 

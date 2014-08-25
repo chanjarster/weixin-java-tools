@@ -79,7 +79,7 @@ public class WxServiceImpl implements WxService {
     return buf.toString();
  }
   
-  public void refreshAccessToken() throws WxErrorException {
+  public void accessTokenRefresh() throws WxErrorException {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
       try {
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
@@ -116,22 +116,22 @@ public class WxServiceImpl implements WxService {
     }
   }
   
-  public void sendCustomMessage(WxCustomMessage message) throws WxErrorException {
+  public void customMessageSend(WxCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
   }
   
-  public void createMenu(WxMenu menu) throws WxErrorException {
+  public void menuCreate(WxMenu menu) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
     execute(new SimplePostRequestExecutor(), url, menu.toJson());
   }
   
-  public void deleteMenu() throws WxErrorException {
+  public void menuDelete() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
     execute(new SimpleGetRequestExecutor(), url, null);
   }
 
-  public WxMenu getMenu() throws WxErrorException {
+  public WxMenu menuGet() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
     try {
       String resultContent = execute(new SimpleGetRequestExecutor(), url, null);
@@ -145,39 +145,39 @@ public class WxServiceImpl implements WxService {
     }
   }
 
-  public WxMediaUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
-    return uploadMedia(mediaType,FileUtil.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+  public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
+    return mediaUpload(mediaType,FileUtil.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
   
-  public WxMediaUploadResult uploadMedia(String mediaType, File file) throws WxErrorException {
+  public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(new MediaUploadRequestExecutor(), url, file);
   }
   
-  public File downloadMedia(String media_id) throws WxErrorException {
+  public File mediaDownload(String media_id) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
     return execute(new MediaDownloadRequestExecutor(), url, "media_id=" + media_id);
   }
 
-  public WxMassUploadResult uploadMassNews(WxMassNews news) throws WxErrorException {
+  public WxMassUploadResult massNewsUpload(WxMassNews news) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
     String responseContent = execute(new SimplePostRequestExecutor(), url, news.toJson());
     return WxMassUploadResult.fromJson(responseContent);
   }
   
-  public WxMassUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException {
+  public WxMassUploadResult massVideoUpload(WxMassVideo video) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
     String responseContent = execute(new SimplePostRequestExecutor(), url, video.toJson());
     return WxMassUploadResult.fromJson(responseContent);
   }
   
-  public WxMassSendResult sendMassMessageByGroup(WxMassGroupMessage message) throws WxErrorException {
+  public WxMassSendResult massGroupMessageSend(WxMassGroupMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMassSendResult.fromJson(responseContent);
   }
 
-  public WxMassSendResult sendMassMessageByOpenIds(WxMassOpenIdsMessage message) throws WxErrorException {
+  public WxMassSendResult massOpenIdsMessageSend(WxMassOpenIdsMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMassSendResult.fromJson(responseContent);
@@ -193,7 +193,7 @@ public class WxServiceImpl implements WxService {
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (StringUtils.isBlank(wxConfigStorage.getAccessToken())) {
-      refreshAccessToken();
+      accessTokenRefresh();
     }
     String accessToken = wxConfigStorage.getAccessToken();
     
@@ -210,7 +210,7 @@ public class WxServiceImpl implements WxService {
        * 42001 access_token超时
        */
       if (error.getErrcode() == 42001 || error.getErrcode() == 40001) {
-        refreshAccessToken();
+        accessTokenRefresh();
         return execute(executor, uri, data);
       }
       /**
