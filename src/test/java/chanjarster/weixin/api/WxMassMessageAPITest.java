@@ -1,0 +1,142 @@
+package chanjarster.weixin.api;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
+import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
+import chanjarster.weixin.bean.WxMassNews;
+import chanjarster.weixin.bean.WxMassNews.WxMassNewsArticle;
+import chanjarster.weixin.bean.WxMassOpenIdsMessage;
+import chanjarster.weixin.bean.WxMassVideo;
+import chanjarster.weixin.bean.result.WxMassSendResult;
+import chanjarster.weixin.bean.result.WxMassUploadResult;
+import chanjarster.weixin.bean.result.WxMediaUploadResult;
+import chanjarster.weixin.exception.WxErrorException;
+
+import com.google.inject.Inject;
+
+/**
+ * 测试群发消息
+ * @author chanjarster
+ *
+ */
+@Test(groups = "massAPI", dependsOnGroups = { "baseAPI", "mediaAPI"})
+@Guice(modules = ApiTestModule.class)
+public class WxMassMessageAPITest {
+
+  @Inject
+  protected WxServiceImpl wxService;
+
+  @Test(enabled = false)
+  public void testSendMassTextByOpenIds() throws WxErrorException {
+    // 发送群发消息
+    WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
+    WxMassOpenIdsMessage massMessage = new WxMassOpenIdsMessage();
+    massMessage.setMsgtype(WxConsts.MASS_MSG_TEXT);
+    massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+    massMessage.getTouser().add(configProvider.getOpenId());
+
+    WxMassSendResult massResult = wxService.sendMassMessageByOpenIds(massMessage);
+    Assert.assertNotNull(massResult);
+    Assert.assertNotNull(massResult.getMsg_id());
+  }
+
+  @Test(enabled = true, dataProvider="massMessages")
+  public void testSendMassByOpenIds(String massMsgType, String mediaId) throws WxErrorException, IOException {
+    // 发送群发消息
+    WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
+    WxMassOpenIdsMessage massMessage = new WxMassOpenIdsMessage();
+    massMessage.setMsgtype(massMsgType);
+    massMessage.setMedia_id(mediaId);
+    massMessage.getTouser().add(configProvider.getOpenId());
+
+    WxMassSendResult massResult = wxService.sendMassMessageByOpenIds(massMessage);
+    Assert.assertNotNull(massResult);
+    Assert.assertNotNull(massResult.getMsg_id());
+  }
+
+  @DataProvider
+  public Object[][] massMessages() throws WxErrorException, IOException {
+    Object[][] messages = new Object[4][];
+    /*
+     * 视频素材
+     */
+    {
+      // 上传视频到媒体库
+      InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp4");
+      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, inputStream);
+      Assert.assertNotNull(uploadMediaRes);
+      Assert.assertNotNull(uploadMediaRes.getMedia_id());
+      
+      // 把视频变成可被群发的媒体
+      WxMassVideo video = new WxMassVideo();
+      video.setTitle("测试标题");
+      video.setDescription("测试描述");
+      video.setMedia_id(uploadMediaRes.getMedia_id());
+      WxMassUploadResult uploadResult = wxService.uploadMassVideo(video);
+      Assert.assertNotNull(uploadResult);
+      Assert.assertNotNull(uploadResult.getMedia_id());
+      messages[0] = new Object[] { WxConsts.MASS_MSG_VIDEO, uploadResult.getMedia_id() };
+    }
+    /**
+     * 图片素材
+     */
+    {
+      InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
+      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      Assert.assertNotNull(uploadMediaRes);
+      Assert.assertNotNull(uploadMediaRes.getMedia_id());
+      messages[1] = new Object[] { WxConsts.MASS_MSG_IMAGE, uploadMediaRes.getMedia_id() };
+    }
+    /**
+     * 语音素材
+     */
+    {
+      InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.mp3");
+      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, inputStream);
+      Assert.assertNotNull(uploadMediaRes);
+      Assert.assertNotNull(uploadMediaRes.getMedia_id());
+      messages[2] = new Object[] { WxConsts.MASS_MSG_VOICE, uploadMediaRes.getMedia_id() };
+    }
+    /**
+     * 图文素材
+     */
+    {
+      // 上传照片到媒体库
+      InputStream inputStream = ClassLoader.getSystemResourceAsStream("mm.jpeg");
+      WxMediaUploadResult uploadMediaRes = wxService.uploadMedia(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, inputStream);
+      Assert.assertNotNull(uploadMediaRes);
+      Assert.assertNotNull(uploadMediaRes.getMedia_id());
+      
+      // 上传图文消息
+      WxMassNews news = new WxMassNews();
+      WxMassNewsArticle article1 = new WxMassNewsArticle();
+      article1.setTitle("标题1");
+      article1.setContent("内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1内容1");
+      article1.setThumb_media_id(uploadMediaRes.getMedia_id());
+      news.addArticle(article1);
+      
+      WxMassNewsArticle article2 = new WxMassNewsArticle();
+      article2.setTitle("标题2");
+      article2.setContent("内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2内容2");
+      article2.setThumb_media_id(uploadMediaRes.getMedia_id());
+      article2.setShow_cover_pic(true);
+      article2.setAuthor("作者2");
+      article2.setContent_source_url("www.baidu.com");
+      article2.setDigest("摘要2");
+      news.addArticle(article2);
+      
+      WxMassUploadResult massUploadResult = wxService.uploadMassNews(news);
+      Assert.assertNotNull(massUploadResult);
+      Assert.assertNotNull(uploadMediaRes.getMedia_id());
+      messages[3] = new Object[] { WxConsts.MASS_MSG_VIDEO, massUploadResult.getMedia_id() };
+    }
+    return messages;
+  }
+  
+}

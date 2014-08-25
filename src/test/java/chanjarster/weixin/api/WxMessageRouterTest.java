@@ -9,6 +9,11 @@ import org.testng.annotations.Test;
 
 import chanjarster.weixin.bean.WxXmlMessage;
 
+/**
+ * 测试消息路由器
+ * @author chanjarster
+ *
+ */
 @Test
 public class WxMessageRouterTest {
   

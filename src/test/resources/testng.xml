@@ -7,10 +7,13 @@
 			<class name="chanjarster.weixin.api.WxCustomMessageAPITest" />
 			<class name="chanjarster.weixin.api.WxMenuAPITest" />
 			<class name="chanjarster.weixin.api.WxMessageRouterTest" />
+			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
+			<class name="chanjarster.weixin.api.WxMediaAPITest" />
+			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
 		</classes>
 	</test>
 
-	<test name="Util_Test">
+	<test name="Bean_Test">
 		<classes>
 			<class name="chanjarster.weixin.bean.WxAccessTokenTest" />
 			<class name="chanjarster.weixin.bean.WxCustomMessageTest" />

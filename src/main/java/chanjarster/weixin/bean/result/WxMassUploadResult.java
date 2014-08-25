@@ -3,11 +3,14 @@ package chanjarster.weixin.bean.result;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
- * 上传群发所用的素材的结果
+ * <pre>
+ * 上传群发用的素材的结果
+ * 视频和图文消息需要在群发前上传素材
+ * </pre>
  * @author chanjarster
  *
  */
-public class WxMassMaterialUploadResult {
+public class WxMassUploadResult {
 
   protected String type;
   protected String media_id;
@@ -37,8 +40,8 @@ public class WxMassMaterialUploadResult {
     this.created_at = created_at;
   }
 
-  public static WxMassMaterialUploadResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMassMaterialUploadResult.class);
+  public static WxMassUploadResult fromJson(String json) {
+    return WxGsonBuilder.create().fromJson(json, WxMassUploadResult.class);
   }
 
   @Override

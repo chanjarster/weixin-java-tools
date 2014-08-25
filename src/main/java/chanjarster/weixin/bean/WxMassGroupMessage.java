@@ -1,41 +1,22 @@
 package chanjarster.weixin.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import chanjarster.weixin.api.WxConsts;
-import chanjarster.weixin.bean.result.WxMassMaterialUploadResult;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
- * 群发消息
+ * 分组群发的消息
  * 
  * @author chanjarster
  */
-public class WxMassMessage {
+public class WxMassGroupMessage {
   
-  protected List<String> touser = new ArrayList<String>();
   protected String group_id;
   protected String msgtype;
   protected String content;
   protected String media_id;
 
-  public WxMassMessage() {
+  public WxMassGroupMessage() {
     super();
-  }
-  
-  /**
-   * 利用上传群发所用的素材的结果，构造群发消息
-   * @param r
-   * @return
-   */
-  public WxMassMessage(WxMassMaterialUploadResult r) {
-    setMedia_id(r.getMedia_id());
-    if("video".equals(r.getType())) {
-      setMsgtype(WxConsts.MASS_MSG_VIDEO);
-    } else {
-      setMsgtype(r.getType());
-    }
   }
   
   public String getMsgtype() {
@@ -75,14 +56,6 @@ public class WxMassMessage {
 
   public String toJson() {
     return WxGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public List<String> getTouser() {
-    return touser;
-  }
-
-  public void setTouser(List<String> touser) {
-    this.touser = touser;
   }
 
   public String getGroup_id() {

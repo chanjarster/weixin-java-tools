@@ -3,20 +3,24 @@ package chanjarster.weixin.api;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import com.google.inject.Inject;
-
-import chanjarster.weixin.api.WxBaseAPITest.WxXmlConfigStorage;
+import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.exception.WxErrorException;
 
-@Test(dependsOnGroups="baseAPI")
+import com.google.inject.Inject;
+
+/***
+ * 测试发送客服消息
+ * @author chanjarster
+ *
+ */
+@Test(groups="customMessageAPI", dependsOnGroups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxCustomMessageAPITest {
 
   @Inject
   protected WxServiceImpl wxService;
-  
-  @Test(enabled = true)
+
   public void testSendCustomMessage() throws WxErrorException {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
@@ -26,5 +30,5 @@ public class WxCustomMessageAPITest {
 
     wxService.sendCustomMessage(message);
   }
-  
+
 }

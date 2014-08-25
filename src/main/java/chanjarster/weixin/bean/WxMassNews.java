@@ -17,14 +17,29 @@ public class WxMassNews {
   public List<WxMassNewsArticle> getArticles() {
     return articles;
   }
-  public void setArticles(List<WxMassNewsArticle> articles) {
-    this.articles = articles;
+  
+  public void addArticle(WxMassNewsArticle article) {
+    this.articles.add(article);
   }
   
   public String toJson() {
     return WxGsonBuilder.INSTANCE.create().toJson(this);
   }
   
+  /**
+   * <pre>
+   * 群发图文消息article
+   * 1. thumb_media_id  (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
+   * 2. author          图文消息的作者
+   * 3. title           (必填) 图文消息的标题
+   * 4. content_source_url 在图文消息页面点击“阅读原文”后的页面链接
+   * 5. content (必填)  图文消息页面的内容，支持HTML标签
+   * 6. digest          图文消息的描述
+   * 7, show_cover_pic  是否显示封面，true为显示，false为不显示
+   * </pre>
+   * @author chanjarster
+   *
+   */
   public static class WxMassNewsArticle {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
@@ -39,7 +54,7 @@ public class WxMassNews {
      */
     protected String title;
     /**
-     * 在图文消息页面点击“阅读原文”后的页面
+     * 在图文消息页面点击“阅读原文”后的页面链接
      */
     protected String content_source_url;
     /**
@@ -51,7 +66,7 @@ public class WxMassNews {
      */
     protected String digest;
     /**
-     * 是否显示封面，1为显示，0为不显示
+     * 是否显示封面，true为显示，false为不显示
      */
     protected boolean show_cover_pic;
     

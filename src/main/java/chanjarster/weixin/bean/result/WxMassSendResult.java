@@ -46,4 +46,10 @@ public class WxMassSendResult {
   public static WxMassSendResult fromJson(String json) {
     return WxGsonBuilder.create().fromJson(json, WxMassSendResult.class);
   }
+
+  @Override
+  public String toString() {
+    return "WxMassSendResult [errcode=" + errcode + ", errmsg=" + errmsg + ", msg_id=" + msg_id + "]";
+  }
+  
 }

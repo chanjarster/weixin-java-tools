@@ -18,13 +18,14 @@ import org.apache.http.impl.client.HttpClients;
 
 import chanjarster.weixin.bean.WxAccessToken;
 import chanjarster.weixin.bean.WxCustomMessage;
-import chanjarster.weixin.bean.WxMassMessage;
+import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
+import chanjarster.weixin.bean.WxMassOpenIdsMessage;
 import chanjarster.weixin.bean.WxMassVideo;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.result.WxError;
-import chanjarster.weixin.bean.result.WxMassMaterialUploadResult;
 import chanjarster.weixin.bean.result.WxMassSendResult;
+import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.fs.FileUtil;
@@ -47,6 +48,8 @@ public class WxServiceImpl implements WxService {
   
   protected WxConfigStorage wxConfigStorage;
   
+  protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
+
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
       String token = wxConfigStorage.getToken();
@@ -156,24 +159,30 @@ public class WxServiceImpl implements WxService {
     return execute(new MediaDownloadRequestExecutor(), url, "media_id=" + media_id);
   }
 
-  public WxMassMaterialUploadResult uploadMassNews(WxMassNews news) throws WxErrorException {
+  public WxMassUploadResult uploadMassNews(WxMassNews news) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
     String responseContent = execute(new SimplePostRequestExecutor(), url, news.toJson());
-    return WxMassMaterialUploadResult.fromJson(responseContent);
+    return WxMassUploadResult.fromJson(responseContent);
   }
   
-  public WxMassMaterialUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException {
-    String url = " https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
+  public WxMassUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException {
+    String url = "http://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
     String responseContent = execute(new SimplePostRequestExecutor(), url, video.toJson());
-    return WxMassMaterialUploadResult.fromJson(responseContent);
+    return WxMassUploadResult.fromJson(responseContent);
   }
   
-  public WxMassSendResult sendMassMessage(WxMassMessage message) throws WxErrorException {
+  public WxMassSendResult sendMassMessageByGroup(WxMassGroupMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMassSendResult.fromJson(responseContent);
   }
 
+  public WxMassSendResult sendMassMessageByOpenIds(WxMassOpenIdsMessage message) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
+    return WxMassSendResult.fromJson(responseContent);
+  }
+  
   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor
@@ -205,12 +214,21 @@ public class WxServiceImpl implements WxService {
         return execute(executor, uri, data);
       }
       /**
-       * -1 系统繁忙, 500ms后重试
+       * -1 系统繁忙, 1000ms后重试
        */
       if (error.getErrcode() == -1) {
+        if(retryTimes.get() == null) {
+          retryTimes.set(0);
+        }
+        if (retryTimes.get() > 5) {
+          retryTimes.set(0);
+          throw new RuntimeException("微信服务端异常，超出重试次数");
+        }
+        int sleepMillis = 1000 *  (1 >> (retryTimes.get() - 1));
         try {
-          System.out.println("微信系统繁忙，500ms后重试");
-          Thread.sleep(500);
+          System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试");
+          Thread.sleep(sleepMillis);
+          retryTimes.set(retryTimes.get() + 1);
           return execute(executor, uri, data);
         } catch (InterruptedException e1) {
           throw new RuntimeException(e1);

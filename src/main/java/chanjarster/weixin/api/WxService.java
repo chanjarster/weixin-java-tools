@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import chanjarster.weixin.bean.WxCustomMessage;
-import chanjarster.weixin.bean.WxMassMessage;
+import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
+import chanjarster.weixin.bean.WxMassOpenIdsMessage;
 import chanjarster.weixin.bean.WxMassVideo;
 import chanjarster.weixin.bean.WxMenu;
-import chanjarster.weixin.bean.result.WxMassMaterialUploadResult;
+import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
@@ -104,7 +105,7 @@ public interface WxService {
    * @param news
    * @throws WxErrorException
    */
-  public WxMassMaterialUploadResult uploadMassNews(WxMassNews news) throws WxErrorException;
+  public WxMassUploadResult uploadMassNews(WxMassNews news) throws WxErrorException;
   
   /**
    * <pre>
@@ -114,11 +115,11 @@ public interface WxService {
    * @return
    * @throws WxErrorException
    */
-  public WxMassMaterialUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException;
+  public WxMassUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException;
 
   /**
    * <pre>
-   * 群发消息
+   * 分组群发消息
    * 如果发送图文消息，必须先使用 {@link #uploadMassNews(WxMassNews)} 获得media_id，然后再发送
    * 如果发送视频消息，必须先使用 {@link #uploadMassVideo(WxMassVideo)} 获得media_id，然后再发送
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
@@ -127,8 +128,21 @@ public interface WxService {
    * @throws WxErrorException
    * @return 
    */
-  public WxMassSendResult sendMassMessage(WxMassMessage message) throws WxErrorException;
+  public WxMassSendResult sendMassMessageByGroup(WxMassGroupMessage message) throws WxErrorException;
   
+  /**
+   * <pre>
+   * 按openId列表群发消息
+   * 如果发送图文消息，必须先使用 {@link #uploadMassNews(WxMassNews)} 获得media_id，然后再发送
+   * 如果发送视频消息，必须先使用 {@link #uploadMassVideo(WxMassVideo)} 获得media_id，然后再发送
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * </pre>
+   * @param message
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMassSendResult sendMassMessageByOpenIds(WxMassOpenIdsMessage message) throws WxErrorException;
+
   /**
    * <pre>
    * 自定义菜单创建接口

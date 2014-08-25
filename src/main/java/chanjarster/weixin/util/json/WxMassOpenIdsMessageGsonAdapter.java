@@ -11,10 +11,12 @@ package chanjarster.weixin.util.json;
 import java.lang.reflect.Type;
 
 import chanjarster.weixin.api.WxConsts;
-import chanjarster.weixin.bean.WxMassGroupMessage;
+import chanjarster.weixin.bean.WxMassOpenIdsMessage;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
@@ -23,14 +25,16 @@ import com.google.gson.JsonSerializer;
  * @author qianjia
  *
  */
-public class WxMassMessageGsonAdapter implements JsonSerializer<WxMassGroupMessage> {
+public class WxMassOpenIdsMessageGsonAdapter implements JsonSerializer<WxMassOpenIdsMessage> {
 
-  public JsonElement serialize(WxMassGroupMessage message, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxMassOpenIdsMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     
-    JsonObject filter = new JsonObject();
-    filter.addProperty("group_id", message.getGroup_id());
-    messageJson.add("filter", filter);
+    JsonArray touser = new JsonArray();
+    for (String openId : message.getTouser()) {
+      touser.add(new JsonPrimitive(openId));
+    }
+    messageJson.add("touser", touser);
     
     if (WxConsts.MASS_MSG_NEWS.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();

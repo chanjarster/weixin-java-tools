@@ -13,6 +13,11 @@ import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.WxMenu.WxMenuButton;
 import chanjarster.weixin.exception.WxErrorException;
 
+/**
+ * 测试菜单
+ * @author chanjarster
+ *
+ */
 @Test(dependsOnGroups="baseAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMenuAPITest {

@@ -3,8 +3,10 @@ package chanjarster.weixin.api;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import chanjarster.weixin.api.WxBaseAPITest.WxXmlConfigStorage;
 import chanjarster.weixin.util.xml.XmlTransformer;
 
 import com.google.inject.Binder;
@@ -26,4 +28,24 @@ public class ApiTestModule implements Module {
     }
   }
 
+  @XmlRootElement(name = "xml")
+  @XmlAccessorType(XmlAccessType.FIELD)
+  public static class WxXmlConfigStorage extends WxInMemoryConfigStorage {
+    
+    protected String openId;
+    
+    public String getOpenId() {
+      return openId;
+    }
+    public void setOpenId(String openId) {
+      this.openId = openId;
+    }
+    @Override
+    public String toString() {
+      return "SimpleWxConfigProvider [appId=" + appId + ", secret=" + secret + ", accessToken=" + accessToken
+          + ", expiresIn=" + expiresIn + ", token=" + token + ", openId=" + openId + "]";
+    }
+     
+  }
+  
 }
