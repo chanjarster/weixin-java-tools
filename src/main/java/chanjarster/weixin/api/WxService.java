@@ -191,6 +191,16 @@ public interface WxService {
   
   /**
    * <pre>
+   * 分组管理接口 - 查询用户所在分组
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * </pre>
+   * @param openid 微信用户的openid 
+   * @throws WxErrorException
+   */
+  public long groupQueryUserGroup(String openid) throws WxErrorException;
+  
+  /**
+   * <pre>
    * 分组管理接口 - 查询所有分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>

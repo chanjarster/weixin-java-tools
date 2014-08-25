@@ -38,5 +38,9 @@ public class WxGroup {
   public String toJson(String json) {
     return WxGsonBuilder.create().toJson(this);
   }
+  @Override
+  public String toString() {
+    return "WxGroup [id=" + id + ", name=" + name + ", count=" + count + "]";
+  }
   
 }

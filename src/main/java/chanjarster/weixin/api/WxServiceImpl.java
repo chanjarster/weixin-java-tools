@@ -38,6 +38,7 @@ import chanjarster.weixin.util.http.MediaUploadRequestExecutor;
 import chanjarster.weixin.util.http.RequestExecutor;
 import chanjarster.weixin.util.http.SimpleGetRequestExecutor;
 import chanjarster.weixin.util.http.SimplePostRequestExecutor;
+import chanjarster.weixin.util.json.GsonHelper;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 import com.google.gson.JsonElement;
@@ -208,6 +209,13 @@ public class WxServiceImpl implements WxService {
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxGroup>>(){}.getType());
+  }
+  
+  public long groupQueryUserGroup(String openid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/groups/getid";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"openid\":\"{0}\"}", openid));
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
   }
   
   /**

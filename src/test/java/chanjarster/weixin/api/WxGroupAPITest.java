@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
+import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
 import chanjarster.weixin.bean.WxGroup;
 import chanjarster.weixin.exception.WxErrorException;
 
@@ -36,6 +37,12 @@ public class WxGroupAPITest {
     for (WxGroup g : groupList) {
       Assert.assertNotNull(g.getName());
     }
+  }
+  
+  @Test(dependsOnMethods="testGroupCreate")
+  public void groupQueryUserGroup() throws WxErrorException {
+    WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
+    long groupid = wxService.groupQueryUserGroup(configStorage.getOpenId());
   }
   
 }
