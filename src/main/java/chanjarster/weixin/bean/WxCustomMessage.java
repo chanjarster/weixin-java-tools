@@ -3,6 +3,7 @@ package chanjarster.weixin.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import chanjarster.weixin.api.WxConsts;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
@@ -32,6 +33,19 @@ public class WxCustomMessage {
   public String getMsgtype() {
     return msgtype;
   }
+  
+  /**
+   * <pre>
+   * 请使用
+   * {@link WxConsts#CUSTOM_MSG_TEXT}
+   * {@link WxConsts#CUSTOM_MSG_IMAGE}
+   * {@link WxConsts#CUSTOM_MSG_VOICE}
+   * {@link WxConsts#CUSTOM_MSG_MUSIC}
+   * {@link WxConsts#CUSTOM_MSG_VIDEO}
+   * {@link WxConsts#CUSTOM_MSG_NEWS}
+   * </pre>
+   * @param msgtype
+   */
   public void setMsgtype(String msgtype) {
     this.msgtype = msgtype;
   }

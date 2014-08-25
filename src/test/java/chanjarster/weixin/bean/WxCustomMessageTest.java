@@ -12,7 +12,7 @@ public class WxCustomMessageTest {
   public void testTextReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_TEXT);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_TEXT);
     reply.setContent("sfsfdsdf");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
@@ -20,7 +20,7 @@ public class WxCustomMessageTest {
   public void testImageReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_IMAGE);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_IMAGE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -28,7 +28,7 @@ public class WxCustomMessageTest {
   public void testVoiceReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_VOICE);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_VOICE);
     reply.setMedia_id("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -36,7 +36,7 @@ public class WxCustomMessageTest {
   public void testVideoReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_VIDEO);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_VIDEO);
     reply.setMedia_id("MEDIA_ID");
     reply.setThumb_media_id("MEDIA_ID");
     reply.setTitle("TITLE");
@@ -47,7 +47,7 @@ public class WxCustomMessageTest {
   public void testMusicReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_MUSIC);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_MUSIC);
     reply.setThumb_media_id("MEDIA_ID");
     reply.setDescription("DESCRIPTION");
     reply.setTitle("TITLE");
@@ -59,7 +59,7 @@ public class WxCustomMessageTest {
   public void testNewsReply() {
     WxCustomMessage reply = new WxCustomMessage();
     reply.setTouser("OPENID");
-    reply.setMsgtype(WxConsts.MSG_NEWS);
+    reply.setMsgtype(WxConsts.CUSTOM_MSG_NEWS);
     
     WxArticle article1 = new WxArticle();
     article1.setUrl("URL");

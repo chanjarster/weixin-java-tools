@@ -18,9 +18,14 @@ import org.apache.http.impl.client.HttpClients;
 
 import chanjarster.weixin.bean.WxAccessToken;
 import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxMassMessage;
+import chanjarster.weixin.bean.WxMassNews;
+import chanjarster.weixin.bean.WxMassVideo;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.result.WxError;
-import chanjarster.weixin.bean.result.WxUploadResult;
+import chanjarster.weixin.bean.result.WxMassMaterialUploadResult;
+import chanjarster.weixin.bean.result.WxMassSendResult;
+import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.fs.FileUtil;
 import chanjarster.weixin.util.http.MediaDownloadRequestExecutor;
@@ -137,11 +142,11 @@ public class WxServiceImpl implements WxService {
     }
   }
 
-  public WxUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
+  public WxMediaUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
     return uploadMedia(mediaType,FileUtil.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
   
-  public WxUploadResult uploadMedia(String mediaType, File file) throws WxErrorException {
+  public WxMediaUploadResult uploadMedia(String mediaType, File file) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(new MediaUploadRequestExecutor(), url, file);
   }
@@ -149,6 +154,24 @@ public class WxServiceImpl implements WxService {
   public File downloadMedia(String media_id) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
     return execute(new MediaDownloadRequestExecutor(), url, "media_id=" + media_id);
+  }
+
+  public WxMassMaterialUploadResult uploadMassNews(WxMassNews news) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, news.toJson());
+    return WxMassMaterialUploadResult.fromJson(responseContent);
+  }
+  
+  public WxMassMaterialUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException {
+    String url = " https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, video.toJson());
+    return WxMassMaterialUploadResult.fromJson(responseContent);
+  }
+  
+  public WxMassSendResult sendMassMessage(WxMassMessage message) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
+    return WxMassSendResult.fromJson(responseContent);
   }
 
   /**

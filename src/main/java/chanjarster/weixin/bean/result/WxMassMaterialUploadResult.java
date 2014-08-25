@@ -2,11 +2,15 @@ package chanjarster.weixin.bean.result;
 
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
-public class WxUploadResult {
+/**
+ * 上传群发所用的素材的结果
+ * @author chanjarster
+ *
+ */
+public class WxMassMaterialUploadResult {
 
   protected String type;
   protected String media_id;
-  protected String thumb_media_id;
   protected long created_at;
 
   public String getType() {
@@ -33,22 +37,13 @@ public class WxUploadResult {
     this.created_at = created_at;
   }
 
-  public static WxUploadResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxUploadResult.class);
-  }
-
-  public String getThumb_media_id() {
-    return thumb_media_id;
-  }
-
-  public void setThumb_media_id(String thumb_media_id) {
-    this.thumb_media_id = thumb_media_id;
+  public static WxMassMaterialUploadResult fromJson(String json) {
+    return WxGsonBuilder.create().fromJson(json, WxMassMaterialUploadResult.class);
   }
 
   @Override
   public String toString() {
-    return "WxUploadResult [type=" + type + ", media_id=" + media_id + ", thumb_media_id=" + thumb_media_id
-        + ", created_at=" + created_at + "]";
+    return "WxUploadResult [type=" + type + ", media_id=" + media_id + ", created_at=" + created_at + "]";
   }
 
 }

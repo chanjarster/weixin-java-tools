@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxMassMessage;
+import chanjarster.weixin.bean.WxMassNews;
+import chanjarster.weixin.bean.WxMassVideo;
 import chanjarster.weixin.bean.WxMenu;
-import chanjarster.weixin.bean.result.WxUploadResult;
+import chanjarster.weixin.bean.result.WxMassMaterialUploadResult;
+import chanjarster.weixin.bean.result.WxMassSendResult;
+import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 
 /**
@@ -58,7 +63,7 @@ public interface WxService {
    * @param inputStream       输入流
    * @throws WxErrorException
    */
-  public WxUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
+  public WxMediaUploadResult uploadMedia(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
 
   /**
    * @see #uploadMedia(String, String, InputStream)
@@ -66,7 +71,7 @@ public interface WxService {
    * @param file
    * @throws WxErrorException
    */
-  public WxUploadResult uploadMedia(String mediaType, File file) throws WxErrorException;
+  public WxMediaUploadResult uploadMedia(String mediaType, File file) throws WxErrorException;
   
   /**
    * <pre>
@@ -89,6 +94,40 @@ public interface WxService {
    * @throws WxErrorException
    */
   public void sendCustomMessage(WxCustomMessage message) throws WxErrorException;
+  
+  /**
+   * <pre>
+   * 上传群发用的图文消息，上传后才能群发图文消息 {@link #sendMassMessage(WxMassMessage)}
+   * 
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * </pre>
+   * @param news
+   * @throws WxErrorException
+   */
+  public WxMassMaterialUploadResult uploadMassNews(WxMassNews news) throws WxErrorException;
+  
+  /**
+   * <pre>
+   * 上传群发用的视频，上传后才能群发视频消息 {@link #sendMassMessage(WxMassMessage)}
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMassMaterialUploadResult uploadMassVideo(WxMassVideo video) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 群发消息
+   * 如果发送图文消息，必须先使用 {@link #uploadMassNews(WxMassNews)} 获得media_id，然后再发送
+   * 如果发送视频消息，必须先使用 {@link #uploadMassVideo(WxMassVideo)} 获得media_id，然后再发送
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
+   * </pre>
+   * @param message
+   * @throws WxErrorException
+   * @return 
+   */
+  public WxMassSendResult sendMassMessage(WxMassMessage message) throws WxErrorException;
   
   /**
    * <pre>

@@ -11,7 +11,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import chanjarster.weixin.bean.result.WxError;
-import chanjarster.weixin.bean.result.WxUploadResult;
+import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 
 /**
@@ -19,10 +19,10 @@ import chanjarster.weixin.exception.WxErrorException;
  * @author chanjarster
  *
  */
-public class MediaUploadRequestExecutor implements RequestExecutor<WxUploadResult, File> {
+public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
 
   @Override
-  public WxUploadResult execute(String uri, File file) throws WxErrorException, ClientProtocolException, IOException {
+  public WxMediaUploadResult execute(String uri, File file) throws WxErrorException, ClientProtocolException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (file != null) {
       HttpEntity entity = MultipartEntityBuilder
@@ -38,7 +38,7 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxUploadResul
     if (error.getErrcode() != 0) {
       throw new WxErrorException(error);
     }
-    return WxUploadResult.fromJson(responseContent);
+    return WxMediaUploadResult.fromJson(responseContent);
   }
 
 }

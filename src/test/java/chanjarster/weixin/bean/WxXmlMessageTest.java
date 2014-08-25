@@ -39,7 +39,7 @@ public class WxXmlMessageTest {
     Assert.assertEquals(wxMessage.getToUserName(), "toUser");
     Assert.assertEquals(wxMessage.getFromUserName(), "fromUser");
     Assert.assertEquals(wxMessage.getCreateTime(), new Long(1348831860l));
-    Assert.assertEquals(wxMessage.getMsgType(), WxConsts.MSG_TEXT);
+    Assert.assertEquals(wxMessage.getMsgType(), WxConsts.XML_MSG_TEXT);
     Assert.assertEquals(wxMessage.getContent(), "this is a test");
     Assert.assertEquals(wxMessage.getMsgId(), new Long(1234567890123456l));
     Assert.assertEquals(wxMessage.getPicUrl(), "this is a url");
@@ -66,7 +66,7 @@ public class WxXmlMessageTest {
     wxMessage.setToUserName("toUser");
     wxMessage.setFromUserName("fromUser");
     wxMessage.setCreateTime(new Long(1348831860l));
-    wxMessage.setMsgType(WxConsts.MSG_TEXT);
+    wxMessage.setMsgType(WxConsts.XML_MSG_TEXT);
     wxMessage.setContent("this is a test");
     wxMessage.setMsgId(new Long(1234567890123456l));
     wxMessage.setPicUrl("this is a url");

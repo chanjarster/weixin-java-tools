@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.WxMenu.WxMenuButton;
-import chanjarster.weixin.bean.result.WxUploadResult;
+import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.xml.XmlTransformer;
 
@@ -54,7 +54,7 @@ public class WxServiceTest {
   public void sendCustomMessage() throws WxErrorException {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
-    message.setMsgtype(WxConsts.MSG_TEXT);
+    message.setMsgtype(WxConsts.CUSTOM_MSG_TEXT);
     message.setTouser(configProvider.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
@@ -79,7 +79,7 @@ public class WxServiceTest {
   @Test(dependsOnMethods = { "testRefreshAccessToken" }, dataProvider="uploadMedia", enabled = true)
   public void testUploadMedia1(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
     InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
-    WxUploadResult res = wxService.uploadMedia(mediaType, fileType, inputStream);
+    WxMediaUploadResult res = wxService.uploadMedia(mediaType, fileType, inputStream);
     Assert.assertNotNull(res.getType());
     Assert.assertNotNull(res.getCreated_at());
     Assert.assertTrue(res.getMedia_id() != null || res.getThumb_media_id() != null);

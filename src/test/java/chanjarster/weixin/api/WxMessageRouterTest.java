@@ -21,18 +21,18 @@ public class WxMessageRouterTest {
     this.router = new WxMessageRouter();
     router
       .rule()
-        .msgType(WxConsts.MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1").content("CONTENT_1")
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1").content("CONTENT_1")
         .handler(new WxEchoMessageHandler(sb, "COMBINE_4"))
       .end()
       .rule()
-        .msgType(WxConsts.MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1")
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1")
         .handler(new WxEchoMessageHandler(sb, "COMBINE_3"))
       .end()
       .rule()
-        .msgType(WxConsts.MSG_TEXT).event(WxConsts.EVT_CLICK)
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK)
         .handler(new WxEchoMessageHandler(sb, "COMBINE_2"))
       .end()
-      .rule().msgType(WxConsts.MSG_TEXT).handler(new WxEchoMessageHandler(sb, WxConsts.MSG_TEXT)).end()
+      .rule().msgType(WxConsts.XML_MSG_TEXT).handler(new WxEchoMessageHandler(sb, WxConsts.XML_MSG_TEXT)).end()
       .rule().event(WxConsts.EVT_CLICK).handler(new WxEchoMessageHandler(sb, WxConsts.EVT_CLICK)).end()
       .rule().eventKey("KEY_1").handler(new WxEchoMessageHandler(sb, "KEY_1")).end()
       .rule().content("CONTENT_1").handler(new WxEchoMessageHandler(sb, "CONTENT_1")).end()
@@ -54,7 +54,7 @@ public class WxMessageRouterTest {
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxXmlMessage message1 = new WxXmlMessage();
-    message1.setMsgType(WxConsts.MSG_TEXT);
+    message1.setMsgType(WxConsts.XML_MSG_TEXT);
   
     WxXmlMessage message2 = new WxXmlMessage();
     message2.setEvent(WxConsts.EVT_CLICK);
@@ -69,22 +69,22 @@ public class WxMessageRouterTest {
     message5.setContent("BLA");
     
     WxXmlMessage c2 = new WxXmlMessage();
-    c2.setMsgType(WxConsts.MSG_TEXT);
+    c2.setMsgType(WxConsts.XML_MSG_TEXT);
     c2.setEvent(WxConsts.EVT_CLICK);
     
     WxXmlMessage c3 = new WxXmlMessage();
-    c3.setMsgType(WxConsts.MSG_TEXT);
+    c3.setMsgType(WxConsts.XML_MSG_TEXT);
     c3.setEvent(WxConsts.EVT_CLICK);
     c3.setEventKey("KEY_1");
     
     WxXmlMessage c4 = new WxXmlMessage();
-    c4.setMsgType(WxConsts.MSG_TEXT);
+    c4.setMsgType(WxConsts.XML_MSG_TEXT);
     c4.setEvent(WxConsts.EVT_CLICK);
     c4.setEventKey("KEY_1");
     c4.setContent("CONTENT_1");
     
     return new Object[][] {
-        new Object[] { message1, WxConsts.MSG_TEXT + "," },
+        new Object[] { message1, WxConsts.XML_MSG_TEXT + "," },
         new Object[] { message2, WxConsts.EVT_CLICK + "," }, 
         new Object[] { message3, "KEY_1," },
         new Object[] { message4, "CONTENT_1," },

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import chanjarster.weixin.api.WxConsts;
 import chanjarster.weixin.util.xml.AdapterCDATA;
 import chanjarster.weixin.util.xml.XmlTransformer;
 
@@ -159,9 +160,35 @@ public class WxXmlMessage {
     CreateTime = createTime;
   }
   
+  /**
+   * <pre>
+   * 当接受用户消息时，可能会获得以下值：
+   * {@link WxConsts#XML_MSG_TEXT}
+   * {@link WxConsts#XML_MSG_IMAGE}
+   * {@link WxConsts#XML_MSG_VOICE}
+   * {@link WxConsts#XML_MSG_VIDEO}
+   * {@link WxConsts#XML_MSG_LOCATION}
+   * {@link WxConsts#XML_MSG_LINK}
+   * {@link WxConsts#XML_MSG_EVENT}
+   * </pre>
+   * @return
+   */
   public String getMsgType() {
     return MsgType;
   }
+  
+  /**
+   * <pre>
+   * 当发送消息的时候使用：
+   * {@link WxConsts#XML_MSG_TEXT}
+   * {@link WxConsts#XML_MSG_IMAGE}
+   * {@link WxConsts#XML_MSG_VOICE}
+   * {@link WxConsts#XML_MSG_VIDEO}
+   * {@link WxConsts#XML_MSG_NEWS}
+   * {@link WxConsts#XML_MSG_MUSIC}
+   * </pre>
+   * @param msgType
+   */
   public void setMsgType(String msgType) {
     MsgType = msgType;
   }
