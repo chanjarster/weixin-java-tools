@@ -13,10 +13,10 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassOpenIdsMessage {
   
-  protected List<String> touser = new ArrayList<String>();
-  protected String msgtype;
-  protected String content;
-  protected String media_id;
+  private List<String> touser = new ArrayList<String>();
+  private String msgtype;
+  private String content;
+  private String media_id;
 
   public WxMassOpenIdsMessage() {
     super();

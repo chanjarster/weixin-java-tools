@@ -9,9 +9,9 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassVideo {
 
-  protected String media_id;
-  protected String title;
-  protected String description;
+  private String media_id;
+  private String title;
+  private String description;
 
   public String getTitle() {
     return title;

@@ -15,9 +15,9 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassSendResult {
 
-  protected String errcode;
-  protected String errmsg;
-  protected String msg_id;
+  private String errcode;
+  private String errmsg;
+  private String msg_id;
 
   public String getErrcode() {
     return errcode;

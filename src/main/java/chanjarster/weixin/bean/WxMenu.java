@@ -14,7 +14,7 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMenu {
 
-  protected List<WxMenuButton> button = new ArrayList<WxMenuButton>();
+  private List<WxMenuButton> button = new ArrayList<WxMenuButton>();
 
   public List<WxMenuButton> getButton() {
     return button;
@@ -38,12 +38,12 @@ public class WxMenu {
   
   public static class WxMenuButton {
 
-    protected String type;
-    protected String name;
-    protected String key;
-    protected String url;
+    private String type;
+    private String name;
+    private String key;
+    private String url;
     
-    protected List<WxMenuButton> sub_button = new ArrayList<WxMenuButton>();
+    private List<WxMenuButton> sub_button = new ArrayList<WxMenuButton>();
 
     public String getType() {
       return type;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import chanjarster.weixin.bean.WxAccessToken;
 import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxGroup;
 import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
 import chanjarster.weixin.bean.WxMassOpenIdsMessage;
@@ -181,6 +183,12 @@ public class WxServiceImpl implements WxService {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, message.toJson());
     return WxMassSendResult.fromJson(responseContent);
+  }
+  
+  public WxGroup groupCreate(String name) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"group\":'{'\"name\":\"{0}\"}}", name));
+    return WxGroup.fromJson(responseContent);
   }
   
   /**

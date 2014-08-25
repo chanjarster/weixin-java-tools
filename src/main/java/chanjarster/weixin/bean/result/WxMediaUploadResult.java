@@ -4,10 +4,10 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
 
 public class WxMediaUploadResult {
 
-  protected String type;
-  protected String media_id;
-  protected String thumb_media_id;
-  protected long created_at;
+  private String type;
+  private String media_id;
+  private String thumb_media_id;
+  private long created_at;
 
   public String getType() {
     return type;

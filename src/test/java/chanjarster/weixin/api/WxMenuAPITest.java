@@ -18,7 +18,7 @@ import chanjarster.weixin.exception.WxErrorException;
  * @author chanjarster
  *
  */
-@Test(dependsOnGroups="baseAPI")
+@Test(groups="menuAPI", dependsOnGroups="baseAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxMenuAPITest {
 

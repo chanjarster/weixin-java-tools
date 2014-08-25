@@ -12,7 +12,7 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassNews {
 
-  protected List<WxMassNewsArticle> articles = new ArrayList<WxMassNewsArticle>();
+  private List<WxMassNewsArticle> articles = new ArrayList<WxMassNewsArticle>();
   
   public List<WxMassNewsArticle> getArticles() {
     return articles;
@@ -44,31 +44,31 @@ public class WxMassNews {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
      */
-    protected String thumb_media_id;
+    private String thumb_media_id;
     /**
      * 图文消息的作者
      */
-    protected String author;
+    private String author;
     /**
      * (必填) 图文消息的标题
      */
-    protected String title;
+    private String title;
     /**
      * 在图文消息页面点击“阅读原文”后的页面链接
      */
-    protected String content_source_url;
+    private String content_source_url;
     /**
      * (必填) 图文消息页面的内容，支持HTML标签
      */
-    protected String content;
+    private String content;
     /**
      * 图文消息的描述
      */
-    protected String digest;
+    private String digest;
     /**
      * 是否显示封面，true为显示，false为不显示
      */
-    protected boolean show_cover_pic;
+    private boolean show_cover_pic;
     
     public String getThumb_media_id() {
       return thumb_media_id;

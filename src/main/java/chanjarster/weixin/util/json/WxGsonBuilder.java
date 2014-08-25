@@ -1,6 +1,7 @@
 package chanjarster.weixin.util.json;
 
 import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxGroup;
 import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
 import chanjarster.weixin.bean.WxMassOpenIdsMessage;
@@ -20,6 +21,8 @@ public class WxGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMassNews.class, new WxMassNewsGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMassGroupMessage.class, new WxMassMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMassOpenIdsMessage.class, new WxMassOpenIdsMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxGroup.class, new WxGroupGsonAdapter());
+    
   }
   
   public static Gson create() {

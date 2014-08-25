@@ -13,16 +13,16 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxCustomMessage {
 
-  protected String touser;
-  protected String msgtype;
-  protected String content;
-  protected String media_id;
-  protected String thumb_media_id;
-  protected String title;
-  protected String description;
-  protected String musicurl;
-  protected String hqmusicurl;
-  protected List<WxArticle> articles = new ArrayList<WxArticle>();
+  private String touser;
+  private String msgtype;
+  private String content;
+  private String media_id;
+  private String thumb_media_id;
+  private String title;
+  private String description;
+  private String musicurl;
+  private String hqmusicurl;
+  private List<WxArticle> articles = new ArrayList<WxArticle>();
   
   public String getTouser() {
     return touser;
@@ -104,10 +104,10 @@ public class WxCustomMessage {
   
   public static class WxArticle {
     
-    protected String title;
-    protected String description;
-    protected String url;
-    protected String picurl;
+    private String title;
+    private String description;
+    private String url;
+    private String picurl;
     
     public String getTitle() {
       return title;

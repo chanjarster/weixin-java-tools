@@ -10,10 +10,10 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassGroupMessage {
   
-  protected String group_id;
-  protected String msgtype;
-  protected String content;
-  protected String media_id;
+  private String group_id;
+  private String msgtype;
+  private String content;
+  private String media_id;
 
   public WxMassGroupMessage() {
     super();

@@ -3,7 +3,7 @@ package chanjarster.weixin.api;
 import chanjarster.weixin.bean.WxAccessToken;
 
 /**
- * 微信配置的工具类
+ * 微信客户端配置存储
  * @author chanjarster
  *
  */

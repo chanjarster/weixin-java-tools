@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import chanjarster.weixin.bean.WxCustomMessage;
+import chanjarster.weixin.bean.WxGroup;
 import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
 import chanjarster.weixin.bean.WxMassOpenIdsMessage;
 import chanjarster.weixin.bean.WxMassVideo;
 import chanjarster.weixin.bean.WxMenu;
-import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMassSendResult;
+import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.exception.WxErrorException;
 
@@ -176,5 +177,19 @@ public interface WxService {
    */
   public WxMenu menuGet() throws WxErrorException;
 
+  /**
+   * <pre>
+   * 分组管理接口 - 创建分组
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * </pre>
+   * @param name 分组名字（30个字符以内） 
+   * @throws WxErrorException
+   */
+  public WxGroup groupCreate(String name) throws WxErrorException;
+  
+  /**
+   * 注入 {@link WxConfigStorage} 的实现
+   * @param wxConfigProvider
+   */
   public void setWxConfigStorage(WxConfigStorage wxConfigProvider);
 }
