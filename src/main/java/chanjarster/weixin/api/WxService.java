@@ -3,6 +3,7 @@ package chanjarster.weixin.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import chanjarster.weixin.bean.WxCustomMessage;
 import chanjarster.weixin.bean.WxGroup;
@@ -180,12 +181,23 @@ public interface WxService {
   /**
    * <pre>
    * 分组管理接口 - 创建分组
+   * 最多支持创建500个分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
    * @param name 分组名字（30个字符以内） 
    * @throws WxErrorException
    */
   public WxGroup groupCreate(String name) throws WxErrorException;
+  
+  /**
+   * <pre>
+   * 分组管理接口 - 查询所有分组
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  public List<WxGroup> groupGet() throws WxErrorException;
   
   /**
    * 注入 {@link WxConfigStorage} 的实现

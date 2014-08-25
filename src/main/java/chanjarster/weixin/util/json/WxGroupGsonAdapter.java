@@ -39,7 +39,10 @@ public class WxGroupGsonAdapter implements JsonSerializer<WxGroup>, JsonDeserial
 
   public WxGroup deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxGroup group = new WxGroup();
-    JsonObject groupJson = json.getAsJsonObject().get("group").getAsJsonObject();
+    JsonObject groupJson = json.getAsJsonObject();
+    if (json.getAsJsonObject().get("group") != null) {
+      groupJson = json.getAsJsonObject().get("group").getAsJsonObject();
+    }
     if (groupJson.get("name") != null && !groupJson.get("name").isJsonNull()) {
       group.setName(GsonHelper.getAsString(groupJson.get("name")));
     }

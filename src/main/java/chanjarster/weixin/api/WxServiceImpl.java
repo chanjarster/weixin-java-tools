@@ -3,9 +3,11 @@ package chanjarster.weixin.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -36,6 +38,12 @@ import chanjarster.weixin.util.http.MediaUploadRequestExecutor;
 import chanjarster.weixin.util.http.RequestExecutor;
 import chanjarster.weixin.util.http.SimpleGetRequestExecutor;
 import chanjarster.weixin.util.http.SimplePostRequestExecutor;
+import chanjarster.weixin.util.json.WxGsonBuilder;
+
+import com.google.gson.JsonElement;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 public class WxServiceImpl implements WxService {
 
@@ -189,6 +197,17 @@ public class WxServiceImpl implements WxService {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
     String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"group\":'{'\"name\":\"{0}\"}}", name));
     return WxGroup.fromJson(responseContent);
+  }
+
+  public List<WxGroup> groupGet() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/groups/get";
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    /*
+     * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
+     * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
+     */
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxGroup>>(){}.getType());
   }
   
   /**
