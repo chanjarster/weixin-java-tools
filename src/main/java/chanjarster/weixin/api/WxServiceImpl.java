@@ -226,6 +226,11 @@ public class WxServiceImpl implements WxService {
     execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
   
+  public void groupMoveUser(String openid, long to_groupid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update";
+    execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"openid\":\"{0}\", \"to_groupid\":{1,number,#}}", openid, to_groupid));
+  }
+  
   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor

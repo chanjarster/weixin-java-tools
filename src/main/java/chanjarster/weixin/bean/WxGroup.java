@@ -9,7 +9,7 @@ import chanjarster.weixin.util.json.WxGsonBuilder;
  */
 public class WxGroup {
 
-  private long id;
+  private long id = -1;
   private String name;
   private long count;
   public long getId() {

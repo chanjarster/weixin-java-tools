@@ -191,6 +191,16 @@ public interface WxService {
   
   /**
    * <pre>
+   * 分组管理接口 - 查询所有分组
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  public List<WxGroup> groupGet() throws WxErrorException;
+  
+  /**
+   * <pre>
    * 分组管理接口 - 查询用户所在分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
@@ -213,14 +223,17 @@ public interface WxService {
   
   /**
    * <pre>
-   * 分组管理接口 - 查询所有分组
+   * 分组管理接口 - 移动用户分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * 
+   * 如果to_groupid为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
    * </pre>
-   * @return
+   * @param openid      用户openid
+   * @param to_groupid  移动到的分组id
    * @throws WxErrorException
    */
-  public List<WxGroup> groupGet() throws WxErrorException;
-  
+  public void groupMoveUser(String openid, long to_groupid) throws WxErrorException;
+
   /**
    * 注入 {@link WxConfigStorage} 的实现
    * @param wxConfigProvider
