@@ -35,9 +35,10 @@ import chanjarster.weixin.bean.result.WxQrCodeTicket;
 import chanjarster.weixin.bean.result.WxUser;
 import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
-import chanjarster.weixin.util.fs.FileUtil;
+import chanjarster.weixin.util.fs.FileUtils;
 import chanjarster.weixin.util.http.MediaDownloadRequestExecutor;
 import chanjarster.weixin.util.http.MediaUploadRequestExecutor;
+import chanjarster.weixin.util.http.QrCodeRequestExecutor;
 import chanjarster.weixin.util.http.RequestExecutor;
 import chanjarster.weixin.util.http.SimpleGetRequestExecutor;
 import chanjarster.weixin.util.http.SimplePostRequestExecutor;
@@ -161,7 +162,7 @@ public class WxServiceImpl implements WxService {
   }
 
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException {
-    return mediaUpload(mediaType,FileUtil.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+    return mediaUpload(mediaType,FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
   
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
@@ -291,6 +292,11 @@ public class WxServiceImpl implements WxService {
     json.add("action_info", actionInfo);
     String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
     return WxQrCodeTicket.fromJson(responseContent);
+  }
+  
+  public File qrCodePicture(WxQrCodeTicket ticket) throws WxErrorException {
+    String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
+    return execute(new QrCodeRequestExecutor(), url, ticket);
   }
   
   /**

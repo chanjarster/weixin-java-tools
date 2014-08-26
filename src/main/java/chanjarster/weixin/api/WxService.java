@@ -295,6 +295,17 @@ public interface WxService {
   public WxQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
 
   /**
+   * <pre>
+   * 换取二维码图片
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   * @param ticket    二维码ticket
+   * @return
+   * @throws WxErrorException
+   */
+  public File qrCodePicture(WxQrCodeTicket ticket) throws WxErrorException;
+
+  /**
    * 注入 {@link WxConfigStorage} 的实现
    * @param wxConfigProvider
    */

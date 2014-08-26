@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FileUtil {
+public class FileUtils {
 
   /**
    * 创建临时文件
