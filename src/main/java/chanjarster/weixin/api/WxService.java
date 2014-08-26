@@ -276,7 +276,7 @@ public interface WxService {
    * 换取临时二维码ticket
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
    * </pre>
-   * @param scene_id          参数。目前只支持1--100000
+   * @param scene_id          参数。
    * @param expire_seconds    过期秒数，默认60秒，最小60秒，最大1800秒
    * @return
    * @throws WxErrorException
@@ -288,7 +288,7 @@ public interface WxService {
    * 换取永久二维码ticket
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
    * </pre>
-   * @param scene_id    参数。目前只支持1--100000
+   * @param scene_id    参数。永久二维码时最大值为100000（目前参数只支持1--100000）
    * @return
    * @throws WxErrorException
    */
