@@ -25,17 +25,17 @@ public class WxMenuAPITest {
   @Inject
   protected WxServiceImpl wxService;
   
-  @Test(dataProvider = "menu", enabled = true)
+  @Test(dataProvider = "menu")
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
     wxService.menuCreate(wxMenu);
   }
   
-  @Test(dependsOnMethods = { "testCreateMenu"}, enabled = true)
+  @Test(dependsOnMethods = { "testCreateMenu"})
   public void testGetMenu() throws WxErrorException {
     Assert.assertNotNull(wxService.menuGet());
   }
   
-  @Test(dependsOnMethods = { "testGetMenu"}, enabled = true)
+  @Test(dependsOnMethods = { "testGetMenu"})
   public void testDeleteMenu() throws WxErrorException {
     wxService.menuDelete();
   }

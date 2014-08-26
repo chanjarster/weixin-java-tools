@@ -29,7 +29,7 @@ public class WxMediaAPITest {
 
   private List<String> media_ids = new ArrayList<String>();
   
-  @Test(dataProvider="uploadMedia", enabled = true)
+  @Test(dataProvider="uploadMedia")
   public void testUploadMedia(String mediaType, String fileType, String fileName) throws WxErrorException, IOException {
     InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
     WxMediaUploadResult res = wxService.mediaUpload(mediaType, fileType, inputStream);

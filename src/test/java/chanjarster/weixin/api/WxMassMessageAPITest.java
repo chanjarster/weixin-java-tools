@@ -9,6 +9,7 @@ import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
 import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
+import chanjarster.weixin.bean.WxMassGroupMessage;
 import chanjarster.weixin.bean.WxMassNews;
 import chanjarster.weixin.bean.WxMassNews.WxMassNewsArticle;
 import chanjarster.weixin.bean.WxMassOpenIdsMessage;
@@ -25,7 +26,7 @@ import com.google.inject.Inject;
  * @author chanjarster
  *
  */
-@Test(groups = "massAPI", dependsOnGroups = { "baseAPI", "mediaAPI"})
+@Test(groups = "massAPI", dependsOnGroups = { "baseAPI", "mediaAPI", "groupAPI"})
 @Guice(modules = ApiTestModule.class)
 public class WxMassMessageAPITest {
 
@@ -33,7 +34,7 @@ public class WxMassMessageAPITest {
   protected WxServiceImpl wxService;
 
   @Test
-  public void testSendMassTextByOpenIds() throws WxErrorException {
+  public void testTextMassOpenIdsMessageSend() throws WxErrorException {
     // 发送群发消息
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxMassOpenIdsMessage massMessage = new WxMassOpenIdsMessage();
@@ -47,7 +48,7 @@ public class WxMassMessageAPITest {
   }
 
   @Test(dataProvider="massMessages")
-  public void testSendMassByOpenIds(String massMsgType, String mediaId) throws WxErrorException, IOException {
+  public void testMediaMassOpenIdsMessageSend(String massMsgType, String mediaId) throws WxErrorException, IOException {
     // 发送群发消息
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxMassOpenIdsMessage massMessage = new WxMassOpenIdsMessage();
@@ -60,6 +61,30 @@ public class WxMassMessageAPITest {
     Assert.assertNotNull(massResult.getMsg_id());
   }
 
+  @Test
+  public void testTextMassGroupMessageSend() throws WxErrorException {
+    WxMassGroupMessage massMessage = new WxMassGroupMessage();
+    massMessage.setMsgtype(WxConsts.MASS_MSG_TEXT);
+    massMessage.setContent("测试群发消息\n欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+    massMessage.setGroup_id(wxService.groupGet().get(0).getId());
+    
+    WxMassSendResult massResult = wxService.massGroupMessageSend(massMessage);
+    Assert.assertNotNull(massResult);
+    Assert.assertNotNull(massResult.getMsg_id());
+  }
+  
+  @Test(dataProvider="massMessages")
+  public void testMediaMassGroupMessageSend(String massMsgType, String mediaId) throws WxErrorException, IOException {
+    WxMassGroupMessage massMessage = new WxMassGroupMessage();
+    massMessage.setMsgtype(massMsgType);
+    massMessage.setMedia_id(mediaId);
+    massMessage.setGroup_id(wxService.groupGet().get(0).getId());
+
+    WxMassSendResult massResult = wxService.massGroupMessageSend(massMessage);
+    Assert.assertNotNull(massResult);
+    Assert.assertNotNull(massResult.getMsg_id());
+  }
+  
   @DataProvider
   public Object[][] massMessages() throws WxErrorException, IOException {
     Object[][] messages = new Object[4][];
@@ -134,7 +159,7 @@ public class WxMassMessageAPITest {
       WxMassUploadResult massUploadResult = wxService.massNewsUpload(news);
       Assert.assertNotNull(massUploadResult);
       Assert.assertNotNull(uploadMediaRes.getMedia_id());
-      messages[3] = new Object[] { WxConsts.MASS_MSG_VIDEO, massUploadResult.getMedia_id() };
+      messages[3] = new Object[] { WxConsts.MASS_MSG_NEWS, massUploadResult.getMedia_id() };
     }
     return messages;
   }

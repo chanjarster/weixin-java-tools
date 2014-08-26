@@ -34,6 +34,7 @@ public class WxMassOpenIdsMessage {
    * {@link WxConsts#MASS_MSG_TEXT}
    * {@link WxConsts#MASS_MSG_VIDEO}
    * {@link WxConsts#MASS_MSG_VOICE}
+   * 如果msgtype和media_id不匹配的话，会返回系统繁忙的错误
    * </pre>
    * @param msgtype
    */
