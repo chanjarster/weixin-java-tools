@@ -210,7 +210,7 @@ public interface WxService {
    * @param openid 微信用户的openid 
    * @throws WxErrorException
    */
-  public long groupQueryUserGroup(String openid) throws WxErrorException;
+  public long userGetGroup(String openid) throws WxErrorException;
   
   /**
    * <pre>
@@ -296,7 +296,7 @@ public interface WxService {
 
   /**
    * <pre>
-   * 换取二维码图片
+   * 换取二维码图片文件，jpg格式
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
    * </pre>
    * @param ticket    二维码ticket

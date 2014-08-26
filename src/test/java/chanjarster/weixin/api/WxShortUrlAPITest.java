@@ -9,7 +9,7 @@ import chanjarster.weixin.exception.WxErrorException;
 import com.google.inject.Inject;
 
 /**
- * 测试用户相关的接口
+ * 测试短连接
  * 
  * @author chanjarster
  */

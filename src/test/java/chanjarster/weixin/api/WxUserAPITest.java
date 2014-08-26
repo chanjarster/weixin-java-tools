@@ -8,7 +8,6 @@ import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
 import chanjarster.weixin.bean.result.WxUser;
 import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
-import chanjarster.weixin.util.json.WxGsonBuilder;
 
 import com.google.inject.Inject;
 
@@ -17,7 +16,7 @@ import com.google.inject.Inject;
  * @author chanjarster
  *
  */
-@Test(groups = "userAPI", dependsOnGroups = { "baseAPI" })
+@Test(groups = "userAPI", dependsOnGroups = { "baseAPI", "groupAPI" })
 @Guice(modules = ApiTestModule.class)
 public class WxUserAPITest {
 
@@ -33,7 +32,6 @@ public class WxUserAPITest {
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
     WxUser user = wxService.userInfo(configProvider.getOpenId(), null);
     Assert.assertNotNull(user);
-    System.out.println(WxGsonBuilder.INSTANCE.create().toJson(user));
   }
   
   public void testUserList() throws WxErrorException  {
@@ -44,4 +42,15 @@ public class WxUserAPITest {
       Assert.assertFalse(wxUserList.getOpenids().size() == -1);
   }
     
+  public void testGroupQueryUserGroup() throws WxErrorException {
+    WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
+    long groupid = wxService.userGetGroup(configStorage.getOpenId());
+    Assert.assertTrue(groupid != -1l);
+  }
+  
+  public void getGroupMoveUser() throws WxErrorException {
+    WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
+    wxService.userUpdateGroup(configStorage.getOpenId(), wxService.groupGet().get(3).getId());
+  }
+  
 }

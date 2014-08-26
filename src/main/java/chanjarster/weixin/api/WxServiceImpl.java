@@ -223,7 +223,7 @@ public class WxServiceImpl implements WxService {
     return WxGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxGroup>>(){}.getType());
   }
   
-  public long groupQueryUserGroup(String openid) throws WxErrorException {
+  public long userGetGroup(String openid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/getid";
     JsonObject o = new JsonObject();
     o.addProperty("openid", openid);

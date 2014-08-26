@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
 import chanjarster.weixin.bean.WxGroup;
 import chanjarster.weixin.exception.WxErrorException;
 
@@ -42,22 +41,10 @@ public class WxGroupAPITest {
     }
   }
   
-  @Test(dependsOnMethods="testGroupCreate")
-  public void testGroupQueryUserGroup() throws WxErrorException {
-    WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
-    long groupid = wxService.groupQueryUserGroup(configStorage.getOpenId());
-    Assert.assertTrue(groupid != -1l);
-  }
-  
   @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
   public void getGroupUpdate() throws WxErrorException {
     group.setName("分组改名");
     wxService.groupUpdate(group);
   }
 
-  @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
-  public void getGroupMoveUser() throws WxErrorException {
-    WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
-    wxService.userUpdateGroup(configStorage.getOpenId(), group.getId());
-  }
 }

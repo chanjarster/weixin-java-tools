@@ -6,13 +6,13 @@
 			<class name="chanjarster.weixin.api.WxBaseAPITest" />
 			<class name="chanjarster.weixin.api.WxCustomMessageAPITest" />
 			<class name="chanjarster.weixin.api.WxMenuAPITest" />
-			<class name="chanjarster.weixin.api.WxMessageRouterTest" />
+			<class name="chanjarster.weixin.api.WxGroupAPITest" />
 			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
 			<class name="chanjarster.weixin.api.WxMediaAPITest" />
-			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
       <class name="chanjarster.weixin.api.WxUserAPITest" />
       <class name="chanjarster.weixin.api.WxQrCodeAPITest" />
       <class name="chanjarster.weixin.api.WxShortUrlAPITest" />
+			<class name="chanjarster.weixin.api.WxMessageRouterTest" />
 		</classes>
 	</test>
 
