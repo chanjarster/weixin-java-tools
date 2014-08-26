@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import chanjarster.weixin.bean.WxXmlMessage;
 
@@ -37,8 +39,10 @@ import chanjarster.weixin.bean.WxXmlMessage;
  */
 public class WxMessageRouter {
   
-  private List<Rule> rules = new ArrayList<Rule>();
+  private final List<Rule> rules = new ArrayList<Rule>();
 
+  private final ExecutorService es = Executors.newCachedThreadPool();
+  
   /**
    * 开始一个新的Route规则
    * @return
@@ -51,21 +55,52 @@ public class WxMessageRouter {
    * 处理微信消息
    * @param wxMessage
    */
-  public void route(WxXmlMessage wxMessage) {
-    for (Rule rule : rules) {
+  public WxXmlMessage route(final WxXmlMessage wxMessage) {
+    final List<Rule> matchRules = new ArrayList<Rule>();
+    // 收集匹配的规则
+    for (final Rule rule : rules) {
       if (rule.test(wxMessage)) {
-        rule.service(wxMessage);
-        if(!rule.reEnter) {
-          break;
-        }
+        matchRules.add(rule);
       }
     }
+    
+    if (matchRules.size() == 0) {
+      return null;
+    }
+    
+    if (matchRules.get(0).async) {
+      // 只要第一个是异步的，那就异步执行
+      // 在另一个线程里执行
+      es.submit(new Runnable() {
+        public void run() {
+          for (final Rule rule : matchRules) {
+            rule.service(wxMessage);
+            if (!rule.reEnter) {
+              break;
+            }
+          }
+        }
+      });
+      return null;
+    }
+    
+    WxXmlMessage res = null;
+    for (final Rule rule : matchRules) {
+      // 返回最后一个匹配规则的结果
+      res = rule.service(wxMessage);
+      if (!rule.reEnter) {
+        break;
+      }
+    }
+    return res;
   }
   
   public static class Rule {
     
     private final WxMessageRouter routerBuilder;
 
+    private boolean async = true;
+    
     private String msgType;
 
     private String event;
@@ -82,6 +117,16 @@ public class WxMessageRouter {
     
     protected Rule(WxMessageRouter routerBuilder) {
       this.routerBuilder = routerBuilder;
+    }
+    
+    /**
+     * 设置是否异步执行，默认是true
+     * @param async
+     * @return
+     */
+    public Rule async(boolean async) {
+      this.async = async;
+      return this;
     }
     
     /**
@@ -209,21 +254,22 @@ public class WxMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected void service(WxXmlMessage wxMessage) {
+    protected WxXmlMessage service(WxXmlMessage wxMessage) {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMessageInterceptor interceptor : this.interceptors) {
         if (!interceptor.intercept(wxMessage, context)) {
-          return;
+          return null;
         }
       }
       
       // 交给handler处理
-      for (WxMessageHandler interceptor : this.handlers) {
-        interceptor.handle(wxMessage, context);
+      WxXmlMessage res = null;
+      for (WxMessageHandler handler : this.handlers) {
+        // 返回最后handler的结果
+        res = handler.handle(wxMessage, context);
       }
-      
-      return;
+      return res;
     }
     
   }

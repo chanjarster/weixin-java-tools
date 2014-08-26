@@ -45,6 +45,26 @@ router.route(message);
 3. 规则的结束必须用``Rule.end()``或者``Rule.next()``，否则不会生效
 4. 具体使用可以看源代码中的``WxMessageRouterTest``单元测试，或者查看Javadoc
 
+### 同步回复
+
+``WxMessageRouter``默认使用异步的方式处理消息，如果要使用同步的方式处理消息，那么可以这样：
+
+```java
+router
+  .rule()
+    .async(false)
+    .handler(handler)
+  .end()
+;
+
+WxXmlMessage message = WxXmlMessage.fromXml(xml);
+// 获得同步的返回结果
+WxXmlMessage res = router.route(message);
+String xml = res.toXml();
+// ... 将xml写入HttpServletResponse
+```
+
+
 ## 微信Java API
 
 使用``WxService``可以调用微信API。目前已实现除“微信小店”以外的所有功能。

@@ -3,7 +3,6 @@ package chanjarster.weixin.api;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -17,40 +16,78 @@ import chanjarster.weixin.bean.WxXmlMessage;
 @Test
 public class WxMessageRouterTest {
   
-  protected StringBuilder sb;
-  protected WxMessageRouter router;
-  
-  @BeforeMethod
-  public void prepare() {
-    this.sb = new StringBuilder();
-    this.router = new WxMessageRouter();
+  @Test(enabled = false)
+  public void prepare(boolean async, StringBuffer sb, WxMessageRouter router) {
     router
       .rule()
+        .async(async)
         .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1").content("CONTENT_1")
         .handler(new WxEchoMessageHandler(sb, "COMBINE_4"))
       .end()
       .rule()
+        .async(async)
         .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1")
         .handler(new WxEchoMessageHandler(sb, "COMBINE_3"))
       .end()
       .rule()
+        .async(async)
         .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK)
         .handler(new WxEchoMessageHandler(sb, "COMBINE_2"))
       .end()
-      .rule().msgType(WxConsts.XML_MSG_TEXT).handler(new WxEchoMessageHandler(sb, WxConsts.XML_MSG_TEXT)).end()
-      .rule().event(WxConsts.EVT_CLICK).handler(new WxEchoMessageHandler(sb, WxConsts.EVT_CLICK)).end()
-      .rule().eventKey("KEY_1").handler(new WxEchoMessageHandler(sb, "KEY_1")).end()
-      .rule().content("CONTENT_1").handler(new WxEchoMessageHandler(sb, "CONTENT_1")).end()
-      .rule().handler(new WxEchoMessageHandler(sb, "ALL")).end();
+      .rule().async(async).msgType(WxConsts.XML_MSG_TEXT).handler(new WxEchoMessageHandler(sb, WxConsts.XML_MSG_TEXT)).end()
+      .rule().async(async).event(WxConsts.EVT_CLICK).handler(new WxEchoMessageHandler(sb, WxConsts.EVT_CLICK)).end()
+      .rule().async(async).eventKey("KEY_1").handler(new WxEchoMessageHandler(sb, "KEY_1")).end()
+      .rule().async(async).content("CONTENT_1").handler(new WxEchoMessageHandler(sb, "CONTENT_1")).end()
+      .rule().async(async).handler(new WxEchoMessageHandler(sb, "ALL")).end();
     ;
   }
   
   @Test(dataProvider="messages-1")
-  public void testSimple(WxXmlMessage message, String expected) {
+  public void testSync(WxXmlMessage message, String expected) {
+    StringBuffer sb = new StringBuffer();
+    WxMessageRouter router = new WxMessageRouter();
+    prepare(false, sb, router);
     router.route(message);
     Assert.assertEquals(sb.toString(), expected);
   }
   
+  @Test(dataProvider="messages-1")
+  public void testAsync(WxXmlMessage message, String expected) throws InterruptedException {
+    StringBuffer sb = new StringBuffer();
+    WxMessageRouter router = new WxMessageRouter();
+    prepare(true,  sb, router);
+    router.route(message);
+    Thread.sleep(500l);
+    Assert.assertEquals(sb.toString(), expected);
+  }
+  
+  public void testConcurrency() throws InterruptedException {
+    final WxMessageRouter router = new WxMessageRouter();
+    router.rule().handler(new WxMessageHandler() {
+      @Override
+      public WxXmlMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
+        // TODO Auto-generated method stub
+        return null;
+      }
+    }).end();
+    
+    final WxXmlMessage m = new WxXmlMessage();
+    Runnable r = new Runnable() {
+      @Override
+      public void run() {
+        router.route(m);
+        try {
+          Thread.sleep(1000l);
+        } catch (InterruptedException e) {
+        }
+      }
+    };
+    for (int i = 0; i < 10; i++) {
+      new Thread(r).start();
+    }
+    
+    Thread.sleep(1000l * 2);
+  }
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxXmlMessage message1 = new WxXmlMessage();
@@ -98,17 +135,18 @@ public class WxMessageRouterTest {
 
   public static class WxEchoMessageHandler implements WxMessageHandler {
 
-    private StringBuilder sb;
+    private StringBuffer sb;
     private String echoStr;
 
-    public WxEchoMessageHandler(StringBuilder sb, String echoStr) {
+    public WxEchoMessageHandler(StringBuffer sb, String echoStr) {
       this.sb = sb;
       this.echoStr = echoStr;
     }
 
     @Override
-    public void handle(WxXmlMessage wxMessage, Map<String, Object> context) {
+    public WxXmlMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
       sb.append(this.echoStr).append(',');
+      return null;
     }
 
   }
