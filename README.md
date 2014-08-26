@@ -50,7 +50,8 @@ router.route(message);
 
 ### 构造WxService
 
-``WxService``依赖于``WxConfigStorage``，``WxConfigStorage``是微信客户端配置所存储的地方，本工具提供了默认的``WxInMemoryConfigStorage``，这是一个存储在内存中的实现，生产环境中需要开发人员提供自己的实现。
+``WxService``依赖于``WxConfigStorage``，``WxConfigStorage``是微信客户端配置所存储的地方，本工具提供了默认基于内存的实现：``WxInMemoryConfigStorage``。您可能在实际使用时需要提供自己的实现，比如在集群环境下存储到数据库中。
+
 
 ```java
 WxConfigStorage config = new WxInMemoryConfigStorage();
