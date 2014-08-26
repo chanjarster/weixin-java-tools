@@ -15,6 +15,7 @@ import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
+import chanjarster.weixin.bean.result.WxQrCodeTicket;
 import chanjarster.weixin.bean.result.WxUser;
 import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
@@ -269,7 +270,30 @@ public interface WxService {
    * @throws WxErrorException
    */
   public WxUserList userList(String next_openid) throws WxErrorException;
-  
+
+  /**
+   * <pre>
+   * 换取临时二维码ticket
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   * @param scene_id          参数。目前只支持1--100000
+   * @param expire_seconds    过期秒数，默认60秒，最小60秒，最大1800秒
+   * @return
+   * @throws WxErrorException
+   */
+  public WxQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 换取永久二维码ticket
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   * @param scene_id    参数。目前只支持1--100000
+   * @return
+   * @throws WxErrorException
+   */
+  public WxQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
+
   /**
    * 注入 {@link WxConfigStorage} 的实现
    * @param wxConfigProvider

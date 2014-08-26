@@ -31,6 +31,7 @@ import chanjarster.weixin.bean.result.WxError;
 import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
+import chanjarster.weixin.bean.result.WxQrCodeTicket;
 import chanjarster.weixin.bean.result.WxUser;
 import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
@@ -261,6 +262,35 @@ public class WxServiceImpl implements WxService {
     String url = "https://api.weixin.qq.com/cgi-bin/user/get";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
     return WxUserList.fromJson(responseContent);
+  }
+  
+  public WxQrCodeTicket qrCodeCreateTmpTicket(int scene_id, Integer expire_seconds) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
+    JsonObject json = new JsonObject();
+    json.addProperty("action_name", "QR_SCENE");
+    if(expire_seconds != null) {
+      json.addProperty("expire_seconds", expire_seconds);
+    }
+    JsonObject actionInfo = new JsonObject();
+    JsonObject scene = new JsonObject();
+    scene.addProperty("scene_id", scene_id);
+    actionInfo.add("scene", scene);
+    json.add("action_info", actionInfo);
+    String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
+    return WxQrCodeTicket.fromJson(responseContent);
+  }
+  
+  public WxQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create";
+    JsonObject json = new JsonObject();
+    json.addProperty("action_name", "QR_LIMIT_SCENE");
+    JsonObject actionInfo = new JsonObject();
+    JsonObject scene = new JsonObject();
+    scene.addProperty("scene_id", scene_id);
+    actionInfo.add("scene", scene);
+    json.add("action_info", actionInfo);
+    String responseContent = execute(new SimplePostRequestExecutor(), url, json.toString());
+    return WxQrCodeTicket.fromJson(responseContent);
   }
   
   /**

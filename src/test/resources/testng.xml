@@ -10,6 +10,7 @@
 			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
 			<class name="chanjarster.weixin.api.WxMediaAPITest" />
 			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
+      <class name="chanjarster.weixin.api.WxUserAPITest" />
 		</classes>
 	</test>
 
