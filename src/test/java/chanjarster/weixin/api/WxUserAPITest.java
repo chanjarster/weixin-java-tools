@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import chanjarster.weixin.api.ApiTestModule.WxXmlConfigStorage;
 import chanjarster.weixin.bean.result.WxUser;
+import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
@@ -35,4 +36,12 @@ public class WxUserAPITest {
     System.out.println(WxGsonBuilder.INSTANCE.create().toJson(user));
   }
   
+  public void testUserList() throws WxErrorException  {
+      WxUserList wxUserList = wxService.userList(null);
+      Assert.assertNotNull(wxUserList);
+      Assert.assertFalse(wxUserList.getCount() == -1);
+      Assert.assertFalse(wxUserList.getTotal() == -1);
+      Assert.assertFalse(wxUserList.getOpenids().size() == -1);
+  }
+    
 }

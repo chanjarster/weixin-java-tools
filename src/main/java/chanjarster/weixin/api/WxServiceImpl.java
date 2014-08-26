@@ -32,6 +32,7 @@ import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.bean.result.WxUser;
+import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
 import chanjarster.weixin.util.fs.FileUtil;
 import chanjarster.weixin.util.http.MediaDownloadRequestExecutor;
@@ -42,7 +43,6 @@ import chanjarster.weixin.util.http.SimplePostRequestExecutor;
 import chanjarster.weixin.util.json.GsonHelper;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
@@ -254,7 +254,13 @@ public class WxServiceImpl implements WxService {
     String url = "https://api.weixin.qq.com/cgi-bin/user/info";
     lang = lang == null ? "zh_CN" : lang;
     String responseContent = execute(new SimpleGetRequestExecutor(), url, "openid=" + openid + "&lang=" + lang);
-    ;return WxUser.fromJson(responseContent);
+    return WxUser.fromJson(responseContent);
+  }
+  
+  public WxUserList userList(String next_openid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/user/get";
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, next_openid == null ? null : "next_openid=" + next_openid);
+    return WxUserList.fromJson(responseContent);
   }
   
   /**

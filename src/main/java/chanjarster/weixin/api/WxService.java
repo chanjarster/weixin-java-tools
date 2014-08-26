@@ -16,6 +16,7 @@ import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
 import chanjarster.weixin.bean.result.WxUser;
+import chanjarster.weixin.bean.result.WxUserList;
 import chanjarster.weixin.exception.WxErrorException;
 
 /**
@@ -258,6 +259,17 @@ public interface WxService {
    */
   public WxUser userInfo(String openid, String lang) throws WxErrorException;
 
+  /**
+   * <pre>
+   * 获取关注者列表
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取关注者列表
+   * </pre>
+   * @param next_openid  可选，第一个拉取的OPENID，null为从头开始拉取
+   * @return
+   * @throws WxErrorException
+   */
+  public WxUserList userList(String next_openid) throws WxErrorException;
+  
   /**
    * 注入 {@link WxConfigStorage} 的实现
    * @param wxConfigProvider
