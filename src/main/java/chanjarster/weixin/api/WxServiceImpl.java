@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.security.MessageDigest;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -226,7 +225,9 @@ public class WxServiceImpl implements WxService {
   
   public long groupQueryUserGroup(String openid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/getid";
-    String responseContent = execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"openid\":\"{0}\"}", openid));
+    JsonObject o = new JsonObject();
+    o.addProperty("openid", openid);
+    String responseContent = execute(new SimplePostRequestExecutor(), url, o.toString());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return GsonHelper.getAsLong(tmpJsonElement.getAsJsonObject().get("groupid"));
   }
@@ -297,6 +298,16 @@ public class WxServiceImpl implements WxService {
   public File qrCodePicture(WxQrCodeTicket ticket) throws WxErrorException {
     String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
     return execute(new QrCodeRequestExecutor(), url, ticket);
+  }
+  
+  public String shortUrl(String long_url) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
+    JsonObject o = new JsonObject();
+    o.addProperty("action", "long2short");
+    o.addProperty("long_url", long_url);
+    String responseContent = execute(new SimplePostRequestExecutor(), url, o.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
   
   /**

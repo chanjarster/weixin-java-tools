@@ -306,6 +306,17 @@ public interface WxService {
   public File qrCodePicture(WxQrCodeTicket ticket) throws WxErrorException;
 
   /**
+   * <pre>
+   * 长链接转短链接接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=长链接转短链接接口
+   * </pre>
+   * @param long_url
+   * @return
+   * @throws WxErrorException
+   */
+  public String shortUrl(String long_url) throws WxErrorException;
+  
+  /**
    * 注入 {@link WxConfigStorage} 的实现
    * @param wxConfigProvider
    */

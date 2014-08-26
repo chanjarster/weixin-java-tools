@@ -11,6 +11,8 @@
 			<class name="chanjarster.weixin.api.WxMediaAPITest" />
 			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
       <class name="chanjarster.weixin.api.WxUserAPITest" />
+      <class name="chanjarster.weixin.api.WxQrCodeAPITest" />
+      <class name="chanjarster.weixin.api.WxShortUrlAPITest" />
 		</classes>
 	</test>
 
