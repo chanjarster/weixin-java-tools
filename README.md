@@ -5,7 +5,7 @@ weixin-java-tools
 
 本项目的特性：
 
-1. 不基于Servlet，提供更多的灵活性
+1. 不基于Servlet、和其他MVC框架，仅作为工具使用，提供更多的灵活性
 2. 详尽的单元测试代码，可以拿来当example用
 3. 详尽的javadoc
 4. access token过期自动刷新的功能
