@@ -15,6 +15,7 @@ import chanjarster.weixin.bean.WxMenu;
 import chanjarster.weixin.bean.result.WxMassSendResult;
 import chanjarster.weixin.bean.result.WxMassUploadResult;
 import chanjarster.weixin.bean.result.WxMediaUploadResult;
+import chanjarster.weixin.bean.result.WxUser;
 import chanjarster.weixin.exception.WxErrorException;
 
 /**
@@ -238,13 +239,24 @@ public interface WxService {
    * <pre>
    * 设置用户备注名接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=设置用户备注名接口
-   * 
    * </pre>
    * @param openid    用户openid
    * @param remark    备注名
    * @throws WxErrorException
    */
   public void userUpdateRemark(String openid, String remark) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取用户基本信息
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取用户基本信息
+   * </pre>
+   * @param openid  用户openid
+   * @param lang    语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语 
+   * @return
+   * @throws WxErrorException
+   */
+  public WxUser userInfo(String openid, String lang) throws WxErrorException;
 
   /**
    * 注入 {@link WxConfigStorage} 的实现
