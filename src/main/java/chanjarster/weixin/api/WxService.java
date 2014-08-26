@@ -82,7 +82,7 @@ public interface WxService {
   /**
    * <pre>
    * 下载多媒体文件
-   * 
+   * 根据微信文档，视频文件下载不了，会返回null
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    * @params media_id

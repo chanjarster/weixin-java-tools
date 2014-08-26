@@ -1,6 +1,5 @@
 package chanjarster.weixin.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -58,8 +57,7 @@ public class WxMediaAPITest {
   
   @Test(dependsOnMethods = { "testUploadMedia" }, dataProvider="downloadMedia")
   public void testDownloadMedia(String media_id) throws WxErrorException {
-    File file = wxService.mediaDownload(media_id);
-    Assert.assertNotNull(file);
+    wxService.mediaDownload(media_id);
   }
   
   @DataProvider
