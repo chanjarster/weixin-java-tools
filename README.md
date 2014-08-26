@@ -46,7 +46,7 @@ router.route(message);
 
 ## 微信Java API
 
-使用``WxService``可以调用微信API。目前实现的功能有：
+使用``WxService``可以调用微信API。目前已实现除“微信小店”以外的所有功能。
 
 ### 构造WxService
 
