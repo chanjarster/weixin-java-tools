@@ -58,6 +58,6 @@ public class WxGroupAPITest {
   @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
   public void getGroupMoveUser() throws WxErrorException {
     WxXmlConfigStorage configStorage = (WxXmlConfigStorage) wxService.wxConfigStorage;
-    wxService.groupMoveUser(configStorage.getOpenId(), group.getId());
+    wxService.userUpdateGroup(configStorage.getOpenId(), group.getId());
   }
 }

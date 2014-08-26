@@ -232,7 +232,19 @@ public interface WxService {
    * @param to_groupid  移动到的分组id
    * @throws WxErrorException
    */
-  public void groupMoveUser(String openid, long to_groupid) throws WxErrorException;
+  public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 设置用户备注名接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=设置用户备注名接口
+   * 
+   * </pre>
+   * @param openid    用户openid
+   * @param remark    备注名
+   * @throws WxErrorException
+   */
+  public void userUpdateRemark(String openid, String remark) throws WxErrorException;
 
   /**
    * 注入 {@link WxConfigStorage} 的实现

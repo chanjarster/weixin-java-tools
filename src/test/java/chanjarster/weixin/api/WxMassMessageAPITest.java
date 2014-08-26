@@ -32,7 +32,7 @@ public class WxMassMessageAPITest {
   @Inject
   protected WxServiceImpl wxService;
 
-  @Test(enabled = false)
+  @Test
   public void testSendMassTextByOpenIds() throws WxErrorException {
     // 发送群发消息
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;
@@ -46,7 +46,7 @@ public class WxMassMessageAPITest {
     Assert.assertNotNull(massResult.getMsg_id());
   }
 
-  @Test(enabled = true, dataProvider="massMessages")
+  @Test(dataProvider="massMessages")
   public void testSendMassByOpenIds(String massMsgType, String mediaId) throws WxErrorException, IOException {
     // 发送群发消息
     WxXmlConfigStorage configProvider = (WxXmlConfigStorage) wxService.wxConfigStorage;

@@ -42,6 +42,7 @@ import chanjarster.weixin.util.json.GsonHelper;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -196,10 +197,15 @@ public class WxServiceImpl implements WxService {
   
   public WxGroup groupCreate(String name) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
+    JsonObject json = new JsonObject();
+    JsonObject groupJson = new JsonObject();
+    json.add("group", groupJson);
+    groupJson.addProperty("name", name);
+    
     String responseContent = execute(
         new SimplePostRequestExecutor(), 
         url, 
-        MessageFormat.format("'{'\"group\":'{'\"name\":\"{0}\"}}", name));
+        json.toString());
     return WxGroup.fromJson(responseContent);
   }
 
@@ -226,9 +232,20 @@ public class WxServiceImpl implements WxService {
     execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
   
-  public void groupMoveUser(String openid, long to_groupid) throws WxErrorException {
+  public void userUpdateGroup(String openid, long to_groupid) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/groups/members/update";
-    execute(new SimplePostRequestExecutor(), url, MessageFormat.format("'{'\"openid\":\"{0}\", \"to_groupid\":{1,number,#}}", openid, to_groupid));
+    JsonObject json = new JsonObject();
+    json.addProperty("openid", openid);
+    json.addProperty("to_groupid", to_groupid);
+    execute(new SimplePostRequestExecutor(), url, json.toString());
+  }
+  
+  public void userUpdateRemark(String openid, String remark) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
+    JsonObject json = new JsonObject();
+    json.addProperty("openid", openid);
+    json.addProperty("remark", remark);
+    execute(new SimplePostRequestExecutor(), url, json.toString());
   }
   
   /**
