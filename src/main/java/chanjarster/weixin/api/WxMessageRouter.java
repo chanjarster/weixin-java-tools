@@ -54,8 +54,8 @@ public class WxMessageRouter {
   public void route(WxXmlMessage wxMessage) {
     for (Rule rule : rules) {
       if (rule.test(wxMessage)) {
-        boolean reEnter = rule.service(wxMessage);
-        if (!reEnter) {
+        rule.service(wxMessage);
+        if(!rule.reEnter) {
           break;
         }
       }
@@ -209,12 +209,12 @@ public class WxMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected boolean service(WxXmlMessage wxMessage) {
+    protected void service(WxXmlMessage wxMessage) {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMessageInterceptor interceptor : this.interceptors) {
         if (!interceptor.intercept(wxMessage, context)) {
-          return this.reEnter;
+          return;
         }
       }
       
@@ -223,7 +223,7 @@ public class WxMessageRouter {
         interceptor.handle(wxMessage, context);
       }
       
-      return this.reEnter;
+      return;
     }
     
   }
