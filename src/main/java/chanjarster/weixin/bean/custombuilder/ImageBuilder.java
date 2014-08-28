@@ -1,24 +1,24 @@
-package chanjarster.weixin.bean.custom;
+package chanjarster.weixin.bean.custombuilder;
 
 import chanjarster.weixin.api.WxConsts;
 import chanjarster.weixin.bean.WxCustomMessage;
 
 /**
- * 语音消息builder
+ * 获得消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.VOICE().media_id(...).touser(...).build();
+ * 用法: WxCustomMessage m = WxCustomMessage.IMAGE().media_id(...).touser(...).build();
  * </pre>
  * @author chanjarster
  *
  */
-public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
+public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   private String media_id;
 
-  public VoiceBuilder() {
-    this.msgtype = WxConsts.CUSTOM_MSG_VOICE;
+  public ImageBuilder() {
+    this.msgtype = WxConsts.CUSTOM_MSG_IMAGE;
   }
 
-  public VoiceBuilder media_id(String media_id) {
+  public ImageBuilder media_id(String media_id) {
     this.media_id = media_id;
     return this;
   }

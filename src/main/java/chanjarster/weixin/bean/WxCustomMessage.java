@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanjarster.weixin.api.WxConsts;
-import chanjarster.weixin.bean.custom.ImageBuilder;
-import chanjarster.weixin.bean.custom.MusicBuilder;
-import chanjarster.weixin.bean.custom.NewsArticleBuilder;
-import chanjarster.weixin.bean.custom.NewsBuilder;
-import chanjarster.weixin.bean.custom.TextBuilder;
-import chanjarster.weixin.bean.custom.VideoBuilder;
-import chanjarster.weixin.bean.custom.VoiceBuilder;
+import chanjarster.weixin.bean.custombuilder.ImageBuilder;
+import chanjarster.weixin.bean.custombuilder.MusicBuilder;
+import chanjarster.weixin.bean.custombuilder.NewsArticleBuilder;
+import chanjarster.weixin.bean.custombuilder.NewsBuilder;
+import chanjarster.weixin.bean.custombuilder.TextBuilder;
+import chanjarster.weixin.bean.custombuilder.VideoBuilder;
+import chanjarster.weixin.bean.custombuilder.VoiceBuilder;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**

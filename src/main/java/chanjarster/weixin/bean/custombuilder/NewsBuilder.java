@@ -1,4 +1,4 @@
-package chanjarster.weixin.bean.custom;
+package chanjarster.weixin.bean.custombuilder;
 
 import java.util.ArrayList;
 import java.util.List;
