@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chanjarster.weixin.api.WxConsts;
+import chanjarster.weixin.bean.custom.ImageBuilder;
+import chanjarster.weixin.bean.custom.MusicBuilder;
+import chanjarster.weixin.bean.custom.NewsArticleBuilder;
+import chanjarster.weixin.bean.custom.NewsBuilder;
+import chanjarster.weixin.bean.custom.TextBuilder;
+import chanjarster.weixin.bean.custom.VideoBuilder;
+import chanjarster.weixin.bean.custom.VoiceBuilder;
 import chanjarster.weixin.util.json.WxGsonBuilder;
 
 /**
@@ -135,4 +142,61 @@ public class WxCustomMessage {
     }
     
   }
+  
+  /**
+   * 获得文本消息builder
+   * @return
+   */
+  public static TextBuilder TEXT() {
+    return new TextBuilder();
+  }
+
+  /**
+   * 获得图片消息builder
+   * @return
+   */
+  public static ImageBuilder IMAGE() {
+    return new ImageBuilder();
+  }
+
+  /**
+   * 获得语音消息builder
+   * @return
+   */
+  public static VoiceBuilder VOICE() {
+    return new VoiceBuilder();
+  }
+  
+  /**
+   * 获得视频消息builder
+   * @return
+   */
+  public static VideoBuilder VIDEO() {
+    return new VideoBuilder();
+  }
+  
+  /**
+   * 获得音乐消息builder
+   * @return
+   */
+  public static MusicBuilder MUSIC() {
+    return new MusicBuilder();
+  }
+  
+  /**
+   * 获得图文消息builder
+   * @return
+   */
+  public static NewsBuilder NEWS() {
+    return new NewsBuilder();
+  }
+  
+  /**
+   * 获得图文消息文章builder
+   * @return
+   */
+  public static NewsArticleBuilder NEWS_ARTICLE() {
+    return new NewsArticleBuilder();
+  }
+  
 }
