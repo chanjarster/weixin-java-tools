@@ -7,6 +7,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import chanjarster.weixin.bean.outxmlbuilder.ImageBuilder;
+import chanjarster.weixin.bean.outxmlbuilder.MusicBuilder;
+import chanjarster.weixin.bean.outxmlbuilder.NewsBuilder;
+import chanjarster.weixin.bean.outxmlbuilder.TextBuilder;
+import chanjarster.weixin.bean.outxmlbuilder.VideoBuilder;
+import chanjarster.weixin.bean.outxmlbuilder.VoiceBuilder;
 import chanjarster.weixin.util.xml.AdapterCDATA;
 import chanjarster.weixin.util.xml.XmlTransformer;
 
@@ -69,4 +75,51 @@ public class WxXmlOutMessage {
     return null;
   }
   
+  /**
+   * 获得文本消息builder
+   * @return
+   */
+  public static TextBuilder TEXT() {
+    return new TextBuilder();
+  }
+
+  /**
+   * 获得图片消息builder
+   * @return
+   */
+  public static ImageBuilder IMAGE() {
+    return new ImageBuilder();
+  }
+
+  /**
+   * 获得语音消息builder
+   * @return
+   */
+  public static VoiceBuilder VOICE() {
+    return new VoiceBuilder();
+  }
+  
+  /**
+   * 获得视频消息builder
+   * @return
+   */
+  public static VideoBuilder VIDEO() {
+    return new VideoBuilder();
+  }
+  
+  /**
+   * 获得音乐消息builder
+   * @return
+   */
+  public static MusicBuilder MUSIC() {
+    return new MusicBuilder();
+  }
+  
+  /**
+   * 获得图文消息builder
+   * @return
+   */
+  public static NewsBuilder NEWS() {
+    return new NewsBuilder();
+  }
 }

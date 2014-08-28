@@ -6,7 +6,6 @@ import java.util.List;
 import chanjarster.weixin.api.WxConsts;
 import chanjarster.weixin.bean.custombuilder.ImageBuilder;
 import chanjarster.weixin.bean.custombuilder.MusicBuilder;
-import chanjarster.weixin.bean.custombuilder.NewsArticleBuilder;
 import chanjarster.weixin.bean.custombuilder.NewsBuilder;
 import chanjarster.weixin.bean.custombuilder.TextBuilder;
 import chanjarster.weixin.bean.custombuilder.VideoBuilder;
@@ -189,14 +188,6 @@ public class WxCustomMessage {
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
-  }
-  
-  /**
-   * 获得图文消息文章builder
-   * @return
-   */
-  public static NewsArticleBuilder NEWS_ARTICLE() {
-    return new NewsArticleBuilder();
   }
   
 }

@@ -11,12 +11,6 @@ import chanjarster.weixin.bean.WxCustomMessage.WxArticle;
  * 图文消息builder
  * <pre>
  * 用法:
- * WxCustomMessage.WxArticle article = WxCustomMessage.NEWS_ARTICLE()
- *                              .url(...)
- *                              .title(...)
- *                              .picurl(...)
- *                              .description(...)
- *                              .build();
  * WxCustomMessage m = WxCustomMessage.NEWS().addArticle(article).touser(...).build();
  * </pre>
  * @author chanjarster

@@ -9,8 +9,6 @@ public abstract class BaseBuilder<BuilderType, ValueType> {
   
   protected String fromUserName;
   
-  protected String msgtype;
-
   public BuilderType touser(String touser) {
     this.toUserName = touser;
     return (BuilderType) this;
@@ -26,7 +24,6 @@ public abstract class BaseBuilder<BuilderType, ValueType> {
   public void setCommon(WxXmlOutMessage m) {
     m.setToUserName(this.toUserName);
     m.setFromUserName(this.fromUserName);
-    m.setMsgType(this.msgtype);
     m.setCreateTime(System.currentTimeMillis() / 1000l);
   }
   
