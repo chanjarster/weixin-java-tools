@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Weixin-java-tool-suite" verbose="1">
-	<test name="API_Test" enabled="false">
+	<test name="API_Test">
 		<classes>
 			<class name="chanjarster.weixin.api.WxBaseAPITest" />
 			<class name="chanjarster.weixin.api.WxCustomMessageAPITest" />
