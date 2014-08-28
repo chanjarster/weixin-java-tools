@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import chanjarster.weixin.bean.WxXmlMessage;
+import chanjarster.weixin.bean.WxXmlOutMessage;
 
 /**
  * 测试消息路由器
@@ -65,7 +66,7 @@ public class WxMessageRouterTest {
     final WxMessageRouter router = new WxMessageRouter();
     router.rule().handler(new WxMessageHandler() {
       @Override
-      public WxXmlMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
+      public WxXmlOutMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
         // TODO Auto-generated method stub
         return null;
       }
@@ -144,7 +145,7 @@ public class WxMessageRouterTest {
     }
 
     @Override
-    public WxXmlMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
+    public WxXmlOutMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
       sb.append(this.echoStr).append(',');
       return null;
     }

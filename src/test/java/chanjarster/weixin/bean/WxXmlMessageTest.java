@@ -61,33 +61,4 @@ public class WxXmlMessageTest {
     Assert.assertEquals(wxMessage.getPrecision(), new Double(119.385040));
   }
   
-  public void testToXml() {
-    WxXmlMessage wxMessage = new WxXmlMessage();
-    wxMessage.setToUserName("toUser");
-    wxMessage.setFromUserName("fromUser");
-    wxMessage.setCreateTime(new Long(1348831860l));
-    wxMessage.setMsgType(WxConsts.XML_MSG_TEXT);
-    wxMessage.setContent("this is a test");
-    wxMessage.setMsgId(new Long(1234567890123456l));
-    wxMessage.setPicUrl("this is a url");
-    wxMessage.setMediaId("media_id");
-    wxMessage.setFormat("Format");
-    wxMessage.setThumbMediaId("thumb_media_id");
-    wxMessage.setLocation_X(new Double(23.134521d));
-    wxMessage.setLocation_Y(new Double(113.358803d));
-    wxMessage.setScale(new Double(20));
-    wxMessage.setLabel("位置信息");
-    wxMessage.setDescription("公众平台官网链接");
-    wxMessage.setUrl("url");
-    wxMessage.setTitle("公众平台官网链接");
-    wxMessage.setEvent("subscribe");
-    wxMessage.setEventKey("qrscene_123123");
-    wxMessage.setTicket("TICKET");
-    wxMessage.setLatitude(new Double(23.137466));
-    wxMessage.setLongitude(new Double(113.352425));
-    wxMessage.setPrecision(new Double(119.385040));
-    
-    String xml = wxMessage.toXml();
-    Assert.assertEquals(wxMessage, WxXmlMessage.fromXml(xml));
-  }
 }

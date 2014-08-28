@@ -132,19 +132,19 @@ public class WxXmlMessage {
   /**
    * group_id下粉丝数；或者openid_list中的粉丝数
    */
-  private int TotalCount;
+  private Integer TotalCount;
   /**
    * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，FilterCount = SentCount + ErrorCount 
    */
-  private int FilterCount;
+  private Integer FilterCount;
   /**
    * 发送成功的粉丝数
    */
-  private int SentCount;
+  private Integer SentCount;
   /**
    * 发送失败的粉丝数
    */
-  private int ErrorCount;
+  private Integer ErrorCount;
   
   public String getToUserName() {
     return ToUserName;
@@ -340,14 +340,6 @@ public class WxXmlMessage {
     FromUserName = fromUserName;
   }
   
-  public String toXml() {
-    try {
-      return XmlTransformer.toXml(WxXmlMessage.class, this);
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
-  }
-  
   public static WxXmlMessage fromXml(String xml) {
     try {
       return XmlTransformer.fromXml(WxXmlMessage.class, xml);
@@ -370,28 +362,28 @@ public class WxXmlMessage {
   public void setStatus(String status) {
     Status = status;
   }
-  public int getTotalCount() {
+  public Integer getTotalCount() {
     return TotalCount;
   }
-  public void setTotalCount(int totalCount) {
+  public void setTotalCount(Integer totalCount) {
     TotalCount = totalCount;
   }
-  public int getFilterCount() {
+  public Integer getFilterCount() {
     return FilterCount;
   }
-  public void setFilterCount(int filterCount) {
+  public void setFilterCount(Integer filterCount) {
     FilterCount = filterCount;
   }
-  public int getSentCount() {
+  public Integer getSentCount() {
     return SentCount;
   }
-  public void setSentCount(int sentCount) {
+  public void setSentCount(Integer sentCount) {
     SentCount = sentCount;
   }
-  public int getErrorCount() {
+  public Integer getErrorCount() {
     return ErrorCount;
   }
-  public void setErrorCount(int errorCount) {
+  public void setErrorCount(Integer errorCount) {
     ErrorCount = errorCount;
   }
   @Override
