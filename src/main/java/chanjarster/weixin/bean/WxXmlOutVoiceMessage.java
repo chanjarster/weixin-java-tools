@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import chanjarster.weixin.api.WxConsts;
 import chanjarster.weixin.util.xml.MediaIdMarshaller;
 
 @XmlRootElement(name = "xml")
@@ -16,6 +17,10 @@ public class WxXmlOutVoiceMessage extends WxXmlOutMessage {
   @XmlJavaTypeAdapter(MediaIdMarshaller.class)
   private String MediaId;
 
+  public WxXmlOutVoiceMessage() {
+    this.MsgType = WxConsts.XML_MSG_VOICE;
+  }
+  
   public String getMediaId() {
     return MediaId;
   }

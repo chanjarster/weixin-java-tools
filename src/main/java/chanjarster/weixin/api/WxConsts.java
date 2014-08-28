@@ -13,7 +13,7 @@ public class WxConsts {
   public static final String XML_MSG_VOICE = "voice";
   public static final String XML_MSG_VIDEO = "video";
   public static final String XML_MSG_NEWS = "news";
-  public static final String XML_MSG_MUSIC = "news";
+  public static final String XML_MSG_MUSIC = "music";
   public static final String XML_MSG_LOCATION = "location";
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
