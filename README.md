@@ -12,9 +12,12 @@ weixin-java-tools
 5. 微信服务端繁忙自动重试的功能
 6. 提供微信错误信息的异常处理机制
 
+
+详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)
+
 # Quickstart
 
-## 打包
+## 打包到本地maven仓库
 
 如果你可以跳过单元测试直接打包：
 ```bash
