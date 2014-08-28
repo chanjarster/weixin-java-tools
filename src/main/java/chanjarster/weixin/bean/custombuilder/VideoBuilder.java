@@ -27,7 +27,7 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
     this.msgtype = WxConsts.CUSTOM_MSG_VIDEO;
   }
 
-  public VideoBuilder media_id(String media_id) {
+  public VideoBuilder mediaId(String media_id) {
     this.media_id = media_id;
     return this;
   }
@@ -42,7 +42,7 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
     return this;
   }
 
-  public VideoBuilder thumb_media_id(String thumb_media_id) {
+  public VideoBuilder thumbMediaId(String thumb_media_id) {
     this.thumb_media_id = thumb_media_id;
     return this;
   }

@@ -41,7 +41,7 @@ public class WxXmlOutIMusicMessageTest {
           .touser("toUser")
           .title("title")
           .description("ddfff")
-          .hQMusicUrl("hQMusicUrl")
+          .hqmusicUrl("hQMusicUrl")
           .musicUrl("musicUrl")
           .thumbMediaId("thumbMediaId")
           .build();

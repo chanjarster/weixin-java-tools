@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Weixin-java-tool-suite" verbose="1">
-	<test name="API_Test">
+	<test name="API_Test" enabled="false">
 		<classes>
 			<class name="chanjarster.weixin.api.WxBaseAPITest" />
 			<class name="chanjarster.weixin.api.WxCustomMessageAPITest" />
@@ -9,9 +9,9 @@
 			<class name="chanjarster.weixin.api.WxGroupAPITest" />
 			<class name="chanjarster.weixin.api.WxMassMessageAPITest" />
 			<class name="chanjarster.weixin.api.WxMediaAPITest" />
-      <class name="chanjarster.weixin.api.WxUserAPITest" />
-      <class name="chanjarster.weixin.api.WxQrCodeAPITest" />
-      <class name="chanjarster.weixin.api.WxShortUrlAPITest" />
+			<class name="chanjarster.weixin.api.WxUserAPITest" />
+			<class name="chanjarster.weixin.api.WxQrCodeAPITest" />
+			<class name="chanjarster.weixin.api.WxShortUrlAPITest" />
 			<class name="chanjarster.weixin.api.WxMessageRouterTest" />
 		</classes>
 	</test>
@@ -23,6 +23,12 @@
 			<class name="chanjarster.weixin.bean.WxErrorTest" />
 			<class name="chanjarster.weixin.bean.WxMenuTest" />
 			<class name="chanjarster.weixin.bean.WxXmlMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutImageMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutIMusicMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutINewsMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutIVideoMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutIVoiceMessageTest" />
+			<class name="chanjarster.weixin.bean.WxXmlOutTextMessageTest" />
 		</classes>
 	</test>
 </suite>

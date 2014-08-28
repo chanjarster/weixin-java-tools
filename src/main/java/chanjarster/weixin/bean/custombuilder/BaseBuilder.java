@@ -4,17 +4,17 @@ import chanjarster.weixin.bean.WxCustomMessage;
 
 public class BaseBuilder<T> {
   protected String msgtype;
-  protected String touser;
+  protected String toUser;
 
-  public T touser(String touser) {
-    this.touser = touser;
+  public T toUser(String toUser) {
+    this.toUser = toUser;
     return (T) this;
   }
 
   public WxCustomMessage build() {
     WxCustomMessage m = new WxCustomMessage();
     m.setMsgtype(this.msgtype);
-    m.setTouser(this.touser);
+    m.setTouser(this.toUser);
     return m;
   }
 }

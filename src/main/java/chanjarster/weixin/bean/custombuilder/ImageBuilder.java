@@ -18,7 +18,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
     this.msgtype = WxConsts.CUSTOM_MSG_IMAGE;
   }
 
-  public ImageBuilder media_id(String media_id) {
+  public ImageBuilder mediaId(String media_id) {
     this.media_id = media_id;
     return this;
   }

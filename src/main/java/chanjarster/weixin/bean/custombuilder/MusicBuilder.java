@@ -27,12 +27,12 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     this.msgtype = WxConsts.CUSTOM_MSG_MUSIC;
   }
 
-  public MusicBuilder musicurl(String musicurl) {
+  public MusicBuilder musicUrl(String musicurl) {
     this.musicurl = musicurl;
     return this;
   }
 
-  public MusicBuilder hqmusicurl(String hqmusicurl) {
+  public MusicBuilder hqmusicUrl(String hqmusicurl) {
     this.hqmusicurl = hqmusicurl;
     return this;
   }
@@ -47,7 +47,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     return this;
   }
 
-  public MusicBuilder thumb_media_id(String thumb_media_id) {
+  public MusicBuilder thumbMediaId(String thumb_media_id) {
     this.thumb_media_id = thumb_media_id;
     return this;
   }

@@ -18,7 +18,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
     this.msgtype = WxConsts.CUSTOM_MSG_VOICE;
   }
 
-  public VoiceBuilder media_id(String media_id) {
+  public VoiceBuilder mediaId(String media_id) {
     this.media_id = media_id;
     return this;
   }

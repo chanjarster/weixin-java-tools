@@ -25,7 +25,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicM
     return this;
   }
 
-  public MusicBuilder hQMusicUrl(String hQMusicUrl) {
+  public MusicBuilder hqmusicUrl(String hQMusicUrl) {
     this.hQMusicUrl = hQMusicUrl;
     return this;
   }
