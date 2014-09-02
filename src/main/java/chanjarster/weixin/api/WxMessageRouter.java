@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 
 import chanjarster.weixin.bean.WxXmlMessage;
 import chanjarster.weixin.bean.WxXmlOutMessage;
@@ -110,6 +111,8 @@ public class WxMessageRouter {
     
     private String content;
     
+    private String rContent;
+    
     private boolean reEnter = false;
     
     private List<WxMessageHandler> handlers = new ArrayList<WxMessageHandler>();
@@ -167,6 +170,16 @@ public class WxMessageRouter {
      */
     public Rule content(String content) {
       this.content = content;
+      return this;
+    }
+    
+    /**
+     * 如果content匹配该正则表达式
+     * @param regex
+     * @return
+     */
+    public Rule rContent(String regex) {
+      this.rContent = regex;
       return this;
     }
     
@@ -247,6 +260,8 @@ public class WxMessageRouter {
           (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
           &&
           (this.content == null || this.content.equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
+          &&
+          (this.rContent == null || Pattern.matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
       ;
     }
     

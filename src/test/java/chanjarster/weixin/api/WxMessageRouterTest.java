@@ -39,6 +39,7 @@ public class WxMessageRouterTest {
       .rule().async(async).event(WxConsts.EVT_CLICK).handler(new WxEchoMessageHandler(sb, WxConsts.EVT_CLICK)).end()
       .rule().async(async).eventKey("KEY_1").handler(new WxEchoMessageHandler(sb, "KEY_1")).end()
       .rule().async(async).content("CONTENT_1").handler(new WxEchoMessageHandler(sb, "CONTENT_1")).end()
+      .rule().async(async).rContent(".*bc.*").handler(new WxEchoMessageHandler(sb, "abcd")).end()
       .rule().async(async).handler(new WxEchoMessageHandler(sb, "ALL")).end();
     ;
   }
@@ -106,6 +107,9 @@ public class WxMessageRouterTest {
     WxXmlMessage message5 = new WxXmlMessage();
     message5.setContent("BLA");
     
+    WxXmlMessage message6 =  new WxXmlMessage();
+    message6.setContent("abcd");
+    
     WxXmlMessage c2 = new WxXmlMessage();
     c2.setMsgType(WxConsts.XML_MSG_TEXT);
     c2.setEvent(WxConsts.EVT_CLICK);
@@ -127,6 +131,7 @@ public class WxMessageRouterTest {
         new Object[] { message3, "KEY_1," },
         new Object[] { message4, "CONTENT_1," },
         new Object[] { message5, "ALL," },
+        new Object[] { message6, "abcd," },
         new Object[] { c2, "COMBINE_2," },
         new Object[] { c3, "COMBINE_3," },
         new Object[] { c4, "COMBINE_4," }
