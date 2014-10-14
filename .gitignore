@@ -18,3 +18,4 @@ target
 
 src/test/resources/test-config.xml
 sw-pom.xml
+*.iml
