@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,15 +26,17 @@ public class XmlTransformer {
    * @return
    * @throws JAXBException 
    */
+  @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, String xml) throws JAXBException {
-    JAXBContext context = JAXBContext.newInstance(clazz);
+    JAXBContext context = getJAXBContext(clazz);
     Unmarshaller um = context.createUnmarshaller();
     T object = (T) um.unmarshal(new StringReader(xml));
     return object;
   }
   
+  @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, InputStream is) throws JAXBException {
-    JAXBContext context = JAXBContext.newInstance(clazz);
+    JAXBContext context = getJAXBContext(clazz);
     Unmarshaller um = context.createUnmarshaller();
     InputSource inputSource = new InputSource(is);
     inputSource.setEncoding("utf-8");
@@ -53,7 +57,7 @@ public class XmlTransformer {
   }
   
   public static <T> void toXml(Class<T> clazz, T object, Writer writer) throws JAXBException {
-    JAXBContext context = JAXBContext.newInstance(clazz);
+    JAXBContext context = getJAXBContext(clazz);
     Marshaller m = context.createMarshaller();
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
     m.setProperty(CharacterEscapeHandler.class.getName(), characterUnescapeHandler);
@@ -66,6 +70,22 @@ public class XmlTransformer {
     public void escape(char[] ac, int i, int j, boolean flag, Writer writer) throws IOException {
       writer.write(ac, i, j);
     }
+  }
+  
+  protected static Map<Class<?>, JAXBContext> jaxbContexts = new HashMap<Class<?>, JAXBContext>();
+  
+  protected static JAXBContext getJAXBContext(Class<?> clazz){
+	//JAXBContext是线程安全的,且创建相对比较耗性能,使用map缓存,并发下多次创建没问题.
+	JAXBContext context = jaxbContexts.get(clazz);
+	if(context == null){
+	  try {
+	    context = JAXBContext.newInstance(clazz);
+	  } catch (JAXBException e) {
+	    throw new RuntimeException("创建JAXBContext实例失败:" + clazz.getName(), e);
+	  }
+	  jaxbContexts.put(clazz, context);
+	}
+	return context;
   }
   
 }
