@@ -20,7 +20,7 @@ weixin-java-tools
 在你的maven项目中添加：
 ```xml
 <dependency>
-  <groupId>me.chanjar.weixin</groupId>
+  <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-tools</artifactId>
   <version>1.0.0</version>
 </dependency>
