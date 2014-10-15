@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.xml.bind.*;
 
@@ -17,7 +15,7 @@ import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 
 public class XmlTransformer {
 
-  protected static final JAXBContext jaxbContext = initJAXBContext();
+  protected static final JAXBContext JAXB_CONTEXT = initJAXBContext();
 
   /**
    * xml -> pojo
@@ -29,16 +27,14 @@ public class XmlTransformer {
    */
   @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, String xml) throws JAXBException {
-    JAXBContext context = jaxbContext;
-    Unmarshaller um = context.createUnmarshaller();
+    Unmarshaller um = JAXB_CONTEXT.createUnmarshaller();
     T object = (T) um.unmarshal(new StringReader(xml));
     return object;
   }
 
   @SuppressWarnings("unchecked")
   public static <T> T fromXml(Class<T> clazz, InputStream is) throws JAXBException {
-    JAXBContext context = jaxbContext;
-    Unmarshaller um = context.createUnmarshaller();
+    Unmarshaller um = JAXB_CONTEXT.createUnmarshaller();
     InputSource inputSource = new InputSource(is);
     inputSource.setEncoding("utf-8");
     T object = (T) um.unmarshal(inputSource);
@@ -60,14 +56,13 @@ public class XmlTransformer {
   }
 
   public static <T> void toXml(Class<T> clazz, T object, Writer writer) throws JAXBException {
-    JAXBContext context = jaxbContext;
-    Marshaller m = context.createMarshaller();
+    Marshaller m = JAXB_CONTEXT.createMarshaller();
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    m.setProperty(CharacterEscapeHandler.class.getName(), characterUnescapeHandler);
+    m.setProperty(CharacterEscapeHandler.class.getName(), CHAR_ESCAPE_HANDLER);
     m.marshal(object, writer);
   }
 
-  protected static CharacterEscapeHandler characterUnescapeHandler = new CharacterUnescapeHandler();
+  protected static final CharacterEscapeHandler CHAR_ESCAPE_HANDLER = new CharacterUnescapeHandler();
 
   protected static class CharacterUnescapeHandler implements CharacterEscapeHandler {
     public void escape(char[] ac, int i, int j, boolean flag, Writer writer) throws IOException {
