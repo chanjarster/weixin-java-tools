@@ -7,12 +7,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import me.chanjar.weixin.api.WxConfigStorage;
 import me.chanjar.weixin.bean.outxmlbuilder.ImageBuilder;
 import me.chanjar.weixin.bean.outxmlbuilder.MusicBuilder;
 import me.chanjar.weixin.bean.outxmlbuilder.NewsBuilder;
 import me.chanjar.weixin.bean.outxmlbuilder.TextBuilder;
 import me.chanjar.weixin.bean.outxmlbuilder.VideoBuilder;
 import me.chanjar.weixin.bean.outxmlbuilder.VoiceBuilder;
+import me.chanjar.weixin.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.util.xml.AdapterCDATA;
 import me.chanjar.weixin.util.xml.XmlTransformer;
 
@@ -71,10 +73,20 @@ public class WxXmlOutMessage {
     try {
       return XmlTransformer.toXml((Class)this.getClass(), this);
     } catch (JAXBException e) {
+      throw new RuntimeException(e);
     }
-    return null;
   }
-  
+
+  /**
+   * 转换成加密的xml格式
+   * @return
+   */
+  public String toEncryptedXml(WxConfigStorage wxConfigStorage) {
+    String plainXml = toXml();
+    WxCryptUtil pc = new WxCryptUtil(wxConfigStorage);
+    return pc.encrypt(plainXml);
+  }
+
   /**
    * 获得文本消息builder
    * @return

@@ -20,7 +20,9 @@ public interface WxConfigStorage {
   public String getSecret();
   
   public String getToken();
-  
+
+  public String getAesKey();
+
   public int getExpiresIn();
-  
+
 }

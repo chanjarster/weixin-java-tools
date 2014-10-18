@@ -2,7 +2,9 @@ package me.chanjar.weixin.api;
 
 import java.io.InputStream;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,6 +15,7 @@ import me.chanjar.weixin.util.xml.XmlTransformer;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import org.xml.sax.InputSource;
 
 public class ApiTestModule implements Module {
 
@@ -20,14 +23,23 @@ public class ApiTestModule implements Module {
   public void configure(Binder binder) {
     try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxXmlConfigStorage config = XmlTransformer.fromXml(WxXmlConfigStorage.class, is1);
+      WxXmlConfigStorage config = fromXml(WxXmlConfigStorage.class, is1);
       WxServiceImpl wxService = new WxServiceImpl();
       wxService.setWxConfigStorage(config);
 
       binder.bind(WxServiceImpl.class).toInstance(wxService);
+      binder.bind(WxConfigStorage.class).toInstance(config);
     } catch (JAXBException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static <T> T fromXml(Class<T> clazz, InputStream is) throws JAXBException {
+    Unmarshaller um = JAXBContext.newInstance(clazz).createUnmarshaller();
+    InputSource inputSource = new InputSource(is);
+    inputSource.setEncoding("utf-8");
+    T object = (T) um.unmarshal(inputSource);
+    return object;
   }
 
   @XmlRootElement(name = "xml")
@@ -35,7 +47,7 @@ public class ApiTestModule implements Module {
   public static class WxXmlConfigStorage extends WxInMemoryConfigStorage {
     
     protected String openId;
-    
+
     public String getOpenId() {
       return openId;
     }

@@ -71,7 +71,7 @@ public class WxMessageRouterTest {
     router.rule().handler(new WxMessageHandler() {
       @Override
       public WxXmlOutMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
-        // TODO Auto-generated method stub
+        System.out.println(wxMessage.toString());
         return null;
       }
     }).end();
