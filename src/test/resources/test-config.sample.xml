@@ -1,8 +1,9 @@
 <xml>
-    <appId></appId>
-    <secret></secret>
-    <token></token>
-    <accessToken></accessToken>
-    <expiresIn></expiresIn>
-    <openId></openId>
+    <appId>公众号appID</appId>
+    <secret>公众号appsecret</secret>
+    <token>公众号Token</token>
+    <aesKey>公众号EncodingAESKey</aesKey>
+    <accessToken>可以不填写</accessToken>
+    <expiresIn>可以不填写</expiresIn>
+    <openId>某个加你公众号的用户的openId</openId>
 </xml>
