@@ -33,9 +33,9 @@ public class WxBaseAPITest {
   }
 
   public void testCheckSignature() throws WxErrorException {
-    String timestamp = "23234235423246";
-    String nonce = "y7didfkcmvnbd90sdofjkiefhsd";
-    String signature = "77b6651628dfb9a64bfb0d3432ee053ac566a459";
+    String timestamp = "1413729506";
+    String nonce = "1753282854";
+    String signature = "af210121811dce2d6f306612cb133cba490e818b";
     Assert.assertTrue(wxService.checkSignature(timestamp, nonce, signature));
   }
 
