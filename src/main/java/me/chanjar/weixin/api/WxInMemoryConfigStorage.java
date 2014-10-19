@@ -13,6 +13,7 @@ public class WxInMemoryConfigStorage implements WxConfigStorage {
   protected String secret;
   protected String token;
   protected String accessToken;
+  protected String aesKey;
   protected int expiresIn;
 
   public void updateAccessToken(WxAccessToken accessToken) {
@@ -56,6 +57,14 @@ public class WxInMemoryConfigStorage implements WxConfigStorage {
     this.token = token;
   }
 
+  public String getAesKey() {
+    return aesKey;
+  }
+
+  public void setAesKey(String aesKey) {
+    this.aesKey = aesKey;
+  }
+
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
   }
@@ -63,5 +72,6 @@ public class WxInMemoryConfigStorage implements WxConfigStorage {
   public void setExpiresIn(int expiresIn) {
     this.expiresIn = expiresIn;
   }
+
 
 }

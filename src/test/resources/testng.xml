@@ -29,6 +29,7 @@
 			<class name="me.chanjar.weixin.bean.WxXmlOutIVideoMessageTest" />
 			<class name="me.chanjar.weixin.bean.WxXmlOutIVoiceMessageTest" />
 			<class name="me.chanjar.weixin.bean.WxXmlOutTextMessageTest" />
+            <class name="me.chanjar.weixin.util.crypto.WxCryptUtilTest" />
 		</classes>
 	</test>
 </suite>

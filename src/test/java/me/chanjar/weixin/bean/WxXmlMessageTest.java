@@ -1,10 +1,8 @@
 package me.chanjar.weixin.bean;
 
-import me.chanjar.weixin.bean.WxXmlMessage;
+import me.chanjar.weixin.api.WxConsts;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import me.chanjar.weixin.api.WxConsts;
 
 @Test
 public class WxXmlMessageTest {
