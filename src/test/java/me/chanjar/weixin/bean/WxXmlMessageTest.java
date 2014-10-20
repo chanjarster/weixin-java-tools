@@ -33,6 +33,25 @@ public class WxXmlMessageTest {
                 + "<Latitude>23.137466</Latitude>"
                 + "<Longitude>113.352425</Longitude>"
                 + "<Precision>119.385040</Precision>"
+                + "<ScanCodeInfo>"
+                + " <ScanType><![CDATA[qrcode]]></ScanType>"
+                + " <ScanResult><![CDATA[1]]></ScanResult>"
+                + "</ScanCodeInfo>"
+                + "<SendPicsInfo>"
+                + " <Count>1</Count>\n"
+                + " <PicList>"
+                + "  <item>"
+                + "   <PicMd5Sum><![CDATA[1b5f7c23b5bf75682a53e7b6d163e185]]></PicMd5Sum>"
+                + "  </item>"
+                + " </PicList>"
+                + "</SendPicsInfo>"
+                + "<SendLocationInfo>"
+                + "  <Location_X><![CDATA[23]]></Location_X>\n"
+                + "  <Location_Y><![CDATA[113]]></Location_Y>\n"
+                + "  <Scale><![CDATA[15]]></Scale>\n"
+                + "  <Label><![CDATA[ 广州市海珠区客村艺苑路 106号]]></Label>\n"
+                + "  <Poiname><![CDATA[wo de poi]]></Poiname>\n"
+                + "</SendLocationInfo>"
                 + "</xml>";
     WxXmlMessage wxMessage = WxXmlMessage.fromXml(xml);
     Assert.assertEquals(wxMessage.getToUserName(), "toUser");
@@ -58,6 +77,15 @@ public class WxXmlMessageTest {
     Assert.assertEquals(wxMessage.getLatitude(), new Double(23.137466));
     Assert.assertEquals(wxMessage.getLongitude(), new Double(113.352425));
     Assert.assertEquals(wxMessage.getPrecision(), new Double(119.385040));
+    Assert.assertEquals(wxMessage.getScanCodeInfo().getScanType(), "qrcode");
+    Assert.assertEquals(wxMessage.getScanCodeInfo().getScanResult(), "1");
+    Assert.assertEquals(wxMessage.getSendPicsInfo().getCount(), new Long(1l));
+    Assert.assertEquals(wxMessage.getSendPicsInfo().getPicList().get(0).getPicMd5Sum(), "1b5f7c23b5bf75682a53e7b6d163e185");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocation_X(), "23");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocation_Y(), "113");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getScale(), "15");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getLabel(), " 广州市海珠区客村艺苑路 106号");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getPoiname(), "wo de poi");
   }
   
 }

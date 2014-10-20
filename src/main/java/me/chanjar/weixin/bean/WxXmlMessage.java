@@ -8,13 +8,12 @@ import me.chanjar.weixin.util.xml.XmlTransformer;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <pre>
@@ -148,6 +147,15 @@ public class WxXmlMessage {
    * 发送失败的粉丝数
    */
   private Integer ErrorCount;
+
+  @XmlElement(name = "ScanCodeInfo")
+  private ScanCodeInfo ScanCodeInfo = new ScanCodeInfo();
+
+  @XmlElement(name = "SendPicsInfo")
+  private SendPicsInfo SendPicsInfo = new SendPicsInfo();
+
+  @XmlElement(name = "SendLocationInfo")
+  private SendLocationInfo SendLocationInfo = new SendLocationInfo();
 
   public String getToUserName() {
     return ToUserName;
@@ -452,6 +460,175 @@ public class WxXmlMessage {
 
   public void setErrorCount(Integer errorCount) {
     ErrorCount = errorCount;
+  }
+
+  public WxXmlMessage.ScanCodeInfo getScanCodeInfo() {
+    return ScanCodeInfo;
+  }
+
+  public void setScanCodeInfo(WxXmlMessage.ScanCodeInfo scanCodeInfo) {
+    ScanCodeInfo = scanCodeInfo;
+  }
+
+  public WxXmlMessage.SendPicsInfo getSendPicsInfo() {
+    return SendPicsInfo;
+  }
+
+  public void setSendPicsInfo(WxXmlMessage.SendPicsInfo sendPicsInfo) {
+    SendPicsInfo = sendPicsInfo;
+  }
+
+  public WxXmlMessage.SendLocationInfo getSendLocationInfo() {
+    return SendLocationInfo;
+  }
+
+  public void setSendLocationInfo(WxXmlMessage.SendLocationInfo sendLocationInfo) {
+    SendLocationInfo = sendLocationInfo;
+  }
+
+  @XmlRootElement(name = "ScanCodeInfo")
+  @XmlAccessorType(XmlAccessType.FIELD)
+  public static class ScanCodeInfo {
+
+    @XmlElement(name = "ScanType")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String ScanType;
+
+    @XmlElement(name = "ScanResult")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String ScanResult;
+
+    /**
+     * 扫描类型，一般是qrcode
+     * @return
+     */
+    public String getScanType() {
+
+      return ScanType;
+    }
+
+    public void setScanType(String scanType) {
+      ScanType = scanType;
+    }
+
+    /**
+     * 扫描结果，即二维码对应的字符串信息
+     * @return
+     */
+    public String getScanResult() {
+      return ScanResult;
+    }
+
+    public void setScanResult(String scanResult) {
+      ScanResult = scanResult;
+    }
+
+  }
+
+  @XmlRootElement(name = "SendPicsInfo")
+  @XmlAccessorType(XmlAccessType.FIELD)
+  public static class SendPicsInfo {
+
+    private Long Count;
+
+    @XmlElementWrapper(name="PicList")
+    @XmlElement(name = "item")
+    protected final List<Item> PicList = new ArrayList<Item>();
+
+    public Long getCount() {
+      return Count;
+    }
+
+    public void setCount(Long count) {
+      Count = count;
+    }
+
+    public List<Item> getPicList() {
+      return PicList;
+    }
+
+    @XmlRootElement(name = "item")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "me.chanjar.weixin.bean.WxXmlMessage.SendPicsInfo.Item")
+    public static class Item {
+
+      @XmlElement(name = "PicMd5Sum")
+      @XmlJavaTypeAdapter(AdapterCDATA.class)
+      private String PicMd5Sum;
+
+      public String getPicMd5Sum() {
+        return PicMd5Sum;
+      }
+
+      public void setPicMd5Sum(String picMd5Sum) {
+        PicMd5Sum = picMd5Sum;
+      }
+    }
+  }
+
+  @XmlRootElement(name = "SendLocationInfo")
+  @XmlAccessorType(XmlAccessType.FIELD)
+  public static class SendLocationInfo {
+
+    @XmlElement(name = "Location_X")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String Location_X;
+
+    @XmlElement(name = "Location_Y")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String Location_Y;
+
+    @XmlElement(name = "Scale")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String Scale;
+
+    @XmlElement(name = "Label")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String Label;
+
+    @XmlElement(name = "Poiname")
+    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    private String Poiname;
+
+    public String getLocation_X() {
+      return Location_X;
+    }
+
+    public void setLocation_X(String location_X) {
+      Location_X = location_X;
+    }
+
+    public String getLocation_Y() {
+      return Location_Y;
+    }
+
+    public void setLocation_Y(String location_Y) {
+      Location_Y = location_Y;
+    }
+
+    public String getScale() {
+      return Scale;
+    }
+
+    public void setScale(String scale) {
+      Scale = scale;
+    }
+
+    public String getLabel() {
+      return Label;
+    }
+
+    public void setLabel(String label) {
+      Label = label;
+    }
+
+    public String getPoiname() {
+      return Poiname;
+    }
+
+    public void setPoiname(String poiname) {
+      Poiname = poiname;
+    }
   }
 
 }
