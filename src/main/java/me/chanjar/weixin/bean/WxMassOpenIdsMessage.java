@@ -12,17 +12,17 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassOpenIdsMessage {
   
-  private List<String> touser = new ArrayList<String>();
-  private String msgtype;
+  private List<String> toUsers = new ArrayList<String>();
+  private String msgType;
   private String content;
-  private String media_id;
+  private String mediaId;
 
   public WxMassOpenIdsMessage() {
     super();
   }
   
-  public String getMsgtype() {
-    return msgtype;
+  public String getMsgType() {
+    return msgType;
   }
 
   /**
@@ -35,10 +35,10 @@ public class WxMassOpenIdsMessage {
    * {@link me.chanjar.weixin.api.WxConsts#MASS_MSG_VOICE}
    * 如果msgtype和media_id不匹配的话，会返回系统繁忙的错误
    * </pre>
-   * @param msgtype
+   * @param msgType
    */
-  public void setMsgtype(String msgtype) {
-    this.msgtype = msgtype;
+  public void setMsgType(String msgType) {
+    this.msgType = msgType;
   }
 
   public String getContent() {
@@ -49,12 +49,12 @@ public class WxMassOpenIdsMessage {
     this.content = content;
   }
 
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
   public String toJson() {
@@ -65,8 +65,8 @@ public class WxMassOpenIdsMessage {
    * OpenId列表，最多支持10,000个
    * @return
    */
-  public List<String> getTouser() {
-    return touser;
+  public List<String> getToUsers() {
+    return toUsers;
   }
 
   /**
@@ -74,6 +74,6 @@ public class WxMassOpenIdsMessage {
    * @param openId
    */
   public void addUser(String openId) {
-    this.touser.add(openId);
+    this.toUsers.add(openId);
   }
 }

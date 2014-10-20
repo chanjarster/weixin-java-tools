@@ -35,7 +35,7 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
     CloseableHttpResponse response = httpclient.execute(httpPost);
     String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
     WxError error = WxError.fromJson(responseContent);
-    if (error.getErrcode() != 0) {
+    if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);
     }
     return WxMediaUploadResult.fromJson(responseContent);

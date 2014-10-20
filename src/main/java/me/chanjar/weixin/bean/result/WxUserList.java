@@ -15,8 +15,8 @@ public class WxUserList {
 
   protected int total = -1;
   protected int count = -1;
-  protected List<String> openids = new ArrayList<String>();
-  protected String next_openid;
+  protected List<String> openIds = new ArrayList<String>();
+  protected String nextOpenId;
   public int getTotal() {
     return total;
   }
@@ -29,17 +29,17 @@ public class WxUserList {
   public void setCount(int count) {
     this.count = count;
   }
-  public List<String> getOpenids() {
-    return openids;
+  public List<String> getOpenIds() {
+    return openIds;
   }
-  public void setOpenids(List<String> openids) {
-    this.openids = openids;
+  public void setOpenIds(List<String> openIds) {
+    this.openIds = openIds;
   }
-  public String getNext_openid() {
-    return next_openid;
+  public String getNextOpenId() {
+    return nextOpenId;
   }
-  public void setNext_openid(String next_openid) {
-    this.next_openid = next_openid;
+  public void setNextOpenId(String nextOpenId) {
+    this.nextOpenId = nextOpenId;
   }
   
   public static WxUserList fromJson(String json) {

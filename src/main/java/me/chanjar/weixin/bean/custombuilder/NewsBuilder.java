@@ -20,7 +20,7 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
   private List<WxCustomMessage.WxArticle> articles = new ArrayList<WxCustomMessage.WxArticle>();
   
   public NewsBuilder() {
-    this.msgtype = WxConsts.CUSTOM_MSG_NEWS;
+    this.msgType = WxConsts.CUSTOM_MSG_NEWS;
   }
 
   public NewsBuilder addArticle(WxCustomMessage.WxArticle article) {

@@ -11,7 +11,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicM
 
   private String title;
   private String description;
-  private String hQMusicUrl;
+  private String hqMusicUrl;
   private String musicUrl;
   private String thumbMediaId;
 
@@ -25,8 +25,8 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicM
     return this;
   }
 
-  public MusicBuilder hqmusicUrl(String hQMusicUrl) {
-    this.hQMusicUrl = hQMusicUrl;
+  public MusicBuilder hqMusicUrl(String hqMusicUrl) {
+    this.hqMusicUrl = hqMusicUrl;
     return this;
   }
 
@@ -45,7 +45,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicM
     setCommon(m);
     m.setTitle(title);
     m.setDescription(description);
-    m.setHQMusicUrl(hQMusicUrl);
+    m.setHqMusicUrl(hqMusicUrl);
     m.setMusicUrl(musicUrl);
     m.setThumbMediaId(thumbMediaId);
     return m;

@@ -14,14 +14,14 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxMenu {
 
-  private List<WxMenuButton> button = new ArrayList<WxMenuButton>();
+  private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
 
-  public List<WxMenuButton> getButton() {
-    return button;
+  public List<WxMenuButton> getButtons() {
+    return buttons;
   }
 
-  public void setButton(List<WxMenuButton> button) {
-    this.button = button;
+  public void setButtons(List<WxMenuButton> buttons) {
+    this.buttons = buttons;
   }
   
   public String toJson() {
@@ -43,7 +43,7 @@ public class WxMenu {
     private String key;
     private String url;
     
-    private List<WxMenuButton> sub_button = new ArrayList<WxMenuButton>();
+    private List<WxMenuButton> subButtons = new ArrayList<WxMenuButton>();
 
     public String getType() {
       return type;
@@ -77,12 +77,12 @@ public class WxMenu {
       this.url = url;
     }
 
-    public List<WxMenuButton> getSub_button() {
-      return sub_button;
+    public List<WxMenuButton> getSubButtons() {
+      return subButtons;
     }
 
-    public void setSub_button(List<WxMenuButton> sub_button) {
-      this.sub_button = sub_button;
+    public void setSubButtons(List<WxMenuButton> subButtons) {
+      this.subButtons = subButtons;
     }
     
   }

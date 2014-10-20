@@ -18,27 +18,27 @@ import me.chanjar.weixin.util.xml.AdapterCDATA;
 public class WxXmlOutMewsMessage extends WxXmlOutMessage {
 
   @XmlElement(name = "ArticleCount")
-  protected int ArticleCount;
+  protected int articleCount;
   
   @XmlElementWrapper(name="Articles")
   @XmlElement(name = "Item")
-  protected final List<Item> Articles = new ArrayList<Item>();
+  protected final List<Item> articles = new ArrayList<Item>();
   
   public WxXmlOutMewsMessage() {
-    this.MsgType = WxConsts.XML_MSG_NEWS;
+    this.msgType = WxConsts.XML_MSG_NEWS;
   }
 
   public int getArticleCount() {
-    return ArticleCount;
+    return articleCount;
   }
 
   public void addArticle(Item item) {
-    this.Articles.add(item);
-    this.ArticleCount = this.Articles.size();
+    this.articles.add(item);
+    this.articleCount = this.articles.size();
   }
   
   public List<Item> getArticles() {
-    return Articles;
+    return articles;
   }
   
   

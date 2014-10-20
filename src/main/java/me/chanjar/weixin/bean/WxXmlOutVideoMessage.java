@@ -17,7 +17,7 @@ public class WxXmlOutVideoMessage extends WxXmlOutMessage {
   protected final Video video = new Video();
 
   public WxXmlOutVideoMessage() {
-    this.MsgType = WxConsts.XML_MSG_VIDEO;
+    this.msgType = WxConsts.XML_MSG_VIDEO;
   }
 
   public String getMediaId() {
@@ -51,38 +51,38 @@ public class WxXmlOutVideoMessage extends WxXmlOutMessage {
     
     @XmlElement(name = "MediaId")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String MediaId;
+    private String mediaId;
 
     @XmlElement(name = "Title")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Title;
+    private String title;
 
     @XmlElement(name = "Description")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Description;
+    private String description;
 
     public String getMediaId() {
-      return MediaId;
+      return mediaId;
     }
 
     public void setMediaId(String mediaId) {
-      MediaId = mediaId;
+      this.mediaId = mediaId;
     }
 
     public String getTitle() {
-      return Title;
+      return title;
     }
 
     public void setTitle(String title) {
-      Title = title;
+      this.title = title;
     }
 
     public String getDescription() {
-      return Description;
+      return description;
     }
 
     public void setDescription(String description) {
-      Description = description;
+      this.description = description;
     }
     
   }

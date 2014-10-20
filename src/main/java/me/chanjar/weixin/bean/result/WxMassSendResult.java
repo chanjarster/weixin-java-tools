@@ -15,32 +15,32 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassSendResult {
 
-  private String errcode;
-  private String errmsg;
-  private String msg_id;
+  private String errorCode;
+  private String errorMsg;
+  private String msgId;
 
-  public String getErrcode() {
-    return errcode;
+  public String getErrorCode() {
+    return errorCode;
   }
 
-  public void setErrcode(String errcode) {
-    this.errcode = errcode;
+  public void setErrorCode(String errorCode) {
+    this.errorCode = errorCode;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrorMsg() {
+    return errorMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrorMsg(String errorMsg) {
+    this.errorMsg = errorMsg;
   }
 
-  public String getMsg_id() {
-    return msg_id;
+  public String getMsgId() {
+    return msgId;
   }
 
-  public void setMsg_id(String msg_id) {
-    this.msg_id = msg_id;
+  public void setMsgId(String msgId) {
+    this.msgId = msgId;
   }
   
   public static WxMassSendResult fromJson(String json) {
@@ -49,7 +49,7 @@ public class WxMassSendResult {
 
   @Override
   public String toString() {
-    return "WxMassSendResult [errcode=" + errcode + ", errmsg=" + errmsg + ", msg_id=" + msg_id + "]";
+    return "WxMassSendResult [errcode=" + errorCode + ", errmsg=" + errorMsg + ", msg_id=" + msgId + "]";
   }
   
 }

@@ -15,18 +15,18 @@ public class WxXmlOutImageMessage extends WxXmlOutMessage {
   
   @XmlElement(name="Image")
   @XmlJavaTypeAdapter(MediaIdMarshaller.class)
-  private String MediaId;
+  private String mediaId;
 
   public WxXmlOutImageMessage() {
-    this.MsgType = WxConsts.XML_MSG_IMAGE;
+    this.msgType = WxConsts.XML_MSG_IMAGE;
   }
   
   public String getMediaId() {
-    return MediaId;
+    return mediaId;
   }
 
   public void setMediaId(String mediaId) {
-    MediaId = mediaId;
+    this.mediaId = mediaId;
   }
   
 }

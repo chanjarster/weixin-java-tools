@@ -34,14 +34,14 @@ public class WxMediaAPITest {
     InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
     WxMediaUploadResult res = wxService.mediaUpload(mediaType, fileType, inputStream);
     Assert.assertNotNull(res.getType());
-    Assert.assertNotNull(res.getCreated_at());
-    Assert.assertTrue(res.getMedia_id() != null || res.getThumb_media_id() != null);
+    Assert.assertNotNull(res.getCreatedAt());
+    Assert.assertTrue(res.getMediaId() != null || res.getThumbMediaId() != null);
     
-    if (res.getMedia_id() != null) {
-      media_ids.add(res.getMedia_id());
+    if (res.getMediaId() != null) {
+      media_ids.add(res.getMediaId());
     }
-    if (res.getThumb_media_id() != null) {
-      media_ids.add(res.getThumb_media_id());
+    if (res.getThumbMediaId() != null) {
+      media_ids.add(res.getThumbMediaId());
     }
   }
   

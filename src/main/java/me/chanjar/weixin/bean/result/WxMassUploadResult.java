@@ -13,8 +13,8 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
 public class WxMassUploadResult {
 
   private String type;
-  private String media_id;
-  private long created_at;
+  private String mediaId;
+  private long createdAt;
 
   public String getType() {
     return type;
@@ -24,20 +24,20 @@ public class WxMassUploadResult {
     this.type = type;
   }
 
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
-  public long getCreated_at() {
-    return created_at;
+  public long getCreatedAt() {
+    return createdAt;
   }
 
-  public void setCreated_at(long created_at) {
-    this.created_at = created_at;
+  public void setCreatedAt(long createdAt) {
+    this.createdAt = createdAt;
   }
 
   public static WxMassUploadResult fromJson(String json) {
@@ -46,7 +46,7 @@ public class WxMassUploadResult {
 
   @Override
   public String toString() {
-    return "WxUploadResult [type=" + type + ", media_id=" + media_id + ", created_at=" + created_at + "]";
+    return "WxUploadResult [type=" + type + ", media_id=" + mediaId + ", created_at=" + createdAt + "]";
   }
 
 }

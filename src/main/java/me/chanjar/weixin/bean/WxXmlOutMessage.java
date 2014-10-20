@@ -24,49 +24,49 @@ public class WxXmlOutMessage {
 
   @XmlElement(name="ToUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  protected String ToUserName;
+  protected String toUserName;
   
   @XmlElement(name="FromUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  protected String FromUserName;
+  protected String fromUserName;
   
   @XmlElement(name="CreateTime")
-  protected Long CreateTime;
+  protected Long createTime;
   
   @XmlElement(name="MsgType")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  protected String MsgType;
+  protected String msgType;
 
   public String getToUserName() {
-    return ToUserName;
+    return toUserName;
   }
 
   public void setToUserName(String toUserName) {
-    ToUserName = toUserName;
+    this.toUserName = toUserName;
   }
 
   public String getFromUserName() {
-    return FromUserName;
+    return fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
-    FromUserName = fromUserName;
+    this.fromUserName = fromUserName;
   }
 
   public Long getCreateTime() {
-    return CreateTime;
+    return createTime;
   }
 
   public void setCreateTime(Long createTime) {
-    CreateTime = createTime;
+    this.createTime = createTime;
   }
 
   public String getMsgType() {
-    return MsgType;
+    return msgType;
   }
 
   public void setMsgType(String msgType) {
-    MsgType = msgType;
+    this.msgType = msgType;
   }
   
   public String toXml() {

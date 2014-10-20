@@ -29,13 +29,13 @@ public class WxMassNews {
   /**
    * <pre>
    * 群发图文消息article
-   * 1. thumb_media_id  (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
+   * 1. thumbMediaId  (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
    * 2. author          图文消息的作者
    * 3. title           (必填) 图文消息的标题
-   * 4. content_source_url 在图文消息页面点击“阅读原文”后的页面链接
+   * 4. contentSourceUrl 在图文消息页面点击“阅读原文”后的页面链接
    * 5. content (必填)  图文消息页面的内容，支持HTML标签
    * 6. digest          图文消息的描述
-   * 7, show_cover_pic  是否显示封面，true为显示，false为不显示
+   * 7, showCoverPic  是否显示封面，true为显示，false为不显示
    * </pre>
    * @author chanjarster
    *
@@ -44,7 +44,7 @@ public class WxMassNews {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
      */
-    private String thumb_media_id;
+    private String thumbMediaId;
     /**
      * 图文消息的作者
      */
@@ -56,7 +56,7 @@ public class WxMassNews {
     /**
      * 在图文消息页面点击“阅读原文”后的页面链接
      */
-    private String content_source_url;
+    private String contentSourceUrl;
     /**
      * (必填) 图文消息页面的内容，支持HTML标签
      */
@@ -68,13 +68,13 @@ public class WxMassNews {
     /**
      * 是否显示封面，true为显示，false为不显示
      */
-    private boolean show_cover_pic;
+    private boolean showCoverPic;
     
-    public String getThumb_media_id() {
-      return thumb_media_id;
+    public String getThumbMediaId() {
+      return thumbMediaId;
     }
-    public void setThumb_media_id(String thumb_media_id) {
-      this.thumb_media_id = thumb_media_id;
+    public void setThumbMediaId(String thumbMediaId) {
+      this.thumbMediaId = thumbMediaId;
     }
     public String getAuthor() {
       return author;
@@ -88,11 +88,11 @@ public class WxMassNews {
     public void setTitle(String title) {
       this.title = title;
     }
-    public String getContent_source_url() {
-      return content_source_url;
+    public String getContentSourceUrl() {
+      return contentSourceUrl;
     }
-    public void setContent_source_url(String content_source_url) {
-      this.content_source_url = content_source_url;
+    public void setContentSourceUrl(String contentSourceUrl) {
+      this.contentSourceUrl = contentSourceUrl;
     }
     public String getContent() {
       return content;
@@ -106,11 +106,11 @@ public class WxMassNews {
     public void setDigest(String digest) {
       this.digest = digest;
     }
-    public boolean isShow_cover_pic() {
-      return show_cover_pic;
+    public boolean isShowCoverPic() {
+      return showCoverPic;
     }
-    public void setShow_cover_pic(boolean show_cover_pic) {
-      this.show_cover_pic = show_cover_pic;
+    public void setShowCoverPic(boolean showCoverPic) {
+      this.showCoverPic = showCoverPic;
     }
     
   }

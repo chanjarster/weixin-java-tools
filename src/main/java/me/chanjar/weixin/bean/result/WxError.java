@@ -100,28 +100,28 @@ public class WxError {
     errMap.put(50001, "用户未授权该api");
   }
   
-  protected int errcode;
+  protected int errorCode;
   
-  protected String errmsg;
+  protected String errorMsg;
 
-  public int getErrcode() {
-    return errcode;
+  public int getErrorCode() {
+    return errorCode;
   }
 
-  public void setErrcode(int errcode) {
-    this.errcode = errcode;
+  public void setErrorCode(int errorCode) {
+    this.errorCode = errorCode;
   }
 
-  public String getErrmsg() {
-    return errmsg;
+  public String getErrorMsg() {
+    return errorMsg;
   }
 
-  public void setErrmsg(String errmsg) {
-    this.errmsg = errmsg;
+  public void setErrorMsg(String errorMsg) {
+    this.errorMsg = errorMsg;
   }
 
   public String getDescription() {
-    return errMap.get(errcode);
+    return errMap.get(errorCode);
   }
 
   public static WxError fromJson(String json) {
@@ -130,7 +130,7 @@ public class WxError {
 
   @Override
   public String toString() {
-    return "微信错误 errcode=" + errcode + ", errmsg=" + errmsg + ", description=" + getDescription();
+    return "微信错误 errcode=" + errorCode + ", errmsg=" + errorMsg + ", description=" + getDescription();
   }
 
 }

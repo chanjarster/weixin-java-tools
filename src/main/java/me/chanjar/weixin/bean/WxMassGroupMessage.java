@@ -10,10 +10,10 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassGroupMessage {
   
-  private long group_id;
+  private long groupId;
   private String msgtype;
   private String content;
-  private String media_id;
+  private String mediaId;
 
   public WxMassGroupMessage() {
     super();
@@ -47,24 +47,24 @@ public class WxMassGroupMessage {
     this.content = content;
   }
 
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
   public String toJson() {
     return WxGsonBuilder.INSTANCE.create().toJson(this);
   }
 
-  public long getGroup_id() {
-    return group_id;
+  public long getGroupId() {
+    return groupId;
   }
 
-  public void setGroup_id(long group_id) {
-    this.group_id = group_id;
+  public void setGroupId(long groupId) {
+    this.groupId = groupId;
   }
 
 }

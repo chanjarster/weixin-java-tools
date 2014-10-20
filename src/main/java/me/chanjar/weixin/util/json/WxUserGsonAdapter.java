@@ -31,13 +31,13 @@ public class WxUserGsonAdapter implements JsonDeserializer<WxUser> {
     wxUser.setSubscribe(new Integer(0).equals(GsonHelper.getInteger(o, "subscribe")) ? false : true);
     wxUser.setCity(GsonHelper.getString(o, "city"));
     wxUser.setCountry(GsonHelper.getString(o, "country"));
-    wxUser.setHeadimgurl(GsonHelper.getString(o, "headimgurl"));
+    wxUser.setHeadImgUrl(GsonHelper.getString(o, "headimgurl"));
     wxUser.setLanguage(GsonHelper.getString(o, "language"));
     wxUser.setNickname(GsonHelper.getString(o, "nickname"));
-    wxUser.setOpenid(GsonHelper.getString(o, "openid"));
+    wxUser.setOpenId(GsonHelper.getString(o, "openid"));
     wxUser.setProvince(GsonHelper.getString(o, "province"));
-    wxUser.setSubscribe_time(GsonHelper.getLong(o, "subscribe_time"));
-    wxUser.setUnionid(GsonHelper.getString(o, "unionid"));
+    wxUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
+    wxUser.setUnionId(GsonHelper.getString(o, "unionid"));
     Integer sex = GsonHelper.getInteger(o, "sex");
     if(new Integer(1).equals(sex)) {
       wxUser.setSex("男");

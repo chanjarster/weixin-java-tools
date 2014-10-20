@@ -28,7 +28,7 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
     CloseableHttpResponse response = httpclient.execute(httpGet);
     String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
     WxError error = WxError.fromJson(responseContent);
-    if (error.getErrcode() != 0) {
+    if (error.getErrorCode() != 0) {
       throw new WxErrorException(error);
     }
     return responseContent;

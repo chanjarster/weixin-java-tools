@@ -15,7 +15,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;
 
   public TextBuilder() {
-    this.msgtype = WxConsts.CUSTOM_MSG_TEXT;
+    this.msgType = WxConsts.CUSTOM_MSG_TEXT;
   }
 
   public TextBuilder content(String content) {

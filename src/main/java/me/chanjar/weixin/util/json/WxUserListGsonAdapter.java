@@ -31,10 +31,10 @@ public class WxUserListGsonAdapter implements JsonDeserializer<WxUserList> {
     WxUserList wxUserList = new WxUserList();
     wxUserList.setTotal(GsonHelper.getInteger(o, "total"));
     wxUserList.setCount(GsonHelper.getInteger(o, "count"));
-    wxUserList.setNext_openid(GsonHelper.getString(o, "next_openid"));
+    wxUserList.setNextOpenId(GsonHelper.getString(o, "next_openid"));
     JsonArray data = o.get("data").getAsJsonObject().get("openid").getAsJsonArray();
     for (int i = 0; i < data.size(); i++) {
-      wxUserList.getOpenids().add(GsonHelper.getAsString(data.get(i)));
+      wxUserList.getOpenIds().add(GsonHelper.getAsString(data.get(i)));
     }
     return wxUserList;
   }

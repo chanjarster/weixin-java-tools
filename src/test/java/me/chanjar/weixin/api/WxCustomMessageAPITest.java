@@ -23,8 +23,8 @@ public class WxCustomMessageAPITest {
   public void testSendCustomMessage() throws WxErrorException {
     ApiTestModule.WxXmlConfigStorage configStorage = (ApiTestModule.WxXmlConfigStorage) wxService.wxConfigStorage;
     WxCustomMessage message = new WxCustomMessage();
-    message.setMsgtype(WxConsts.CUSTOM_MSG_TEXT);
-    message.setTouser(configStorage.getOpenId());
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message.setToUser(configStorage.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 
     wxService.customMessageSend(message);

@@ -10,16 +10,16 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
 public class WxUser {
 
   protected boolean subscribe;
-  protected String openid;
+  protected String openId;
   protected String nickname;
   protected String sex;
   protected String language;
   protected String city;
   protected String province;
   protected String country;
-  protected String headimgurl;
-  protected long subscribe_time;
-  protected String unionid;
+  protected String headImgUrl;
+  protected long subscribeTime;
+  protected String unionId;
   
   public boolean isSubscribe() {
     return subscribe;
@@ -27,11 +27,11 @@ public class WxUser {
   public void setSubscribe(boolean subscribe) {
     this.subscribe = subscribe;
   }
-  public String getOpenid() {
-    return openid;
+  public String getOpenId() {
+    return openId;
   }
-  public void setOpenid(String openid) {
-    this.openid = openid;
+  public void setOpenId(String openId) {
+    this.openId = openId;
   }
   public String getNickname() {
     return nickname;
@@ -69,23 +69,23 @@ public class WxUser {
   public void setCountry(String country) {
     this.country = country;
   }
-  public String getHeadimgurl() {
-    return headimgurl;
+  public String getHeadImgUrl() {
+    return headImgUrl;
   }
-  public void setHeadimgurl(String headimgurl) {
-    this.headimgurl = headimgurl;
+  public void setHeadImgUrl(String headImgUrl) {
+    this.headImgUrl = headImgUrl;
   }
-  public long getSubscribe_time() {
-    return subscribe_time;
+  public long getSubscribeTime() {
+    return subscribeTime;
   }
-  public void setSubscribe_time(long subscribe_time) {
-    this.subscribe_time = subscribe_time;
+  public void setSubscribeTime(long subscribeTime) {
+    this.subscribeTime = subscribeTime;
   }
-  public String getUnionid() {
-    return unionid;
+  public String getUnionId() {
+    return unionId;
   }
-  public void setUnionid(String unionid) {
-    this.unionid = unionid;
+  public void setUnionId(String unionId) {
+    this.unionId = unionId;
   }
   
   public static WxUser fromJson(String json) {

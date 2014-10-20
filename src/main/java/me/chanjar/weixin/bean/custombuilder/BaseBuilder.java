@@ -3,7 +3,7 @@ package me.chanjar.weixin.bean.custombuilder;
 import me.chanjar.weixin.bean.WxCustomMessage;
 
 public class BaseBuilder<T> {
-  protected String msgtype;
+  protected String msgType;
   protected String toUser;
 
   public T toUser(String toUser) {
@@ -13,8 +13,8 @@ public class BaseBuilder<T> {
 
   public WxCustomMessage build() {
     WxCustomMessage m = new WxCustomMessage();
-    m.setMsgtype(this.msgtype);
-    m.setTouser(this.toUser);
+    m.setMsgType(this.msgType);
+    m.setToUser(this.toUser);
     return m;
   }
 }

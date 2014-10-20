@@ -1,6 +1,5 @@
 package me.chanjar.weixin.bean;
 
-import me.chanjar.weixin.bean.WxMenu;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -13,7 +12,7 @@ public class WxMenuTest {
   @Test(dataProvider="wxReturnMenu")
   public void testFromJson(String json) {
     WxMenu menu = WxMenu.fromJson(json);
-    Assert.assertEquals(menu.getButton().size(), 3);
+    Assert.assertEquals(menu.getButtons().size(), 3);
   }
   
   @Test(dataProvider="wxPushMenu")
@@ -32,9 +31,9 @@ public class WxMenuTest {
     WxMenuButton button3 = new WxMenuButton();
     button3.setName("菜单");
     
-    menu.getButton().add(button1);
-    menu.getButton().add(button2);
-    menu.getButton().add(button3);
+    menu.getButtons().add(button1);
+    menu.getButtons().add(button2);
+    menu.getButtons().add(button3);
     
     WxMenuButton button31 = new WxMenuButton();
     button31.setType("view");
@@ -51,9 +50,9 @@ public class WxMenuTest {
     button33.setName("赞一下我们");
     button33.setKey("V1001_GOOD");
     
-    button3.getSub_button().add(button31);
-    button3.getSub_button().add(button32);
-    button3.getSub_button().add(button33);
+    button3.getSubButtons().add(button31);
+    button3.getSubButtons().add(button32);
+    button3.getSubButtons().add(button33);
     
     Assert.assertEquals(menu.toJson(), json);
   }

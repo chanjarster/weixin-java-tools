@@ -7,9 +7,9 @@ import me.chanjar.weixin.bean.WxCustomMessage;
  * 视频消息builder
  * <pre>
  * 用法: WxCustomMessage m = WxCustomMessage.VOICE()
- *                              .media_id(...)
+ *                              .mediaId(...)
  *                              .title(...)
- *                              .thumb_media_id(..)
+ *                              .thumbMediaId(..)
  *                              .description(..)
  *                              .touser(...)
  *                              .build();
@@ -18,17 +18,17 @@ import me.chanjar.weixin.bean.WxCustomMessage;
  *
  */
 public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
-  private String media_id;
+  private String mediaId;
   private String title;
   private String description;
-  private String thumb_media_id;
+  private String thumbMediaId;
 
   public VideoBuilder() {
-    this.msgtype = WxConsts.CUSTOM_MSG_VIDEO;
+    this.msgType = WxConsts.CUSTOM_MSG_VIDEO;
   }
 
-  public VideoBuilder mediaId(String media_id) {
-    this.media_id = media_id;
+  public VideoBuilder mediaId(String mediaId) {
+    this.mediaId = mediaId;
     return this;
   }
 
@@ -43,16 +43,16 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   }
 
   public VideoBuilder thumbMediaId(String thumb_media_id) {
-    this.thumb_media_id = thumb_media_id;
+    this.thumbMediaId = thumb_media_id;
     return this;
   }
 
   public WxCustomMessage build() {
     WxCustomMessage m = super.build();
-    m.setMedia_id(this.media_id);
+    m.setMediaId(this.mediaId);
     m.setTitle(title);
     m.setDescription(description);
-    m.setThumb_media_id(thumb_media_id);
+    m.setThumbMediaId(thumbMediaId);
     return m;
   }
 }

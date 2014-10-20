@@ -5,9 +5,9 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
 public class WxMediaUploadResult {
 
   private String type;
-  private String media_id;
-  private String thumb_media_id;
-  private long created_at;
+  private String mediaId;
+  private String thumbMediaId;
+  private long createdAt;
 
   public String getType() {
     return type;
@@ -17,38 +17,38 @@ public class WxMediaUploadResult {
     this.type = type;
   }
 
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
-  public long getCreated_at() {
-    return created_at;
+  public long getCreatedAt() {
+    return createdAt;
   }
 
-  public void setCreated_at(long created_at) {
-    this.created_at = created_at;
+  public void setCreatedAt(long createdAt) {
+    this.createdAt = createdAt;
   }
 
   public static WxMediaUploadResult fromJson(String json) {
     return WxGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
   }
 
-  public String getThumb_media_id() {
-    return thumb_media_id;
+  public String getThumbMediaId() {
+    return thumbMediaId;
   }
 
-  public void setThumb_media_id(String thumb_media_id) {
-    this.thumb_media_id = thumb_media_id;
+  public void setThumbMediaId(String thumbMediaId) {
+    this.thumbMediaId = thumbMediaId;
   }
 
   @Override
   public String toString() {
-    return "WxUploadResult [type=" + type + ", media_id=" + media_id + ", thumb_media_id=" + thumb_media_id
-        + ", created_at=" + created_at + "]";
+    return "WxUploadResult [type=" + type + ", media_id=" + mediaId + ", thumb_media_id=" + thumbMediaId
+        + ", created_at=" + createdAt + "]";
   }
 
 }

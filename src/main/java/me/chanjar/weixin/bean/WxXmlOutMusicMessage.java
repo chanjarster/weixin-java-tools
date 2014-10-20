@@ -17,7 +17,7 @@ public class WxXmlOutMusicMessage extends WxXmlOutMessage {
   protected final Music music = new Music();
 
   public WxXmlOutMusicMessage() {
-    this.MsgType = WxConsts.XML_MSG_MUSIC;
+    this.msgType = WxConsts.XML_MSG_MUSIC;
   }
 
   public String getTitle() {
@@ -52,12 +52,12 @@ public class WxXmlOutMusicMessage extends WxXmlOutMessage {
     music.setMusicUrl(musicUrl);
   }
 
-  public String getHQMusicUrl() {
-    return music.getHQMusicUrl();
+  public String getHqMusicUrl() {
+    return music.getHqMusicUrl();
   }
 
-  public void setHQMusicUrl(String hQMusicUrl) {
-    music.setHQMusicUrl(hQMusicUrl);
+  public void setHqMusicUrl(String hqMusicUrl) {
+    music.setHqMusicUrl(hqMusicUrl);
   }
   
   @XmlRootElement(name = "Music")
@@ -66,62 +66,62 @@ public class WxXmlOutMusicMessage extends WxXmlOutMessage {
     
     @XmlElement(name = "Title")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Title;
+    private String title;
 
     @XmlElement(name = "Description")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Description;
+    private String description;
 
     @XmlElement(name="ThumbMediaId")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String ThumbMediaId;
+    private String thumbMediaId;
     
     @XmlElement(name="MusicUrl")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String MusicUrl;
+    private String musicUrl;
     
     @XmlElement(name="HQMusicUrl")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String HQMusicUrl;
+    private String hqMusicUrl;
     
     public String getTitle() {
-      return Title;
+      return title;
     }
 
     public void setTitle(String title) {
-      Title = title;
+      this.title = title;
     }
 
     public String getDescription() {
-      return Description;
+      return description;
     }
 
     public void setDescription(String description) {
-      Description = description;
+      this.description = description;
     }
 
     public String getThumbMediaId() {
-      return ThumbMediaId;
+      return thumbMediaId;
     }
 
     public void setThumbMediaId(String thumbMediaId) {
-      ThumbMediaId = thumbMediaId;
+      this.thumbMediaId = thumbMediaId;
     }
 
     public String getMusicUrl() {
-      return MusicUrl;
+      return musicUrl;
     }
 
     public void setMusicUrl(String musicUrl) {
-      MusicUrl = musicUrl;
+      this.musicUrl = musicUrl;
     }
 
-    public String getHQMusicUrl() {
-      return HQMusicUrl;
+    public String getHqMusicUrl() {
+      return hqMusicUrl;
     }
 
-    public void setHQMusicUrl(String hQMusicUrl) {
-      HQMusicUrl = hQMusicUrl;
+    public void setHqMusicUrl(String hqMusicUrl) {
+      this.hqMusicUrl = hqMusicUrl;
     }
     
   }

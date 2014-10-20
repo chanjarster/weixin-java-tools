@@ -36,91 +36,91 @@ public class WxXmlMessage {
 
   @XmlElement(name = "ToUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String ToUserName;
+  private String toUserName;
 
   @XmlElement(name = "FromUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String FromUserName;
+  private String fromUserName;
 
   @XmlElement(name = "CreateTime")
-  private Long CreateTime;
+  private Long createTime;
 
   @XmlElement(name = "MsgType")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String MsgType;
+  private String msgType;
 
   @XmlElement(name = "Content")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Content;
+  private String content;
 
   @XmlElement(name = "MsgId")
-  private Long MsgId;
+  private Long msgId;
 
   @XmlElement(name = "PicUrl")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String PicUrl;
+  private String picUrl;
 
   @XmlElement(name = "MediaId")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String MediaId;
+  private String mediaId;
 
   @XmlElement(name = "Format")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Format;
+  private String format;
 
   @XmlElement(name = "ThumbMediaId")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String ThumbMediaId;
+  private String thumbMediaId;
 
   @XmlElement(name = "Location_X")
-  private Double Location_X;
+  private Double locationX;
 
   @XmlElement(name = "Location_Y")
-  private Double Location_Y;
+  private Double locationY;
 
   @XmlElement(name = "Scale")
-  private Double Scale;
+  private Double scale;
 
   @XmlElement(name = "Label")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Label;
+  private String label;
 
   @XmlElement(name = "Title")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Title;
+  private String title;
 
   @XmlElement(name = "Description")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Description;
+  private String description;
 
   @XmlElement(name = "Url")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Url;
+  private String url;
 
   @XmlElement(name = "Event")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Event;
+  private String event;
 
   @XmlElement(name = "EventKey")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String EventKey;
+  private String eventKey;
 
   @XmlElement(name = "Ticket")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Ticket;
+  private String ticket;
 
   @XmlElement(name = "Latitude")
-  private Double Latitude;
+  private Double latitude;
 
   @XmlElement(name = "Longitude")
-  private Double Longitude;
+  private Double longitude;
 
   @XmlElement(name = "Precision")
-  private Double Precision;
+  private Double precision;
 
   @XmlElement(name = "Recognition")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Recognition;
+  private String recognition;
 
   ///////////////////////////////////////
   // 群发消息返回的结果
@@ -130,47 +130,51 @@ public class WxXmlMessage {
    */
   @XmlElement(name = "Status")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Status;
+  private String status;
   /**
    * group_id下粉丝数；或者openid_list中的粉丝数
    */
-  private Integer TotalCount;
+  @XmlElement(name = "TotalCount")
+  private Integer totalCount;
   /**
-   * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，FilterCount = SentCount + ErrorCount
+   * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，filterCount = sentCount + errorCount
    */
-  private Integer FilterCount;
+  @XmlElement(name = "FilterCount")
+  private Integer filterCount;
   /**
    * 发送成功的粉丝数
    */
-  private Integer SentCount;
+  @XmlElement(name = "SentCount")
+  private Integer sentCount;
   /**
    * 发送失败的粉丝数
    */
-  private Integer ErrorCount;
+  @XmlElement(name = "ErrorCount")
+  private Integer errorCount;
 
   @XmlElement(name = "ScanCodeInfo")
-  private ScanCodeInfo ScanCodeInfo = new ScanCodeInfo();
+  private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
   @XmlElement(name = "SendPicsInfo")
-  private SendPicsInfo SendPicsInfo = new SendPicsInfo();
+  private SendPicsInfo sendPicsInfo = new SendPicsInfo();
 
   @XmlElement(name = "SendLocationInfo")
-  private SendLocationInfo SendLocationInfo = new SendLocationInfo();
+  private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
   public String getToUserName() {
-    return ToUserName;
+    return toUserName;
   }
 
   public void setToUserName(String toUserName) {
-    ToUserName = toUserName;
+    this.toUserName = toUserName;
   }
 
   public Long getCreateTime() {
-    return CreateTime;
+    return createTime;
   }
 
   public void setCreateTime(Long createTime) {
-    CreateTime = createTime;
+    this.createTime = createTime;
   }
 
   /**
@@ -188,7 +192,7 @@ public class WxXmlMessage {
    * @return
    */
   public String getMsgType() {
-    return MsgType;
+    return msgType;
   }
 
   /**
@@ -205,175 +209,175 @@ public class WxXmlMessage {
    * @param msgType
    */
   public void setMsgType(String msgType) {
-    MsgType = msgType;
+    this.msgType = msgType;
   }
 
   public String getContent() {
-    return Content;
+    return content;
   }
 
   public void setContent(String content) {
-    Content = content;
+    this.content = content;
   }
 
   public Long getMsgId() {
-    return MsgId;
+    return msgId;
   }
 
   public void setMsgId(Long msgId) {
-    MsgId = msgId;
+    this.msgId = msgId;
   }
 
   public String getPicUrl() {
-    return PicUrl;
+    return picUrl;
   }
 
   public void setPicUrl(String picUrl) {
-    PicUrl = picUrl;
+    this.picUrl = picUrl;
   }
 
   public String getMediaId() {
-    return MediaId;
+    return mediaId;
   }
 
   public void setMediaId(String mediaId) {
-    MediaId = mediaId;
+    this.mediaId = mediaId;
   }
 
   public String getFormat() {
-    return Format;
+    return format;
   }
 
   public void setFormat(String format) {
-    Format = format;
+    this.format = format;
   }
 
   public String getThumbMediaId() {
-    return ThumbMediaId;
+    return thumbMediaId;
   }
 
   public void setThumbMediaId(String thumbMediaId) {
-    ThumbMediaId = thumbMediaId;
+    this.thumbMediaId = thumbMediaId;
   }
 
-  public Double getLocation_X() {
-    return Location_X;
+  public Double getLocationX() {
+    return locationX;
   }
 
-  public void setLocation_X(Double location_X) {
-    Location_X = location_X;
+  public void setLocationX(Double locationX) {
+    this.locationX = locationX;
   }
 
-  public Double getLocation_Y() {
-    return Location_Y;
+  public Double getLocationY() {
+    return locationY;
   }
 
-  public void setLocation_Y(Double location_Y) {
-    Location_Y = location_Y;
+  public void setLocationY(Double locationY) {
+    this.locationY = locationY;
   }
 
   public Double getScale() {
-    return Scale;
+    return scale;
   }
 
   public void setScale(Double scale) {
-    Scale = scale;
+    this.scale = scale;
   }
 
   public String getLabel() {
-    return Label;
+    return label;
   }
 
   public void setLabel(String label) {
-    Label = label;
+    this.label = label;
   }
 
   public String getTitle() {
-    return Title;
+    return title;
   }
 
   public void setTitle(String title) {
-    Title = title;
+    this.title = title;
   }
 
   public String getDescription() {
-    return Description;
+    return description;
   }
 
   public void setDescription(String description) {
-    Description = description;
+    this.description = description;
   }
 
   public String getUrl() {
-    return Url;
+    return url;
   }
 
   public void setUrl(String url) {
-    Url = url;
+    this.url = url;
   }
 
   public String getEvent() {
-    return Event;
+    return event;
   }
 
   public void setEvent(String event) {
-    Event = event;
+    this.event = event;
   }
 
   public String getEventKey() {
-    return EventKey;
+    return eventKey;
   }
 
   public void setEventKey(String eventKey) {
-    EventKey = eventKey;
+    this.eventKey = eventKey;
   }
 
   public String getTicket() {
-    return Ticket;
+    return ticket;
   }
 
   public void setTicket(String ticket) {
-    Ticket = ticket;
+    this.ticket = ticket;
   }
 
   public Double getLatitude() {
-    return Latitude;
+    return latitude;
   }
 
   public void setLatitude(Double latitude) {
-    Latitude = latitude;
+    this.latitude = latitude;
   }
 
   public Double getLongitude() {
-    return Longitude;
+    return longitude;
   }
 
   public void setLongitude(Double longitude) {
-    Longitude = longitude;
+    this.longitude = longitude;
   }
 
   public Double getPrecision() {
-    return Precision;
+    return precision;
   }
 
   public void setPrecision(Double precision) {
-    Precision = precision;
+    this.precision = precision;
   }
 
   public String getRecognition() {
-    return Recognition;
+    return recognition;
   }
 
   public void setRecognition(String recognition) {
-    Recognition = recognition;
+    this.recognition = recognition;
   }
 
   public String getFromUserName() {
-    return FromUserName;
+    return fromUserName;
   }
 
   public void setFromUserName(String fromUserName) {
-    FromUserName = fromUserName;
+    this.fromUserName = fromUserName;
   }
 
   public static WxXmlMessage fromXml(String xml) {
@@ -423,67 +427,67 @@ public class WxXmlMessage {
   }
 
   public String getStatus() {
-    return Status;
+    return status;
   }
 
   public void setStatus(String status) {
-    Status = status;
+    this.status = status;
   }
 
   public Integer getTotalCount() {
-    return TotalCount;
+    return totalCount;
   }
 
   public void setTotalCount(Integer totalCount) {
-    TotalCount = totalCount;
+    this.totalCount = totalCount;
   }
 
   public Integer getFilterCount() {
-    return FilterCount;
+    return filterCount;
   }
 
   public void setFilterCount(Integer filterCount) {
-    FilterCount = filterCount;
+    this.filterCount = filterCount;
   }
 
   public Integer getSentCount() {
-    return SentCount;
+    return sentCount;
   }
 
   public void setSentCount(Integer sentCount) {
-    SentCount = sentCount;
+    this.sentCount = sentCount;
   }
 
   public Integer getErrorCount() {
-    return ErrorCount;
+    return errorCount;
   }
 
   public void setErrorCount(Integer errorCount) {
-    ErrorCount = errorCount;
+    this.errorCount = errorCount;
   }
 
   public WxXmlMessage.ScanCodeInfo getScanCodeInfo() {
-    return ScanCodeInfo;
+    return scanCodeInfo;
   }
 
   public void setScanCodeInfo(WxXmlMessage.ScanCodeInfo scanCodeInfo) {
-    ScanCodeInfo = scanCodeInfo;
+    this.scanCodeInfo = scanCodeInfo;
   }
 
   public WxXmlMessage.SendPicsInfo getSendPicsInfo() {
-    return SendPicsInfo;
+    return sendPicsInfo;
   }
 
   public void setSendPicsInfo(WxXmlMessage.SendPicsInfo sendPicsInfo) {
-    SendPicsInfo = sendPicsInfo;
+    this.sendPicsInfo = sendPicsInfo;
   }
 
   public WxXmlMessage.SendLocationInfo getSendLocationInfo() {
-    return SendLocationInfo;
+    return sendLocationInfo;
   }
 
   public void setSendLocationInfo(WxXmlMessage.SendLocationInfo sendLocationInfo) {
-    SendLocationInfo = sendLocationInfo;
+    this.sendLocationInfo = sendLocationInfo;
   }
 
   @XmlRootElement(name = "ScanCodeInfo")
@@ -492,11 +496,11 @@ public class WxXmlMessage {
 
     @XmlElement(name = "ScanType")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String ScanType;
+    private String scanType;
 
     @XmlElement(name = "ScanResult")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String ScanResult;
+    private String scanResult;
 
     /**
      * 扫描类型，一般是qrcode
@@ -504,11 +508,11 @@ public class WxXmlMessage {
      */
     public String getScanType() {
 
-      return ScanType;
+      return scanType;
     }
 
     public void setScanType(String scanType) {
-      ScanType = scanType;
+      this.scanType = scanType;
     }
 
     /**
@@ -516,11 +520,11 @@ public class WxXmlMessage {
      * @return
      */
     public String getScanResult() {
-      return ScanResult;
+      return scanResult;
     }
 
     public void setScanResult(String scanResult) {
-      ScanResult = scanResult;
+      this.scanResult = scanResult;
     }
 
   }
@@ -529,22 +533,23 @@ public class WxXmlMessage {
   @XmlAccessorType(XmlAccessType.FIELD)
   public static class SendPicsInfo {
 
-    private Long Count;
+    @XmlElement(name = "Count")
+    private Long count;
 
     @XmlElementWrapper(name="PicList")
     @XmlElement(name = "item")
-    protected final List<Item> PicList = new ArrayList<Item>();
+    protected final List<Item> picList = new ArrayList<Item>();
 
     public Long getCount() {
-      return Count;
+      return count;
     }
 
     public void setCount(Long count) {
-      Count = count;
+      this.count = count;
     }
 
     public List<Item> getPicList() {
-      return PicList;
+      return picList;
     }
 
     @XmlRootElement(name = "item")
@@ -572,62 +577,62 @@ public class WxXmlMessage {
 
     @XmlElement(name = "Location_X")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Location_X;
+    private String locationX;
 
     @XmlElement(name = "Location_Y")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Location_Y;
+    private String locationY;
 
     @XmlElement(name = "Scale")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Scale;
+    private String scale;
 
     @XmlElement(name = "Label")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Label;
+    private String label;
 
     @XmlElement(name = "Poiname")
     @XmlJavaTypeAdapter(AdapterCDATA.class)
-    private String Poiname;
+    private String poiname;
 
-    public String getLocation_X() {
-      return Location_X;
+    public String getLocationX() {
+      return locationX;
     }
 
-    public void setLocation_X(String location_X) {
-      Location_X = location_X;
+    public void setLocationX(String locationX) {
+      this.locationX = locationX;
     }
 
-    public String getLocation_Y() {
-      return Location_Y;
+    public String getLocationY() {
+      return locationY;
     }
 
-    public void setLocation_Y(String location_Y) {
-      Location_Y = location_Y;
+    public void setLocationY(String locationY) {
+      this.locationY = locationY;
     }
 
     public String getScale() {
-      return Scale;
+      return scale;
     }
 
     public void setScale(String scale) {
-      Scale = scale;
+      this.scale = scale;
     }
 
     public String getLabel() {
-      return Label;
+      return label;
     }
 
     public void setLabel(String label) {
-      Label = label;
+      this.label = label;
     }
 
     public String getPoiname() {
-      return Poiname;
+      return poiname;
     }
 
     public void setPoiname(String poiname) {
-      Poiname = poiname;
+      this.poiname = poiname;
     }
   }
 

@@ -17,7 +17,7 @@ public class WxInMemoryConfigStorage implements WxConfigStorage {
   protected int expiresIn;
 
   public void updateAccessToken(WxAccessToken accessToken) {
-    updateAccessToken(accessToken.getAccess_token(), accessToken.getExpires_in());
+    updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
   
   public void updateAccessToken(String accessToken, int expiresIn) {

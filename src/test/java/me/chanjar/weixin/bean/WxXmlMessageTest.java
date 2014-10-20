@@ -64,8 +64,8 @@ public class WxXmlMessageTest {
     Assert.assertEquals(wxMessage.getMediaId(), "media_id");
     Assert.assertEquals(wxMessage.getFormat(), "Format");
     Assert.assertEquals(wxMessage.getThumbMediaId(), "thumb_media_id");
-    Assert.assertEquals(wxMessage.getLocation_X(), new Double(23.134521d));
-    Assert.assertEquals(wxMessage.getLocation_Y(), new Double(113.358803d));
+    Assert.assertEquals(wxMessage.getLocationX(), new Double(23.134521d));
+    Assert.assertEquals(wxMessage.getLocationY(), new Double(113.358803d));
     Assert.assertEquals(wxMessage.getScale(), new Double(20));
     Assert.assertEquals(wxMessage.getLabel(), "位置信息");
     Assert.assertEquals(wxMessage.getDescription(), "公众平台官网链接");
@@ -81,8 +81,8 @@ public class WxXmlMessageTest {
     Assert.assertEquals(wxMessage.getScanCodeInfo().getScanResult(), "1");
     Assert.assertEquals(wxMessage.getSendPicsInfo().getCount(), new Long(1l));
     Assert.assertEquals(wxMessage.getSendPicsInfo().getPicList().get(0).getPicMd5Sum(), "1b5f7c23b5bf75682a53e7b6d163e185");
-    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocation_X(), "23");
-    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocation_Y(), "113");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocationX(), "23");
+    Assert.assertEquals(wxMessage.getSendLocationInfo().getLocationY(), "113");
     Assert.assertEquals(wxMessage.getSendLocationInfo().getScale(), "15");
     Assert.assertEquals(wxMessage.getSendLocationInfo().getLabel(), " 广州市海珠区客村艺苑路 106号");
     Assert.assertEquals(wxMessage.getSendLocationInfo().getPoiname(), "wo de poi");

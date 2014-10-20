@@ -7,10 +7,10 @@ import me.chanjar.weixin.bean.WxCustomMessage;
  * 音乐消息builder
  * <pre>
  * 用法: WxCustomMessage m = WxCustomMessage.MUSIC()
- *                      .musicurl(...)
- *                      .hqmusicurl(...)
+ *                      .musicUrl(...)
+ *                      .hqMusicUrl(...)
  *                      .title(...)
- *                      .thumb_media_id(..)
+ *                      .thumbMediaId(..)
  *                      .description(..)
  *                      .touser(...)
  *                      .build();
@@ -19,21 +19,21 @@ import me.chanjar.weixin.bean.WxCustomMessage;
 public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
   private String title;
   private String description;
-  private String thumb_media_id;
-  private String musicurl;
-  private String hqmusicurl;
+  private String thumbMediaId;
+  private String musicUrl;
+  private String hqMusicUrl;
 
   public MusicBuilder() {
-    this.msgtype = WxConsts.CUSTOM_MSG_MUSIC;
+    this.msgType = WxConsts.CUSTOM_MSG_MUSIC;
   }
 
   public MusicBuilder musicUrl(String musicurl) {
-    this.musicurl = musicurl;
+    this.musicUrl = musicurl;
     return this;
   }
 
-  public MusicBuilder hqmusicUrl(String hqmusicurl) {
-    this.hqmusicurl = hqmusicurl;
+  public MusicBuilder hqMusicUrl(String hqMusicurl) {
+    this.hqMusicUrl = hqMusicurl;
     return this;
   }
 
@@ -48,17 +48,17 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
   }
 
   public MusicBuilder thumbMediaId(String thumb_media_id) {
-    this.thumb_media_id = thumb_media_id;
+    this.thumbMediaId = thumb_media_id;
     return this;
   }
 
   public WxCustomMessage build() {
     WxCustomMessage m = super.build();
-    m.setMusicurl(this.musicurl);
-    m.setHqmusicurl(this.hqmusicurl);
+    m.setMusicUrl(this.musicUrl);
+    m.setHqMusicUrl(this.hqMusicUrl);
     m.setTitle(title);
     m.setDescription(description);
-    m.setThumb_media_id(thumb_media_id);
+    m.setThumbMediaId(thumbMediaId);
     return m;
   }
 }

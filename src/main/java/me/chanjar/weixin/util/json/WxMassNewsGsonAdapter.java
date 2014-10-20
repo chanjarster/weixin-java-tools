@@ -31,20 +31,20 @@ public class WxMassNewsGsonAdapter implements JsonSerializer<WxMassNews> {
     JsonArray articleJsonArray = new JsonArray();
     for (WxMassNews.WxMassNewsArticle article : message.getArticles()) {
       JsonObject articleJson = new JsonObject();
-      articleJson.addProperty("thumb_media_id", article.getThumb_media_id());
+      articleJson.addProperty("thumb_media_id", article.getThumbMediaId());
       articleJson.addProperty("title", article.getTitle());
       articleJson.addProperty("content", article.getContent());
 
       if (null != article.getAuthor()) {
         articleJson.addProperty("author", article.getAuthor());
       }
-      if (null != article.getContent_source_url()) {
-        articleJson.addProperty("content_source_url", article.getContent_source_url());
+      if (null != article.getContentSourceUrl()) {
+        articleJson.addProperty("content_source_url", article.getContentSourceUrl());
       }
       if (null != article.getDigest()) {
         articleJson.addProperty("digest", article.getDigest());
       }
-      articleJson.addProperty("show_cover_pic", article.isShow_cover_pic() ? "1" : "0");
+      articleJson.addProperty("show_cover_pic", article.isShowCoverPic() ? "1" : "0");
       articleJsonArray.add(articleJson);
     }
     newsJson.add("articles", articleJsonArray);

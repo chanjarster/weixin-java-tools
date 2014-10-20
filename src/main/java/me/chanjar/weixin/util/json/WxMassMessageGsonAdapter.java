@@ -29,12 +29,12 @@ public class WxMassMessageGsonAdapter implements JsonSerializer<WxMassGroupMessa
     JsonObject messageJson = new JsonObject();
     
     JsonObject filter = new JsonObject();
-    filter.addProperty("group_id", message.getGroup_id());
+    filter.addProperty("group_id", message.getGroupId());
     messageJson.add("filter", filter);
     
     if (WxConsts.MASS_MSG_NEWS.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
-      sub.addProperty("media_id", message.getMedia_id());
+      sub.addProperty("media_id", message.getMediaId());
       messageJson.add(WxConsts.MASS_MSG_NEWS, sub);
     }
     if (WxConsts.MASS_MSG_TEXT.equals(message.getMsgtype())) {
@@ -44,17 +44,17 @@ public class WxMassMessageGsonAdapter implements JsonSerializer<WxMassGroupMessa
     }
     if (WxConsts.MASS_MSG_VOICE.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
-      sub.addProperty("media_id", message.getMedia_id());
+      sub.addProperty("media_id", message.getMediaId());
       messageJson.add(WxConsts.MASS_MSG_VOICE, sub);
     }
     if (WxConsts.MASS_MSG_IMAGE.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
-      sub.addProperty("media_id", message.getMedia_id());
+      sub.addProperty("media_id", message.getMediaId());
       messageJson.add(WxConsts.MASS_MSG_IMAGE, sub);
     }
     if (WxConsts.MASS_MSG_VIDEO.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
-      sub.addProperty("media_id", message.getMedia_id());
+      sub.addProperty("media_id", message.getMediaId());
       messageJson.add(WxConsts.MASS_MSG_VIDEO, sub);
     }
     messageJson.addProperty("msgtype", message.getMsgtype());

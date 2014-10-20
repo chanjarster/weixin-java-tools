@@ -15,18 +15,18 @@ public class WxXmlOutVoiceMessage extends WxXmlOutMessage {
   
   @XmlElement(name="Voice")
   @XmlJavaTypeAdapter(MediaIdMarshaller.class)
-  private String MediaId;
+  private String mediaId;
 
   public WxXmlOutVoiceMessage() {
-    this.MsgType = WxConsts.XML_MSG_VOICE;
+    this.msgType = WxConsts.XML_MSG_VOICE;
   }
   
   public String getMediaId() {
-    return MediaId;
+    return mediaId;
   }
 
   public void setMediaId(String mediaId) {
-    MediaId = mediaId;
+    this.mediaId = mediaId;
   }
   
 }

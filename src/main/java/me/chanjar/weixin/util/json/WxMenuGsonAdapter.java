@@ -32,7 +32,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     JsonObject json = new JsonObject();
 
     JsonArray buttonArray = new JsonArray();
-    for (WxMenu.WxMenuButton button : menu.getButton()) {
+    for (WxMenu.WxMenuButton button : menu.getButtons()) {
       JsonObject buttonJson = convertToJson(button);
       buttonArray.add(buttonJson);
     }
@@ -47,9 +47,9 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     buttonJson.addProperty("name", button.getName());
     buttonJson.addProperty("key", button.getKey());
     buttonJson.addProperty("url", button.getUrl());
-    if (button.getSub_button() != null && button.getSub_button().size() > 0) {
+    if (button.getSubButtons() != null && button.getSubButtons().size() > 0) {
       JsonArray buttonArray = new JsonArray();
-      for (WxMenu.WxMenuButton sub_button : button.getSub_button()) {
+      for (WxMenu.WxMenuButton sub_button : button.getSubButtons()) {
         buttonArray.add(convertToJson(sub_button));
       }
       buttonJson.add("sub_button", buttonArray);
@@ -69,14 +69,14 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
       WxMenu.WxMenuButton button = convertFromJson(buttonJson);
-      menu.getButton().add(button);
+      menu.getButtons().add(button);
       if (buttonJson.get("sub_button") == null || buttonJson.get("sub_button").isJsonNull()) {
         continue;
       }
       JsonArray sub_buttonsJson = buttonJson.get("sub_button").getAsJsonArray();
       for (int j = 0; j < sub_buttonsJson.size(); j++) {
         JsonObject sub_buttonJson = sub_buttonsJson.get(j).getAsJsonObject();
-        button.getSub_button().add(convertFromJson(sub_buttonJson));
+        button.getSubButtons().add(convertFromJson(sub_buttonJson));
       }
     }
     return menu;

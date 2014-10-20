@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -86,11 +84,11 @@ public class WxServiceImpl implements WxService {
           CloseableHttpResponse response = httpclient.execute(httpGet);
           String resultContent = new BasicResponseHandler().handleResponse(response);
           WxError error = WxError.fromJson(resultContent);
-          if (error.getErrcode() != 0) {
+          if (error.getErrorCode() != 0) {
             throw new WxErrorException(error);
           }
           WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-          wxConfigStorage.updateAccessToken(accessToken.getAccess_token(), accessToken.getExpires_in());
+          wxConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
         } catch (ClientProtocolException e) {
           throw new RuntimeException(e);
         } catch (IOException e) {
@@ -133,7 +131,7 @@ public class WxServiceImpl implements WxService {
       return WxMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据
-      if (e.getError().getErrcode() == 46003) {
+      if (e.getError().getErrorCode() == 46003) {
         return null;
       }
       throw e;
@@ -316,14 +314,14 @@ public class WxServiceImpl implements WxService {
        * 40001 获取access_token时AppSecret错误，或者access_token无效
        * 42001 access_token超时
        */
-      if (error.getErrcode() == 42001 || error.getErrcode() == 40001) {
+      if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         accessTokenRefresh();
         return execute(executor, uri, data);
       }
       /**
        * -1 系统繁忙, 1000ms后重试
        */
-      if (error.getErrcode() == -1) {
+      if (error.getErrorCode() == -1) {
         if(retryTimes.get() == null) {
           retryTimes.set(0);
         }
@@ -341,7 +339,7 @@ public class WxServiceImpl implements WxService {
           throw new RuntimeException(e1);
         }
       }
-      if (error.getErrcode() != 0) {
+      if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
       }
       return null;

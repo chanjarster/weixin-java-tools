@@ -39,7 +39,7 @@ public class WxUserAPITest {
       Assert.assertNotNull(wxUserList);
       Assert.assertFalse(wxUserList.getCount() == -1);
       Assert.assertFalse(wxUserList.getTotal() == -1);
-      Assert.assertFalse(wxUserList.getOpenids().size() == -1);
+      Assert.assertFalse(wxUserList.getOpenIds().size() == -1);
   }
     
   public void testGroupQueryUserGroup() throws WxErrorException {

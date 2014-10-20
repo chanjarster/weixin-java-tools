@@ -19,25 +19,25 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxCustomMessage {
 
-  private String touser;
-  private String msgtype;
+  private String toUser;
+  private String msgType;
   private String content;
-  private String media_id;
-  private String thumb_media_id;
+  private String mediaId;
+  private String thumbMediaId;
   private String title;
   private String description;
-  private String musicurl;
-  private String hqmusicurl;
+  private String musicUrl;
+  private String hqMusicUrl;
   private List<WxArticle> articles = new ArrayList<WxArticle>();
   
-  public String getTouser() {
-    return touser;
+  public String getToUser() {
+    return toUser;
   }
-  public void setTouser(String touser) {
-    this.touser = touser;
+  public void setToUser(String toUser) {
+    this.toUser = toUser;
   }
-  public String getMsgtype() {
-    return msgtype;
+  public String getMsgType() {
+    return msgType;
   }
   
   /**
@@ -50,10 +50,10 @@ public class WxCustomMessage {
    * {@link WxConsts#CUSTOM_MSG_VIDEO}
    * {@link WxConsts#CUSTOM_MSG_NEWS}
    * </pre>
-   * @param msgtype
+   * @param msgType
    */
-  public void setMsgtype(String msgtype) {
-    this.msgtype = msgtype;
+  public void setMsgType(String msgType) {
+    this.msgType = msgType;
   }
   public String getContent() {
     return content;
@@ -61,17 +61,17 @@ public class WxCustomMessage {
   public void setContent(String content) {
     this.content = content;
   }
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
-  public String getThumb_media_id() {
-    return thumb_media_id;
+  public String getThumbMediaId() {
+    return thumbMediaId;
   }
-  public void setThumb_media_id(String thumb_media_id) {
-    this.thumb_media_id = thumb_media_id;
+  public void setThumbMediaId(String thumbMediaId) {
+    this.thumbMediaId = thumbMediaId;
   }
   public String getTitle() {
     return title;
@@ -85,17 +85,17 @@ public class WxCustomMessage {
   public void setDescription(String description) {
     this.description = description;
   }
-  public String getMusicurl() {
-    return musicurl;
+  public String getMusicUrl() {
+    return musicUrl;
   }
-  public void setMusicurl(String musicurl) {
-    this.musicurl = musicurl;
+  public void setMusicUrl(String musicUrl) {
+    this.musicUrl = musicUrl;
   }
-  public String getHqmusicurl() {
-    return hqmusicurl;
+  public String getHqMusicUrl() {
+    return hqMusicUrl;
   }
-  public void setHqmusicurl(String hqmusicurl) {
-    this.hqmusicurl = hqmusicurl;
+  public void setHqMusicUrl(String hqMusicUrl) {
+    this.hqMusicUrl = hqMusicUrl;
   }
   public List<WxArticle> getArticles() {
     return articles;
@@ -113,7 +113,7 @@ public class WxCustomMessage {
     private String title;
     private String description;
     private String url;
-    private String picurl;
+    private String picUrl;
     
     public String getTitle() {
       return title;
@@ -133,11 +133,11 @@ public class WxCustomMessage {
     public void setUrl(String url) {
       this.url = url;
     }
-    public String getPicurl() {
-      return picurl;
+    public String getPicUrl() {
+      return picUrl;
     }
-    public void setPicurl(String picurl) {
-      this.picurl = picurl;
+    public void setPicUrl(String picUrl) {
+      this.picUrl = picUrl;
     }
     
   }

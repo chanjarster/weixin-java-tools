@@ -9,7 +9,7 @@ import me.chanjar.weixin.util.json.WxGsonBuilder;
  */
 public class WxMassVideo {
 
-  private String media_id;
+  private String mediaId;
   private String title;
   private String description;
 
@@ -29,12 +29,12 @@ public class WxMassVideo {
     this.description = description;
   }
 
-  public String getMedia_id() {
-    return media_id;
+  public String getMediaId() {
+    return mediaId;
   }
 
-  public void setMedia_id(String media_id) {
-    this.media_id = media_id;
+  public void setMediaId(String mediaId) {
+    this.mediaId = mediaId;
   }
 
   public String toJson() {

@@ -15,18 +15,18 @@ public class WxXmlOutTextMessage extends WxXmlOutMessage {
   
   @XmlElement(name="Content")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
-  private String Content;
+  private String content;
 
   public WxXmlOutTextMessage() {
-    this.MsgType = WxConsts.XML_MSG_TEXT;
+    this.msgType = WxConsts.XML_MSG_TEXT;
   }
   
   public String getContent() {
-    return Content;
+    return content;
   }
 
   public void setContent(String content) {
-    Content = content;
+    this.content = content;
   }
 
   
