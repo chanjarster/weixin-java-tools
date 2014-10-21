@@ -1,9 +1,9 @@
 package me.chanjar.weixin.enterprise.bean;
 
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
 import me.chanjar.weixin.enterprise.bean.WxCpMessage.WxArticle;
 
 @Test
@@ -12,7 +12,7 @@ public class WxCpMessageTest {
   public void testTextReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    reply.setMsgType(WxCpConsts.CUSTOM_MSG_TEXT);
     reply.setContent("sfsfdsdf");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
@@ -25,7 +25,7 @@ public class WxCpMessageTest {
   public void testImageReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_IMAGE);
+    reply.setMsgType(WxCpConsts.CUSTOM_MSG_IMAGE);
     reply.setMediaId("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -38,7 +38,7 @@ public class WxCpMessageTest {
   public void testVoiceReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_VOICE);
+    reply.setMsgType(WxCpConsts.CUSTOM_MSG_VOICE);
     reply.setMediaId("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -51,7 +51,7 @@ public class WxCpMessageTest {
   public void testVideoReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_VIDEO);
+    reply.setMsgType(WxCpConsts.CUSTOM_MSG_VIDEO);
     reply.setMediaId("MEDIA_ID");
     reply.setThumbMediaId("MEDIA_ID");
     reply.setTitle("TITLE");
@@ -64,34 +64,10 @@ public class WxCpMessageTest {
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"video\",\"video\":{\"media_id\":\"MEDIA_ID\",\"thumb_media_id\":\"MEDIA_ID\",\"title\":\"TITLE\",\"description\":\"DESCRIPTION\"}}");
   }
   
-  public void testMusicReply() {
-    WxCpMessage reply = new WxCpMessage();
-    reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_MUSIC);
-    reply.setThumbMediaId("MEDIA_ID");
-    reply.setDescription("DESCRIPTION");
-    reply.setTitle("TITLE");
-    reply.setMusicUrl("MUSIC_URL");
-    reply.setHqMusicUrl("HQ_MUSIC_URL");
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"music\",\"music\":{\"title\":\"TITLE\",\"description\":\"DESCRIPTION\",\"thumb_media_id\":\"MEDIA_ID\",\"musicurl\":\"MUSIC_URL\",\"hqmusicurl\":\"HQ_MUSIC_URL\"}}");
-  }
-  
-  public void testMusicBuild() {
-    WxCpMessage reply = WxCpMessage.MUSIC()
-          .toUser("OPENID")
-          .title("TITLE")
-          .thumbMediaId("MEDIA_ID")
-          .description("DESCRIPTION")
-          .musicUrl("MUSIC_URL")
-          .hqMusicUrl("HQ_MUSIC_URL")
-          .build();
-    Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"music\",\"music\":{\"title\":\"TITLE\",\"description\":\"DESCRIPTION\",\"thumb_media_id\":\"MEDIA_ID\",\"musicurl\":\"MUSIC_URL\",\"hqmusicurl\":\"HQ_MUSIC_URL\"}}");
-  }
-  
   public void testNewsReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxConsts.CUSTOM_MSG_NEWS);
+    reply.setMsgType(WxCpConsts.CUSTOM_MSG_NEWS);
     
     WxArticle article1 = new WxArticle();
     article1.setUrl("URL");

@@ -1,7 +1,6 @@
 package me.chanjar.weixin.enterprise.bean;
 
 import me.chanjar.weixin.enterprise.api.WxCpConfigStorage;
-import me.chanjar.weixin.enterprise.api.WxConsts;
 import me.chanjar.weixin.common.AdapterCDATA;
 import me.chanjar.weixin.common.XmlTransformer;
 import me.chanjar.weixin.enterprise.util.crypto.WxCryptUtil;
@@ -191,13 +190,13 @@ public class WxCpXmlMessage {
   /**
    * <pre>
    * 当接受用户消息时，可能会获得以下值：
-   * {@link WxConsts#XML_MSG_TEXT}
-   * {@link WxConsts#XML_MSG_IMAGE}
-   * {@link WxConsts#XML_MSG_VOICE}
-   * {@link WxConsts#XML_MSG_VIDEO}
-   * {@link WxConsts#XML_MSG_LOCATION}
-   * {@link WxConsts#XML_MSG_LINK}
-   * {@link WxConsts#XML_MSG_EVENT}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_TEXT}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_IMAGE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_VOICE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_VIDEO}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_LOCATION}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_LINK}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_EVENT}
    * </pre>
    *
    * @return
@@ -209,12 +208,12 @@ public class WxCpXmlMessage {
   /**
    * <pre>
    * 当发送消息的时候使用：
-   * {@link WxConsts#XML_MSG_TEXT}
-   * {@link WxConsts#XML_MSG_IMAGE}
-   * {@link WxConsts#XML_MSG_VOICE}
-   * {@link WxConsts#XML_MSG_VIDEO}
-   * {@link WxConsts#XML_MSG_NEWS}
-   * {@link WxConsts#XML_MSG_MUSIC}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_TEXT}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_IMAGE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_VOICE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_VIDEO}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_NEWS}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#XML_MSG_MUSIC}
    * </pre>
    *
    * @param msgType

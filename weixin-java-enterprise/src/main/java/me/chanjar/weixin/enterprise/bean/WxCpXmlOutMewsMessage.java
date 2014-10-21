@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.common.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
@@ -25,7 +25,7 @@ public class WxCpXmlOutMewsMessage extends WxCpXmlOutMessage {
   protected final List<Item> articles = new ArrayList<Item>();
   
   public WxCpXmlOutMewsMessage() {
-    this.msgType = WxConsts.XML_MSG_NEWS;
+    this.msgType = WxCpConsts.XML_MSG_NEWS;
   }
 
   public int getArticleCount() {

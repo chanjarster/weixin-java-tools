@@ -3,7 +3,6 @@ package me.chanjar.weixin.enterprise.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
 import me.chanjar.weixin.enterprise.bean.messagebuilder.*;
 import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
@@ -66,12 +65,12 @@ public class WxCpMessage {
   /**
    * <pre>
    * 请使用
-   * {@link WxConsts#CUSTOM_MSG_TEXT}
-   * {@link WxConsts#CUSTOM_MSG_IMAGE}
-   * {@link WxConsts#CUSTOM_MSG_VOICE}
-   * {@link WxConsts#CUSTOM_MSG_MUSIC}
-   * {@link WxConsts#CUSTOM_MSG_VIDEO}
-   * {@link WxConsts#CUSTOM_MSG_NEWS}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_TEXT}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_IMAGE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_VOICE}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_MUSIC}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_VIDEO}
+   * {@link me.chanjar.weixin.enterprise.api.WxCpConsts#CUSTOM_MSG_NEWS}
    * </pre>
    * @param msgType
    */
@@ -195,14 +194,6 @@ public class WxCpMessage {
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
-  }
-  
-  /**
-   * 获得音乐消息builder
-   * @return
-   */
-  public static MusicBuilder MUSIC() {
-    return new MusicBuilder();
   }
   
   /**

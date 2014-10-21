@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import me.chanjar.weixin.enterprise.api.WxCpConfigStorage;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.ImageBuilder;
-import me.chanjar.weixin.enterprise.bean.outxmlbuilder.MusicBuilder;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.NewsBuilder;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.TextBuilder;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.VideoBuilder;
@@ -117,14 +116,6 @@ public class WxCpXmlOutMessage {
    */
   public static VideoBuilder VIDEO() {
     return new VideoBuilder();
-  }
-  
-  /**
-   * 获得音乐消息builder
-   * @return
-   */
-  public static MusicBuilder MUSIC() {
-    return new MusicBuilder();
   }
   
   /**

@@ -80,7 +80,6 @@ public class XmlTransformer {
           WxCpXmlOutMessage.class,
           WxCpXmlOutImageMessage.class,
           WxCpXmlOutMewsMessage.class,
-          WxCpXmlOutMusicMessage.class,
           WxCpXmlOutTextMessage.class,
           WxCpXmlOutVideoMessage.class,
           WxCpXmlOutVoiceMessage.class,

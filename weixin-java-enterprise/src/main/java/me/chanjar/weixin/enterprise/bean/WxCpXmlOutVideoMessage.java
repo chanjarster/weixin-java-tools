@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.common.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
@@ -17,7 +17,7 @@ public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
   protected final Video video = new Video();
 
   public WxCpXmlOutVideoMessage() {
-    this.msgType = WxConsts.XML_MSG_VIDEO;
+    this.msgType = WxCpConsts.XML_MSG_VIDEO;
   }
 
   public String getMediaId() {

@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
@@ -24,7 +24,7 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   private String thumbMediaId;
 
   public VideoBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_VIDEO;
+    this.msgType = WxCpConsts.CUSTOM_MSG_VIDEO;
   }
 
   public VideoBuilder mediaId(String mediaId) {

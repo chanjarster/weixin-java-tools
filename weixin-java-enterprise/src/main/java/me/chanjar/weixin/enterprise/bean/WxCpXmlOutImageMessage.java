@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.common.MediaIdMarshaller;
 
 @XmlRootElement(name = "xml")
@@ -18,7 +18,7 @@ public class WxCpXmlOutImageMessage extends WxCpXmlOutMessage {
   private String mediaId;
 
   public WxCpXmlOutImageMessage() {
-    this.msgType = WxConsts.XML_MSG_IMAGE;
+    this.msgType = WxCpConsts.XML_MSG_IMAGE;
   }
   
   public String getMediaId() {

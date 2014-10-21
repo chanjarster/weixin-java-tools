@@ -3,7 +3,7 @@ package me.chanjar.weixin.enterprise.api;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WxConsts {
+public class WxCpConsts {
 
   ///////////////////////
   // 微信推送过来的消息的类型，和发送给微信xml格式消息的消息类型
@@ -13,7 +13,6 @@ public class WxConsts {
   public static final String XML_MSG_VOICE = "voice";
   public static final String XML_MSG_VIDEO = "video";
   public static final String XML_MSG_NEWS = "news";
-  public static final String XML_MSG_MUSIC = "music";
   public static final String XML_MSG_LOCATION = "location";
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
@@ -25,7 +24,6 @@ public class WxConsts {
   public static final String CUSTOM_MSG_IMAGE = "image";
   public static final String CUSTOM_MSG_VOICE = "voice";
   public static final String CUSTOM_MSG_VIDEO = "video";
-  public static final String CUSTOM_MSG_MUSIC = "music";
   public static final String CUSTOM_MSG_NEWS = "news";
   public static final String CUSTOM_MSG_FILE = "file";
 

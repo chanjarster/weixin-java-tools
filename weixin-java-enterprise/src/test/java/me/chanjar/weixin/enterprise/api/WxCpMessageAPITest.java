@@ -24,7 +24,7 @@ public class WxCpMessageAPITest {
     ApiTestModule.WxXmlCpConfigStorage configStorage = (ApiTestModule.WxXmlCpConfigStorage) wxService.wxCpConfigStorage;
     WxCpMessage message1 = new WxCpMessage();
     message1.setAgentId(configStorage.getAgentId());
-    message1.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message1.setMsgType(WxCpConsts.CUSTOM_MSG_TEXT);
     message1.setToUser(configStorage.getUserId());
     message1.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
     wxService.messageSend(message1);

@@ -3,7 +3,7 @@ package me.chanjar.weixin.enterprise.bean.messagebuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
@@ -20,7 +20,7 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
   private List<WxCpMessage.WxArticle> articles = new ArrayList<WxCpMessage.WxArticle>();
   
   public NewsBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_NEWS;
+    this.msgType = WxCpConsts.CUSTOM_MSG_NEWS;
   }
 
   public NewsBuilder addArticle(WxCpMessage.WxArticle article) {

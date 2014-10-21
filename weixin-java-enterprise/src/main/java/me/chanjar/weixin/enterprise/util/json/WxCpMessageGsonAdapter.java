@@ -10,7 +10,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import java.lang.reflect.Type;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 import com.google.gson.JsonArray;
@@ -41,31 +41,31 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
     if (StringUtils.isNotBlank(message.getToTag())) {
       messageJson.addProperty("totag", message.getToUser());
     }
-    if (WxConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
       JsonObject text = new JsonObject();
       text.addProperty("content", message.getContent());
       messageJson.add("text", text);
     }
 
-    if (WxConsts.CUSTOM_MSG_IMAGE.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_IMAGE.equals(message.getMsgType())) {
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMediaId());
       messageJson.add("image", image);
     }
 
-    if (WxConsts.CUSTOM_MSG_FILE.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_FILE.equals(message.getMsgType())) {
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMediaId());
       messageJson.add("file", image);
     }
 
-    if (WxConsts.CUSTOM_MSG_VOICE.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_VOICE.equals(message.getMsgType())) {
       JsonObject voice = new JsonObject();
       voice.addProperty("media_id", message.getMediaId());
       messageJson.add("voice", voice);
     }
 
-    if (WxConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
       JsonObject video = new JsonObject();
       video.addProperty("media_id", message.getMediaId());
       video.addProperty("thumb_media_id", message.getThumbMediaId());
@@ -74,17 +74,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       messageJson.add("video", video);
     }
 
-    if (WxConsts.CUSTOM_MSG_MUSIC.equals(message.getMsgType())) {
-      JsonObject music = new JsonObject();
-      music.addProperty("title", message.getTitle());
-      music.addProperty("description", message.getDescription());
-      music.addProperty("thumb_media_id", message.getThumbMediaId());
-      music.addProperty("musicurl", message.getMusicUrl());
-      music.addProperty("hqmusicurl", message.getHqMusicUrl());
-      messageJson.add("music", music);
-    }
-    
-    if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
+    if (WxCpConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
       JsonArray articleJsonArray = new JsonArray();
       for (WxCpMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();

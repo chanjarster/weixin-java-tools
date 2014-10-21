@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
-import me.chanjar.weixin.enterprise.api.WxConsts;
+import me.chanjar.weixin.enterprise.api.WxCpConsts;
 import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
@@ -15,7 +15,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
   private String mediaId;
 
   public VoiceBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_VOICE;
+    this.msgType = WxCpConsts.CUSTOM_MSG_VOICE;
   }
 
   public VoiceBuilder mediaId(String media_id) {
