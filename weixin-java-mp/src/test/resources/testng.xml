@@ -1,0 +1,35 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Weixin-java-tool-suite" verbose="1">
+	<test name="API_Test">
+		<classes>
+			<class name="me.chanjar.weixin.mp.api.WxBaseAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxCustomMessageAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxMenuAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxGroupAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxMassMessageAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxMediaAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxUserAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxQrCodeAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxShortUrlAPITest" />
+			<class name="me.chanjar.weixin.mp.api.WxMessageRouterTest" />
+		</classes>
+	</test>
+
+	<test name="Bean_Test">
+		<classes>
+			<class name="me.chanjar.weixin.mp.bean.WxAccessTokenTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxCustomMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxErrorTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxMenuTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutImageMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutMusicMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutNewsMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutVideoMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutVoiceMessageTest" />
+			<class name="me.chanjar.weixin.mp.bean.WxXmlOutTextMessageTest" />
+            <class name="me.chanjar.weixin.mp.util.crypto.WxCryptUtilTest" />
+		</classes>
+	</test>
+</suite>

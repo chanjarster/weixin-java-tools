@@ -16,6 +16,6 @@ target
 .project
 .classpath
 
-src/test/resources/test-config.xml
 sw-pom.xml
 *.iml
+test-config.xml
