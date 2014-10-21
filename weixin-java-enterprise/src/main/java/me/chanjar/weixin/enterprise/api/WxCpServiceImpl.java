@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import me.chanjar.weixin.enterprise.bean.*;
 import me.chanjar.weixin.enterprise.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.enterprise.util.crypto.SHA1;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,17 +20,16 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import me.chanjar.weixin.enterprise.bean.WxCpDepartment;
+import me.chanjar.weixin.enterprise.bean.WxCpDepart;
 import me.chanjar.weixin.enterprise.bean.result.WxError;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.enterprise.bean.result.WxUser;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
-import me.chanjar.weixin.enterprise.util.fs.FileUtils;
+import me.chanjar.weixin.common.FileUtils;
 import me.chanjar.weixin.enterprise.util.http.MediaDownloadRequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.RequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.SimplePostRequestExecutor;
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -142,7 +142,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
 
-  public WxCpDepartment departmentCreate(String name) throws WxErrorException {
+  public WxCpDepart departmentCreate(String name) throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
     JsonObject json = new JsonObject();
@@ -154,16 +154,16 @@ public class WxCpServiceImpl implements WxCpService {
         new SimplePostRequestExecutor(),
         url,
         json.toString());
-    return WxCpDepartment.fromJson(responseContent);
+    return WxCpDepart.fromJson(responseContent);
   }
 
-  public void departmentUpdate(WxCpDepartment group) throws WxErrorException {
+  public void departmentUpdate(WxCpDepart group) throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/update";
     execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
 
-  public List<WxCpDepartment> departmentGet() throws WxErrorException {
+  public List<WxCpDepart> departmentGet() throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/get";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
@@ -172,12 +172,12 @@ public class WxCpServiceImpl implements WxCpService {
      * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxGsonBuilder.INSTANCE.create()
-        .fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxCpDepartment>>() {
+    return WxCpGsonBuilder.INSTANCE.create()
+        .fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxCpDepart>>() {
         }.getType());
   }
 
-  public void departmentDelete(WxCpDepartment department) throws WxErrorException {
+  public void departmentDelete(WxCpDepart department) throws WxErrorException {
     // TODO
 
   }

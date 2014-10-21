@@ -5,7 +5,7 @@ import java.util.List;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
 import me.chanjar.weixin.enterprise.bean.messagebuilder.*;
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 客服消息
@@ -128,7 +128,7 @@ public class WxCpMessage {
   }
   
   public String toJson() {
-    return WxGsonBuilder.INSTANCE.create().toJson(this);
+    return WxCpGsonBuilder.INSTANCE.create().toJson(this);
   }
   
   public static class WxArticle {

@@ -1,4 +1,4 @@
-package me.chanjar.weixin.enterprise.util.fs;
+package me.chanjar.weixin.common;
 
 import java.io.File;
 import java.io.FileOutputStream;

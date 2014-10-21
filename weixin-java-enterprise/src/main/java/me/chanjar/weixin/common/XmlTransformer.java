@@ -1,4 +1,4 @@
-package me.chanjar.weixin.enterprise.util.xml;
+package me.chanjar.weixin.common;
 
 import java.io.IOException;
 import java.io.InputStream;

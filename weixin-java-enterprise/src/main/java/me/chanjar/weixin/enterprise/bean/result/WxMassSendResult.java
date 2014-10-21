@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean.result;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * <pre>
@@ -44,7 +44,7 @@ public class WxMassSendResult {
   }
   
   public static WxMassSendResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMassSendResult.class);
+    return WxCpGsonBuilder.create().fromJson(json, WxMassSendResult.class);
   }
 
   @Override

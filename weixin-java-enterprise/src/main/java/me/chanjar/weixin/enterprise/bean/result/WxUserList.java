@@ -3,7 +3,7 @@ package me.chanjar.weixin.enterprise.bean.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 关注者列表
@@ -42,6 +42,6 @@ public class WxUserList {
   }
   
   public static WxUserList fromJson(String json) {
-    return WxGsonBuilder.INSTANCE.create().fromJson(json, WxUserList.class);
+    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxUserList.class);
   }
 }

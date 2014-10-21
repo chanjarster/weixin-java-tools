@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 public class WxAccessToken {
 
@@ -25,7 +25,7 @@ public class WxAccessToken {
   }
 
   public static WxAccessToken fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxAccessToken.class);
+    return WxCpGsonBuilder.create().fromJson(json, WxAccessToken.class);
   }
   
 }

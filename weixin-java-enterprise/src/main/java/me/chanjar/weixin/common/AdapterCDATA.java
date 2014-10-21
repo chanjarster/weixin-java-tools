@@ -1,4 +1,4 @@
-package me.chanjar.weixin.enterprise.util.xml;
+package me.chanjar.weixin.common;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

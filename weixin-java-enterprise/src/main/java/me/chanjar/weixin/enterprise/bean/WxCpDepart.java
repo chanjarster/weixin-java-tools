@@ -1,13 +1,13 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 微信用户分组
  * @author Daniel Qian
  *
  */
-public class WxCpDepartment {
+public class WxCpDepart {
 
   private long id = -1;
   private String name;
@@ -31,12 +31,12 @@ public class WxCpDepartment {
     this.count = count;
   }
   
-  public static WxCpDepartment fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxCpDepartment.class);
+  public static WxCpDepart fromJson(String json) {
+    return WxCpGsonBuilder.create().fromJson(json, WxCpDepart.class);
   }
   
   public String toJson() {
-    return WxGsonBuilder.create().toJson(this);
+    return WxCpGsonBuilder.create().toJson(this);
   }
   @Override
   public String toString() {

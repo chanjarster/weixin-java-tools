@@ -10,6 +10,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import java.lang.reflect.Type;
 
+import me.chanjar.weixin.common.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.WxMenu;
 
 import com.google.gson.JsonArray;
@@ -26,7 +27,7 @@ import com.google.gson.JsonSerializer;
  * @author Daniel Qian
  *
  */
-public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
+public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
 
   public JsonElement serialize(WxMenu menu, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();

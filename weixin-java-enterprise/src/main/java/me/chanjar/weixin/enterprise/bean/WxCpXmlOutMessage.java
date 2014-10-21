@@ -15,8 +15,8 @@ import me.chanjar.weixin.enterprise.bean.outxmlbuilder.TextBuilder;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.VideoBuilder;
 import me.chanjar.weixin.enterprise.bean.outxmlbuilder.VoiceBuilder;
 import me.chanjar.weixin.enterprise.util.crypto.WxCryptUtil;
-import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
-import me.chanjar.weixin.enterprise.util.xml.XmlTransformer;
+import me.chanjar.weixin.common.AdapterCDATA;
+import me.chanjar.weixin.common.XmlTransformer;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)

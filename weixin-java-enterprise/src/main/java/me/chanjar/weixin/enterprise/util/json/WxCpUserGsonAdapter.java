@@ -10,6 +10,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import java.lang.reflect.Type;
 
+import me.chanjar.weixin.common.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.result.WxUser;
 
 import com.google.gson.JsonDeserializationContext;
@@ -23,7 +24,7 @@ import com.google.gson.JsonParseException;
  * @author Daniel Qian
  *
  */
-public class WxUserGsonAdapter implements JsonDeserializer<WxUser> {
+public class WxCpUserGsonAdapter implements JsonDeserializer<WxUser> {
 
   public WxUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject o = json.getAsJsonObject();

@@ -2,8 +2,8 @@ package me.chanjar.weixin.enterprise.bean;
 
 import me.chanjar.weixin.enterprise.api.WxCpConfigStorage;
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
-import me.chanjar.weixin.enterprise.util.xml.XmlTransformer;
+import me.chanjar.weixin.common.AdapterCDATA;
+import me.chanjar.weixin.common.XmlTransformer;
 import me.chanjar.weixin.enterprise.util.crypto.WxCryptUtil;
 import org.apache.commons.io.IOUtils;
 

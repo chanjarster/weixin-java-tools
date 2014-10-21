@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 公众号菜单
@@ -25,15 +25,15 @@ public class WxMenu {
   }
   
   public String toJson() {
-    return WxGsonBuilder.create().toJson(this);
+    return WxCpGsonBuilder.create().toJson(this);
   }
   
   public static WxMenu fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMenu.class);
+    return WxCpGsonBuilder.create().fromJson(json, WxMenu.class);
   }
   
   public static WxMenu fromJson(InputStream is) {
-    return WxGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
+    return WxCpGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
   }
   
   public static class WxMenuButton {

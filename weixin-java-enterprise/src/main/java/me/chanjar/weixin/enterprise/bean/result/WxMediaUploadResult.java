@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean.result;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 public class WxMediaUploadResult {
 
@@ -34,7 +34,7 @@ public class WxMediaUploadResult {
   }
 
   public static WxMediaUploadResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
+    return WxCpGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
   }
 
   public String getThumbMediaId() {

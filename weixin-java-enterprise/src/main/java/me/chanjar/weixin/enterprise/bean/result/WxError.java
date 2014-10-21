@@ -3,7 +3,7 @@ package me.chanjar.weixin.enterprise.bean.result;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 微信错误码说明
@@ -125,7 +125,7 @@ public class WxError {
   }
 
   public static WxError fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxError.class);
+    return WxCpGsonBuilder.create().fromJson(json, WxError.class);
   }
 
   @Override

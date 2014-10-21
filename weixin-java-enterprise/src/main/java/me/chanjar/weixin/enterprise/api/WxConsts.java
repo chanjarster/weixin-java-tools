@@ -17,7 +17,7 @@ public class WxConsts {
   public static final String XML_MSG_LOCATION = "location";
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
-  
+
   ///////////////////////
   // 客服消息的消息类型
   ///////////////////////

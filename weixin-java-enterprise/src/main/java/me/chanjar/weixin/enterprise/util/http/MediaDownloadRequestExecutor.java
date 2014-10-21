@@ -15,7 +15,7 @@ import org.apache.http.entity.ContentType;
 
 import me.chanjar.weixin.enterprise.bean.result.WxError;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
-import me.chanjar.weixin.enterprise.util.fs.FileUtils;
+import me.chanjar.weixin.common.FileUtils;
 
 /**
  * 下载媒体文件请求执行器，请求的参数是String, 返回的结果是File

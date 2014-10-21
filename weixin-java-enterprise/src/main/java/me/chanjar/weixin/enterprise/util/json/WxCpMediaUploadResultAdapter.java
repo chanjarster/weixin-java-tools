@@ -9,7 +9,8 @@
 package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.enterprise.bean.result.WxMassUploadResult;
+import me.chanjar.weixin.common.GsonHelper;
+import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 
 import java.lang.reflect.Type;
 
@@ -18,10 +19,10 @@ import java.lang.reflect.Type;
  * @author Daniel Qian
  *
  */
-public class WxMassUploadResultAdapter implements JsonDeserializer<WxMassUploadResult> {
+public class WxCpMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploadResult> {
 
-  public WxMassUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    WxMassUploadResult uploadResult = new WxMassUploadResult();
+  public WxMediaUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    WxMediaUploadResult uploadResult = new WxMediaUploadResult();
     JsonObject uploadResultJsonObject = json.getAsJsonObject();
 
     if (uploadResultJsonObject.get("type") != null && !uploadResultJsonObject.get("type").isJsonNull()) {
@@ -29,6 +30,9 @@ public class WxMassUploadResultAdapter implements JsonDeserializer<WxMassUploadR
     }
     if (uploadResultJsonObject.get("media_id") != null && !uploadResultJsonObject.get("media_id").isJsonNull()) {
       uploadResult.setMediaId(GsonHelper.getAsString(uploadResultJsonObject.get("media_id")));
+    }
+    if (uploadResultJsonObject.get("thumb_media_id") != null && !uploadResultJsonObject.get("thumb_media_id").isJsonNull()) {
+      uploadResult.setThumbMediaId(GsonHelper.getAsString(uploadResultJsonObject.get("thumb_media_id")));
     }
     if (uploadResultJsonObject.get("created_at") != null && !uploadResultJsonObject.get("created_at").isJsonNull()) {
       uploadResult.setCreatedAt(GsonHelper.getAsPrimitiveLong(uploadResultJsonObject.get("created_at")));

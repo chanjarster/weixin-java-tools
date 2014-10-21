@@ -9,6 +9,7 @@
 package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.*;
+import me.chanjar.weixin.common.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.WxAccessToken;
 
 import java.lang.reflect.Type;
@@ -18,7 +19,7 @@ import java.lang.reflect.Type;
  * @author Daniel Qian
  *
  */
-public class WxAccessTokenAdapter implements JsonDeserializer<WxAccessToken> {
+public class WxCpAccessTokenAdapter implements JsonDeserializer<WxAccessToken> {
 
   public WxAccessToken deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxAccessToken accessToken = new WxAccessToken();

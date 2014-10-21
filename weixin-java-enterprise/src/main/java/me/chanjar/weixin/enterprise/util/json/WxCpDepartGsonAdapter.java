@@ -10,7 +10,8 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import java.lang.reflect.Type;
 
-import me.chanjar.weixin.enterprise.bean.WxCpDepartment;
+import me.chanjar.weixin.common.GsonHelper;
+import me.chanjar.weixin.enterprise.bean.WxCpDepart;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -25,9 +26,9 @@ import com.google.gson.JsonSerializer;
  * @author Daniel Qian
  *
  */
-public class WxGroupGsonAdapter implements JsonSerializer<WxCpDepartment>, JsonDeserializer<WxCpDepartment> {
+public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDeserializer<WxCpDepart> {
 
-  public JsonElement serialize(WxCpDepartment group, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxCpDepart group, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
     JsonObject groupJson = new JsonObject();
     groupJson.addProperty("name", group.getName());
@@ -37,8 +38,8 @@ public class WxGroupGsonAdapter implements JsonSerializer<WxCpDepartment>, JsonD
     return json;
   }
 
-  public WxCpDepartment deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    WxCpDepartment group = new WxCpDepartment();
+  public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    WxCpDepart group = new WxCpDepart();
     JsonObject groupJson = json.getAsJsonObject();
     if (json.getAsJsonObject().get("group") != null) {
       groupJson = json.getAsJsonObject().get("group").getAsJsonObject();

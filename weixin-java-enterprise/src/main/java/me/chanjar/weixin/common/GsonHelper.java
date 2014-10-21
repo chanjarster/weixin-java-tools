@@ -6,7 +6,7 @@
  * arose from modification of the original source, or other redistribution of this source
  * is not permitted without written permission of the KINGSTAR MEDIA SOLUTIONS LTD.
  */
-package me.chanjar.weixin.enterprise.util.json;
+package me.chanjar.weixin.common;
 
 
 import com.google.gson.JsonElement;

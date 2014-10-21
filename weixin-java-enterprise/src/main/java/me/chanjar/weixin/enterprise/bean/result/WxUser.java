@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.bean.result;
 
-import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
+import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
  * 微信用户信息
@@ -89,7 +89,7 @@ public class WxUser {
   }
   
   public static WxUser fromJson(String json) {
-    return WxGsonBuilder.INSTANCE.create().fromJson(json, WxUser.class);
+    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxUser.class);
   }
   
 }
