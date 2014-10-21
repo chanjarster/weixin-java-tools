@@ -106,7 +106,7 @@ public class WxCpServiceImpl implements WxCpService {
     execute(new SimplePostRequestExecutor(), url, message.toJson());
   }
 
-  public void menuCreate(WxMenu menu) throws WxErrorException {
+  public void menuCreate(WxCpMenu menu) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
     execute(new SimplePostRequestExecutor(), url, menu.toJson());
   }
@@ -116,11 +116,11 @@ public class WxCpServiceImpl implements WxCpService {
     execute(new SimpleGetRequestExecutor(), url, null);
   }
 
-  public WxMenu menuGet() throws WxErrorException {
+  public WxCpMenu menuGet() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
     try {
       String resultContent = execute(new SimpleGetRequestExecutor(), url, null);
-      return WxMenu.fromJson(resultContent);
+      return WxCpMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据
       if (e.getError().getErrorCode() == 46003) {

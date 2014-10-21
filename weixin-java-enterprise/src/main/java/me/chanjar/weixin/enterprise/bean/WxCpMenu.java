@@ -12,7 +12,7 @@ import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
  * @author Daniel Qian
  *
  */
-public class WxMenu {
+public class WxCpMenu {
 
   private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
 
@@ -28,12 +28,12 @@ public class WxMenu {
     return WxCpGsonBuilder.create().toJson(this);
   }
   
-  public static WxMenu fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxMenu.class);
+  public static WxCpMenu fromJson(String json) {
+    return WxCpGsonBuilder.create().fromJson(json, WxCpMenu.class);
   }
   
-  public static WxMenu fromJson(InputStream is) {
-    return WxCpGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
+  public static WxCpMenu fromJson(InputStream is) {
+    return WxCpGsonBuilder.create().fromJson(new InputStreamReader(is), WxCpMenu.class);
   }
   
   public static class WxMenuButton {

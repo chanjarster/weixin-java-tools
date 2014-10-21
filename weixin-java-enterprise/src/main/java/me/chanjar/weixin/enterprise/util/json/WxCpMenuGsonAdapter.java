@@ -11,7 +11,7 @@ package me.chanjar.weixin.enterprise.util.json;
 import java.lang.reflect.Type;
 
 import me.chanjar.weixin.common.GsonHelper;
-import me.chanjar.weixin.enterprise.bean.WxMenu;
+import me.chanjar.weixin.enterprise.bean.WxCpMenu;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -27,13 +27,13 @@ import com.google.gson.JsonSerializer;
  * @author Daniel Qian
  *
  */
-public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
+public class WxCpMenuGsonAdapter implements JsonSerializer<WxCpMenu>, JsonDeserializer<WxCpMenu> {
 
-  public JsonElement serialize(WxMenu menu, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxCpMenu menu, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
 
     JsonArray buttonArray = new JsonArray();
-    for (WxMenu.WxMenuButton button : menu.getButtons()) {
+    for (WxCpMenu.WxMenuButton button : menu.getButtons()) {
       JsonObject buttonJson = convertToJson(button);
       buttonArray.add(buttonJson);
     }
@@ -42,7 +42,7 @@ public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserial
     return json;
   }
 
-  protected JsonObject convertToJson(WxMenu.WxMenuButton button) {
+  protected JsonObject convertToJson(WxCpMenu.WxMenuButton button) {
     JsonObject buttonJson = new JsonObject();
     buttonJson.addProperty("type", button.getType());
     buttonJson.addProperty("name", button.getName());
@@ -50,7 +50,7 @@ public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserial
     buttonJson.addProperty("url", button.getUrl());
     if (button.getSubButtons() != null && button.getSubButtons().size() > 0) {
       JsonArray buttonArray = new JsonArray();
-      for (WxMenu.WxMenuButton sub_button : button.getSubButtons()) {
+      for (WxCpMenu.WxMenuButton sub_button : button.getSubButtons()) {
         buttonArray.add(convertToJson(sub_button));
       }
       buttonJson.add("sub_button", buttonArray);
@@ -58,18 +58,17 @@ public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserial
     return buttonJson;
   }
 
-  public WxMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public WxCpMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     /*
      * 操蛋的微信
      * 创建菜单时是 { button : ... }
      * 查询菜单时是 { menu : { button : ... } }
      */
-    WxMenu menu = new WxMenu();
-    JsonObject menuJson = json.getAsJsonObject().get("menu").getAsJsonObject();
-    JsonArray buttonsJson = menuJson.get("button").getAsJsonArray();
+    WxCpMenu menu = new WxCpMenu();
+    JsonArray buttonsJson = json.getAsJsonObject().get("button").getAsJsonArray();
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
-      WxMenu.WxMenuButton button = convertFromJson(buttonJson);
+      WxCpMenu.WxMenuButton button = convertFromJson(buttonJson);
       menu.getButtons().add(button);
       if (buttonJson.get("sub_button") == null || buttonJson.get("sub_button").isJsonNull()) {
         continue;
@@ -83,8 +82,8 @@ public class WxCpMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserial
     return menu;
   }
   
-  protected WxMenu.WxMenuButton convertFromJson(JsonObject json) {
-    WxMenu.WxMenuButton button = new WxMenu.WxMenuButton();
+  protected WxCpMenu.WxMenuButton convertFromJson(JsonObject json) {
+    WxCpMenu.WxMenuButton button = new WxCpMenu.WxMenuButton();
     button.setName(GsonHelper.getString(json, "name"));
     button.setKey(GsonHelper.getString(json, "key"));
     button.setUrl(GsonHelper.getString(json, "url"));

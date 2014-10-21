@@ -1,24 +1,23 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.bean.WxMenu;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.enterprise.bean.WxMenu.WxMenuButton;
+import me.chanjar.weixin.enterprise.bean.WxCpMenu.WxMenuButton;
 
 @Test
-public class WxMenuTest {
+public class WxCpMenuTest {
 
   @Test(dataProvider="wxReturnMenu")
   public void testFromJson(String json) {
-    WxMenu menu = WxMenu.fromJson(json);
+    WxCpMenu menu = WxCpMenu.fromJson(json);
     Assert.assertEquals(menu.getButtons().size(), 3);
   }
   
   @Test(dataProvider="wxPushMenu")
   public void testToJson(String json) {
-    WxMenu menu = new WxMenu();
+    WxCpMenu menu = new WxCpMenu();
     WxMenuButton button1 = new WxMenuButton();
     button1.setType("click");
     button1.setName("今日歌曲");

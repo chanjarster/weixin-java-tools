@@ -13,7 +13,7 @@ public class WxCpGsonBuilder {
   static {
     INSTANCE.disableHtmlEscaping();
     INSTANCE.registerTypeAdapter(WxCpMessage.class, new WxCpMessageGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMenu.class, new WxCpMenuGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxCpMenu.class, new WxCpMenuGsonAdapter());
     INSTANCE.registerTypeAdapter(WxCpDepart.class, new WxCpDepartGsonAdapter());
     INSTANCE.registerTypeAdapter(WxUser.class, new WxCpUserGsonAdapter());
     INSTANCE.registerTypeAdapter(WxUserList.class, new WxCpUserListGsonAdapter());

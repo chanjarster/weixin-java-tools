@@ -2,6 +2,7 @@ package me.chanjar.weixin.enterprise.api;
 
 import javax.xml.bind.JAXBException;
 
+import me.chanjar.weixin.enterprise.bean.WxCpMenu;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
@@ -9,8 +10,7 @@ import org.testng.annotations.Test;
 
 import com.google.inject.Inject;
 
-import me.chanjar.weixin.enterprise.bean.WxMenu;
-import me.chanjar.weixin.enterprise.bean.WxMenu.WxMenuButton;
+import me.chanjar.weixin.enterprise.bean.WxCpMenu.WxMenuButton;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
 
 /**
@@ -20,14 +20,14 @@ import me.chanjar.weixin.enterprise.exception.WxErrorException;
  */
 @Test(groups="menuAPI", dependsOnGroups="baseAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxMenuAPITest {
+public class WxCpMenuAPITest {
 
   @Inject
   protected WxCpServiceImpl wxService;
   
   @Test(dataProvider = "menu")
-  public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
-    wxService.menuCreate(wxMenu);
+  public void testCreateMenu(WxCpMenu wxCpMenu) throws WxErrorException {
+    wxService.menuCreate(wxCpMenu);
   }
   
   @Test(dependsOnMethods = { "testCreateMenu"})
@@ -42,7 +42,7 @@ public class WxMenuAPITest {
   
   @DataProvider(name="menu")
   public Object[][] getMenu() throws JAXBException {
-    WxMenu menu = new WxMenu();
+    WxCpMenu menu = new WxCpMenu();
     WxMenuButton button1 = new WxMenuButton();
     button1.setType(WxCpConsts.BUTTON_CLICK);
     button1.setName("今日歌曲");

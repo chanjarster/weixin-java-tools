@@ -110,7 +110,7 @@ public interface WxCpService {
    * @param menu
    * @throws WxErrorException
    */
-  public void menuCreate(WxMenu menu) throws WxErrorException;
+  public void menuCreate(WxCpMenu menu) throws WxErrorException;
   
   /**
    * <pre>
@@ -129,7 +129,7 @@ public interface WxCpService {
    * @return
    * @throws WxErrorException
    */
-  public WxMenu menuGet() throws WxErrorException;
+  public WxCpMenu menuGet() throws WxErrorException;
 
   /**
    * <pre>
