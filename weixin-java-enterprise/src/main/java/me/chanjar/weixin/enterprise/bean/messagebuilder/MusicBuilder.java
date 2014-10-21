@@ -1,7 +1,7 @@
-package me.chanjar.weixin.enterprise.bean.custombuilder;
+package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
  * 音乐消息builder
@@ -52,8 +52,8 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxCpMessage build() {
+    WxCpMessage m = super.build();
     m.setMusicUrl(this.musicUrl);
     m.setHqMusicUrl(this.hqMusicUrl);
     m.setTitle(title);

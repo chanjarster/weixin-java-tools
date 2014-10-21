@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.custombuilder.ImageBuilder;
-import me.chanjar.weixin.enterprise.bean.custombuilder.MusicBuilder;
-import me.chanjar.weixin.enterprise.bean.custombuilder.NewsBuilder;
-import me.chanjar.weixin.enterprise.bean.custombuilder.TextBuilder;
-import me.chanjar.weixin.enterprise.bean.custombuilder.VideoBuilder;
-import me.chanjar.weixin.enterprise.bean.custombuilder.VoiceBuilder;
+import me.chanjar.weixin.enterprise.bean.messagebuilder.*;
 import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
 
 /**
@@ -17,9 +12,12 @@ import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
  * @author Daniel Qian
  *
  */
-public class WxCustomMessage {
+public class WxCpMessage {
 
   private String toUser;
+  private String toParty;
+  private String toTag;
+  private String agentId;
   private String msgType;
   private String content;
   private String mediaId;
@@ -36,6 +34,31 @@ public class WxCustomMessage {
   public void setToUser(String toUser) {
     this.toUser = toUser;
   }
+
+  public String getToParty() {
+    return toParty;
+  }
+
+  public void setToParty(String toParty) {
+    this.toParty = toParty;
+  }
+
+  public String getToTag() {
+    return toTag;
+  }
+
+  public void setToTag(String toTag) {
+    this.toTag = toTag;
+  }
+
+  public String getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(String agentId) {
+    this.agentId = agentId;
+  }
+
   public String getMsgType() {
     return msgType;
   }
@@ -188,6 +211,14 @@ public class WxCustomMessage {
    */
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
+  }
+
+  /**
+   * 获得文件消息builder
+   * @return
+   */
+  public static FileBuilder FILE() {
+    return new FileBuilder();
   }
   
 }

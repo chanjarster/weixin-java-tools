@@ -1,0 +1,42 @@
+package me.chanjar.weixin.enterprise.api;
+
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
+import org.testng.annotations.Guice;
+import org.testng.annotations.Test;
+
+import me.chanjar.weixin.enterprise.exception.WxErrorException;
+
+import com.google.inject.Inject;
+
+/***
+ * 测试发送客服消息
+ * @author Daniel Qian
+ *
+ */
+@Test(groups="customMessageAPI", dependsOnGroups = "baseAPI")
+@Guice(modules = ApiTestModule.class)
+public class WxCpMessageAPITest {
+
+  @Inject
+  protected WxCpServiceImpl wxService;
+
+  public void testSendCustomMessage() throws WxErrorException {
+    ApiTestModule.WxXmlCpConfigStorage configStorage = (ApiTestModule.WxXmlCpConfigStorage) wxService.wxCpConfigStorage;
+    WxCpMessage message1 = new WxCpMessage();
+    message1.setAgentId(configStorage.getAgentId());
+    message1.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+    message1.setToUser(configStorage.getUserId());
+    message1.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
+    wxService.messageSend(message1);
+
+    WxCpMessage message2 = WxCpMessage
+        .TEXT()
+        .agentId(configStorage.getAgentId())
+        .toUser(configStorage.getUserId())
+        .content("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>")
+        .build();
+    wxService.messageSend(message2);
+
+  }
+
+}

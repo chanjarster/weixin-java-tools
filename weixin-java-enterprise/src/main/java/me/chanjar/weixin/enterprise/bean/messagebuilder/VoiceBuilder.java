@@ -1,7 +1,7 @@
-package me.chanjar.weixin.enterprise.bean.custombuilder;
+package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
  * 语音消息builder
@@ -23,8 +23,8 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxCpMessage build() {
+    WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);
     return m;
   }

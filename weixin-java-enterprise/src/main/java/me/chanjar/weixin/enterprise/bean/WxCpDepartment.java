@@ -7,7 +7,7 @@ import me.chanjar.weixin.enterprise.util.json.WxGsonBuilder;
  * @author Daniel Qian
  *
  */
-public class WxDepartment {
+public class WxCpDepartment {
 
   private long id = -1;
   private String name;
@@ -31,8 +31,8 @@ public class WxDepartment {
     this.count = count;
   }
   
-  public static WxDepartment fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxDepartment.class);
+  public static WxCpDepartment fromJson(String json) {
+    return WxGsonBuilder.create().fromJson(json, WxCpDepartment.class);
   }
   
   public String toJson() {

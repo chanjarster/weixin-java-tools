@@ -1,7 +1,7 @@
-package me.chanjar.weixin.enterprise.bean.custombuilder;
+package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
  * 视频消息builder
@@ -47,8 +47,8 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxCpMessage build() {
+    WxCpMessage m = super.build();
     m.setMediaId(this.mediaId);
     m.setTitle(title);
     m.setDescription(description);

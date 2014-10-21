@@ -11,26 +11,36 @@ package me.chanjar.weixin.enterprise.util.json;
 import java.lang.reflect.Type;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
  * @author Daniel Qian
  *
  */
-public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessage> {
+public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
 
-  public JsonElement serialize(WxCustomMessage message, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(WxCpMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
-    messageJson.addProperty("touser", message.getToUser());
+    messageJson.addProperty("agentid", message.getAgentId());
     messageJson.addProperty("msgtype", message.getMsgType());
-    
+
+    if (StringUtils.isNotBlank(message.getToUser())) {
+      messageJson.addProperty("touser", message.getToUser());
+    }
+    if (StringUtils.isNotBlank(message.getToParty())) {
+      messageJson.addProperty("toparty", message.getToUser());
+    }
+    if (StringUtils.isNotBlank(message.getToTag())) {
+      messageJson.addProperty("totag", message.getToUser());
+    }
     if (WxConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
       JsonObject text = new JsonObject();
       text.addProperty("content", message.getContent());
@@ -41,6 +51,12 @@ public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessag
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMediaId());
       messageJson.add("image", image);
+    }
+
+    if (WxConsts.CUSTOM_MSG_FILE.equals(message.getMsgType())) {
+      JsonObject image = new JsonObject();
+      image.addProperty("media_id", message.getMediaId());
+      messageJson.add("file", image);
     }
 
     if (WxConsts.CUSTOM_MSG_VOICE.equals(message.getMsgType())) {
@@ -70,7 +86,7 @@ public class WxCustomMessageGsonAdapter implements JsonSerializer<WxCustomMessag
     
     if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
       JsonArray articleJsonArray = new JsonArray();
-      for (WxCustomMessage.WxArticle article : message.getArticles()) {
+      for (WxCpMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();
         articleJson.addProperty("title", article.getTitle());
         articleJson.addProperty("description", article.getDescription());

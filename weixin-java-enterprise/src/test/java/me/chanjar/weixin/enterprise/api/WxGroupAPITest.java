@@ -2,7 +2,7 @@ package me.chanjar.weixin.enterprise.api;
 
 import java.util.List;
 
-import me.chanjar.weixin.enterprise.bean.WxDepartment;
+import me.chanjar.weixin.enterprise.bean.WxCpDepartment;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -23,19 +23,19 @@ public class WxGroupAPITest {
   @Inject
   protected WxCpServiceImpl wxService;
 
-  protected WxDepartment group;
+  protected WxCpDepartment group;
   
   public void testGroupCreate() throws WxErrorException {
-    WxDepartment res = wxService.departmentCreate("测试分组1");
+    WxCpDepartment res = wxService.departmentCreate("测试分组1");
     Assert.assertEquals(res.getName(), "测试分组1");
   }
 
   @Test(dependsOnMethods="testGroupCreate")
   public void testGroupGet() throws WxErrorException {
-    List<WxDepartment> groupList = wxService.departmentGet();
+    List<WxCpDepartment> groupList = wxService.departmentGet();
     Assert.assertNotNull(groupList);
     Assert.assertTrue(groupList.size() > 0);
-    for (WxDepartment g : groupList) {
+    for (WxCpDepartment g : groupList) {
       group = g;
       Assert.assertNotNull(g.getName());
     }

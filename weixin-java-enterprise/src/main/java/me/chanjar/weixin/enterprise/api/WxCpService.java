@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import me.chanjar.weixin.enterprise.bean.*;
-import me.chanjar.weixin.enterprise.bean.WxDepartment;
+import me.chanjar.weixin.enterprise.bean.WxCpDepartment;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.enterprise.bean.result.WxUser;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
@@ -91,7 +91,7 @@ public interface WxCpService {
    * @param message
    * @throws WxErrorException
    */
-  public void messageSend(WxCustomMessage message) throws WxErrorException;
+  public void messageSend(WxCpMessage message) throws WxErrorException;
   
   /**
    * <pre>
@@ -131,7 +131,7 @@ public interface WxCpService {
    * @param name 分组名字（30个字符以内） 
    * @throws WxErrorException
    */
-  public WxDepartment departmentCreate(String name) throws WxErrorException;
+  public WxCpDepartment departmentCreate(String name) throws WxErrorException;
   
   /**
    * <pre>
@@ -141,7 +141,7 @@ public interface WxCpService {
    * @return
    * @throws WxErrorException
    */
-  public List<WxDepartment> departmentGet() throws WxErrorException;
+  public List<WxCpDepartment> departmentGet() throws WxErrorException;
   
   /**
    * <pre>
@@ -153,7 +153,7 @@ public interface WxCpService {
    * @param group 要更新的group，group的id,name必须设置 
    * @throws WxErrorException
    */
-  public void departmentUpdate(WxDepartment group) throws WxErrorException;
+  public void departmentUpdate(WxCpDepartment group) throws WxErrorException;
 
   /**
    * <pre>
@@ -163,7 +163,7 @@ public interface WxCpService {
    * @param department
    * @throws WxErrorException
    */
-  public void departmentDelete(WxDepartment department) throws WxErrorException;
+  public void departmentDelete(WxCpDepartment department) throws WxErrorException;
 
   public void userCreate(WxUser user) throws WxErrorException;
 

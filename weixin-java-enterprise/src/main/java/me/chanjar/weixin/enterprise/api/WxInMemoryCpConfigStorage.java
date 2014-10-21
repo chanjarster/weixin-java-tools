@@ -82,4 +82,17 @@ public class WxInMemoryCpConfigStorage implements WxCpConfigStorage {
   public void setAgentId(String agentId) {
     this.agentId = agentId;
   }
+
+  @Override
+  public String toString() {
+    return "WxInMemoryCpConfigStorage{" +
+        "corpId='" + corpId + '\'' +
+        ", corpSecret='" + corpSecret + '\'' +
+        ", token='" + token + '\'' +
+        ", accessToken='" + accessToken + '\'' +
+        ", aesKey='" + aesKey + '\'' +
+        ", agentId='" + agentId + '\'' +
+        ", expiresIn=" + expiresIn +
+        '}';
+  }
 }

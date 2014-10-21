@@ -1,17 +1,16 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage.WxArticle;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage.WxArticle;
 
 @Test
-public class WxCustomMessageTest {
+public class WxCpMessageTest {
 
   public void testTextReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     reply.setContent("sfsfdsdf");
@@ -19,12 +18,12 @@ public class WxCustomMessageTest {
   }
   
   public void testTextBuild() {
-    WxCustomMessage reply = WxCustomMessage.TEXT().toUser("OPENID").content("sfsfdsdf").build();
+    WxCpMessage reply = WxCpMessage.TEXT().toUser("OPENID").content("sfsfdsdf").build();
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
   
   public void testImageReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_IMAGE);
     reply.setMediaId("MEDIA_ID");
@@ -32,12 +31,12 @@ public class WxCustomMessageTest {
   }
   
   public void testImageBuild() {
-    WxCustomMessage reply = WxCustomMessage.IMAGE().toUser("OPENID").mediaId("MEDIA_ID").build();
+    WxCpMessage reply = WxCpMessage.IMAGE().toUser("OPENID").mediaId("MEDIA_ID").build();
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
   
   public void testVoiceReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_VOICE);
     reply.setMediaId("MEDIA_ID");
@@ -45,12 +44,12 @@ public class WxCustomMessageTest {
   }
   
   public void testVoiceBuild() {
-    WxCustomMessage reply = WxCustomMessage.VOICE().toUser("OPENID").mediaId("MEDIA_ID").build();
+    WxCpMessage reply = WxCpMessage.VOICE().toUser("OPENID").mediaId("MEDIA_ID").build();
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
   
   public void testVideoReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_VIDEO);
     reply.setMediaId("MEDIA_ID");
@@ -61,12 +60,12 @@ public class WxCustomMessageTest {
   }
   
   public void testVideoBuild() {
-    WxCustomMessage reply = WxCustomMessage.VIDEO().toUser("OPENID").title("TITLE").mediaId("MEDIA_ID").thumbMediaId("MEDIA_ID").description("DESCRIPTION").build();
+    WxCpMessage reply = WxCpMessage.VIDEO().toUser("OPENID").title("TITLE").mediaId("MEDIA_ID").thumbMediaId("MEDIA_ID").description("DESCRIPTION").build();
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"video\",\"video\":{\"media_id\":\"MEDIA_ID\",\"thumb_media_id\":\"MEDIA_ID\",\"title\":\"TITLE\",\"description\":\"DESCRIPTION\"}}");
   }
   
   public void testMusicReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_MUSIC);
     reply.setThumbMediaId("MEDIA_ID");
@@ -78,7 +77,7 @@ public class WxCustomMessageTest {
   }
   
   public void testMusicBuild() {
-    WxCustomMessage reply = WxCustomMessage.MUSIC()
+    WxCpMessage reply = WxCpMessage.MUSIC()
           .toUser("OPENID")
           .title("TITLE")
           .thumbMediaId("MEDIA_ID")
@@ -90,7 +89,7 @@ public class WxCustomMessageTest {
   }
   
   public void testNewsReply() {
-    WxCustomMessage reply = new WxCustomMessage();
+    WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
     reply.setMsgType(WxConsts.CUSTOM_MSG_NEWS);
     
@@ -125,7 +124,7 @@ public class WxCustomMessageTest {
     article2.setDescription("Is Really A Happy Day");
     article2.setTitle("Happy Day");
 
-    WxCustomMessage reply = WxCustomMessage.NEWS().toUser("OPENID").addArticle(article1).addArticle(article2).build();
+    WxCpMessage reply = WxCpMessage.NEWS().toUser("OPENID").addArticle(article1).addArticle(article2).build();
     
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"news\",\"articles\":[{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"},{\"title\":\"Happy Day\",\"description\":\"Is Really A Happy Day\",\"url\":\"URL\",\"picurl\":\"PIC_URL\"}]}");
   }

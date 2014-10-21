@@ -17,7 +17,6 @@ public class WxConsts {
   public static final String XML_MSG_LOCATION = "location";
   public static final String XML_MSG_LINK = "link";
   public static final String XML_MSG_EVENT = "event";
-  public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   
   ///////////////////////
   // 客服消息的消息类型
@@ -28,49 +27,8 @@ public class WxConsts {
   public static final String CUSTOM_MSG_VIDEO = "video";
   public static final String CUSTOM_MSG_MUSIC = "music";
   public static final String CUSTOM_MSG_NEWS = "news";
-  
-  ///////////////////////
-  // 群发消息的消息类型
-  ///////////////////////
-  public static final String MASS_MSG_NEWS = "mpnews";
-  public static final String MASS_MSG_TEXT = "text";
-  public static final String MASS_MSG_VOICE = "voice";
-  public static final String MASS_MSG_IMAGE = "image";
-  public static final String MASS_MSG_VIDEO = "mpvideo";
-  
-  ///////////////////////
-  // 群发消息后微信端推送给服务器的反馈消息
-  ///////////////////////
-  public static final String MASS_ST_SUCCESS = "send success";
-  public static final String MASS_ST_FAIL = "send fail";
-  public static final String MASS_ST_涉嫌广告 = "err(10001)"; 
-  public static final String MASS_ST_涉嫌政治 = "err(20001)";
-  public static final String MASS_ST_涉嫌社会 = "err(20004)";
-  public static final String MASS_ST_涉嫌色情 = "err(20002)";
-  public static final String MASS_ST_涉嫌违法犯罪 = "err(20006)";
-  public static final String MASS_ST_涉嫌欺诈 = "err(20008)";
-  public static final String MASS_ST_涉嫌版权 = "err(20013)";
-  public static final String MASS_ST_涉嫌互推_互相宣传 = "err(22000)";
-  public static final String MASS_ST_涉嫌其他 = "err(21000)";
-  
-  /**
-   * 群发反馈消息代码所对应的文字描述
-   */
-  public static final Map<String, String> MASS_ST_2_DESC = new HashMap<String, String>();
-  static {
-    MASS_ST_2_DESC.put(MASS_ST_SUCCESS, "发送成功");
-    MASS_ST_2_DESC.put(MASS_ST_FAIL, "发送失败");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌广告, "涉嫌广告");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌政治, "涉嫌政治");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌社会, "涉嫌社会");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌色情, "涉嫌色情");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌违法犯罪, "涉嫌违法犯罪");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌欺诈, "涉嫌欺诈");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌版权, "涉嫌版权");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌互推_互相宣传, "涉嫌互推_互相宣传");
-    MASS_ST_2_DESC.put(MASS_ST_涉嫌其他, "涉嫌其他");
-  }
-  
+  public static final String CUSTOM_MSG_FILE = "file";
+
   ///////////////////////
   // 微信端推送过来的事件类型
   ///////////////////////

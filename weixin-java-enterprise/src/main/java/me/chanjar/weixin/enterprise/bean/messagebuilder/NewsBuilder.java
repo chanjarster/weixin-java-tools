@@ -1,10 +1,10 @@
-package me.chanjar.weixin.enterprise.bean.custombuilder;
+package me.chanjar.weixin.enterprise.bean.messagebuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpMessage;
 
 /**
  * 图文消息builder
@@ -17,19 +17,19 @@ import me.chanjar.weixin.enterprise.bean.WxCustomMessage;
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
 
-  private List<WxCustomMessage.WxArticle> articles = new ArrayList<WxCustomMessage.WxArticle>();
+  private List<WxCpMessage.WxArticle> articles = new ArrayList<WxCpMessage.WxArticle>();
   
   public NewsBuilder() {
     this.msgType = WxConsts.CUSTOM_MSG_NEWS;
   }
 
-  public NewsBuilder addArticle(WxCustomMessage.WxArticle article) {
+  public NewsBuilder addArticle(WxCpMessage.WxArticle article) {
     this.articles.add(article);
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxCpMessage build() {
+    WxCpMessage m = super.build();
     m.setArticles(this.articles);
     return m;
   }

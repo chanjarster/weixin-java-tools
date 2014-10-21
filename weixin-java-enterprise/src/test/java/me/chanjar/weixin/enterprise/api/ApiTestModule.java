@@ -42,20 +42,43 @@ public class ApiTestModule implements Module {
   @XmlAccessorType(XmlAccessType.FIELD)
   public static class WxXmlCpConfigStorage extends WxInMemoryCpConfigStorage {
     
-    protected String openId;
+    protected String userId;
 
-    public String getOpenId() {
-      return openId;
+    protected String departmentId;
+
+    protected String tagId;
+
+    public String getUserId() {
+      return userId;
     }
-    public void setOpenId(String openId) {
-      this.openId = openId;
+    public void setUserId(String userId) {
+      this.userId = userId;
     }
+
+    public String getDepartmentId() {
+      return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+      this.departmentId = departmentId;
+    }
+
+    public String getTagId() {
+      return tagId;
+    }
+
+    public void setTagId(String tagId) {
+      this.tagId = tagId;
+    }
+
     @Override
     public String toString() {
-      return "SimpleWxConfigProvider [corpId=" + corpId + ", corpSecret=" + corpSecret + ", accessToken=" + accessToken
-          + ", expiresIn=" + expiresIn + ", token=" + token + ", openId=" + openId + "]";
+      return super.toString() + " > WxXmlCpConfigStorage{" +
+          "userId='" + userId + '\'' +
+          ", departmentId='" + departmentId + '\'' +
+          ", tagId='" + tagId + '\'' +
+          '}';
     }
-     
   }
   
 }

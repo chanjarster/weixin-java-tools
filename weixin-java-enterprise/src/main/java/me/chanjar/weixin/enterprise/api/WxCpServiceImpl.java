@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import me.chanjar.weixin.enterprise.bean.*;
-import me.chanjar.weixin.enterprise.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.enterprise.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.enterprise.util.crypto.SHA1;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +19,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import me.chanjar.weixin.enterprise.bean.WxDepartment;
+import me.chanjar.weixin.enterprise.bean.WxCpDepartment;
 import me.chanjar.weixin.enterprise.bean.result.WxError;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.enterprise.bean.result.WxUser;
@@ -98,8 +97,8 @@ public class WxCpServiceImpl implements WxCpService {
     }
   }
 
-  public void messageSend(WxCustomMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
+  public void messageSend(WxCpMessage message) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
   }
 
@@ -143,7 +142,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
 
-  public WxDepartment departmentCreate(String name) throws WxErrorException {
+  public WxCpDepartment departmentCreate(String name) throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/create";
     JsonObject json = new JsonObject();
@@ -155,16 +154,16 @@ public class WxCpServiceImpl implements WxCpService {
         new SimplePostRequestExecutor(),
         url,
         json.toString());
-    return WxDepartment.fromJson(responseContent);
+    return WxCpDepartment.fromJson(responseContent);
   }
 
-  public void departmentUpdate(WxDepartment group) throws WxErrorException {
+  public void departmentUpdate(WxCpDepartment group) throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/update";
     execute(new SimplePostRequestExecutor(), url, group.toJson());
   }
 
-  public List<WxDepartment> departmentGet() throws WxErrorException {
+  public List<WxCpDepartment> departmentGet() throws WxErrorException {
     // TODO
     String url = "https://api.weixin.qq.com/cgi-bin/groups/get";
     String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
@@ -174,11 +173,11 @@ public class WxCpServiceImpl implements WxCpService {
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return WxGsonBuilder.INSTANCE.create()
-        .fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxDepartment>>() {
+        .fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxCpDepartment>>() {
         }.getType());
   }
 
-  public void departmentDelete(WxDepartment department) throws WxErrorException {
+  public void departmentDelete(WxCpDepartment department) throws WxErrorException {
     // TODO
 
   }

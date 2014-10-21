@@ -12,12 +12,12 @@ public class WxGsonBuilder {
   
   static {
     INSTANCE.disableHtmlEscaping();
-    INSTANCE.registerTypeAdapter(WxCustomMessage.class, new WxCustomMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxCpMessage.class, new WxCpMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMenu.class, new WxMenuGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMassNews.class, new WxMassNewsGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMassGroupMessage.class, new WxMassMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMassOpenIdsMessage.class, new WxMassOpenIdsMessageGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxDepartment.class, new WxGroupGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxCpDepartment.class, new WxGroupGsonAdapter());
     INSTANCE.registerTypeAdapter(WxUser.class, new WxUserGsonAdapter());
     INSTANCE.registerTypeAdapter(WxUserList.class, new WxUserListGsonAdapter());
     INSTANCE.registerTypeAdapter(WxAccessToken.class, new WxAccessTokenAdapter());
