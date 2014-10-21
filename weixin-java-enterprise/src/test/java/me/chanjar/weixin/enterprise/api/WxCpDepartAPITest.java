@@ -18,12 +18,12 @@ import com.google.inject.Inject;
  */
 @Test(groups = "groupAPI", dependsOnGroups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxGroupAPITest {
+public class WxCpDepartAPITest {
 
   @Inject
   protected WxCpServiceImpl wxService;
 
-  protected WxCpDepart group;
+  protected WxCpDepart depart;
   
   public void testGroupCreate() throws WxErrorException {
     WxCpDepart res = wxService.departmentCreate("测试分组1");
@@ -36,15 +36,15 @@ public class WxGroupAPITest {
     Assert.assertNotNull(groupList);
     Assert.assertTrue(groupList.size() > 0);
     for (WxCpDepart g : groupList) {
-      group = g;
+      depart = g;
       Assert.assertNotNull(g.getName());
     }
   }
   
   @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
   public void getGroupUpdate() throws WxErrorException {
-    group.setName("分组改名");
-    wxService.departmentUpdate(group);
+    depart.setName("分组改名");
+    wxService.departmentUpdate(depart);
   }
 
 }
