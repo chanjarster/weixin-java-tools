@@ -50,7 +50,7 @@ public class WxCpConsts {
   public static final String MEDIA_IMAGE = "image";
   public static final String MEDIA_VOICE = "voice";
   public static final String MEDIA_VIDEO = "video";
-  public static final String MEDIA_THUMB = "thumb";
+  public static final String MEDIA_FILE = "file";
   
   ///////////////////////
   // 文件类型

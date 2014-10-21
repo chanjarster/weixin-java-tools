@@ -7,7 +7,7 @@
 			<class name="me.chanjar.weixin.enterprise.api.WxCpMessageAPITest" />
 			<class name="me.chanjar.weixin.enterprise.api.WxCpMenuAPITest" />
 			<class name="me.chanjar.weixin.enterprise.api.WxGroupAPITest" />
-			<class name="me.chanjar.weixin.enterprise.api.WxMediaAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxCpMediaAPITest" />
 			<class name="me.chanjar.weixin.enterprise.api.WxCpMessageRouterTest" />
 		</classes>
 	</test>

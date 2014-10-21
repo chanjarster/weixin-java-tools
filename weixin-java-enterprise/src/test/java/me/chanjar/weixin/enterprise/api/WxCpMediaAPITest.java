@@ -20,9 +20,10 @@ import com.google.inject.Inject;
  * @author Daniel Qian
  *
  */
-@Test(groups="mediaAPI", dependsOnGroups="baseAPI")
+//@Test(groups="mediaAPI", dependsOnGroups="baseAPI")
+@Test
 @Guice(modules = ApiTestModule.class)
-public class WxMediaAPITest {
+public class WxCpMediaAPITest {
 
   @Inject
   protected WxCpServiceImpl wxService;
@@ -51,7 +52,7 @@ public class WxMediaAPITest {
         new Object[] { WxCpConsts.MEDIA_IMAGE, WxCpConsts.FILE_JPG, "mm.jpeg" },
         new Object[] { WxCpConsts.MEDIA_VOICE, WxCpConsts.FILE_MP3, "mm.mp3" },
         new Object[] { WxCpConsts.MEDIA_VIDEO, WxCpConsts.FILE_MP4, "mm.mp4" },
-        new Object[] { WxCpConsts.MEDIA_THUMB, WxCpConsts.FILE_JPG, "mm.jpeg" }
+        new Object[] { WxCpConsts.MEDIA_FILE, WxCpConsts.FILE_JPG, "mm.jpeg" }
     };
   }
   

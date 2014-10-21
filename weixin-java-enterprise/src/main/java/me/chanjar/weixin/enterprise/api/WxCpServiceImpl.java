@@ -137,12 +137,12 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException {
-    String url = "http://file.api.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
     return execute(new MediaUploadRequestExecutor(), url, file);
   }
 
   public File mediaDownload(String media_id) throws WxErrorException {
-    String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/media/get";
     return execute(new MediaDownloadRequestExecutor(), url, "media_id=" + media_id);
   }
 
