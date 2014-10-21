@@ -3,6 +3,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.enterprise.bean.*;
 import me.chanjar.weixin.enterprise.bean.result.*;
 

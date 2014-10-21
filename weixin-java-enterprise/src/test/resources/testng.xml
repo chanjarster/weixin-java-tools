@@ -3,33 +3,28 @@
 <suite name="Weixin-java-tool-suite" verbose="1">
 	<test name="API_Test">
 		<classes>
-			<class name="WxBaseAPITest" />
-			<class name="WxCustomMessageAPITest" />
-			<class name="WxMenuAPITest" />
-			<class name="WxGroupAPITest" />
-			<class name="WxMassMessageAPITest" />
-			<class name="WxMediaAPITest" />
-			<class name="WxUserAPITest" />
-			<class name="WxQrCodeAPITest" />
-			<class name="WxShortUrlAPITest" />
-			<class name="WxMessageRouterTest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxCpBaseAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxCpMessageAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxCpMenuAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxGroupAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxMediaAPITest" />
+			<class name="me.chanjar.weixin.enterprise.api.WxCpMessageRouterTest" />
 		</classes>
 	</test>
 
 	<test name="Bean_Test">
 		<classes>
-			<class name="WxAccessTokenTest" />
-			<class name="WxCustomMessageTest" />
-			<class name="WxErrorTest" />
-			<class name="WxMenuTest" />
-			<class name="WxXmlMessageTest" />
-			<class name="WxXmlOutImageMessageTest" />
-			<class name="WxXmlOutMusicMessageTest" />
-			<class name="WxXmlOutNewsMessageTest" />
-			<class name="WxXmlOutVideoMessageTest" />
-			<class name="WxXmlOutVoiceMessageTest" />
-			<class name="WxXmlOutTextMessageTest" />
-            <class name="WxCryptUtilTest" />
+			<class name="me.chanjar.weixin.common.bean.WxAccessTokenTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxErrorTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpMenuTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlOutImageMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlOutNewsMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlOutVideoMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlOutVoiceMessageTest" />
+			<class name="me.chanjar.weixin.enterprise.bean.WxCpXmlOutTextMessageTest" />
+            <class name="me.chanjar.weixin.enterprise.util.crypto.WxCryptUtilTest" />
 		</classes>
 	</test>
 </suite>

@@ -16,7 +16,7 @@ import com.google.inject.Inject;
  */
 @Test(groups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxBaseAPITest {
+public class WxCpBaseAPITest {
 
   @Inject
   protected WxCpServiceImpl wxService;

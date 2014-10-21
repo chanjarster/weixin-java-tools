@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.enterprise.bean.*;
 import me.chanjar.weixin.enterprise.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.enterprise.util.crypto.SHA1;
@@ -25,7 +26,7 @@ import me.chanjar.weixin.enterprise.bean.result.WxError;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.enterprise.bean.result.WxUser;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
-import me.chanjar.weixin.common.FileUtils;
+import me.chanjar.weixin.common.util.FileUtils;
 import me.chanjar.weixin.enterprise.util.http.MediaDownloadRequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.RequestExecutor;

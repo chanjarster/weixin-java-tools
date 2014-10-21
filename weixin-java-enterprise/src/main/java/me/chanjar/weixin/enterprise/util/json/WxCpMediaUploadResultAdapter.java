@@ -9,7 +9,7 @@
 package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.common.GsonHelper;
+import me.chanjar.weixin.common.util.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 
 import java.lang.reflect.Type;
