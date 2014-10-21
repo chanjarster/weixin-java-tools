@@ -22,8 +22,20 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-tools</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
+```
+
+如果要使用``*-SNAPSHOT``版，则需要在你的``pom.xml``中添加这段：
+
+```xml
+<repositories>
+  <repository>
+      <snapshots />
+      <id>sonatype snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+  </repository>
+</repositories>
 ```
 
 ## Hello World
