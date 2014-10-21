@@ -10,7 +10,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.GsonHelper;
-import me.chanjar.weixin.enterprise.bean.result.WxError;
+import me.chanjar.weixin.common.bean.result.WxError;
 
 import java.lang.reflect.Type;
 

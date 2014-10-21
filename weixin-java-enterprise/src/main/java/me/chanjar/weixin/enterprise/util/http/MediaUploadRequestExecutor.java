@@ -10,7 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 
-import me.chanjar.weixin.enterprise.bean.result.WxError;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
 

@@ -1,4 +1,4 @@
-package me.chanjar.weixin.common.bean;
+package me.chanjar.weixin.common.bean.result;
 
 import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 

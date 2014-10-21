@@ -50,7 +50,7 @@ wxService.setWxConfigStorage(config);
 
 // 用户的openid在下面地址获得 
 // https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&type=用户管理&form=获取关注者列表接口%20/user/get 
-String openId = ...; 
-WxCustomMessage message = WxCustomMessage.TEXT().toUser(openId).content("Hello World").build();
+String userId = ...; 
+WxCustomMessage message = WxCustomMessage.TEXT().toUser(userId).content("Hello World").build();
 wxService.customMessageSend(message);
 ```

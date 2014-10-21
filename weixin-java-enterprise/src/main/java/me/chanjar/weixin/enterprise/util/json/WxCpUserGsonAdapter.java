@@ -10,44 +10,106 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import java.lang.reflect.Type;
 
+import com.google.gson.*;
 import me.chanjar.weixin.common.util.GsonHelper;
-import me.chanjar.weixin.enterprise.bean.result.WxUser;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import me.chanjar.weixin.enterprise.bean.WxCpUser;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
-public class WxCpUserGsonAdapter implements JsonDeserializer<WxUser> {
+public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSerializer<WxCpUser> {
 
-  public WxUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public WxCpUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
     JsonObject o = json.getAsJsonObject();
-    WxUser wxUser = new WxUser();
-    wxUser.setSubscribe(new Integer(0).equals(GsonHelper.getInteger(o, "subscribe")) ? false : true);
-    wxUser.setCity(GsonHelper.getString(o, "city"));
-    wxUser.setCountry(GsonHelper.getString(o, "country"));
-    wxUser.setHeadImgUrl(GsonHelper.getString(o, "headimgurl"));
-    wxUser.setLanguage(GsonHelper.getString(o, "language"));
-    wxUser.setNickname(GsonHelper.getString(o, "nickname"));
-    wxUser.setOpenId(GsonHelper.getString(o, "openid"));
-    wxUser.setProvince(GsonHelper.getString(o, "province"));
-    wxUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
-    wxUser.setUnionId(GsonHelper.getString(o, "unionid"));
-    Integer sex = GsonHelper.getInteger(o, "sex");
-    if(new Integer(1).equals(sex)) {
-      wxUser.setSex("男");
-    } else if (new Integer(2).equals(sex)) {
-      wxUser.setSex("女");
-    } else {
-      wxUser.setSex("未知");
+    WxCpUser user = new WxCpUser();
+    user.setUserId(GsonHelper.getString(o, "userid"));
+    user.setName(GsonHelper.getString(o, "name"));
+
+    if(o.get("department") != null) {
+      JsonArray departJsonArray = o.get("department").getAsJsonArray();
+      Integer[] departIds = new Integer[departJsonArray.size()];
+      int i = 0;
+      for (JsonElement jsonElement : departJsonArray) {
+        departIds[i++] = jsonElement.getAsInt();
+      }
+      user.setDepartIds(departIds);
     }
-    return wxUser;
+
+    user.setPosition(GsonHelper.getString(o, "position"));
+    user.setMobile(GsonHelper.getString(o, "mobile"));
+    Integer gender = GsonHelper.getInteger(o, "gender");
+    if (new Integer(1).equals(gender)) {
+      user.setGender("男");
+    } else if (new Integer(2).equals(gender)) {
+      user.setGender("女");
+    } else {
+      user.setGender("未知");
+    }
+    user.setTel(GsonHelper.getString(o, "tel"));
+    user.setEmail(GsonHelper.getString(o, "email"));
+    user.setWeiXinId(GsonHelper.getString(o, "weixinid"));
+
+    if (GsonHelper.isNotNull(o.get("extattr"))) {
+      JsonArray attrJsonElements = o.get("extattr").getAsJsonObject().get("attrs").getAsJsonArray();
+      for (JsonElement attrJsonElement : attrJsonElements) {
+        WxCpUser.Attr attr = new WxCpUser.Attr(
+            GsonHelper.getString(attrJsonElement.getAsJsonObject(), "name"),
+            GsonHelper.getString(attrJsonElement.getAsJsonObject(), "value")
+        );
+        user.getExtAttrs().add(attr);
+      }
+    }
+    return user;
+  }
+
+  @Override
+  public JsonElement serialize(WxCpUser user, Type typeOfSrc, JsonSerializationContext context) {
+    JsonObject o = new JsonObject();
+    if (user.getUserId() != null) {
+      o.addProperty("userid", user.getUserId());
+    }
+    if (user.getName() != null) {
+      o.addProperty("name", user.getName());
+    }
+    if (user.getDepartIds() != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (Integer departId : user.getDepartIds()) {
+        jsonArray.add(new JsonPrimitive(departId));
+      }
+      o.add("department", jsonArray);
+    }
+    if (user.getPosition() != null) {
+      o.addProperty("position", user.getPosition());
+    }
+    if (user.getMobile() != null) {
+      o.addProperty("mobile", user.getMobile());
+    }
+    if (user.getGender() != null) {
+      o.addProperty("gender", user.getGender().equals("男") ? 0 : 1);
+    }
+    if (user.getTel() != null) {
+      o.addProperty("tel", user.getTel());
+    }
+    if (user.getEmail() != null) {
+      o.addProperty("email", user.getEmail());
+    }
+    if (user.getWeiXinId() != null) {
+      o.addProperty("weixinid", user.getWeiXinId());
+    }
+    if (user.getExtAttrs().size() > 0) {
+      JsonArray attrsJsonArray = new JsonArray();
+      for (WxCpUser.Attr attr : user.getExtAttrs()) {
+        JsonObject attrJson = new JsonObject();
+        attrJson.addProperty("name", attr.getName());
+        attrJson.addProperty("value", attr.getValue());
+        attrsJsonArray.add(attrJson);
+      }
+      JsonObject attrsJson = new JsonObject();
+      attrsJson.add("attrs", attrsJsonArray);
+      o.add("extattr", attrsJson);
+    }
+    return o;
   }
 
 }

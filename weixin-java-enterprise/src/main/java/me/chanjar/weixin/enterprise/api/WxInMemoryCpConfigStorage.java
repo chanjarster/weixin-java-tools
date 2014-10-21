@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.api;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxAccessToken;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化

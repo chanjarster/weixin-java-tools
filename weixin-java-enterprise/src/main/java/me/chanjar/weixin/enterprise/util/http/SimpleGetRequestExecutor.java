@@ -6,7 +6,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
-import me.chanjar.weixin.enterprise.bean.result.WxError;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
 
 /**

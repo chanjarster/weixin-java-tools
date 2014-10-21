@@ -13,7 +13,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 
-import me.chanjar.weixin.enterprise.bean.result.WxError;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
 import me.chanjar.weixin.common.util.FileUtils;
 

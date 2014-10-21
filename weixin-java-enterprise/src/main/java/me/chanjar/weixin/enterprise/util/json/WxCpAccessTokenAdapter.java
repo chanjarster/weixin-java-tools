@@ -10,7 +10,7 @@ package me.chanjar.weixin.enterprise.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.GsonHelper;
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxAccessToken;
 
 import java.lang.reflect.Type;
 

@@ -1,6 +1,6 @@
 package me.chanjar.weixin.common.bean;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxAccessToken;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

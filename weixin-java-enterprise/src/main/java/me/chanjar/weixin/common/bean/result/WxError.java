@@ -1,7 +1,4 @@
-package me.chanjar.weixin.enterprise.bean.result;
-
-import java.util.HashMap;
-import java.util.Map;
+package me.chanjar.weixin.common.bean.result;
 
 import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 

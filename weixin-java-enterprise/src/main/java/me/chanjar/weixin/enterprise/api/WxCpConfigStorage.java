@@ -1,6 +1,6 @@
 package me.chanjar.weixin.enterprise.api;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxAccessToken;
 
 /**
  * 微信客户端配置存储

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.result.WxAccessToken;
 import me.chanjar.weixin.common.util.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.*;
 import me.chanjar.weixin.enterprise.util.http.SimpleGetRequestExecutor;
@@ -23,9 +23,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import me.chanjar.weixin.enterprise.bean.WxCpDepart;
-import me.chanjar.weixin.enterprise.bean.result.WxError;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.enterprise.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.enterprise.bean.result.WxUser;
+import me.chanjar.weixin.enterprise.bean.WxCpUser;
 import me.chanjar.weixin.enterprise.exception.WxErrorException;
 import me.chanjar.weixin.common.util.FileUtils;
 import me.chanjar.weixin.enterprise.util.http.MediaDownloadRequestExecutor;
@@ -34,7 +34,6 @@ import me.chanjar.weixin.enterprise.util.http.RequestExecutor;
 import me.chanjar.weixin.enterprise.util.http.SimplePostRequestExecutor;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -165,7 +164,7 @@ public class WxCpServiceImpl implements WxCpService {
 
   public void departDelete(Integer departId) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/department/delete?id=" + departId;
-    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    execute(new SimpleGetRequestExecutor(), url, null);
   }
 
   public List<WxCpDepart> departGet() throws WxErrorException {
@@ -184,28 +183,50 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public void userCreate(WxUser user) throws WxErrorException {
-    // TODO
+  public void userCreate(WxCpUser user) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/create";
+    execute(new SimplePostRequestExecutor(), url, user.toJson());
   }
 
   @Override
-  public void userUpdate(WxUser user) throws WxErrorException {
-    // TODO
+  public void userUpdate(WxCpUser user) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/update";
+    execute(new SimplePostRequestExecutor(), url, user.toJson());
   }
 
   @Override
   public void userDelete(String userid) throws WxErrorException {
-    // TODO
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/delete?userid=" + userid;
+    execute(new SimpleGetRequestExecutor(), url, null);
   }
 
   @Override
-  public WxUser userGet(String userid) throws WxErrorException {
-    return null;
+  public WxCpUser userGet(String userid) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?userid=" + userid;
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    return WxCpUser.fromJson(responseContent);
   }
 
   @Override
-  public List<WxUser> userGetByDepartment(String departmentId) throws WxErrorException {
-    return null;
+  public List<WxCpUser> userGetByDepart(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?department_id=" + departId;
+    String params = "";
+    if (fetchChild != null) {
+      params += "&fetch_child=" + (fetchChild ? "1" : "0");
+    }
+    if (status != null) {
+      params += "&status=" + status;
+    } else {
+      params += "&status=0";
+    }
+
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, params);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxCpGsonBuilder.INSTANCE.create()
+        .fromJson(
+            tmpJsonElement.getAsJsonObject().get("userlist"),
+            new TypeToken<List<WxCpUser>>() { }.getType()
+        );
   }
 
   /**
