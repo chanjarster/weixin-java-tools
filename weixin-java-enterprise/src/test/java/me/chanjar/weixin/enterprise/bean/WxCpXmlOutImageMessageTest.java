@@ -1,16 +1,14 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutTextMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class WxXmlOutTextMessageTest {
+public class WxCpXmlOutImageMessageTest {
 
   public void test() {
-    WxXmlOutTextMessage m = new WxXmlOutTextMessage();
-    m.setContent("content");
+    WxCpXmlOutImageMessage m = new WxCpXmlOutImageMessage();
+    m.setMediaId("ddfefesfsdfef");
     m.setCreateTime(1122l);
     m.setFromUserName("from");
     m.setToUserName("to");
@@ -20,35 +18,33 @@ public class WxXmlOutTextMessageTest {
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
-        + "<MsgType><![CDATA[text]]></MsgType>"
-        + "<Content><![CDATA[content]]></Content>"
+        + "<MsgType><![CDATA[image]]></MsgType>"
+        + "<Image><MediaId><![CDATA[ddfefesfsdfef]]></MediaId></Image>"
         + "</xml>";
     System.out.println(m.toXml());
     Assert.assertEquals(m.toXml().replaceAll("\\s", ""), expected.replaceAll("\\s", ""));
   }
   
   public void testBuild() {
-    WxXmlOutTextMessage m = WxXmlOutMessage.TEXT().content("content").fromUser("from").toUser("to").build();
+    WxCpXmlOutImageMessage m = WxCpXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
     String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
         + "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
-        + "<MsgType><![CDATA[text]]></MsgType>"
-        + "<Content><![CDATA[content]]></Content>"
+        + "<MsgType><![CDATA[image]]></MsgType>"
+        + "<Image><MediaId><![CDATA[ddfefesfsdfef]]></MediaId></Image>"
         + "</xml>";
     System.out.println(m.toXml());
     Assert.assertEquals(
-        m
-        .toXml()
-        .replaceAll("\\s", "")
-        .replaceAll("<CreateTime>.*?</CreateTime>", ""), 
-        expected
-        .replaceAll("\\s", "")
-        .replaceAll("<CreateTime>.*?</CreateTime>", "")
-        );
+              m
+                .toXml()
+                .replaceAll("\\s", "")
+                .replaceAll("<CreateTime>.*?</CreateTime>", ""), 
+              expected
+                .replaceAll("\\s", "")
+                .replaceAll("<CreateTime>.*?</CreateTime>", "")
+              );
     
   }
-  
-
 }

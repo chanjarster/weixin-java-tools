@@ -20,7 +20,7 @@ import me.chanjar.weixin.enterprise.util.xml.XmlTransformer;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutMessage {
+public class WxCpXmlOutMessage {
 
   @XmlElement(name="ToUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
@@ -69,7 +69,7 @@ public class WxXmlOutMessage {
     this.msgType = msgType;
   }
   
-  public String toXml() {
+  protected String toXml() {
     try {
       return XmlTransformer.toXml((Class)this.getClass(), this);
     } catch (JAXBException e) {

@@ -2,10 +2,9 @@ package me.chanjar.weixin.enterprise.demo;
 
 import me.chanjar.weixin.enterprise.api.*;
 import me.chanjar.weixin.enterprise.bean.WxCpXmlMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutTextMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutTextMessage;
 import me.chanjar.weixin.enterprise.util.crypto.WxCryptUtil;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
@@ -38,10 +37,13 @@ public class WxCpTestServlet extends HttpServlet {
       wxCpService.setWxCpConfigStorage(config);
 
       WxCpMessageHandler handler = new WxCpMessageHandler() {
-        @Override public WxXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
-          WxXmlOutTextMessage m
-              = WxXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
-              .toUser(wxMessage.getFromUserName()).build();
+        @Override public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
+          WxCpXmlOutTextMessage m = WxCpXmlOutMessage
+                  .TEXT()
+                  .content("测试加密消息")
+                  .fromUser(wxMessage.getToUserName())
+                  .toUser(wxMessage.getFromUserName())
+              .build();
           return m;
         }
       };
@@ -85,8 +87,11 @@ public class WxCpTestServlet extends HttpServlet {
 
     WxCpXmlMessage inMessage = WxCpXmlMessage.fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
 
-//    WxXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
+    WxCpXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
 
+    if (outMessage != null) {
+      response.getWriter().write(outMessage.toEncryptedXml(wxCpConfigStorage));
+    }
 
     return;
   }

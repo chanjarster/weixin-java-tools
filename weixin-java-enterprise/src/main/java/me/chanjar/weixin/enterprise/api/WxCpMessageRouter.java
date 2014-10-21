@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 import me.chanjar.weixin.enterprise.bean.WxCpXmlMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutMessage;
 
 /**
  * <pre>
@@ -57,7 +57,7 @@ public class WxCpMessageRouter {
    * 处理微信消息
    * @param wxMessage
    */
-  public WxXmlOutMessage route(final WxCpXmlMessage wxMessage) {
+  public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
     final List<Rule> matchRules = new ArrayList<Rule>();
     // 收集匹配的规则
     for (final Rule rule : rules) {
@@ -86,7 +86,7 @@ public class WxCpMessageRouter {
       return null;
     }
     
-    WxXmlOutMessage res = null;
+    WxCpXmlOutMessage res = null;
     for (final Rule rule : matchRules) {
       // 返回最后一个匹配规则的结果
       res = rule.service(wxMessage);
@@ -270,7 +270,7 @@ public class WxCpMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected WxXmlOutMessage service(WxCpXmlMessage wxMessage) {
+    protected WxCpXmlOutMessage service(WxCpXmlMessage wxMessage) {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
@@ -280,7 +280,7 @@ public class WxCpMessageRouter {
       }
       
       // 交给handler处理
-      WxXmlOutMessage res = null;
+      WxCpXmlOutMessage res = null;
       for (WxCpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
         res = handler.handle(wxMessage, context);

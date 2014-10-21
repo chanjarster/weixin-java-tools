@@ -3,11 +3,10 @@ package me.chanjar.weixin.enterprise.api;
 import java.util.Map;
 
 import me.chanjar.weixin.enterprise.bean.WxCpXmlMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutMessage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
 
 /**
  * 测试消息路由器
@@ -67,7 +66,7 @@ public class WxCpMessageRouterTest {
     final WxCpMessageRouter router = new WxCpMessageRouter();
     router.rule().handler(new WxCpMessageHandler() {
       @Override
-      public WxXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
+      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
         return null;
       }
     }).end();
@@ -149,7 +148,7 @@ public class WxCpMessageRouterTest {
     }
 
     @Override
-    public WxXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
+    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
       sb.append(this.echoStr).append(',');
       return null;
     }

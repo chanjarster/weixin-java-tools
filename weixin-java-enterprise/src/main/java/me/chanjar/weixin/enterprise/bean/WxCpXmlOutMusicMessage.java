@@ -11,12 +11,12 @@ import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutMusicMessage extends WxXmlOutMessage {
+public class WxCpXmlOutMusicMessage extends WxCpXmlOutMessage {
 
   @XmlElement(name = "Music")
   protected final Music music = new Music();
 
-  public WxXmlOutMusicMessage() {
+  public WxCpXmlOutMusicMessage() {
     this.msgType = WxConsts.XML_MSG_MUSIC;
   }
 

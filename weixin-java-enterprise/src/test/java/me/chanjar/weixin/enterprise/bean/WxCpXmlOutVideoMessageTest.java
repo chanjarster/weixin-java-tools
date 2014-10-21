@@ -1,20 +1,16 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMusicMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class WxXmlOutMusicMessageTest {
+public class WxCpXmlOutVideoMessageTest {
 
   public void test() {
-    WxXmlOutMusicMessage m = new WxXmlOutMusicMessage();
+    WxCpXmlOutVideoMessage m = new WxCpXmlOutVideoMessage();
+    m.setMediaId("media_id");
     m.setTitle("title");
     m.setDescription("ddfff");
-    m.setHqMusicUrl("hQMusicUrl");
-    m.setMusicUrl("musicUrl");
-    m.setThumbMediaId("thumbMediaId");
     m.setCreateTime(1122l);
     m.setFromUserName("fromUser");
     m.setToUserName("toUser");
@@ -24,42 +20,36 @@ public class WxXmlOutMusicMessageTest {
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
-        + "<MsgType><![CDATA[music]]></MsgType>"
-        + "<Music>"
-        + "        <Title><![CDATA[title]]></Title>"
-        + "        <Description><![CDATA[ddfff]]></Description>"
-        + "        <ThumbMediaId><![CDATA[thumbMediaId]]></ThumbMediaId>"
-        + "        <MusicUrl><![CDATA[musicUrl]]></MusicUrl>"
-        + "        <HQMusicUrl><![CDATA[hQMusicUrl]]></HQMusicUrl>"
-        + "    </Music>"
+        + "<MsgType><![CDATA[video]]></MsgType>"
+        + "<Video>"
+        + "<MediaId><![CDATA[media_id]]></MediaId>"
+        + "<Title><![CDATA[title]]></Title>"
+        + "<Description><![CDATA[ddfff]]></Description>"
+        + "</Video> "
         + "</xml>";
     System.out.println(m.toXml());
     Assert.assertEquals(m.toXml().replaceAll("\\s", ""), expected.replaceAll("\\s", ""));
   }
   
   public void testBuild() {
-    WxXmlOutMusicMessage m = WxXmlOutMessage.MUSIC()
+    WxCpXmlOutVideoMessage m = WxCpXmlOutMessage.VIDEO()
+          .mediaId("media_id")
           .fromUser("fromUser")
           .toUser("toUser")
           .title("title")
           .description("ddfff")
-          .hqMusicUrl("hQMusicUrl")
-          .musicUrl("musicUrl")
-          .thumbMediaId("thumbMediaId")
           .build();
     String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
         + "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
-        + "<MsgType><![CDATA[music]]></MsgType>"
-        + "<Music>"
-        + "        <Title><![CDATA[title]]></Title>"
-        + "        <Description><![CDATA[ddfff]]></Description>"
-        + "        <ThumbMediaId><![CDATA[thumbMediaId]]></ThumbMediaId>"
-        + "        <MusicUrl><![CDATA[musicUrl]]></MusicUrl>"
-        + "        <HQMusicUrl><![CDATA[hQMusicUrl]]></HQMusicUrl>"
-        + "    </Music>"
+        + "<MsgType><![CDATA[video]]></MsgType>"
+        + "<Video>"
+        + "<MediaId><![CDATA[media_id]]></MediaId>"
+        + "<Title><![CDATA[title]]></Title>"
+        + "<Description><![CDATA[ddfff]]></Description>"
+        + "</Video> "
         + "</xml>";
     System.out.println(m.toXml());
     Assert.assertEquals(

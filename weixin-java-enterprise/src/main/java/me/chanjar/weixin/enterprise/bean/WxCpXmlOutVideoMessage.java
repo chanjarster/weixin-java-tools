@@ -11,12 +11,12 @@ import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutVideoMessage extends WxXmlOutMessage {
+public class WxCpXmlOutVideoMessage extends WxCpXmlOutMessage {
 
   @XmlElement(name = "Video")
   protected final Video video = new Video();
 
-  public WxXmlOutVideoMessage() {
+  public WxCpXmlOutVideoMessage() {
     this.msgType = WxConsts.XML_MSG_VIDEO;
   }
 

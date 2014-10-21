@@ -9,7 +9,6 @@ import java.io.Writer;
 import javax.xml.bind.*;
 
 import me.chanjar.weixin.enterprise.bean.*;
-import me.chanjar.weixin.enterprise.bean.*;
 import org.xml.sax.InputSource;
 
 import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
@@ -78,13 +77,13 @@ public class XmlTransformer {
      */
     try {
       return JAXBContext.newInstance(
-          WxXmlOutMessage.class,
-          WxXmlOutImageMessage.class,
-          WxXmlOutMewsMessage.class,
-          WxXmlOutMusicMessage.class,
-          WxXmlOutTextMessage.class,
-          WxXmlOutVideoMessage.class,
-          WxXmlOutVoiceMessage.class,
+          WxCpXmlOutMessage.class,
+          WxCpXmlOutImageMessage.class,
+          WxCpXmlOutMewsMessage.class,
+          WxCpXmlOutMusicMessage.class,
+          WxCpXmlOutTextMessage.class,
+          WxCpXmlOutVideoMessage.class,
+          WxCpXmlOutVoiceMessage.class,
           WxCpXmlMessage.class);
     } catch (JAXBException e) {
       throw new RuntimeException(e);

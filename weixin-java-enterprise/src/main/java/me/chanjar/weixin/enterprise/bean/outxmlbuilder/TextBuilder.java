@@ -1,13 +1,13 @@
 package me.chanjar.weixin.enterprise.bean.outxmlbuilder;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutTextMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutTextMessage;
 
 /**
  * 文本消息builder
  * @author Daniel Qian
  *
  */
-public final class TextBuilder extends BaseBuilder<TextBuilder, WxXmlOutTextMessage> {
+public final class TextBuilder extends BaseBuilder<TextBuilder, WxCpXmlOutTextMessage> {
   private String content;
 
   public TextBuilder content(String content) {
@@ -15,8 +15,8 @@ public final class TextBuilder extends BaseBuilder<TextBuilder, WxXmlOutTextMess
     return this;
   }
 
-  public WxXmlOutTextMessage build() {
-    WxXmlOutTextMessage m = new WxXmlOutTextMessage();
+  public WxCpXmlOutTextMessage build() {
+    WxCpXmlOutTextMessage m = new WxCpXmlOutTextMessage();
     setCommon(m);
     m.setContent(this.content);
     return m;

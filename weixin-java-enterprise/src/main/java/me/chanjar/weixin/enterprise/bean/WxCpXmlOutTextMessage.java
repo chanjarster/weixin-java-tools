@@ -7,26 +7,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import me.chanjar.weixin.enterprise.api.WxConsts;
-import me.chanjar.weixin.enterprise.util.xml.MediaIdMarshaller;
+import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutImageMessage extends WxXmlOutMessage {
+public class WxCpXmlOutTextMessage extends WxCpXmlOutMessage {
   
-  @XmlElement(name="Image")
-  @XmlJavaTypeAdapter(MediaIdMarshaller.class)
-  private String mediaId;
+  @XmlElement(name="Content")
+  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  private String content;
 
-  public WxXmlOutImageMessage() {
-    this.msgType = WxConsts.XML_MSG_IMAGE;
+  public WxCpXmlOutTextMessage() {
+    this.msgType = WxConsts.XML_MSG_TEXT;
   }
   
-  public String getMediaId() {
-    return mediaId;
+  public String getContent() {
+    return content;
   }
 
-  public void setMediaId(String mediaId) {
-    this.mediaId = mediaId;
+  public void setContent(String content) {
+    this.content = content;
   }
+
   
 }

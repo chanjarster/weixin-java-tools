@@ -34,6 +34,9 @@ public class WxCpXmlMessage {
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
+  @XmlElement(name="AgentID")
+  private Integer agentId;
+
   @XmlElement(name = "ToUserName")
   @XmlJavaTypeAdapter(AdapterCDATA.class)
   private String toUserName;
@@ -160,6 +163,14 @@ public class WxCpXmlMessage {
 
   @XmlElement(name = "SendLocationInfo")
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
+
+  public Integer getAgentId() {
+    return agentId;
+  }
+
+  public void setAgentId(Integer agentId) {
+    this.agentId = agentId;
+  }
 
   public String getToUserName() {
     return toUserName;
@@ -380,7 +391,7 @@ public class WxCpXmlMessage {
     this.fromUserName = fromUserName;
   }
 
-  public static WxCpXmlMessage fromXml(String xml) {
+  protected static WxCpXmlMessage fromXml(String xml) {
     try {
       return XmlTransformer.fromXml(WxCpXmlMessage.class, xml);
     } catch (JAXBException e) {
@@ -388,7 +399,7 @@ public class WxCpXmlMessage {
     }
   }
 
-  public static WxCpXmlMessage fromXml(InputStream is) {
+  protected static WxCpXmlMessage fromXml(InputStream is) {
     try {
       return XmlTransformer.fromXml(WxCpXmlMessage.class, is);
     } catch (JAXBException e) {

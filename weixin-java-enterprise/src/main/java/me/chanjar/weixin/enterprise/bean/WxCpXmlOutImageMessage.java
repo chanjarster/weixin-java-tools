@@ -11,14 +11,14 @@ import me.chanjar.weixin.enterprise.util.xml.MediaIdMarshaller;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutVoiceMessage extends WxXmlOutMessage {
+public class WxCpXmlOutImageMessage extends WxCpXmlOutMessage {
   
-  @XmlElement(name="Voice")
+  @XmlElement(name="Image")
   @XmlJavaTypeAdapter(MediaIdMarshaller.class)
   private String mediaId;
 
-  public WxXmlOutVoiceMessage() {
-    this.msgType = WxConsts.XML_MSG_VOICE;
+  public WxCpXmlOutImageMessage() {
+    this.msgType = WxConsts.XML_MSG_IMAGE;
   }
   
   public String getMediaId() {

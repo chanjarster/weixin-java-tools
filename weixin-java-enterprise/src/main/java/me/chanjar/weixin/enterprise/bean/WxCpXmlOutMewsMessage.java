@@ -15,7 +15,7 @@ import me.chanjar.weixin.enterprise.util.xml.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxXmlOutMewsMessage extends WxXmlOutMessage {
+public class WxCpXmlOutMewsMessage extends WxCpXmlOutMessage {
 
   @XmlElement(name = "ArticleCount")
   protected int articleCount;
@@ -24,7 +24,7 @@ public class WxXmlOutMewsMessage extends WxXmlOutMessage {
   @XmlElement(name = "item")
   protected final List<Item> articles = new ArrayList<Item>();
   
-  public WxXmlOutMewsMessage() {
+  public WxCpXmlOutMewsMessage() {
     this.msgType = WxConsts.XML_MSG_NEWS;
   }
 

@@ -1,15 +1,13 @@
 package me.chanjar.weixin.enterprise.bean;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutMessage;
-import me.chanjar.weixin.enterprise.bean.WxXmlOutVoiceMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class WxXmlOutVoiceMessageTest {
+public class WxCpXmlOutVoiceMessageTest {
 
   public void test() {
-    WxXmlOutVoiceMessage m = new WxXmlOutVoiceMessage();
+    WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
     m.setMediaId("ddfefesfsdfef");
     m.setCreateTime(1122l);
     m.setFromUserName("from");
@@ -28,7 +26,7 @@ public class WxXmlOutVoiceMessageTest {
   }
   
   public void testBuild() {
-    WxXmlOutVoiceMessage m = WxXmlOutMessage.VOICE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
+    WxCpXmlOutVoiceMessage m = WxCpXmlOutMessage.VOICE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
     String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
         + "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"

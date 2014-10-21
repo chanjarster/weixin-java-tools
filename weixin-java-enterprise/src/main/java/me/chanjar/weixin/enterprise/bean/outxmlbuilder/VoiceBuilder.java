@@ -1,12 +1,12 @@
 package me.chanjar.weixin.enterprise.bean.outxmlbuilder;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutVoiceMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutVoiceMessage;
 
 /**
  * 语音消息builder
  * @author Daniel Qian
  */
-public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxXmlOutVoiceMessage> {
+public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxCpXmlOutVoiceMessage> {
 
   private String mediaId;
 
@@ -15,8 +15,8 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxXmlOutVoiceM
     return this;
   }
   
-  public WxXmlOutVoiceMessage build() {
-    WxXmlOutVoiceMessage m = new WxXmlOutVoiceMessage();
+  public WxCpXmlOutVoiceMessage build() {
+    WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
     setCommon(m);
     m.setMediaId(mediaId);
     return m;

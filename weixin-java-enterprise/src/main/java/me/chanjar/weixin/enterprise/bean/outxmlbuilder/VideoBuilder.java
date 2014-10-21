@@ -1,13 +1,13 @@
 package me.chanjar.weixin.enterprise.bean.outxmlbuilder;
 
-import me.chanjar.weixin.enterprise.bean.WxXmlOutVideoMessage;
+import me.chanjar.weixin.enterprise.bean.WxCpXmlOutVideoMessage;
 
 /**
  * 视频消息builder
  * @author Daniel Qian
  *
  */
-public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxXmlOutVideoMessage> {
+public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxCpXmlOutVideoMessage> {
 
   private String mediaId;
   private String title;
@@ -26,8 +26,8 @@ public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxXmlOutVideoM
     return this;
   }
   
-  public WxXmlOutVideoMessage build() {
-    WxXmlOutVideoMessage m = new WxXmlOutVideoMessage();
+  public WxCpXmlOutVideoMessage build() {
+    WxCpXmlOutVideoMessage m = new WxCpXmlOutVideoMessage();
     setCommon(m);
     m.setTitle(title);
     m.setDescription(description);
