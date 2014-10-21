@@ -12,11 +12,11 @@ import me.chanjar.weixin.enterprise.exception.WxErrorException;
 import com.google.inject.Inject;
 
 /**
- * 测试分组接口
- * 
+ * 测试部门接口
+ *
  * @author Daniel Qian
  */
-@Test(groups = "groupAPI", dependsOnGroups = "baseAPI")
+@Test(groups = "departAPI", dependsOnGroups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
 public class WxCpDepartAPITest {
 
@@ -24,27 +24,35 @@ public class WxCpDepartAPITest {
   protected WxCpServiceImpl wxService;
 
   protected WxCpDepart depart;
-  
-  public void testGroupCreate() throws WxErrorException {
-    WxCpDepart res = wxService.departmentCreate("测试分组1");
-    Assert.assertEquals(res.getName(), "测试分组1");
+
+  public void testDepartCreate() throws WxErrorException {
+    WxCpDepart depart = new WxCpDepart();
+    depart.setName("测试部门");
+    depart.setParentId(1);
+    depart.setOrder(1);
+    Integer departId = wxService.departCreate(depart);
   }
 
-  @Test(dependsOnMethods="testGroupCreate")
-  public void testGroupGet() throws WxErrorException {
-    List<WxCpDepart> groupList = wxService.departmentGet();
-    Assert.assertNotNull(groupList);
-    Assert.assertTrue(groupList.size() > 0);
-    for (WxCpDepart g : groupList) {
+  @Test(dependsOnMethods = "testDepartCreate")
+  public void testDepartGet() throws WxErrorException {
+    List<WxCpDepart> departList = wxService.departGet();
+    Assert.assertNotNull(departList);
+    Assert.assertTrue(departList.size() > 0);
+    for (WxCpDepart g : departList) {
       depart = g;
       Assert.assertNotNull(g.getName());
     }
   }
-  
-  @Test(dependsOnMethods={"testGroupGet", "testGroupCreate"})
-  public void getGroupUpdate() throws WxErrorException {
-    depart.setName("分组改名");
-    wxService.departmentUpdate(depart);
+
+  @Test(dependsOnMethods = { "testDepartGet", "testDepartCreate" })
+  public void testDepartUpdate() throws WxErrorException {
+    depart.setName("部门改名");
+    wxService.departUpdate(depart);
+  }
+
+  @Test(dependsOnMethods = "testDepartUpdate")
+  public void testDepartDelete() throws WxErrorException {
+    wxService.departDelete(depart.getId());
   }
 
 }

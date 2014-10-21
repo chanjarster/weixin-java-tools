@@ -22,38 +22,44 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 /**
- * 
  * @author Daniel Qian
- *
  */
 public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDeserializer<WxCpDepart> {
 
   public JsonElement serialize(WxCpDepart group, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
-    JsonObject groupJson = new JsonObject();
-    groupJson.addProperty("name", group.getName());
-    groupJson.addProperty("id", group.getId());
-    groupJson.addProperty("count", group.getCount());
-    json.add("group", groupJson);
+    if (group.getId() != null) {
+      json.addProperty("id", group.getId());
+    }
+    if (group.getName() != null) {
+      json.addProperty("name", group.getName());
+    }
+    if (group.getParentId() != null) {
+      json.addProperty("parentid", group.getParentId());
+    }
+    if (group.getOrder() != null) {
+      json.addProperty("order", String.valueOf(group.getOrder()));
+    }
     return json;
   }
 
-  public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    WxCpDepart group = new WxCpDepart();
-    JsonObject groupJson = json.getAsJsonObject();
-    if (json.getAsJsonObject().get("group") != null) {
-      groupJson = json.getAsJsonObject().get("group").getAsJsonObject();
+  public WxCpDepart deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
+    WxCpDepart depart = new WxCpDepart();
+    JsonObject departJson = json.getAsJsonObject();
+    if (departJson.get("id") != null && !departJson.get("id").isJsonNull()) {
+      depart.setId(GsonHelper.getAsInteger(departJson.get("id")));
     }
-    if (groupJson.get("name") != null && !groupJson.get("name").isJsonNull()) {
-      group.setName(GsonHelper.getAsString(groupJson.get("name")));
+    if (departJson.get("name") != null && !departJson.get("name").isJsonNull()) {
+      depart.setName(GsonHelper.getAsString(departJson.get("name")));
     }
-    if (groupJson.get("id") != null && !groupJson.get("id").isJsonNull()) {
-      group.setId(GsonHelper.getAsPrimitiveLong(groupJson.get("id")));
+    if (departJson.get("order") != null && !departJson.get("order").isJsonNull()) {
+      depart.setOrder(GsonHelper.getAsInteger(departJson.get("order")));
     }
-    if (groupJson.get("count") != null && !groupJson.get("count").isJsonNull()) {
-      group.setCount(GsonHelper.getAsPrimitiveLong(groupJson.get("count")));
+    if (departJson.get("parentid") != null && !departJson.get("parentid").isJsonNull()) {
+      depart.setParentId(GsonHelper.getAsInteger(departJson.get("parentid")));
     }
-    return group;
+    return depart;
   }
-  
+
 }

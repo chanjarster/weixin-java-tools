@@ -133,46 +133,47 @@ public interface WxCpService {
 
   /**
    * <pre>
-   * 分组管理接口 - 创建分组
-   * 最多支持创建500个分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * 部门管理接口 - 创建部门
+   * 最多支持创建500个部门
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
    * </pre>
-   * @param name 分组名字（30个字符以内） 
+   * @param depart 部门
+   * @return 部门id
    * @throws WxErrorException
    */
-  public WxCpDepart departmentCreate(String name) throws WxErrorException;
+  public Integer departCreate(WxCpDepart depart) throws WxErrorException;
   
   /**
    * <pre>
-   * 分组管理接口 - 查询所有分组
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * 部门管理接口 - 查询所有部门
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
    * </pre>
    * @return
    * @throws WxErrorException
    */
-  public List<WxCpDepart> departmentGet() throws WxErrorException;
+  public List<WxCpDepart> departGet() throws WxErrorException;
   
   /**
    * <pre>
-   * 分组管理接口 - 修改分组名
-   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
+   * 部门管理接口 - 修改部门名
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=部门管理接口
    * 
-   * 如果id为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
+   * 如果id为0(未部门),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
    * </pre>
    * @param group 要更新的group，group的id,name必须设置 
    * @throws WxErrorException
    */
-  public void departmentUpdate(WxCpDepart group) throws WxErrorException;
+  public void departUpdate(WxCpDepart group) throws WxErrorException;
 
   /**
    * <pre>
    * 部门管理接口 - 删除部门
    *
    * </pre>
-   * @param department
+   * @param departId
    * @throws WxErrorException
    */
-  public void departmentDelete(WxCpDepart department) throws WxErrorException;
+  public void departDelete(Integer departId) throws WxErrorException;
 
   public void userCreate(WxUser user) throws WxErrorException;
 
