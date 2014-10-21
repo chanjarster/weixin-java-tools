@@ -107,17 +107,17 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   public void menuCreate(WxCpMenu menu) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid=" + wxCpConfigStorage.getAgentId();
     execute(new SimplePostRequestExecutor(), url, menu.toJson());
   }
 
   public void menuDelete() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + wxCpConfigStorage.getAgentId();
     execute(new SimpleGetRequestExecutor(), url, null);
   }
 
   public WxCpMenu menuGet() throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + wxCpConfigStorage.getAgentId();
     try {
       String resultContent = execute(new SimpleGetRequestExecutor(), url, null);
       return WxCpMenu.fromJson(resultContent);

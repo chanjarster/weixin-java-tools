@@ -65,7 +65,8 @@ public class WxCpMenuGsonAdapter implements JsonSerializer<WxCpMenu>, JsonDeseri
      * 查询菜单时是 { menu : { button : ... } }
      */
     WxCpMenu menu = new WxCpMenu();
-    JsonArray buttonsJson = json.getAsJsonObject().get("button").getAsJsonArray();
+    JsonObject menuJson = json.getAsJsonObject().get("menu").getAsJsonObject();
+    JsonArray buttonsJson = menuJson.get("button").getAsJsonArray();
     for (int i = 0; i < buttonsJson.size(); i++) {
       JsonObject buttonJson = buttonsJson.get(i).getAsJsonObject();
       WxCpMenu.WxMenuButton button = convertFromJson(buttonJson);

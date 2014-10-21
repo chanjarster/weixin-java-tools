@@ -18,7 +18,8 @@ import me.chanjar.weixin.enterprise.exception.WxErrorException;
  * @author Daniel Qian
  *
  */
-@Test(groups="menuAPI", dependsOnGroups="baseAPI")
+//@Test(groups="menuAPI", dependsOnGroups="baseAPI")
+@Test
 @Guice(modules = ApiTestModule.class)
 public class WxCpMenuAPITest {
 
