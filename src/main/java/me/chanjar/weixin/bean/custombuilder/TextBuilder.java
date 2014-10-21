@@ -6,7 +6,7 @@ import me.chanjar.weixin.bean.WxCustomMessage;
 /**
  * 文本消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.TEXT().content(...).touser(...).build();
+ * 用法: WxCustomMessage m = WxCustomMessage.TEXT().content(...).toUser(...).build();
  * </pre>
  * @author chanjarster
  *

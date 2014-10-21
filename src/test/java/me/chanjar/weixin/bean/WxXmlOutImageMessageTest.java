@@ -1,7 +1,5 @@
 package me.chanjar.weixin.bean;
 
-import me.chanjar.weixin.bean.WxXmlOutImageMessage;
-import me.chanjar.weixin.bean.WxXmlOutMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,7 +26,7 @@ public class WxXmlOutImageMessageTest {
   }
   
   public void testBuild() {
-    WxXmlOutImageMessage m = WxXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").touser("to").build();
+    WxXmlOutImageMessage m = WxXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
     String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
         + "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"

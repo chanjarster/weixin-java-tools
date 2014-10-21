@@ -9,7 +9,7 @@ public abstract class BaseBuilder<BuilderType, ValueType> {
   
   protected String fromUserName;
   
-  public BuilderType touser(String touser) {
+  public BuilderType toUser(String touser) {
     this.toUserName = touser;
     return (BuilderType) this;
   }

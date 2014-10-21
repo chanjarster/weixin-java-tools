@@ -1,7 +1,5 @@
 package me.chanjar.weixin.bean;
 
-import me.chanjar.weixin.bean.WxXmlOutMessage;
-import me.chanjar.weixin.bean.WxXmlOutMewsMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -56,7 +54,7 @@ public class WxXmlOutNewsMessageTest {
     
     WxXmlOutMewsMessage m = WxXmlOutMessage.NEWS()
           .fromUser("fromUser")
-          .touser("toUser")
+          .toUser("toUser")
           .addArticle(item)
           .addArticle(item)
           .build();

@@ -38,7 +38,7 @@ public class WxXmlOutMusicMessageTest {
   public void testBuild() {
     WxXmlOutMusicMessage m = WxXmlOutMessage.MUSIC()
           .fromUser("fromUser")
-          .touser("toUser")
+          .toUser("toUser")
           .title("title")
           .description("ddfff")
           .hqMusicUrl("hQMusicUrl")

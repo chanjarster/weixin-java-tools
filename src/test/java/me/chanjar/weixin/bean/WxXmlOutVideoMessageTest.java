@@ -1,7 +1,5 @@
 package me.chanjar.weixin.bean;
 
-import me.chanjar.weixin.bean.WxXmlOutMessage;
-import me.chanjar.weixin.bean.WxXmlOutVideoMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -37,7 +35,7 @@ public class WxXmlOutVideoMessageTest {
     WxXmlOutVideoMessage m = WxXmlOutMessage.VIDEO()
           .mediaId("media_id")
           .fromUser("fromUser")
-          .touser("toUser")
+          .toUser("toUser")
           .title("title")
           .description("ddfff")
           .build();

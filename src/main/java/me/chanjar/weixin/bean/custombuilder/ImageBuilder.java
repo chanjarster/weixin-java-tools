@@ -6,7 +6,7 @@ import me.chanjar.weixin.bean.WxCustomMessage;
 /**
  * 获得消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.IMAGE().mediaId(...).touser(...).build();
+ * 用法: WxCustomMessage m = WxCustomMessage.IMAGE().mediaId(...).toUser(...).build();
  * </pre>
  * @author chanjarster
  *

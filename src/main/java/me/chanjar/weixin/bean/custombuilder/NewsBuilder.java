@@ -10,7 +10,7 @@ import me.chanjar.weixin.bean.WxCustomMessage;
  * 图文消息builder
  * <pre>
  * 用法:
- * WxCustomMessage m = WxCustomMessage.NEWS().addArticle(article).touser(...).build();
+ * WxCustomMessage m = WxCustomMessage.NEWS().addArticle(article).toUser(...).build();
  * </pre>
  * @author chanjarster
  *

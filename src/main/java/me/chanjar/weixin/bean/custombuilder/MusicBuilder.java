@@ -12,7 +12,7 @@ import me.chanjar.weixin.bean.WxCustomMessage;
  *                      .title(...)
  *                      .thumbMediaId(..)
  *                      .description(..)
- *                      .touser(...)
+ *                      .toUser(...)
  *                      .build();
  * </pre>
  */

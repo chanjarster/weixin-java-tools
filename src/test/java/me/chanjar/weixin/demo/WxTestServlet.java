@@ -39,7 +39,7 @@ public class WxTestServlet extends HttpServlet {
         @Override public WxXmlOutMessage handle(WxXmlMessage wxMessage, Map<String, Object> context) {
           WxXmlOutTextMessage m
               = WxXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
-              .touser(wxMessage.getFromUserName()).build();
+              .toUser(wxMessage.getFromUserName()).build();
           return m;
         }
       };
