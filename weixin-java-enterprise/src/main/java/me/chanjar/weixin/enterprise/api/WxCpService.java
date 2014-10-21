@@ -28,7 +28,16 @@ public interface WxCpService {
    * @return
    */
   public boolean checkSignature(String msgSignature, String timestamp, String nonce, String data);
-  
+
+  /**
+   * <pre>
+   *   用在二次验证的时候
+   *   企业在员工验证成功后，调用本方法告诉企业号平台该员工关注成功。
+   * </pre>
+   * @param userId
+   */
+  public void userAuthenticated(String userId) throws WxErrorException;
+
   /**
    * <pre>
    * 获取access_token，本方法线程安全

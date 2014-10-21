@@ -60,6 +60,10 @@ public class WxCpServiceImpl implements WxCpService {
     }
   }
 
+  public void userAuthenticated(String userId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/authsucc?userid=" + userId;
+    execute(new SimpleGetRequestExecutor(), url, null);
+  }
 
   public void accessTokenRefresh() throws WxErrorException {
     if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
