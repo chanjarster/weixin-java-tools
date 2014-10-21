@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class WxXmlOutIVoiceMessageTest {
+public class WxXmlOutVoiceMessageTest {
 
   public void test() {
     WxXmlOutVoiceMessage m = new WxXmlOutVoiceMessage();

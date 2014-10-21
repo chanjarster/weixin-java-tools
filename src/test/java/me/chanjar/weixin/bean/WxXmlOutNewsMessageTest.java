@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class WxXmlOutINewsMessageTest {
+public class WxXmlOutNewsMessageTest {
 
   public void test() {
     WxXmlOutMewsMessage m = new WxXmlOutMewsMessage();
@@ -29,18 +29,18 @@ public class WxXmlOutINewsMessageTest {
         + "<MsgType><![CDATA[news]]></MsgType>"
         + "    <ArticleCount>2</ArticleCount>"
         + "    <Articles>"
-        + "        <Item>"
+        + "        <item>"
         + "            <Title><![CDATA[title]]></Title>"
         + "            <Description><![CDATA[description]]></Description>"
         + "            <PicUrl><![CDATA[picUrl]]></PicUrl>"
         + "            <Url><![CDATA[url]]></Url>"
-        + "        </Item>"
-        + "        <Item>"
+        + "        </item>"
+        + "        <item>"
         + "            <Title><![CDATA[title]]></Title>"
         + "            <Description><![CDATA[description]]></Description>"
         + "            <PicUrl><![CDATA[picUrl]]></PicUrl>"
         + "            <Url><![CDATA[url]]></Url>"
-        + "        </Item>"
+        + "        </item>"
         + "    </Articles>"
         + "</xml>";
     System.out.println(m.toXml());
@@ -68,18 +68,18 @@ public class WxXmlOutINewsMessageTest {
         + "<MsgType><![CDATA[news]]></MsgType>"
         + "    <ArticleCount>2</ArticleCount>"
         + "    <Articles>"
-        + "        <Item>"
+        + "        <item>"
         + "            <Title><![CDATA[title]]></Title>"
         + "            <Description><![CDATA[description]]></Description>"
         + "            <PicUrl><![CDATA[picUrl]]></PicUrl>"
         + "            <Url><![CDATA[url]]></Url>"
-        + "        </Item>"
-        + "        <Item>"
+        + "        </item>"
+        + "        <item>"
         + "            <Title><![CDATA[title]]></Title>"
         + "            <Description><![CDATA[description]]></Description>"
         + "            <PicUrl><![CDATA[picUrl]]></PicUrl>"
         + "            <Url><![CDATA[url]]></Url>"
-        + "        </Item>"
+        + "        </item>"
         + "    </Articles>"
         + "</xml>";
     System.out.println(m.toXml());

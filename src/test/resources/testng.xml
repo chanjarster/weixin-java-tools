@@ -24,10 +24,10 @@
 			<class name="me.chanjar.weixin.bean.WxMenuTest" />
 			<class name="me.chanjar.weixin.bean.WxXmlMessageTest" />
 			<class name="me.chanjar.weixin.bean.WxXmlOutImageMessageTest" />
-			<class name="me.chanjar.weixin.bean.WxXmlOutIMusicMessageTest" />
-			<class name="me.chanjar.weixin.bean.WxXmlOutINewsMessageTest" />
-			<class name="me.chanjar.weixin.bean.WxXmlOutIVideoMessageTest" />
-			<class name="me.chanjar.weixin.bean.WxXmlOutIVoiceMessageTest" />
+			<class name="me.chanjar.weixin.bean.WxXmlOutMusicMessageTest" />
+			<class name="me.chanjar.weixin.bean.WxXmlOutNewsMessageTest" />
+			<class name="me.chanjar.weixin.bean.WxXmlOutVideoMessageTest" />
+			<class name="me.chanjar.weixin.bean.WxXmlOutVoiceMessageTest" />
 			<class name="me.chanjar.weixin.bean.WxXmlOutTextMessageTest" />
             <class name="me.chanjar.weixin.util.crypto.WxCryptUtilTest" />
 		</classes>

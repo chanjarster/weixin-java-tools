@@ -21,7 +21,7 @@ public class WxXmlOutMewsMessage extends WxXmlOutMessage {
   protected int articleCount;
   
   @XmlElementWrapper(name="Articles")
-  @XmlElement(name = "Item")
+  @XmlElement(name = "item")
   protected final List<Item> articles = new ArrayList<Item>();
   
   public WxXmlOutMewsMessage() {
