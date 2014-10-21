@@ -78,7 +78,7 @@ public class WxConsts {
   public static final String EVT_UNSUBSCRIBE = "unsubscribe";
   public static final String EVT_SCAN = "SCAN";
   public static final String EVT_LOCATION = "LOCATION";
-  public static final String EVT_CLICK = "LOCATION";
+  public static final String EVT_CLICK = "CLICK";
   public static final String EVT_VIEW = "VIEW";
   public static final String EVT_MASS_SEND_JOB_FINISH = "MASSSENDJOBFINISH";
 

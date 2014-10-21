@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.chanjar</groupId>
     <artifactId>weixin-java-tools</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>WeiXin Java Tools</name>
     <description>用于开发微信公众号的Java工具</description>
     <url>https://github.com/chanjarster/weixin-java-tools</url>
