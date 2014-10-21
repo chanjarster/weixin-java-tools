@@ -51,7 +51,7 @@ public class WxCryptUtilTest {
 
     String messageText = String.format(xmlFormat, cipherText);
 
-    // 第三方收到公众号平台发送的消息
+    // 第三方收到企业号平台发送的消息
     String plainMessage = pc.decrypt(cipherText);
 
     System.out.println(plainMessage);

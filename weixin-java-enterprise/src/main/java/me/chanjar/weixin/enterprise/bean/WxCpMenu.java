@@ -8,7 +8,7 @@ import java.util.List;
 import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
- * 公众号菜单
+ * 企业号菜单
  * @author Daniel Qian
  *
  */
