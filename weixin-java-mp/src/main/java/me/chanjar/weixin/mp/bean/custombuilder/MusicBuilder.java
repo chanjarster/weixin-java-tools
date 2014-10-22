@@ -1,6 +1,6 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 /**
@@ -24,7 +24,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
   private String hqMusicUrl;
 
   public MusicBuilder() {
-    this.msgType = WxMpConsts.CUSTOM_MSG_MUSIC;
+    this.msgType = WxConsts.CUSTOM_MSG_MUSIC;
   }
 
   public MusicBuilder musicUrl(String musicurl) {

@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.AdapterCDATA;
-import me.chanjar.weixin.mp.api.WxMpConsts;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ public class WxMpXmlOutTextMessage extends WxMpXmlOutMessage {
   private String content;
 
   public WxMpXmlOutTextMessage() {
-    this.msgType = WxMpConsts.XML_MSG_TEXT;
+    this.msgType = WxConsts.XML_MSG_TEXT;
   }
   
   public String getContent() {

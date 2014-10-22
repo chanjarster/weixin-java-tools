@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class WxMpMassNews {
 
-  private List<WxMassNewsArticle> articles = new ArrayList<WxMassNewsArticle>();
+  private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
   
-  public List<WxMassNewsArticle> getArticles() {
+  public List<WxMpMassNewsArticle> getArticles() {
     return articles;
   }
   
-  public void addArticle(WxMassNewsArticle article) {
+  public void addArticle(WxMpMassNewsArticle article) {
     this.articles.add(article);
   }
   
@@ -40,7 +40,7 @@ public class WxMpMassNews {
    * @author chanjarster
    *
    */
-  public static class WxMassNewsArticle {
+  public static class WxMpMassNewsArticle {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
      */

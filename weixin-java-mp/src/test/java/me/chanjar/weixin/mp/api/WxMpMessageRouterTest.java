@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api;
 
 import java.util.Map;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import org.testng.Assert;
@@ -21,21 +22,21 @@ public class WxMpMessageRouterTest {
     router
       .rule()
         .async(async)
-        .msgType(WxMpConsts.XML_MSG_TEXT).event(WxMpConsts.EVT_CLICK).eventKey("KEY_1").content("CONTENT_1")
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1").content("CONTENT_1")
         .handler(new WxEchoMpMessageHandler(sb, "COMBINE_4"))
       .end()
       .rule()
         .async(async)
-        .msgType(WxMpConsts.XML_MSG_TEXT).event(WxMpConsts.EVT_CLICK).eventKey("KEY_1")
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK).eventKey("KEY_1")
         .handler(new WxEchoMpMessageHandler(sb, "COMBINE_3"))
       .end()
       .rule()
         .async(async)
-        .msgType(WxMpConsts.XML_MSG_TEXT).event(WxMpConsts.EVT_CLICK)
+        .msgType(WxConsts.XML_MSG_TEXT).event(WxConsts.EVT_CLICK)
         .handler(new WxEchoMpMessageHandler(sb, "COMBINE_2"))
       .end()
-      .rule().async(async).msgType(WxMpConsts.XML_MSG_TEXT).handler(new WxEchoMpMessageHandler(sb, WxMpConsts.XML_MSG_TEXT)).end()
-      .rule().async(async).event(WxMpConsts.EVT_CLICK).handler(new WxEchoMpMessageHandler(sb, WxMpConsts.EVT_CLICK)).end()
+      .rule().async(async).msgType(WxConsts.XML_MSG_TEXT).handler(new WxEchoMpMessageHandler(sb, WxConsts.XML_MSG_TEXT)).end()
+      .rule().async(async).event(WxConsts.EVT_CLICK).handler(new WxEchoMpMessageHandler(sb, WxConsts.EVT_CLICK)).end()
       .rule().async(async).eventKey("KEY_1").handler(new WxEchoMpMessageHandler(sb, "KEY_1")).end()
       .rule().async(async).content("CONTENT_1").handler(new WxEchoMpMessageHandler(sb, "CONTENT_1")).end()
       .rule().async(async).rContent(".*bc.*").handler(new WxEchoMpMessageHandler(sb, "abcd")).end()
@@ -91,10 +92,10 @@ public class WxMpMessageRouterTest {
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxMpXmlMessage message1 = new WxMpXmlMessage();
-    message1.setMsgType(WxMpConsts.XML_MSG_TEXT);
+    message1.setMsgType(WxConsts.XML_MSG_TEXT);
   
     WxMpXmlMessage message2 = new WxMpXmlMessage();
-    message2.setEvent(WxMpConsts.EVT_CLICK);
+    message2.setEvent(WxConsts.EVT_CLICK);
     
     WxMpXmlMessage message3 = new WxMpXmlMessage();
     message3.setEventKey("KEY_1");
@@ -109,23 +110,23 @@ public class WxMpMessageRouterTest {
     message6.setContent("abcd");
     
     WxMpXmlMessage c2 = new WxMpXmlMessage();
-    c2.setMsgType(WxMpConsts.XML_MSG_TEXT);
-    c2.setEvent(WxMpConsts.EVT_CLICK);
+    c2.setMsgType(WxConsts.XML_MSG_TEXT);
+    c2.setEvent(WxConsts.EVT_CLICK);
     
     WxMpXmlMessage c3 = new WxMpXmlMessage();
-    c3.setMsgType(WxMpConsts.XML_MSG_TEXT);
-    c3.setEvent(WxMpConsts.EVT_CLICK);
+    c3.setMsgType(WxConsts.XML_MSG_TEXT);
+    c3.setEvent(WxConsts.EVT_CLICK);
     c3.setEventKey("KEY_1");
     
     WxMpXmlMessage c4 = new WxMpXmlMessage();
-    c4.setMsgType(WxMpConsts.XML_MSG_TEXT);
-    c4.setEvent(WxMpConsts.EVT_CLICK);
+    c4.setMsgType(WxConsts.XML_MSG_TEXT);
+    c4.setEvent(WxConsts.EVT_CLICK);
     c4.setEventKey("KEY_1");
     c4.setContent("CONTENT_1");
     
     return new Object[][] {
-        new Object[] { message1, WxMpConsts.XML_MSG_TEXT + "," },
-        new Object[] { message2, WxMpConsts.EVT_CLICK + "," },
+        new Object[] { message1, WxConsts.XML_MSG_TEXT + "," },
+        new Object[] { message2, WxConsts.EVT_CLICK + "," },
         new Object[] { message3, "KEY_1," },
         new Object[] { message4, "CONTENT_1," },
         new Object[] { message5, "ALL," },

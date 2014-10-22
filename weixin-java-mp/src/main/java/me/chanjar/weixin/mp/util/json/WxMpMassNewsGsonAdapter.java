@@ -24,7 +24,7 @@ public class WxMpMassNewsGsonAdapter implements JsonSerializer<WxMpMassNews> {
     JsonObject newsJson = new JsonObject();
     
     JsonArray articleJsonArray = new JsonArray();
-    for (WxMpMassNews.WxMassNewsArticle article : message.getArticles()) {
+    for (WxMpMassNews.WxMpMassNewsArticle article : message.getArticles()) {
       JsonObject articleJson = new JsonObject();
       articleJson.addProperty("thumb_media_id", article.getThumbMediaId());
       articleJson.addProperty("title", article.getTitle());

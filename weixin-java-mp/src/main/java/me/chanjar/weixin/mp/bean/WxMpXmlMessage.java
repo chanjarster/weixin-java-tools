@@ -179,13 +179,13 @@ public class WxMpXmlMessage {
   /**
    * <pre>
    * 当接受用户消息时，可能会获得以下值：
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_TEXT}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_IMAGE}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_VOICE}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_VIDEO}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_LOCATION}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_LINK}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_EVENT}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_TEXT}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_IMAGE}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_VOICE}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_VIDEO}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_LOCATION}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_LINK}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_EVENT}
    * </pre>
    *
    * @return
@@ -197,12 +197,12 @@ public class WxMpXmlMessage {
   /**
    * <pre>
    * 当发送消息的时候使用：
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_TEXT}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_IMAGE}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_VOICE}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_VIDEO}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_NEWS}
-   * {@link me.chanjar.weixin.mp.api.WxMpConsts#XML_MSG_MUSIC}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_TEXT}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_IMAGE}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_VOICE}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_VIDEO}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_NEWS}
+   * {@link me.chanjar.weixin.common.api.WxConsts#XML_MSG_MUSIC}
    * </pre>
    *
    * @param msgType

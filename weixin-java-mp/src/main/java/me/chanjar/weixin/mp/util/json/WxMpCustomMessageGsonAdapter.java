@@ -9,7 +9,7 @@
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 import java.lang.reflect.Type;
@@ -26,25 +26,25 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
     messageJson.addProperty("touser", message.getToUser());
     messageJson.addProperty("msgtype", message.getMsgType());
     
-    if (WxMpConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
       JsonObject text = new JsonObject();
       text.addProperty("content", message.getContent());
       messageJson.add("text", text);
     }
 
-    if (WxMpConsts.CUSTOM_MSG_IMAGE.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_IMAGE.equals(message.getMsgType())) {
       JsonObject image = new JsonObject();
       image.addProperty("media_id", message.getMediaId());
       messageJson.add("image", image);
     }
 
-    if (WxMpConsts.CUSTOM_MSG_VOICE.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_VOICE.equals(message.getMsgType())) {
       JsonObject voice = new JsonObject();
       voice.addProperty("media_id", message.getMediaId());
       messageJson.add("voice", voice);
     }
 
-    if (WxMpConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_VIDEO.equals(message.getMsgType())) {
       JsonObject video = new JsonObject();
       video.addProperty("media_id", message.getMediaId());
       video.addProperty("thumb_media_id", message.getThumbMediaId());
@@ -53,7 +53,7 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       messageJson.add("video", video);
     }
 
-    if (WxMpConsts.CUSTOM_MSG_MUSIC.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_MUSIC.equals(message.getMsgType())) {
       JsonObject music = new JsonObject();
       music.addProperty("title", message.getTitle());
       music.addProperty("description", message.getDescription());
@@ -63,7 +63,7 @@ public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMe
       messageJson.add("music", music);
     }
     
-    if (WxMpConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
+    if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
       JsonArray articleJsonArray = new JsonArray();
       for (WxMpCustomMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();

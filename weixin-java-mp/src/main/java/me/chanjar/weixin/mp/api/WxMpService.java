@@ -55,8 +55,8 @@ public interface WxMpService {
    *    
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
-   * @param mediaType         媒体类型, 请看{@link WxMpConsts}
-   * @param fileType          文件类型，请看{@link WxMpConsts}
+   * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param fileType          文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
    * @param inputStream       输入流
    * @throws WxErrorException
    */

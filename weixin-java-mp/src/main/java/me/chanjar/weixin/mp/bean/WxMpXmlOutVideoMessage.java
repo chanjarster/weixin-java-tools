@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.AdapterCDATA;
-import me.chanjar.weixin.mp.api.WxMpConsts;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,7 +17,7 @@ public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
   protected final Video video = new Video();
 
   public WxMpXmlOutVideoMessage() {
-    this.msgType = WxMpConsts.XML_MSG_VIDEO;
+    this.msgType = WxConsts.XML_MSG_VIDEO;
   }
 
   public String getMediaId() {

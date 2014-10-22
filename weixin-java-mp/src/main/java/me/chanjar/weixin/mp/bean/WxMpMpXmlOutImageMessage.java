@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.MediaIdMarshaller;
-import me.chanjar.weixin.mp.api.WxMpConsts;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +18,7 @@ public class WxMpMpXmlOutImageMessage extends WxMpXmlOutMessage {
   private String mediaId;
 
   public WxMpMpXmlOutImageMessage() {
-    this.msgType = WxMpConsts.XML_MSG_IMAGE;
+    this.msgType = WxConsts.XML_MSG_IMAGE;
   }
   
   public String getMediaId() {

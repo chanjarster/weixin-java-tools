@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 
 import java.lang.reflect.Type;
@@ -31,30 +31,30 @@ public class WxMpMassMessageGsonAdapter implements JsonSerializer<WxMpMassGroupM
     filter.addProperty("group_id", message.getGroupId());
     messageJson.add("filter", filter);
     
-    if (WxMpConsts.MASS_MSG_NEWS.equals(message.getMsgtype())) {
+    if (WxConsts.MASS_MSG_NEWS.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
       sub.addProperty("media_id", message.getMediaId());
-      messageJson.add(WxMpConsts.MASS_MSG_NEWS, sub);
+      messageJson.add(WxConsts.MASS_MSG_NEWS, sub);
     }
-    if (WxMpConsts.MASS_MSG_TEXT.equals(message.getMsgtype())) {
+    if (WxConsts.MASS_MSG_TEXT.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
       sub.addProperty("content", message.getContent());
-      messageJson.add(WxMpConsts.MASS_MSG_TEXT, sub);
+      messageJson.add(WxConsts.MASS_MSG_TEXT, sub);
     }
-    if (WxMpConsts.MASS_MSG_VOICE.equals(message.getMsgtype())) {
+    if (WxConsts.MASS_MSG_VOICE.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
       sub.addProperty("media_id", message.getMediaId());
-      messageJson.add(WxMpConsts.MASS_MSG_VOICE, sub);
+      messageJson.add(WxConsts.MASS_MSG_VOICE, sub);
     }
-    if (WxMpConsts.MASS_MSG_IMAGE.equals(message.getMsgtype())) {
+    if (WxConsts.MASS_MSG_IMAGE.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
       sub.addProperty("media_id", message.getMediaId());
-      messageJson.add(WxMpConsts.MASS_MSG_IMAGE, sub);
+      messageJson.add(WxConsts.MASS_MSG_IMAGE, sub);
     }
-    if (WxMpConsts.MASS_MSG_VIDEO.equals(message.getMsgtype())) {
+    if (WxConsts.MASS_MSG_VIDEO.equals(message.getMsgtype())) {
       JsonObject sub = new JsonObject();
       sub.addProperty("media_id", message.getMediaId());
-      messageJson.add(WxMpConsts.MASS_MSG_VIDEO, sub);
+      messageJson.add(WxConsts.MASS_MSG_VIDEO, sub);
     }
     messageJson.addProperty("msgtype", message.getMsgtype());
     return messageJson;

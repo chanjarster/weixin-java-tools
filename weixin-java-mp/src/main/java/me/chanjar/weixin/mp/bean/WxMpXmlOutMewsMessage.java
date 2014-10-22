@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.bean;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.util.xml.AdapterCDATA;
-import me.chanjar.weixin.mp.api.WxMpConsts;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -20,7 +20,7 @@ public class WxMpXmlOutMewsMessage extends WxMpXmlOutMessage {
   protected final List<Item> articles = new ArrayList<Item>();
   
   public WxMpXmlOutMewsMessage() {
-    this.msgType = WxMpConsts.XML_MSG_NEWS;
+    this.msgType = WxConsts.XML_MSG_NEWS;
   }
 
   public int getArticleCount() {

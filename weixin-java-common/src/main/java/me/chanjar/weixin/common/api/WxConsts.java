@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.api;
+package me.chanjar.weixin.common.api;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class WxMpConsts {
+public class WxConsts {
 
   ///////////////////////
   // 微信推送过来的消息的类型，和发送给微信xml格式消息的消息类型
@@ -20,7 +20,7 @@ public class WxMpConsts {
   public static final String XML_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   
   ///////////////////////
-  // 客服消息的消息类型
+  // 主动发送消息的消息类型
   ///////////////////////
   public static final String CUSTOM_MSG_TEXT = "text";
   public static final String CUSTOM_MSG_IMAGE = "image";
@@ -28,6 +28,7 @@ public class WxMpConsts {
   public static final String CUSTOM_MSG_VIDEO = "video";
   public static final String CUSTOM_MSG_MUSIC = "music";
   public static final String CUSTOM_MSG_NEWS = "news";
+  public static final String CUSTOM_MSG_FILE = "file";
   
   ///////////////////////
   // 群发消息的消息类型
@@ -95,6 +96,7 @@ public class WxMpConsts {
   public static final String MEDIA_VOICE = "voice";
   public static final String MEDIA_VIDEO = "video";
   public static final String MEDIA_THUMB = "thumb";
+  public static final String MEDIA_FILE = "file";
   
   ///////////////////////
   // 文件类型

@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -23,7 +24,7 @@ public class WxMpCustomMessageAPITest {
   public void testSendCustomMessage() throws WxErrorException {
     ApiTestModule.WxXmlMpInMemoryConfigStorage configStorage = (ApiTestModule.WxXmlMpInMemoryConfigStorage) wxService.wxMpConfigStorage;
     WxMpCustomMessage message = new WxMpCustomMessage();
-    message.setMsgType(WxMpConsts.CUSTOM_MSG_TEXT);
+    message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     message.setToUser(configStorage.getOpenId());
     message.setContent("欢迎欢迎，热烈欢迎\n换行测试\n超链接:<a href=\"http://www.baidu.com\">Hello World</a>");
 

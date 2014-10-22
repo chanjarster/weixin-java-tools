@@ -1,6 +1,6 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 /**
@@ -15,7 +15,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;
 
   public TextBuilder() {
-    this.msgType = WxMpConsts.CUSTOM_MSG_TEXT;
+    this.msgType = WxConsts.CUSTOM_MSG_TEXT;
   }
 
   public TextBuilder content(String content) {
