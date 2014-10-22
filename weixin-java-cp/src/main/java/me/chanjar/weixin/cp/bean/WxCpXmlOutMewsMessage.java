@@ -1,17 +1,12 @@
 package me.chanjar.weixin.cp.bean;
 
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import me.chanjar.weixin.cp.api.WxCpConsts;
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,7 +20,7 @@ public class WxCpXmlOutMewsMessage extends WxCpXmlOutMessage {
   protected final List<Item> articles = new ArrayList<Item>();
   
   public WxCpXmlOutMewsMessage() {
-    this.msgType = WxCpConsts.XML_MSG_NEWS;
+    this.msgType = WxConsts.XML_MSG_NEWS;
   }
 
   public int getArticleCount() {
