@@ -1,31 +1,33 @@
 package me.chanjar.weixin.mp.util.http;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.UUID;
-
+import me.chanjar.weixin.common.bean.result.WxError;
+import me.chanjar.weixin.common.util.fs.FileUtils;
+import me.chanjar.weixin.common.util.http.InputStreamResponseHandler;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 
-import me.chanjar.weixin.mp.bean.result.WxError;
-import me.chanjar.weixin.mp.bean.result.WxQrCodeTicket;
-import me.chanjar.weixin.mp.exception.WxErrorException;
-import me.chanjar.weixin.mp.util.fs.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.UUID;
 
 /**
  * 获得QrCode图片 请求执行器
  * @author chanjarster
  *
  */
-public class QrCodeRequestExecutor implements RequestExecutor<File, WxQrCodeTicket> {
+public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {
 
   @Override
-  public File execute(String uri, WxQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
+  public File execute(String uri, WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';

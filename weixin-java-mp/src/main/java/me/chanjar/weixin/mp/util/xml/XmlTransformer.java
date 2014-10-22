@@ -1,18 +1,14 @@
 package me.chanjar.weixin.mp.util.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import javax.xml.bind.*;
-
-import me.chanjar.weixin.bean.*;
+import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 import me.chanjar.weixin.mp.bean.*;
 import org.xml.sax.InputSource;
 
-import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.*;
 
 public class XmlTransformer {
 
@@ -78,14 +74,14 @@ public class XmlTransformer {
      */
     try {
       return JAXBContext.newInstance(
-          WxXmlOutMessage.class,
-          WxXmlOutImageMessage.class,
-          WxXmlOutMewsMessage.class,
-          WxXmlOutMusicMessage.class,
-          WxXmlOutTextMessage.class,
-          WxXmlOutVideoMessage.class,
-          WxXmlOutVoiceMessage.class,
-          WxXmlMessage.class);
+          WxMpXmlOutMessage.class,
+          WxMpMpXmlOutImageMessage.class,
+          WxMpXmlOutMewsMessage.class,
+          WxMpXmlOutMusicMessage.class,
+          WxMpXmlOutTextMessage.class,
+          WxMpXmlOutVideoMessage.class,
+          WxMpXmlOutVoiceMessage.class,
+          WxMpXmlMessage.class);
     } catch (JAXBException e) {
       throw new RuntimeException(e);
     }

@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.bean.outxmlbuilder;
 
-import me.chanjar.weixin.mp.bean.WxXmlOutMessage;
-
+import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 
 public abstract class BaseBuilder<BuilderType, ValueType> {
   
@@ -21,7 +20,7 @@ public abstract class BaseBuilder<BuilderType, ValueType> {
 
   public abstract ValueType build();
   
-  public void setCommon(WxXmlOutMessage m) {
+  public void setCommon(WxMpXmlOutMessage m) {
     m.setToUserName(this.toUserName);
     m.setFromUserName(this.fromUserName);
     m.setCreateTime(System.currentTimeMillis() / 1000l);

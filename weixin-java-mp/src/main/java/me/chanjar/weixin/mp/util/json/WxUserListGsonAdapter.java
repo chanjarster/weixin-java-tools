@@ -8,35 +8,30 @@
  */
 package me.chanjar.weixin.mp.util.json;
 
+import com.google.gson.*;
+import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+
 import java.lang.reflect.Type;
-
-import me.chanjar.weixin.mp.bean.result.WxUserList;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 /**
  * 
  * @author qianjia
  *
  */
-public class WxUserListGsonAdapter implements JsonDeserializer<WxUserList> {
+public class WxUserListGsonAdapter implements JsonDeserializer<WxMpUserList> {
 
-  public WxUserList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public WxMpUserList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject o = json.getAsJsonObject();
-    WxUserList wxUserList = new WxUserList();
-    wxUserList.setTotal(GsonHelper.getInteger(o, "total"));
-    wxUserList.setCount(GsonHelper.getInteger(o, "count"));
-    wxUserList.setNextOpenId(GsonHelper.getString(o, "next_openid"));
+    WxMpUserList wxMpUserList = new WxMpUserList();
+    wxMpUserList.setTotal(GsonHelper.getInteger(o, "total"));
+    wxMpUserList.setCount(GsonHelper.getInteger(o, "count"));
+    wxMpUserList.setNextOpenId(GsonHelper.getString(o, "next_openid"));
     JsonArray data = o.get("data").getAsJsonObject().get("openid").getAsJsonArray();
     for (int i = 0; i < data.size(); i++) {
-      wxUserList.getOpenIds().add(GsonHelper.getAsString(data.get(i)));
+      wxMpUserList.getOpenIds().add(GsonHelper.getAsString(data.get(i)));
     }
-    return wxUserList;
+    return wxMpUserList;
   }
 
 }

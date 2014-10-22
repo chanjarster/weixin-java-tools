@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxCustomMessage;
+import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 /**
  * 音乐消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.MUSIC()
+ * 用法: WxMpCustomMessage m = WxMpCustomMessage.MUSIC()
  *                      .musicUrl(...)
  *                      .hqMusicUrl(...)
  *                      .title(...)
@@ -24,7 +24,7 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
   private String hqMusicUrl;
 
   public MusicBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_MUSIC;
+    this.msgType = WxMpConsts.CUSTOM_MSG_MUSIC;
   }
 
   public MusicBuilder musicUrl(String musicurl) {
@@ -52,8 +52,8 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxMpCustomMessage build() {
+    WxMpCustomMessage m = super.build();
     m.setMusicUrl(this.musicUrl);
     m.setHqMusicUrl(this.hqMusicUrl);
     m.setTitle(title);

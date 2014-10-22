@@ -1,7 +1,5 @@
 package me.chanjar.weixin.mp.bean;
 
-import me.chanjar.weixin.mp.bean.WxXmlOutMessage;
-import me.chanjar.weixin.mp.bean.WxXmlOutMusicMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -9,7 +7,7 @@ import org.testng.annotations.Test;
 public class WxXmlOutMusicMessageTest {
 
   public void test() {
-    WxXmlOutMusicMessage m = new WxXmlOutMusicMessage();
+    WxMpXmlOutMusicMessage m = new WxMpXmlOutMusicMessage();
     m.setTitle("title");
     m.setDescription("ddfff");
     m.setHqMusicUrl("hQMusicUrl");
@@ -38,7 +36,7 @@ public class WxXmlOutMusicMessageTest {
   }
   
   public void testBuild() {
-    WxXmlOutMusicMessage m = WxXmlOutMessage.MUSIC()
+    WxMpXmlOutMusicMessage m = WxMpXmlOutMessage.MUSIC()
           .fromUser("fromUser")
           .toUser("toUser")
           .title("title")

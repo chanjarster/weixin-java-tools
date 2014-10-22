@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxCustomMessage;
+import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 /**
  * 文本消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.TEXT().content(...).toUser(...).build();
+ * 用法: WxMpCustomMessage m = WxMpCustomMessage.TEXT().content(...).toUser(...).build();
  * </pre>
  * @author chanjarster
  *
@@ -15,7 +15,7 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;
 
   public TextBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_TEXT;
+    this.msgType = WxMpConsts.CUSTOM_MSG_TEXT;
   }
 
   public TextBuilder content(String content) {
@@ -23,8 +23,8 @@ public final class TextBuilder extends BaseBuilder<TextBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxMpCustomMessage build() {
+    WxMpCustomMessage m = super.build();
     m.setContent(this.content);
     return m;
   }

@@ -40,10 +40,11 @@ weixin-java-tools
 
 ## Hello World
 ```java
-WxConfigStorage config = new WxInMemoryConfigStorage();
-config.setAppId(...); // 设置微信公众号的appid
-config.setSecret(...); // 设置微信公众号的app secret
-config.setToken(...); // 设置微信公众号的token
+WxInMemoryConfigStorage config = new WxInMemoryConfigStorage();
+config.setAppId(...);   // 设置微信公众号的appid
+config.setSecret(...);  // 设置微信公众号的app secret
+config.setToken(...);   // 设置微信公众号的token
+config.setAesKey(...);  // 设置微信公众号的EncodingAESKey
 
 WxServiceImpl wxService = new WxServiceImpl();
 wxService.setWxConfigStorage(config);

@@ -8,45 +8,41 @@
  */
 package me.chanjar.weixin.mp.util.json;
 
+import com.google.gson.*;
+import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+
 import java.lang.reflect.Type;
-
-import me.chanjar.weixin.mp.bean.result.WxUser;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 
 /**
  * 
  * @author qianjia
  *
  */
-public class WxUserGsonAdapter implements JsonDeserializer<WxUser> {
+public class WxUserGsonAdapter implements JsonDeserializer<WxMpUser> {
 
-  public WxUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public WxMpUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject o = json.getAsJsonObject();
-    WxUser wxUser = new WxUser();
-    wxUser.setSubscribe(new Integer(0).equals(GsonHelper.getInteger(o, "subscribe")) ? false : true);
-    wxUser.setCity(GsonHelper.getString(o, "city"));
-    wxUser.setCountry(GsonHelper.getString(o, "country"));
-    wxUser.setHeadImgUrl(GsonHelper.getString(o, "headimgurl"));
-    wxUser.setLanguage(GsonHelper.getString(o, "language"));
-    wxUser.setNickname(GsonHelper.getString(o, "nickname"));
-    wxUser.setOpenId(GsonHelper.getString(o, "openid"));
-    wxUser.setProvince(GsonHelper.getString(o, "province"));
-    wxUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
-    wxUser.setUnionId(GsonHelper.getString(o, "unionid"));
+    WxMpUser wxMpUser = new WxMpUser();
+    wxMpUser.setSubscribe(new Integer(0).equals(GsonHelper.getInteger(o, "subscribe")) ? false : true);
+    wxMpUser.setCity(GsonHelper.getString(o, "city"));
+    wxMpUser.setCountry(GsonHelper.getString(o, "country"));
+    wxMpUser.setHeadImgUrl(GsonHelper.getString(o, "headimgurl"));
+    wxMpUser.setLanguage(GsonHelper.getString(o, "language"));
+    wxMpUser.setNickname(GsonHelper.getString(o, "nickname"));
+    wxMpUser.setOpenId(GsonHelper.getString(o, "openid"));
+    wxMpUser.setProvince(GsonHelper.getString(o, "province"));
+    wxMpUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
+    wxMpUser.setUnionId(GsonHelper.getString(o, "unionid"));
     Integer sex = GsonHelper.getInteger(o, "sex");
     if(new Integer(1).equals(sex)) {
-      wxUser.setSex("男");
+      wxMpUser.setSex("男");
     } else if (new Integer(2).equals(sex)) {
-      wxUser.setSex("女");
+      wxMpUser.setSex("女");
     } else {
-      wxUser.setSex("未知");
+      wxMpUser.setSex("未知");
     }
-    return wxUser;
+    return wxMpUser;
   }
 
 }

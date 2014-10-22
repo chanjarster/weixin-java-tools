@@ -9,7 +9,8 @@
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.mp.bean.result.WxQrCodeTicket;
+import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 
 import java.lang.reflect.Type;
 
@@ -18,10 +19,10 @@ import java.lang.reflect.Type;
  * @author Daniel Qian
  *
  */
-public class WxQrCodeTicketAdapter implements JsonDeserializer<WxQrCodeTicket> {
+public class WxQrCodeTicketAdapter implements JsonDeserializer<WxMpQrCodeTicket> {
 
-  public WxQrCodeTicket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-    WxQrCodeTicket ticket = new WxQrCodeTicket();
+  public WxMpQrCodeTicket deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    WxMpQrCodeTicket ticket = new WxMpQrCodeTicket();
     JsonObject ticketJsonObject = json.getAsJsonObject();
 
     if (ticketJsonObject.get("ticket") != null && !ticketJsonObject.get("ticket").isJsonNull()) {

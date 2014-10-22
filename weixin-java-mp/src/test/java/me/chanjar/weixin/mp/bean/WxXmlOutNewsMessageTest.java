@@ -1,7 +1,5 @@
 package me.chanjar.weixin.mp.bean;
 
-import me.chanjar.weixin.mp.bean.WxXmlOutMessage;
-import me.chanjar.weixin.mp.bean.WxXmlOutMewsMessage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -9,12 +7,12 @@ import org.testng.annotations.Test;
 public class WxXmlOutNewsMessageTest {
 
   public void test() {
-    WxXmlOutMewsMessage m = new WxXmlOutMewsMessage();
+    WxMpXmlOutMewsMessage m = new WxMpXmlOutMewsMessage();
     m.setCreateTime(1122l);
     m.setFromUserName("fromUser");
     m.setToUserName("toUser");
     
-    WxXmlOutMewsMessage.Item item = new WxXmlOutMewsMessage.Item();
+    WxMpXmlOutMewsMessage.Item item = new WxMpXmlOutMewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
@@ -48,13 +46,13 @@ public class WxXmlOutNewsMessageTest {
   }
   
   public void testBuild() {
-    WxXmlOutMewsMessage.Item item = new WxXmlOutMewsMessage.Item();
+    WxMpXmlOutMewsMessage.Item item = new WxMpXmlOutMewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
     item.setUrl("url");
     
-    WxXmlOutMewsMessage m = WxXmlOutMessage.NEWS()
+    WxMpXmlOutMewsMessage m = WxMpXmlOutMessage.NEWS()
           .fromUser("fromUser")
           .toUser("toUser")
           .addArticle(item)

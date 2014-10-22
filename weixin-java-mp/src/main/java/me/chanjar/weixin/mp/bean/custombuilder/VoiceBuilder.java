@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.custombuilder;
 
-import me.chanjar.weixin.mp.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxCustomMessage;
+import me.chanjar.weixin.mp.api.WxMpConsts;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 /**
  * 语音消息builder
  * <pre>
- * 用法: WxCustomMessage m = WxCustomMessage.VOICE().mediaId(...).toUser(...).build();
+ * 用法: WxMpCustomMessage m = WxMpCustomMessage.VOICE().mediaId(...).toUser(...).build();
  * </pre>
  * @author chanjarster
  *
@@ -15,7 +15,7 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
   private String mediaId;
 
   public VoiceBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_VOICE;
+    this.msgType = WxMpConsts.CUSTOM_MSG_VOICE;
   }
 
   public VoiceBuilder mediaId(String media_id) {
@@ -23,8 +23,8 @@ public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
     return this;
   }
 
-  public WxCustomMessage build() {
-    WxCustomMessage m = super.build();
+  public WxMpCustomMessage build() {
+    WxMpCustomMessage m = super.build();
     m.setMediaId(this.mediaId);
     return m;
   }

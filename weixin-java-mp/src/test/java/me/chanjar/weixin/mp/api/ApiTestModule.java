@@ -9,10 +9,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import me.chanjar.weixin.mp.api.WxConfigStorage;
-import me.chanjar.weixin.mp.api.WxInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxServiceImpl;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import org.xml.sax.InputSource;
@@ -23,12 +19,12 @@ public class ApiTestModule implements Module {
   public void configure(Binder binder) {
     try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxXmlConfigStorage config = fromXml(WxXmlConfigStorage.class, is1);
-      WxServiceImpl wxService = new WxServiceImpl();
-      wxService.setWxConfigStorage(config);
+      WxXmlMpInMemoryConfigStorage config = fromXml(WxXmlMpInMemoryConfigStorage.class, is1);
+      WxMpServiceImpl wxService = new WxMpServiceImpl();
+      wxService.setWxMpConfigStorage(config);
 
-      binder.bind(WxServiceImpl.class).toInstance(wxService);
-      binder.bind(WxConfigStorage.class).toInstance(config);
+      binder.bind(WxMpServiceImpl.class).toInstance(wxService);
+      binder.bind(WxMpConfigStorage.class).toInstance(config);
     } catch (JAXBException e) {
       throw new RuntimeException(e);
     }
@@ -44,7 +40,7 @@ public class ApiTestModule implements Module {
 
   @XmlRootElement(name = "xml")
   @XmlAccessorType(XmlAccessType.FIELD)
-  public static class WxXmlConfigStorage extends WxInMemoryConfigStorage {
+  public static class WxXmlMpInMemoryConfigStorage extends WxMpInMemoryConfigStorage {
     
     protected String openId;
 

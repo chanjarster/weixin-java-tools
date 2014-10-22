@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.mp.exception.WxErrorException;
+import me.chanjar.weixin.common.exception.WxErrorException;
 
 import com.google.inject.Inject;
 
@@ -19,10 +19,10 @@ import com.google.inject.Inject;
 public class WxBaseAPITest {
 
   @Inject
-  protected WxServiceImpl wxService;
+  protected WxMpServiceImpl wxService;
 
   public void testRefreshAccessToken() throws WxErrorException {
-    WxConfigStorage configStorage = wxService.wxConfigStorage;
+    WxMpConfigStorage configStorage = wxService.wxMpConfigStorage;
     String before = configStorage.getAccessToken();
     wxService.accessTokenRefresh();
 

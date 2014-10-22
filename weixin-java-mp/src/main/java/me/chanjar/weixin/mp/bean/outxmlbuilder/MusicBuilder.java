@@ -1,13 +1,13 @@
 package me.chanjar.weixin.mp.bean.outxmlbuilder;
 
-import me.chanjar.weixin.mp.bean.WxXmlOutMusicMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutMusicMessage;
 
 /**
  * 音乐消息builder
  * 
  * @author chanjarster
  */
-public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicMessage> {
+public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxMpXmlOutMusicMessage> {
 
   private String title;
   private String description;
@@ -40,8 +40,8 @@ public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxXmlOutMusicM
     return this;
   }
 
-  public WxXmlOutMusicMessage build() {
-    WxXmlOutMusicMessage m = new WxXmlOutMusicMessage();
+  public WxMpXmlOutMusicMessage build() {
+    WxMpXmlOutMusicMessage m = new WxMpXmlOutMusicMessage();
     setCommon(m);
     m.setTitle(title);
     m.setDescription(description);

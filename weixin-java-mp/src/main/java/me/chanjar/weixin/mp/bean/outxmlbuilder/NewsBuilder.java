@@ -1,26 +1,26 @@
 package me.chanjar.weixin.mp.bean.outxmlbuilder;
 
+import me.chanjar.weixin.mp.bean.WxMpXmlOutMewsMessage;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import me.chanjar.weixin.mp.bean.WxXmlOutMewsMessage;
 
 /**
  * 图文消息builder
  * @author chanjarster
  */
-public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxXmlOutMewsMessage> {
+public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxMpXmlOutMewsMessage> {
 
-  protected final List<WxXmlOutMewsMessage.Item> articles = new ArrayList<WxXmlOutMewsMessage.Item>();
+  protected final List<WxMpXmlOutMewsMessage.Item> articles = new ArrayList<WxMpXmlOutMewsMessage.Item>();
   
-  public NewsBuilder addArticle(WxXmlOutMewsMessage.Item item) {
+  public NewsBuilder addArticle(WxMpXmlOutMewsMessage.Item item) {
     this.articles.add(item);
     return this;
   }
   
-  public WxXmlOutMewsMessage build() {
-    WxXmlOutMewsMessage m = new WxXmlOutMewsMessage();
-    for(WxXmlOutMewsMessage.Item item : articles) {
+  public WxMpXmlOutMewsMessage build() {
+    WxMpXmlOutMewsMessage m = new WxMpXmlOutMewsMessage();
+    for(WxMpXmlOutMewsMessage.Item item : articles) {
       m.addArticle(item);
     }
     setCommon(m);
