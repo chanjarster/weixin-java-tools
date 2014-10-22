@@ -4,10 +4,11 @@
         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.chanjar</groupId>
-    <artifactId>weixin-java-tools</artifactId>
-    <version>1.0.2</version>
-    <name>WeiXin Java Tools</name>
-    <description>用于开发微信公众号的Java工具</description>
+    <artifactId>weixin-java-parent</artifactId>
+    <version>1.0.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>WeiXin Java Tools - Parent</name>
+    <description>微信公众号、企业号上级POM</description>
     <url>https://github.com/chanjarster/weixin-java-tools</url>
 
     <licenses>
@@ -30,19 +31,20 @@
         <url>https://github.com/chanjarster/weixin-java-tools</url>
     </scm>
 
+    <modules>
+        <module>weixin-java-common</module>
+        <module>weixin-java-cp</module>
+        <module>weixin-java-mp</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <downloadJavadocs>true</downloadJavadocs>
         <downloadSources>true</downloadSources>
         <httpclient.version>4.3.5</httpclient.version>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
@@ -64,32 +66,9 @@
             <version>2.2.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.8.7</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>3.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -106,19 +85,48 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.3.0.M0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>9.3.0.M0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>3.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>6.8.7</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>9.3.0.M0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>9.3.0.M0</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <distributionManagement>
         <snapshotRepository>
@@ -186,17 +194,17 @@
     </profiles>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.17</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
