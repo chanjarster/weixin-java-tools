@@ -18,7 +18,7 @@ public class WxCpConsts {
   public static final String XML_MSG_EVENT = "event";
 
   ///////////////////////
-  // 客服消息的消息类型
+  // 消息的消息类型
   ///////////////////////
   public static final String CUSTOM_MSG_TEXT = "text";
   public static final String CUSTOM_MSG_IMAGE = "image";

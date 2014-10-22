@@ -54,12 +54,12 @@ public class WxCpUserAPITest {
   }
 
   @Test(dependsOnMethods = "testUserGet")
-  public void testUserGetByDepart() throws WxErrorException {
-    List<WxCpUser> users = wxService.userGetByDepart(1, true, 0);
+  public void testDepartGetUsers() throws WxErrorException {
+    List<WxCpUser> users = wxService.departGetUsers(1, true, 0);
     Assert.assertNotEquals(users.size(), 0);
   }
 
-  @Test(dependsOnMethods = "testUserGetByDepart")
+  @Test(dependsOnMethods = "testDepartGetUsers")
   public void testUserDelete() throws WxErrorException {
     wxService.userDelete("xiaohe.yang");
   }

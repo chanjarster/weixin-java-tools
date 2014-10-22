@@ -9,7 +9,9 @@
 			<class name="me.chanjar.weixin.enterprise.api.WxCpDepartAPITest" />
 			<class name="me.chanjar.weixin.enterprise.api.WxCpMediaAPITest" />
 			<class name="me.chanjar.weixin.enterprise.api.WxCpMessageRouterTest" />
-		</classes>
+            <class name="me.chanjar.weixin.enterprise.api.WxCpTagAPITest" />
+            <class name="me.chanjar.weixin.enterprise.api.WxCpUserAPITest" />
+        </classes>
 	</test>
 
 	<test name="Bean_Test">

@@ -96,20 +96,20 @@ public class WxCpUser {
     this.weiXinId = weiXinId;
   }
 
-  public String toJson() {
-    return WxCpGsonBuilder.INSTANCE.create().toJson(this);
-  }
-
-  public static WxCpUser fromJson(String json) {
-    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
-  }
-
   public void addExtAttr(String name, String value) {
     this.extAttrs.add(new Attr(name, value));
   }
 
   public List<Attr> getExtAttrs() {
     return extAttrs;
+  }
+
+  public String toJson() {
+    return WxCpGsonBuilder.INSTANCE.create().toJson(this);
+  }
+
+  public static WxCpUser fromJson(String json) {
+    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
   }
 
   public static class Attr {

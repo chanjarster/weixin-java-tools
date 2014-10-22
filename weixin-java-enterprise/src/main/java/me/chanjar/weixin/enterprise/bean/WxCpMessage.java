@@ -7,7 +7,7 @@ import me.chanjar.weixin.enterprise.bean.messagebuilder.*;
 import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
 
 /**
- * 客服消息
+ * 消息
  * @author Daniel Qian
  *
  */

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import me.chanjar.weixin.common.bean.result.WxAccessToken;
 import me.chanjar.weixin.common.util.GsonHelper;
 import me.chanjar.weixin.enterprise.bean.*;
@@ -208,7 +211,7 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public List<WxCpUser> userGetByDepart(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
+  public List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?department_id=" + departId;
     String params = "";
     if (fetchChild != null) {
@@ -227,6 +230,81 @@ public class WxCpServiceImpl implements WxCpService {
             tmpJsonElement.getAsJsonObject().get("userlist"),
             new TypeToken<List<WxCpUser>>() { }.getType()
         );
+  }
+
+  @Override
+  public String tagCreate(String tagName) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/create";
+    JsonObject o = new JsonObject();
+    o.addProperty("tagname", tagName);
+    String responseContent = execute(new SimplePostRequestExecutor(), url, o.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return tmpJsonElement.getAsJsonObject().get("tagid").getAsString();
+  }
+
+  @Override
+  public void tagUpdate(String tagId, String tagName) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/update";
+    JsonObject o = new JsonObject();
+    o.addProperty("tagid", tagId);
+    o.addProperty("tagname", tagName);
+    execute(new SimplePostRequestExecutor(), url, o.toString());
+  }
+
+  @Override
+  public void tagDelete(String tagId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/delete?tagid=" + tagId;
+    execute(new SimpleGetRequestExecutor(), url, null);
+  }
+
+  @Override
+  public List<WxCpTag> tagGet() throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/list";
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxCpGsonBuilder.INSTANCE.create()
+        .fromJson(
+            tmpJsonElement.getAsJsonObject().get("taglist"),
+            new TypeToken<List<WxCpTag>>() { }.getType()
+        );
+  }
+
+  @Override
+  public List<WxCpUser> tagGetUsers(String tagId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/get?tagid=" + tagId;
+    String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxCpGsonBuilder.INSTANCE.create()
+        .fromJson(
+            tmpJsonElement.getAsJsonObject().get("userlist"),
+            new TypeToken<List<WxCpUser>>() { }.getType()
+        );
+  }
+
+  @Override
+  public void tagAddUsers(String tagId, List<String> userIds) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("tagid", tagId);
+    JsonArray jsonArray = new JsonArray();
+    for (String userId : userIds) {
+      jsonArray.add(new JsonPrimitive(userId));
+    }
+    jsonObject.add("userlist", jsonArray);
+    execute(new SimplePostRequestExecutor(), url, jsonObject.toString());
+  }
+
+  @Override
+  public void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("tagid", tagId);
+    JsonArray jsonArray = new JsonArray();
+    for (String userId : userIds) {
+      jsonArray.add(new JsonPrimitive(userId));
+    }
+    jsonObject.add("userlist", jsonArray);
+    execute(new SimplePostRequestExecutor(), url, jsonObject.toString());
   }
 
   /**

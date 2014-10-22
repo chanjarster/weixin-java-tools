@@ -9,7 +9,7 @@ import me.chanjar.weixin.enterprise.exception.WxErrorException;
 import com.google.inject.Inject;
 
 /***
- * 测试发送客服消息
+ * 测试发送消息
  * @author Daniel Qian
  *
  */

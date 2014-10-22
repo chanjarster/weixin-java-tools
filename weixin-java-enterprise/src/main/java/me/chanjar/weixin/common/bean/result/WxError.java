@@ -10,10 +10,12 @@ import me.chanjar.weixin.enterprise.util.json.WxCpGsonBuilder;
  */
 public class WxError {
 
-  protected int errorCode;
+  private int errorCode;
   
-  protected String errorMsg;
+  private String errorMsg;
 
+  private String json;
+  
   public int getErrorCode() {
     return errorCode;
   }
@@ -31,12 +33,14 @@ public class WxError {
   }
 
   public static WxError fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxError.class);
+    WxError error = WxCpGsonBuilder.create().fromJson(json, WxError.class);
+    error.json = json;
+    return error;
   }
 
   @Override
   public String toString() {
-    return "微信错误 errcode=" + errorCode + ", errmsg=" + errorMsg;
+    return "微信错误 errcode=" + errorCode + ", errmsg=" + errorMsg + "\njson:" + json;
   }
 
 }
