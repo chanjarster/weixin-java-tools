@@ -65,8 +65,8 @@ public interface WxCpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    *
-   * @param mediaType   媒体类型, 请看{@link WxCpConsts}
-   * @param fileType    文件类型，请看{@link WxCpConsts}
+   * @param mediaType   媒体类型, 请看{@link WxConsts}
+   * @param fileType    文件类型，请看{@link WxConsts}
    * @param inputStream 输入流
    * @throws WxErrorException
    */

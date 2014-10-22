@@ -1,6 +1,6 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.api.WxCpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,7 +12,7 @@ public class WxCpMessageTest {
   public void testTextReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxCpConsts.CUSTOM_MSG_TEXT);
+    reply.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
     reply.setContent("sfsfdsdf");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"text\",\"text\":{\"content\":\"sfsfdsdf\"}}");
   }
@@ -25,7 +25,7 @@ public class WxCpMessageTest {
   public void testImageReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxCpConsts.CUSTOM_MSG_IMAGE);
+    reply.setMsgType(WxConsts.CUSTOM_MSG_IMAGE);
     reply.setMediaId("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"image\",\"image\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -38,7 +38,7 @@ public class WxCpMessageTest {
   public void testVoiceReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxCpConsts.CUSTOM_MSG_VOICE);
+    reply.setMsgType(WxConsts.CUSTOM_MSG_VOICE);
     reply.setMediaId("MEDIA_ID");
     Assert.assertEquals(reply.toJson(), "{\"touser\":\"OPENID\",\"msgtype\":\"voice\",\"voice\":{\"media_id\":\"MEDIA_ID\"}}");
   }
@@ -51,7 +51,7 @@ public class WxCpMessageTest {
   public void testVideoReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxCpConsts.CUSTOM_MSG_VIDEO);
+    reply.setMsgType(WxConsts.CUSTOM_MSG_VIDEO);
     reply.setMediaId("MEDIA_ID");
     reply.setThumbMediaId("MEDIA_ID");
     reply.setTitle("TITLE");
@@ -67,7 +67,7 @@ public class WxCpMessageTest {
   public void testNewsReply() {
     WxCpMessage reply = new WxCpMessage();
     reply.setToUser("OPENID");
-    reply.setMsgType(WxCpConsts.CUSTOM_MSG_NEWS);
+    reply.setMsgType(WxConsts.CUSTOM_MSG_NEWS);
     
     WxArticle article1 = new WxArticle();
     article1.setUrl("URL");

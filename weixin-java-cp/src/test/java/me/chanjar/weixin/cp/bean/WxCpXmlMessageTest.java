@@ -1,6 +1,6 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.cp.api.WxCpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -57,7 +57,7 @@ public class WxCpXmlMessageTest {
     Assert.assertEquals(wxMessage.getToUserName(), "toUser");
     Assert.assertEquals(wxMessage.getFromUserName(), "fromUser");
     Assert.assertEquals(wxMessage.getCreateTime(), new Long(1348831860l));
-    Assert.assertEquals(wxMessage.getMsgType(), WxCpConsts.XML_MSG_TEXT);
+    Assert.assertEquals(wxMessage.getMsgType(), WxConsts.XML_MSG_TEXT);
     Assert.assertEquals(wxMessage.getContent(), "this is a test");
     Assert.assertEquals(wxMessage.getMsgId(), new Long(1234567890123456l));
     Assert.assertEquals(wxMessage.getPicUrl(), "this is a url");
