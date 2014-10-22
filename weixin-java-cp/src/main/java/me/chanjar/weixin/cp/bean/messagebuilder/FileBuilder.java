@@ -1,6 +1,6 @@
 package me.chanjar.weixin.cp.bean.messagebuilder;
 
-import me.chanjar.weixin.cp.api.WxCpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 
 /**
@@ -15,7 +15,7 @@ public final class FileBuilder extends BaseBuilder<FileBuilder> {
   private String mediaId;
 
   public FileBuilder() {
-    this.msgType = WxCpConsts.CUSTOM_MSG_FILE;
+    this.msgType = WxConsts.CUSTOM_MSG_FILE;
   }
 
   public FileBuilder mediaId(String media_id) {

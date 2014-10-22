@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 public class WxCpDepartAPITest {
 
   @Inject
-  protected WxCpServiceImpl wxService;
+  protected WxCpServiceImpl wxCpService;
 
   protected WxCpDepart depart;
 
@@ -30,13 +30,13 @@ public class WxCpDepartAPITest {
     depart.setName("子部门" + System.currentTimeMillis());
     depart.setParentId(1);
     depart.setOrder(1);
-    Integer departId = wxService.departCreate(depart);
+    Integer departId = wxCpService.departCreate(depart);
   }
 
   @Test(dependsOnMethods = "testDepartCreate")
   public void testDepartGet() throws WxErrorException {
     System.out.println("=================获取部门");
-    List<WxCpDepart> departList = wxService.departGet();
+    List<WxCpDepart> departList = wxCpService.departGet();
     Assert.assertNotNull(departList);
     Assert.assertTrue(departList.size() > 0);
     for (WxCpDepart g : departList) {
@@ -50,14 +50,14 @@ public class WxCpDepartAPITest {
   public void testDepartUpdate() throws WxErrorException {
     System.out.println("=================更新部门");
     depart.setName("子部门改名" + System.currentTimeMillis());
-    wxService.departUpdate(depart);
+    wxCpService.departUpdate(depart);
   }
 
   @Test(dependsOnMethods = "testDepartUpdate")
   public void testDepartDelete() throws WxErrorException {
     System.out.println("=================删除部门");
     System.out.println(depart.getId() + ":" + depart.getName());
-    wxService.departDelete(depart.getId());
+    wxCpService.departDelete(depart.getId());
   }
 
 }

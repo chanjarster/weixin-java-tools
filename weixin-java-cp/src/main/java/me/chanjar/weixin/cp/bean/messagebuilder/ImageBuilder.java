@@ -1,6 +1,6 @@
 package me.chanjar.weixin.cp.bean.messagebuilder;
 
-import me.chanjar.weixin.cp.api.WxCpConsts;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 
 /**
@@ -15,7 +15,7 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   private String mediaId;
 
   public ImageBuilder() {
-    this.msgType = WxCpConsts.CUSTOM_MSG_IMAGE;
+    this.msgType = WxConsts.CUSTOM_MSG_IMAGE;
   }
 
   public ImageBuilder mediaId(String media_id) {

@@ -20,7 +20,7 @@ import java.util.List;
 public class WxCpUserAPITest {
 
   @Inject
-  protected WxCpServiceImpl wxService;
+  protected WxCpServiceImpl wxCpService;
 
   protected WxCpDepart depart;
 
@@ -35,7 +35,7 @@ public class WxCpUserAPITest {
     user.setPosition("老婆");
     user.setTel("3300393");
     user.addExtAttr("爱好", "老公");
-    wxService.userCreate(user);
+    wxCpService.userCreate(user);
   }
 
   @Test(dependsOnMethods = "testUserCreate")
@@ -44,23 +44,23 @@ public class WxCpUserAPITest {
     user.setUserId("xiaohe.yang");
     user.setName("杨宝");
     user.addExtAttr("爱好", "老公2");
-    wxService.userUpdate(user);
+    wxCpService.userUpdate(user);
   }
 
   @Test(dependsOnMethods = "testUserUpdate")
   public void testUserGet() throws WxErrorException {
-    WxCpUser user = wxService.userGet("xiaohe.yang");
+    WxCpUser user = wxCpService.userGet("xiaohe.yang");
     Assert.assertNotNull(user);
   }
 
   @Test(dependsOnMethods = "testUserGet")
   public void testDepartGetUsers() throws WxErrorException {
-    List<WxCpUser> users = wxService.departGetUsers(1, true, 0);
+    List<WxCpUser> users = wxCpService.departGetUsers(1, true, 0);
     Assert.assertNotEquals(users.size(), 0);
   }
 
   @Test(dependsOnMethods = "testDepartGetUsers")
   public void testUserDelete() throws WxErrorException {
-    wxService.userDelete("xiaohe.yang");
+    wxCpService.userDelete("xiaohe.yang");
   }
 }
