@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -272,7 +273,12 @@ public class WxMpServiceImpl implements WxMpService {
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
-  
+
+  public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
+    execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
+  }
+
   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor

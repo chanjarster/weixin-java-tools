@@ -306,7 +306,17 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public String shortUrl(String long_url) throws WxErrorException;
-  
+
+  /**
+   * <pre>
+   * 发送模板消息
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
+   * </pre>
+   * @param templateMessage
+   * @throws WxErrorException
+   */
+  public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
+
   /**
    * 注入 {@link WxMpConfigStorage} 的实现
    * @param wxConfigProvider
