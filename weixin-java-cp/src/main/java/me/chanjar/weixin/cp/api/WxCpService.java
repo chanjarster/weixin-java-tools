@@ -7,6 +7,7 @@ import java.util.List;
 
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.cp.bean.*;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpUser;
@@ -65,8 +66,8 @@ public interface WxCpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    *
-   * @param mediaType   媒体类型, 请看{@link WxConsts}
-   * @param fileType    文件类型，请看{@link WxConsts}
+   * @param mediaType   媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param fileType    文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts}
    * @param inputStream 输入流
    * @throws WxErrorException
    */
@@ -280,6 +281,40 @@ public interface WxCpService {
    * @param userIds
    */
   public void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException;
+
+  /**
+   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
+   * @param url
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   */
+  String get(String url, String queryParam) throws WxErrorException;
+
+  /**
+   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
+   * @param url
+   * @param postData
+   * @return
+   * @throws WxErrorException
+   */
+  String post(String url, String postData) throws WxErrorException;
+
+  /**
+   * <pre>
+   * Service没有实现某个API的时候，可以用这个，
+   * 比{@link #get}和{@link #post}方法更灵活，可以自己构造RequestExecutor用来处理不同的参数和不同的返回类型。
+   * 可以参考，{@link me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor}的实现方法
+   * </pre>
+   * @param executor
+   * @param uri
+   * @param data
+   * @param <T>
+   * @param <E>
+   * @return
+   * @throws WxErrorException
+   */
+  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
   /**
    * 注入 {@link WxCpConfigStorage} 的实现

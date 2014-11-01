@@ -279,7 +279,15 @@ public class WxMpServiceImpl implements WxMpService {
     execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
   }
 
-  /**
+  public String get(String url, String queryParam) throws WxErrorException {
+    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+  }
+
+  public String post(String url, String postData) throws WxErrorException {
+    return execute(new SimplePostRequestExecutor(), url, postData);
+  }
+
+   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor
    * @param uri
