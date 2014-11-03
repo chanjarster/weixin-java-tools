@@ -319,6 +319,17 @@ public interface WxMpService {
   public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
+   * <pre>
+   * 语义查询接口
+   * 详情请见：http://mp.weixin.qq.com/wiki/index.php?title=语义理解
+   * </pre>
+   * @param semanticQuery
+   * @return
+   * @throws WxErrorException
+   */
+  WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException;
+
+  /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    * @param url
    * @param queryParam

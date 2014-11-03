@@ -293,6 +293,12 @@ public class WxMpServiceImpl implements WxMpService {
     execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
   }
 
+  public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/semantic/semproxy/search";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, semanticQuery.toJson());
+    return WxMpSemanticQueryResult.fromJson(responseContent);
+  }
+
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);
   }
