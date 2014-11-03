@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -13,6 +15,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * 上传媒体文件请求执行器，请求的参数是File, 返回的结果是String
@@ -22,8 +25,12 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
 
   @Override
-  public WxMediaUploadResult execute(String uri, File file) throws WxErrorException, ClientProtocolException, IOException {
+  public WxMediaUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, ClientProtocolException, IOException {
     HttpPost httpPost = new HttpPost(uri);
+    if (httpProxy != null) {
+      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+      httpPost.setConfig(config);
+    }
     if (file != null) {
       HttpEntity entity = MultipartEntityBuilder
             .create()

@@ -2,6 +2,7 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -306,10 +307,65 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public String shortUrl(String long_url) throws WxErrorException;
-  
+
   /**
-   * 注入 {@link WxMpConfigStorage} 的实现
-   * @param wxConfigProvider
+   * <pre>
+   * 发送模板消息
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=模板消息接口
+   * </pre>
+   * @param templateMessage
+   * @throws WxErrorException
    */
+  public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 语义查询接口
+   * 详情请见：http://mp.weixin.qq.com/wiki/index.php?title=语义理解
+   * </pre>
+   * @param semanticQuery
+   * @return
+   * @throws WxErrorException
+   */
+  WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException;
+
+  /**
+   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
+   * @param url
+   * @param queryParam
+   * @return
+   * @throws WxErrorException
+   */
+  String get(String url, String queryParam) throws WxErrorException;
+
+  /**
+   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
+   * @param url
+   * @param postData
+   * @return
+   * @throws WxErrorException
+   */
+  String post(String url, String postData) throws WxErrorException;
+
+  /**
+   * <pre>
+   * Service没有实现某个API的时候，可以用这个，
+   * 比{@link #get}和{@link #post}方法更灵活，可以自己构造RequestExecutor用来处理不同的参数和不同的返回类型。
+   * 可以参考，{@link me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor}的实现方法
+   * </pre>
+   * @param executor
+   * @param uri
+   * @param data
+   * @param <T>
+   * @param <E>
+   * @return
+   * @throws WxErrorException
+   */
+  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+
+    /**
+     * 注入 {@link WxMpConfigStorage} 的实现
+     * @param wxConfigProvider
+     */
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
 }

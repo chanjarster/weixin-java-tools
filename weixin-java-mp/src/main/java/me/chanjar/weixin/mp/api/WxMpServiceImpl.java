@@ -19,9 +19,16 @@ import me.chanjar.weixin.mp.bean.result.*;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -31,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -43,11 +51,13 @@ public class WxMpServiceImpl implements WxMpService {
    */
   protected static final AtomicBoolean GLOBAL_ACCESS_TOKEN_REFRESH_FLAG = new AtomicBoolean(false);
   
-  protected static final CloseableHttpClient httpclient = HttpClients.createDefault();
-  
   protected WxMpConfigStorage wxMpConfigStorage;
   
   protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
+
+  protected CloseableHttpClient httpClient;
+
+  protected HttpHost httpProxy;
 
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
@@ -66,6 +76,11 @@ public class WxMpServiceImpl implements WxMpService {
             ;
         try {
           HttpGet httpGet = new HttpGet(url);
+          if (httpProxy != null) {
+            RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+            httpGet.setConfig(config);
+          }
+          CloseableHttpClient httpclient = getHttpclient();
           CloseableHttpResponse response = httpclient.execute(httpGet);
           String resultContent = new BasicResponseHandler().handleResponse(response);
           WxError error = WxError.fromJson(resultContent);
@@ -272,8 +287,27 @@ public class WxMpServiceImpl implements WxMpService {
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
-  
-  /**
+
+  public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
+    execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
+  }
+
+  public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/semantic/semproxy/search";
+    String responseContent = execute(new SimplePostRequestExecutor(), url, semanticQuery.toJson());
+    return WxMpSemanticQueryResult.fromJson(responseContent);
+  }
+
+  public String get(String url, String queryParam) throws WxErrorException {
+    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+  }
+
+  public String post(String url, String postData) throws WxErrorException {
+    return execute(new SimplePostRequestExecutor(), url, postData);
+  }
+
+   /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor
    * @param uri
@@ -291,7 +325,7 @@ public class WxMpServiceImpl implements WxMpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
     
     try {
-      return executor.execute(uriWithAccessToken, data);
+      return executor.execute(getHttpclient(), httpProxy, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -334,9 +368,39 @@ public class WxMpServiceImpl implements WxMpService {
       throw new RuntimeException(e);
     }
   }
-  
+
+  protected CloseableHttpClient getHttpclient() {
+    return httpClient;
+  }
+
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
     this.wxMpConfigStorage = wxConfigProvider;
+
+    String http_proxy_host = wxMpConfigStorage.getHttp_proxy_host();
+    int http_proxy_port = wxMpConfigStorage.getHttp_proxy_port();
+    String http_proxy_username = wxMpConfigStorage.getHttp_proxy_username();
+    String http_proxy_password = wxMpConfigStorage.getHttp_proxy_password();
+
+    if(StringUtils.isNotBlank(http_proxy_host)) {
+      // 使用代理服务器
+      if(StringUtils.isNotBlank(http_proxy_username)) {
+        // 需要用户认证的代理服务器
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(
+            new AuthScope(http_proxy_host, http_proxy_port),
+            new UsernamePasswordCredentials(http_proxy_username, http_proxy_password));
+        httpClient = HttpClients
+            .custom()
+            .setDefaultCredentialsProvider(credsProvider)
+            .build();
+      } else {
+        // 无需用户认证的代理服务器
+        httpClient = HttpClients.createDefault();
+      }
+      httpProxy = new HttpHost(http_proxy_host, http_proxy_port);
+    } else {
+      httpClient = HttpClients.createDefault();
+    }
   }
 
 }

@@ -8,10 +8,13 @@ import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +30,7 @@ import java.util.UUID;
 public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {
 
   @Override
-  public File execute(String uri, WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
+  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, WxMpQrCodeTicket ticket) throws WxErrorException, ClientProtocolException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -39,6 +42,11 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
     }
     
     HttpGet httpGet = new HttpGet(uri);
+    if (httpProxy != null) {
+      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+      httpGet.setConfig(config);
+    }
+
     CloseableHttpResponse response = httpclient.execute(httpGet);
 
     Header[] contentTypeHeader = response.getHeaders("Content-Type");
