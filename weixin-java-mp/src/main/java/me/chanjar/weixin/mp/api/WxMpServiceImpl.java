@@ -24,6 +24,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -75,6 +76,10 @@ public class WxMpServiceImpl implements WxMpService {
             ;
         try {
           HttpGet httpGet = new HttpGet(url);
+          if (httpProxy != null) {
+            RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+            httpGet.setConfig(config);
+          }
           CloseableHttpClient httpclient = getHttpclient();
           CloseableHttpResponse response = httpclient.execute(httpGet);
           String resultContent = new BasicResponseHandler().handleResponse(response);
