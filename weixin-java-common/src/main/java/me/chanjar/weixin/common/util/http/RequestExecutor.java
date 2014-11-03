@@ -2,6 +2,7 @@ package me.chanjar.weixin.common.util.http;
 
 import java.io.IOException;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -17,8 +18,6 @@ import me.chanjar.weixin.common.exception.WxErrorException;
  */
 public interface RequestExecutor<T, E> {
 
-  public static final CloseableHttpClient httpclient = HttpClients.createDefault();
+  public T execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, E data) throws WxErrorException, ClientProtocolException, IOException;
 
-  public T execute(String uri, E data) throws WxErrorException, ClientProtocolException, IOException;
-  
 }

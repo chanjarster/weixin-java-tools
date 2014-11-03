@@ -2,6 +2,7 @@ package me.chanjar.weixin.cp.api;
 
 import javax.xml.bind.JAXBException;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxMenu;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;

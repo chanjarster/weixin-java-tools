@@ -2,6 +2,7 @@ package me.chanjar.weixin.cp.api;
 
 import java.util.Map;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import org.testng.Assert;

@@ -1,5 +1,6 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;

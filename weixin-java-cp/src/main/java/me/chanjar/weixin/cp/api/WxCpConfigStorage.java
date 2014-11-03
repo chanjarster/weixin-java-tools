@@ -27,4 +27,12 @@ public interface WxCpConfigStorage {
 
   public int getExpiresIn();
 
+  public String getHttp_proxy_host();
+
+  public int getHttp_proxy_port();
+
+  public String getHttp_proxy_username();
+
+  public String getHttp_proxy_password();
+
 }

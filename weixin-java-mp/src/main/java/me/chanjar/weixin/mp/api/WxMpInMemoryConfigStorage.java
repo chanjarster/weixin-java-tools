@@ -16,6 +16,11 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String aesKey;
   protected int expiresIn;
 
+  protected String http_proxy_host;
+  protected int http_proxy_port;
+  protected String http_proxy_username;
+  protected String http_proxy_password;
+
   public void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
@@ -73,5 +78,52 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.expiresIn = expiresIn;
   }
 
+  public String getHttp_proxy_host() {
+    return http_proxy_host;
+  }
+
+  public void setHttp_proxy_host(String http_proxy_host) {
+    this.http_proxy_host = http_proxy_host;
+  }
+
+  public int getHttp_proxy_port() {
+    return http_proxy_port;
+  }
+
+  public void setHttp_proxy_port(int http_proxy_port) {
+    this.http_proxy_port = http_proxy_port;
+  }
+
+  public String getHttp_proxy_username() {
+    return http_proxy_username;
+  }
+
+  public void setHttp_proxy_username(String http_proxy_username) {
+    this.http_proxy_username = http_proxy_username;
+  }
+
+  public String getHttp_proxy_password() {
+    return http_proxy_password;
+  }
+
+  public void setHttp_proxy_password(String http_proxy_password) {
+    this.http_proxy_password = http_proxy_password;
+  }
+
+  @Override
+  public String toString() {
+    return "WxMpInMemoryConfigStorage{" +
+        "appId='" + appId + '\'' +
+        ", secret='" + secret + '\'' +
+        ", token='" + token + '\'' +
+        ", accessToken='" + accessToken + '\'' +
+        ", aesKey='" + aesKey + '\'' +
+        ", expiresIn=" + expiresIn +
+        ", http_proxy_host='" + http_proxy_host + '\'' +
+        ", http_proxy_port=" + http_proxy_port +
+        ", http_proxy_username='" + http_proxy_username + '\'' +
+        ", http_proxy_password='" + http_proxy_password + '\'' +
+        '}';
+  }
 
 }

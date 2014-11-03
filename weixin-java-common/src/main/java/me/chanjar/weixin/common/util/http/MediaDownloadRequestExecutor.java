@@ -8,10 +8,13 @@ import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +30,7 @@ import java.util.regex.Pattern;
 public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
 
   @Override
-  public File execute(String uri, String queryParam) throws WxErrorException, ClientProtocolException, IOException {
+  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, ClientProtocolException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -36,6 +39,11 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
     }
     
     HttpGet httpGet = new HttpGet(uri);
+    if (httpProxy != null) {
+      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+      httpGet.setConfig(config);
+    }
+
     CloseableHttpResponse response = httpclient.execute(httpGet);
 
     Header[] contentTypeHeader = response.getHeaders("Content-Type");

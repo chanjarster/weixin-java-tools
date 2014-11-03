@@ -20,9 +20,14 @@ import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -51,11 +56,13 @@ public class WxCpServiceImpl implements WxCpService {
    */
   protected static final AtomicBoolean GLOBAL_ACCESS_TOKEN_REFRESH_FLAG = new AtomicBoolean(false);
 
-  protected static final CloseableHttpClient httpclient = HttpClients.createDefault();
-
   protected WxCpConfigStorage wxCpConfigStorage;
 
   protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
+
+  protected CloseableHttpClient httpClient;
+
+  protected HttpHost httpProxy;
 
   public boolean checkSignature(String msgSignature, String timestamp, String nonce, String data) {
     try {
@@ -78,6 +85,7 @@ public class WxCpServiceImpl implements WxCpService {
             + "&corpsecret=" + wxCpConfigStorage.getCorpSecret();
         try {
           HttpGet httpGet = new HttpGet(url);
+          CloseableHttpClient httpclient = getHttpclient();
           CloseableHttpResponse response = httpclient.execute(httpGet);
           String resultContent = new BasicResponseHandler().handleResponse(response);
           WxError error = WxError.fromJson(resultContent);
@@ -335,7 +343,7 @@ public class WxCpServiceImpl implements WxCpService {
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(uriWithAccessToken, data);
+      return executor.execute(getHttpclient(), httpProxy, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -379,8 +387,38 @@ public class WxCpServiceImpl implements WxCpService {
     }
   }
 
+  protected CloseableHttpClient getHttpclient() {
+    return httpClient;
+  }
+
   public void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider) {
     this.wxCpConfigStorage = wxConfigProvider;
+
+    String http_proxy_host = wxCpConfigStorage.getHttp_proxy_host();
+    int http_proxy_port = wxCpConfigStorage.getHttp_proxy_port();
+    String http_proxy_username = wxCpConfigStorage.getHttp_proxy_username();
+    String http_proxy_password = wxCpConfigStorage.getHttp_proxy_password();
+
+    if(StringUtils.isNotBlank(http_proxy_host)) {
+      // 使用代理服务器
+      if(StringUtils.isNotBlank(http_proxy_username)) {
+        // 需要用户认证的代理服务器
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(
+            new AuthScope(http_proxy_host, http_proxy_port),
+            new UsernamePasswordCredentials(http_proxy_username, http_proxy_password));
+        httpClient = HttpClients
+            .custom()
+            .setDefaultCredentialsProvider(credsProvider)
+            .build();
+      } else {
+        // 无需用户认证的代理服务器
+        httpClient = HttpClients.createDefault();
+      }
+      httpProxy = new HttpHost(http_proxy_host, http_proxy_port);
+    } else {
+      httpClient = HttpClients.createDefault();
+    }
   }
 
 }
