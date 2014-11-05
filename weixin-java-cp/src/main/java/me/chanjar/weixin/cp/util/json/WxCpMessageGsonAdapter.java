@@ -75,6 +75,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
     }
 
     if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
+      JsonObject newsJsonObject = new JsonObject();
       JsonArray articleJsonArray = new JsonArray();
       for (WxCpMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();
@@ -84,7 +85,8 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
         articleJson.addProperty("picurl", article.getPicUrl());
         articleJsonArray.add(articleJson);
       }
-      messageJson.add("articles", articleJsonArray);
+      newsJsonObject.add("articles", articleJsonArray);
+      messageJson.add("news", newsJsonObject);
     }
     
     return messageJson;
