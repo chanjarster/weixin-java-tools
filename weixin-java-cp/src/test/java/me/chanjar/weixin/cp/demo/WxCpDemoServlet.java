@@ -1,11 +1,11 @@
 package me.chanjar.weixin.cp.demo;
 
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.api.*;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutTextMessage;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public class WxCpDemoServlet extends HttpServlet {
 
-  protected WxCpService wxCpService;
   protected WxCpConfigStorage wxCpConfigStorage;
+  protected WxCpService wxCpService;
   protected WxCpMessageRouter wxCpMessageRouter;
 
   @Override public void init() throws ServletException {
@@ -37,7 +37,7 @@ public class WxCpDemoServlet extends HttpServlet {
       wxCpService.setWxCpConfigStorage(config);
 
       WxCpMessageHandler handler = new WxCpMessageHandler() {
-        @Override public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context) {
+        @Override public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
           WxCpXmlOutTextMessage m = WxCpXmlOutMessage
                   .TEXT()
                   .content("测试加密消息")
@@ -48,7 +48,7 @@ public class WxCpDemoServlet extends HttpServlet {
         }
       };
 
-      wxCpMessageRouter = new WxCpMessageRouter();
+      wxCpMessageRouter = new WxCpMessageRouter(wxCpService);
       wxCpMessageRouter
           .rule()
           .async(false)
@@ -64,13 +64,14 @@ public class WxCpDemoServlet extends HttpServlet {
   @Override protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    response.setContentType("text/html;charset=utf-8");
+    response.setStatus(HttpServletResponse.SC_OK);
+
     String msgSignature = request.getParameter("msg_signature");
     String nonce = request.getParameter("nonce");
     String timestamp = request.getParameter("timestamp");
     String echostr = request.getParameter("echostr");
 
-    response.setContentType("text/html;charset=utf-8");
-    response.setStatus(HttpServletResponse.SC_OK);
     if (StringUtils.isNotBlank(echostr)) {
       if (!wxCpService.checkSignature(msgSignature, timestamp, nonce, echostr)) {
         // 消息签名不正确，说明不是公众平台发过来的消息
@@ -84,11 +85,8 @@ public class WxCpDemoServlet extends HttpServlet {
       return;
     }
 
-
     WxCpXmlMessage inMessage = WxCpXmlMessage.fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
-
     WxCpXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
-
     if (outMessage != null) {
       response.getWriter().write(outMessage.toEncryptedXml(wxCpConfigStorage));
     }

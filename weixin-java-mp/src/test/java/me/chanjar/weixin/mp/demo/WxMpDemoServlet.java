@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.demo;
 
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +20,8 @@ import java.util.Map;
  */
 public class WxMpDemoServlet extends HttpServlet {
 
-  protected WxMpService wxMpService;
   protected WxMpConfigStorage wxMpConfigStorage;
+  protected WxMpService wxMpService;
   protected WxMpMessageRouter wxMpMessageRouter;
 
   @Override public void init() throws ServletException {
@@ -36,7 +36,7 @@ public class WxMpDemoServlet extends HttpServlet {
       wxMpService.setWxMpConfigStorage(config);
 
       WxMpMessageHandler handler = new WxMpMessageHandler() {
-        @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context) {
+        @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
           WxMpXmlOutTextMessage m
               = WxMpXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
               .toUser(wxMessage.getFromUserName()).build();
@@ -44,7 +44,7 @@ public class WxMpDemoServlet extends HttpServlet {
         }
       };
 
-      wxMpMessageRouter = new WxMpMessageRouter();
+      wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
       wxMpMessageRouter
           .rule()
           .async(false)
@@ -60,12 +60,12 @@ public class WxMpDemoServlet extends HttpServlet {
   @Override protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    response.setContentType("text/html;charset=utf-8");
+    response.setStatus(HttpServletResponse.SC_OK);
+
     String signature = request.getParameter("signature");
     String nonce = request.getParameter("nonce");
     String timestamp = request.getParameter("timestamp");
-
-    response.setContentType("text/html;charset=utf-8");
-    response.setStatus(HttpServletResponse.SC_OK);
 
     if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
       // 消息签名不正确，说明不是公众平台发过来的消息
@@ -84,31 +84,25 @@ public class WxMpDemoServlet extends HttpServlet {
         "raw" :
         request.getParameter("encrypt_type");
 
-    WxMpXmlMessage inMessage = null;
-
     if ("raw".equals(encryptType)) {
       // 明文传输的消息
-      inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
-    } else if ("aes".equals(encryptType)) {
+      WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+      WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+      response.getWriter().write(outMessage.toXml());
+      return;
+    }
+
+    if ("aes".equals(encryptType)) {
       // 是aes加密的消息
       String msgSignature = request.getParameter("msg_signature");
-      inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), wxMpConfigStorage, timestamp, nonce, msgSignature);
-    } else {
-      response.getWriter().println("不可识别的加密类型");
+      WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), wxMpConfigStorage, timestamp, nonce, msgSignature);
+      WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+      response.getWriter().write(outMessage.toEncryptedXml(wxMpConfigStorage));
       return;
     }
 
-    WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-
-    if (outMessage != null) {
-      if ("raw".equals(encryptType)) {
-        response.getWriter().write(outMessage.toXml());
-      } else if ("aes".equals(encryptType)) {
-        response.getWriter().write(outMessage.toEncryptedXml(wxMpConfigStorage));
-      }
-      return;
-    }
-
+    response.getWriter().println("不可识别的加密类型");
+    return;
   }
 
 }

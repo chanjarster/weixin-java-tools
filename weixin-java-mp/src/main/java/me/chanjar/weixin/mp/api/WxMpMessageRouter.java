@@ -43,14 +43,20 @@ public class WxMpMessageRouter {
   
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService es = Executors.newCachedThreadPool();
-  
+  private final ExecutorService executorService = Executors.newCachedThreadPool();
+
+  private final WxMpService wxMpService;
+
+  public WxMpMessageRouter(WxMpService wxMpService) {
+    this.wxMpService = wxMpService;
+  }
+
   /**
    * 开始一个新的Route规则
    * @return
    */
   public Rule rule() {
-    return new Rule(this);
+    return new Rule(this, wxMpService);
   }
 
   /**
@@ -73,7 +79,7 @@ public class WxMpMessageRouter {
     if (matchRules.get(0).async) {
       // 只要第一个是异步的，那就异步执行
       // 在另一个线程里执行
-      es.submit(new Runnable() {
+      executorService.submit(new Runnable() {
         public void run() {
           for (final Rule rule : matchRules) {
             rule.service(wxMessage);
@@ -101,6 +107,8 @@ public class WxMpMessageRouter {
     
     private final WxMpMessageRouter routerBuilder;
 
+    private final WxMpService wxMpService;
+
     private boolean async = true;
     
     private String msgType;
@@ -119,8 +127,9 @@ public class WxMpMessageRouter {
     
     private List<WxMpMessageInterceptor> interceptors = new ArrayList<WxMpMessageInterceptor>();
     
-    protected Rule(WxMpMessageRouter routerBuilder) {
+    protected Rule(WxMpMessageRouter routerBuilder, WxMpService wxMpService) {
       this.routerBuilder = routerBuilder;
+      this.wxMpService = wxMpService;
     }
     
     /**
@@ -274,7 +283,7 @@ public class WxMpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context)) {
+        if (!interceptor.intercept(wxMessage, context, wxMpService)) {
           return null;
         }
       }
@@ -283,7 +292,7 @@ public class WxMpMessageRouter {
       WxMpXmlOutMessage res = null;
       for (WxMpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context);
+        res = handler.handle(wxMessage, context, wxMpService);
       }
       return res;
     }

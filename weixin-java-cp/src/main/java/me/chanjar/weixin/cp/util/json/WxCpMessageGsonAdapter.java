@@ -8,17 +8,12 @@
  */
 package me.chanjar.weixin.cp.util.json;
 
-import java.lang.reflect.Type;
-
+import com.google.gson.*;
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import org.apache.commons.lang3.StringUtils;
+import java.lang.reflect.Type;
 
 /**
  * 

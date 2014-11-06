@@ -1,12 +1,9 @@
 package me.chanjar.weixin.common.util.http;
 
 import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.http.InputStreamResponseHandler;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
-import org.apache.commons.lang3.StringUtils;
+import me.chanjar.weixin.common.util.StringUtils;
+import me.chanjar.weixin.common.util.fs.FileUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;

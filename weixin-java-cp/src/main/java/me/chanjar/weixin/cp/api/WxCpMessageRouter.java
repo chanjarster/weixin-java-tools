@@ -45,12 +45,18 @@ public class WxCpMessageRouter {
 
   private final ExecutorService es = Executors.newCachedThreadPool();
 
+  private final WxCpService wxCpService;
+
+  public WxCpMessageRouter(WxCpService wxCpService) {
+    this.wxCpService = wxCpService;
+  }
+
   /**
    * 开始一个新的Route规则
    * @return
    */
   public Rule rule() {
-    return new Rule(this);
+    return new Rule(this, wxCpService);
   }
 
   /**
@@ -101,6 +107,8 @@ public class WxCpMessageRouter {
 
     private final WxCpMessageRouter routerBuilder;
 
+    private final WxCpService wxCpService;
+
     private boolean async = true;
 
     private String msgType;
@@ -121,8 +129,9 @@ public class WxCpMessageRouter {
 
     private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
 
-    protected Rule(WxCpMessageRouter routerBuilder) {
+    protected Rule(WxCpMessageRouter routerBuilder, WxCpService wxCpService) {
       this.routerBuilder = routerBuilder;
+      this.wxCpService = wxCpService;
     }
 
     /**
@@ -288,7 +297,7 @@ public class WxCpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context)) {
+        if (!interceptor.intercept(wxMessage, context, wxCpService)) {
           return null;
         }
       }
@@ -297,7 +306,7 @@ public class WxCpMessageRouter {
       WxCpXmlOutMessage res = null;
       for (WxCpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context);
+        res = handler.handle(wxMessage, context, wxCpService);
       }
       return res;
     }
