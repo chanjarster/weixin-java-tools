@@ -7,12 +7,12 @@ import org.testng.annotations.Test;
 public class WxCpXmlOutNewsMessageTest {
 
   public void test() {
-    WxCpXmlOutMewsMessage m = new WxCpXmlOutMewsMessage();
+    WxCpXmlOutNewsMessage m = new WxCpXmlOutNewsMessage();
     m.setCreateTime(1122l);
     m.setFromUserName("fromUser");
     m.setToUserName("toUser");
     
-    WxCpXmlOutMewsMessage.Item item = new WxCpXmlOutMewsMessage.Item();
+    WxCpXmlOutNewsMessage.Item item = new WxCpXmlOutNewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
@@ -46,13 +46,13 @@ public class WxCpXmlOutNewsMessageTest {
   }
   
   public void testBuild() {
-    WxCpXmlOutMewsMessage.Item item = new WxCpXmlOutMewsMessage.Item();
+    WxCpXmlOutNewsMessage.Item item = new WxCpXmlOutNewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
     item.setUrl("url");
     
-    WxCpXmlOutMewsMessage m = WxCpXmlOutMessage.NEWS()
+    WxCpXmlOutNewsMessage m = WxCpXmlOutMessage.NEWS()
           .fromUser("fromUser")
           .toUser("toUser")
           .addArticle(item)

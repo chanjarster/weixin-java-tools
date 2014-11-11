@@ -76,7 +76,7 @@ public class XmlTransformer {
       return JAXBContext.newInstance(
           WxMpXmlOutMessage.class,
           WxMpMpXmlOutImageMessage.class,
-          WxMpXmlOutMewsMessage.class,
+          WxMpXmlOutNewsMessage.class,
           WxMpXmlOutMusicMessage.class,
           WxMpXmlOutTextMessage.class,
           WxMpXmlOutVideoMessage.class,

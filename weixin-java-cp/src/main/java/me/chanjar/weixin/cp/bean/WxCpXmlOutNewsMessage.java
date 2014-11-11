@@ -10,7 +10,7 @@ import java.util.List;
 
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WxCpXmlOutMewsMessage extends WxCpXmlOutMessage {
+public class WxCpXmlOutNewsMessage extends WxCpXmlOutMessage {
 
   @XmlElement(name = "ArticleCount")
   protected int articleCount;
@@ -19,7 +19,7 @@ public class WxCpXmlOutMewsMessage extends WxCpXmlOutMessage {
   @XmlElement(name = "item")
   protected final List<Item> articles = new ArrayList<Item>();
   
-  public WxCpXmlOutMewsMessage() {
+  public WxCpXmlOutNewsMessage() {
     this.msgType = WxConsts.XML_MSG_NEWS;
   }
 
