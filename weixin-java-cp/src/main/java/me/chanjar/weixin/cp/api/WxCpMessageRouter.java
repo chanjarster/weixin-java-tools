@@ -41,14 +41,22 @@ import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
  */
 public class WxCpMessageRouter {
 
+  private static final int DEFAULT_THREAD_POOL_SIZE = 20;
+
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService es = Executors.newCachedThreadPool();
+  private final ExecutorService executorService;
 
   private final WxCpService wxCpService;
 
   public WxCpMessageRouter(WxCpService wxCpService) {
     this.wxCpService = wxCpService;
+    this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+  }
+
+  public WxCpMessageRouter(WxCpService wxMpService, int threadPoolSize) {
+    this.wxCpService = wxMpService;
+    this.executorService = Executors.newFixedThreadPool(threadPoolSize);
   }
 
   /**
@@ -79,7 +87,7 @@ public class WxCpMessageRouter {
     if (matchRules.get(0).async) {
       // 只要第一个是异步的，那就异步执行
       // 在另一个线程里执行
-      es.submit(new Runnable() {
+      executorService.submit(new Runnable() {
         public void run() {
           for (final Rule rule : matchRules) {
             rule.service(wxMessage);
