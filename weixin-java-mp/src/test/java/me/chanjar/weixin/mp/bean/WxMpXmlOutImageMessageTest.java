@@ -13,8 +13,7 @@ public class WxMpXmlOutImageMessageTest {
     m.setFromUserName("from");
     m.setToUserName("to");
     
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
@@ -27,8 +26,7 @@ public class WxMpXmlOutImageMessageTest {
   
   public void testBuild() {
     WxMpMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"

@@ -19,8 +19,7 @@ public class WxXmlOutNewsMessageTest {
     item.setUrl("url");
     m.addArticle(item);
     m.addArticle(item);
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
@@ -58,8 +57,7 @@ public class WxXmlOutNewsMessageTest {
           .addArticle(item)
           .addArticle(item)
           .build();
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
