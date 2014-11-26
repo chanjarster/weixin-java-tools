@@ -118,6 +118,8 @@ public class WxMpMessageRouter {
     private final WxMpService wxMpService;
 
     private boolean async = true;
+
+    private String fromUser;
     
     private String msgType;
 
@@ -199,7 +201,17 @@ public class WxMpMessageRouter {
       this.rContent = regex;
       return this;
     }
-    
+
+    /**
+     * 如果fromUser等于某值
+     * @param fromUser
+     * @return
+     */
+    public Rule fromUser(String fromUser) {
+      this.fromUser = fromUser;
+      return this;
+    }
+
     /**
      * 设置微信消息拦截器
      * @param interceptor
@@ -269,7 +281,9 @@ public class WxMpMessageRouter {
     }
     
     protected boolean test(WxMpXmlMessage wxMessage) {
-      return 
+      return
+          (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+          &&
           (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
           &&
           (this.event == null || this.event.equals(wxMessage.getEvent()))

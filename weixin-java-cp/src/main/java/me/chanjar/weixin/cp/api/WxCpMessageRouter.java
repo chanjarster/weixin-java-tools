@@ -119,6 +119,8 @@ public class WxCpMessageRouter {
 
     private boolean async = true;
 
+    private String fromUser;
+
     private String msgType;
 
     private String event;
@@ -213,6 +215,16 @@ public class WxCpMessageRouter {
     }
 
     /**
+     * 如果fromUser等于某值
+     * @param fromUser
+     * @return
+     */
+    public Rule fromUser(String fromUser) {
+      this.fromUser = fromUser;
+      return this;
+    }
+
+    /**
      * 设置微信消息拦截器
      * @param interceptor
      * @return
@@ -282,6 +294,8 @@ public class WxCpMessageRouter {
 
     protected boolean test(WxCpXmlMessage wxMessage) {
       return
+          (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+          &&
           (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
           &&
           (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
