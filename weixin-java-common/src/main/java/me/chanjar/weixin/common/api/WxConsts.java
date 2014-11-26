@@ -128,4 +128,12 @@ public class WxConsts {
   /** 弹出地理位置选择器 */
   public static final String LOCATION_SELECT = "location_select";
 
+  ///////////////////////
+  // oauth2网页授权的scope
+  ///////////////////////
+  /** 不弹出授权页面，直接跳转，只能获取用户openid */
+  public static final String OAUTH2_SCOPE_BASE = "snsapi_base";
+  /** 弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息 */
+  public static final String OAUTH2_SCOPE_USER_INFO = "snsapi_userinfo";
+
 }

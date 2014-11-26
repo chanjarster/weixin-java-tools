@@ -27,11 +27,13 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import javax.print.DocFlavor;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -295,6 +297,98 @@ public class WxMpServiceImpl implements WxMpService {
     String url = "https://api.weixin.qq.com/semantic/semproxy/search";
     String responseContent = execute(new SimplePostRequestExecutor(), url, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
+  }
+
+  @Override
+  public String oauth2buildAuthorizationUrl(String scope, String state) {
+    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
+    url += "appid=" + wxMpConfigStorage.getAppId();
+    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxMpConfigStorage.getOauth2redirectUrl());
+    url += "&response_type=code";
+    url += "&scope=" + scope;
+    if (state != null) {
+      url += "&state=" + state;
+    }
+    url += "#wechat_redirect";
+    return url;
+  }
+
+  @Override
+  public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/sns/oauth2/access_token?";
+    url += "appid=" +  wxMpConfigStorage.getAppId();
+    url += "&secret=" + wxMpConfigStorage.getSecret();
+    url += "&code=" + code;
+    url += "&grant_type=authorization_code";
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      return WxMpOAuth2AccessToken.fromJson(responseText);
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?";
+    url += "appid=" + wxMpConfigStorage.getAppId();
+    url += "&grant_type=refresh_token";
+    url += "&refresh_token=" + refreshToken;
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      return WxMpOAuth2AccessToken.fromJson(responseText);
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/sns/userinfo?";
+    url += "access_token=" + oAuth2AccessToken.getAccessToken();
+    url += "&openid=" + oAuth2AccessToken.getOpenId();
+    if (lang == null) {
+      url += "&lang=zh_CN";
+    } else {
+      url += "&lang=" + lang;
+    }
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      return WxMpUser.fromJson(responseText);
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
+    String url = "https://api.weixin.qq.com/sns/auth?";
+    url += "access_token=" + oAuth2AccessToken;
+    url += "&openid=" + oAuth2AccessToken.getOpenId();
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      executor.execute(getHttpclient(), httpProxy, url, null);
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } catch (WxErrorException e) {
+      return false;
+    }
+    return true;
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
