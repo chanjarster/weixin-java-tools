@@ -1,7 +1,11 @@
 package me.chanjar.weixin.mp.demo;
 
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.api.*;
+import me.chanjar.weixin.mp.bean.WxMpMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
@@ -35,7 +39,7 @@ public class WxMpDemoServlet extends HttpServlet {
       wxMpService = new WxMpServiceImpl();
       wxMpService.setWxMpConfigStorage(config);
 
-      WxMpMessageHandler handler = new WxMpMessageHandler() {
+      WxMpMessageHandler textHandler = new WxMpMessageHandler() {
         @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
           WxMpXmlOutTextMessage m
               = WxMpXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
@@ -44,13 +48,41 @@ public class WxMpDemoServlet extends HttpServlet {
         }
       };
 
+      WxMpMessageHandler imageHandler = new WxMpMessageHandler() {
+        @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
+          try {
+            WxMediaUploadResult wxMediaUploadResult = wxMpService
+                .mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, ClassLoader.getSystemResourceAsStream("mm.jpeg"));
+            WxMpMpXmlOutImageMessage m
+                = WxMpXmlOutMessage
+                .IMAGE()
+                .mediaId(wxMediaUploadResult.getMediaId())
+                .fromUser(wxMessage.getToUserName())
+                .toUser(wxMessage.getFromUserName())
+                .build();
+            return m;
+          } catch (WxErrorException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          return null;
+        }
+      };
+
       wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
       wxMpMessageRouter
           .rule()
-          .async(false)
-          .content("哈哈") // 拦截内容为“哈哈”的消息
-          .handler(handler)
-          .end();
+            .async(false)
+            .content("哈哈") // 拦截内容为“哈哈”的消息
+            .handler(textHandler)
+          .end()
+          .rule()
+            .async(false)
+            .content("图片")
+            .handler(imageHandler)
+          .end()
+      ;
 
     } catch (JAXBException e) {
       throw new RuntimeException(e);
