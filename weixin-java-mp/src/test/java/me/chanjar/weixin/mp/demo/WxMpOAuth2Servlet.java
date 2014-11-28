@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-/**
- * @author Daniel Qian
- */
 public class WxMpOAuth2Servlet extends HttpServlet {
 
   protected WxMpService wxMpService;

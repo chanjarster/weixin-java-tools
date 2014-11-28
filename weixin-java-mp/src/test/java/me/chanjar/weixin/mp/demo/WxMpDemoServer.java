@@ -16,9 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-/**
- * @author Daniel Qian
- */
 public class WxMpDemoServer {
 
   private static WxMpConfigStorage wxMpConfigStorage;

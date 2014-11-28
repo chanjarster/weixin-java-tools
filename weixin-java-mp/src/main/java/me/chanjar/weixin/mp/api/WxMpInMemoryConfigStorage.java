@@ -16,11 +16,12 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String aesKey;
   protected int expiresIn;
 
+  protected String oauth2redirectUri;
+
   protected String http_proxy_host;
   protected int http_proxy_port;
   protected String http_proxy_username;
   protected String http_proxy_password;
-  protected String oauth2redirectUri;
 
   public void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());

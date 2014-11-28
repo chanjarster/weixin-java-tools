@@ -275,6 +275,26 @@ public interface WxCpService {
   public void tagAddUsers(String tagId, List<String> userIds) throws WxErrorException;
 
   /**
+   * <pre>
+   * 构造oauth2授权的url连接
+   * 详情请见: http://qydev.weixin.qq.com/wiki/index.php?title=企业获取code
+   * </pre>
+   * @param state
+   * @return code
+   */
+  public String oauth2buildAuthorizationUrl(String state);
+
+  /**
+   * <pre>
+   * 用oauth2获取用户信息
+   * http://qydev.weixin.qq.com/wiki/index.php?title=根据code获取成员信息
+   * </pre>
+   * @param code
+   * @return [userid, deviceid]
+   */
+  public String[] oauth2getUserInfo(String code) throws WxErrorException;
+
+  /**
    * 移除标签成员
    *
    * @param tagId

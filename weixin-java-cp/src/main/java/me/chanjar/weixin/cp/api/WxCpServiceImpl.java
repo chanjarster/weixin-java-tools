@@ -316,6 +316,41 @@ public class WxCpServiceImpl implements WxCpService {
     execute(new SimplePostRequestExecutor(), url, jsonObject.toString());
   }
 
+  @Override
+  public String oauth2buildAuthorizationUrl(String state) {
+    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
+    url += "appid=" + wxCpConfigStorage.getCorpId();
+    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxCpConfigStorage.getOauth2redirectUri());
+    url += "&response_type=code";
+    url += "&scope=snsapi_base";
+    if (state != null) {
+      url += "&state=" + state;
+    }
+    url += "#wechat_redirect";
+    return url;
+  }
+
+  @Override
+  public String[] oauth2getUserInfo(String code) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?";
+    url += "access_token=" + wxCpConfigStorage.getAccessToken();
+    url += "&code=" + code;
+    url += "agendid=" + wxCpConfigStorage.getAgentId();
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
+      JsonObject jo = je.getAsJsonObject();
+      return new String[] {GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);
   }

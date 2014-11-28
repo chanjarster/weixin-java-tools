@@ -19,49 +19,21 @@ import java.util.Map;
 /**
  * @author Daniel Qian
  */
-public class WxCpDemoServlet extends HttpServlet {
+public class WxCpEndpointServlet extends HttpServlet {
 
   protected WxCpConfigStorage wxCpConfigStorage;
   protected WxCpService wxCpService;
   protected WxCpMessageRouter wxCpMessageRouter;
 
-  @Override public void init() throws ServletException {
-    //
-    super.init();
-    try {
-      InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);
-
-      wxCpConfigStorage = config;
-      wxCpService = new WxCpServiceImpl();
-      wxCpService.setWxCpConfigStorage(config);
-
-      WxCpMessageHandler handler = new WxCpMessageHandler() {
-        @Override public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
-          WxCpXmlOutTextMessage m = WxCpXmlOutMessage
-                  .TEXT()
-                  .content("测试加密消息")
-                  .fromUser(wxMessage.getToUserName())
-                  .toUser(wxMessage.getFromUserName())
-              .build();
-          return m;
-        }
-      };
-
-      wxCpMessageRouter = new WxCpMessageRouter(wxCpService);
-      wxCpMessageRouter
-          .rule()
-          .async(false)
-          .content("哈哈") // 拦截内容为“哈哈”的消息
-          .handler(handler)
-          .end();
-
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
+  public WxCpEndpointServlet(WxCpConfigStorage wxCpConfigStorage, WxCpService wxCpService,
+      WxCpMessageRouter wxCpMessageRouter) {
+    this.wxCpConfigStorage = wxCpConfigStorage;
+    this.wxCpService = wxCpService;
+    this.wxCpMessageRouter = wxCpMessageRouter;
   }
 
-  @Override protected void service(HttpServletRequest request, HttpServletResponse response)
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     response.setContentType("text/html;charset=utf-8");
@@ -85,7 +57,8 @@ public class WxCpDemoServlet extends HttpServlet {
       return;
     }
 
-    WxCpXmlMessage inMessage = WxCpXmlMessage.fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
+    WxCpXmlMessage inMessage = WxCpXmlMessage
+        .fromEncryptedXml(request.getInputStream(), wxCpConfigStorage, timestamp, nonce, msgSignature);
     WxCpXmlOutMessage outMessage = wxCpMessageRouter.route(inMessage);
     if (outMessage != null) {
       response.getWriter().write(outMessage.toEncryptedXml(wxCpConfigStorage));
