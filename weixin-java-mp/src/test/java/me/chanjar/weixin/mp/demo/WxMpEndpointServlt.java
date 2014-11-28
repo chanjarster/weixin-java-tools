@@ -22,71 +22,17 @@ import java.util.Map;
 /**
  * @author Daniel Qian
  */
-public class WxMpDemoServlet extends HttpServlet {
+public class WxMpEndpointServlt extends HttpServlet {
 
   protected WxMpConfigStorage wxMpConfigStorage;
   protected WxMpService wxMpService;
   protected WxMpMessageRouter wxMpMessageRouter;
 
-  @Override public void init() throws ServletException {
-    //
-    super.init();
-    try {
-      InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
-      WxMpDemoInMemoryConfigStorage config = WxMpDemoInMemoryConfigStorage.fromXml(is1);
-
-      wxMpConfigStorage = config;
-      wxMpService = new WxMpServiceImpl();
-      wxMpService.setWxMpConfigStorage(config);
-
-      WxMpMessageHandler textHandler = new WxMpMessageHandler() {
-        @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
-          WxMpXmlOutTextMessage m
-              = WxMpXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
-              .toUser(wxMessage.getFromUserName()).build();
-          return m;
-        }
-      };
-
-      WxMpMessageHandler imageHandler = new WxMpMessageHandler() {
-        @Override public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
-          try {
-            WxMediaUploadResult wxMediaUploadResult = wxMpService
-                .mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, ClassLoader.getSystemResourceAsStream("mm.jpeg"));
-            WxMpMpXmlOutImageMessage m
-                = WxMpXmlOutMessage
-                .IMAGE()
-                .mediaId(wxMediaUploadResult.getMediaId())
-                .fromUser(wxMessage.getToUserName())
-                .toUser(wxMessage.getFromUserName())
-                .build();
-            return m;
-          } catch (WxErrorException e) {
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-          return null;
-        }
-      };
-
-      wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-      wxMpMessageRouter
-          .rule()
-            .async(false)
-            .content("哈哈") // 拦截内容为“哈哈”的消息
-            .handler(textHandler)
-          .end()
-          .rule()
-            .async(false)
-            .content("图片")
-            .handler(imageHandler)
-          .end()
-      ;
-
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
+  public WxMpEndpointServlt(WxMpConfigStorage wxMpConfigStorage, WxMpService wxMpService,
+      WxMpMessageRouter wxMpMessageRouter) {
+    this.wxMpConfigStorage = wxMpConfigStorage;
+    this.wxMpService = wxMpService;
+    this.wxMpMessageRouter = wxMpMessageRouter;
   }
 
   @Override protected void service(HttpServletRequest request, HttpServletResponse response)

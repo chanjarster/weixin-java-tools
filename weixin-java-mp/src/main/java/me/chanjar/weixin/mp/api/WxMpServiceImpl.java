@@ -27,13 +27,11 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import javax.print.DocFlavor;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -303,7 +301,7 @@ public class WxMpServiceImpl implements WxMpService {
   public String oauth2buildAuthorizationUrl(String scope, String state) {
     String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
     url += "appid=" + wxMpConfigStorage.getAppId();
-    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxMpConfigStorage.getOauth2redirectUrl());
+    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxMpConfigStorage.getOauth2redirectUri());
     url += "&response_type=code";
     url += "&scope=" + scope;
     if (state != null) {

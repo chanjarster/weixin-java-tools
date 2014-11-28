@@ -20,7 +20,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected int http_proxy_port;
   protected String http_proxy_username;
   protected String http_proxy_password;
-  protected String oauth2redirectUrl;
+  protected String oauth2redirectUri;
 
   public void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
@@ -80,12 +80,12 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
   @Override
-  public String getOauth2redirectUrl() {
-    return this.oauth2redirectUrl;
+  public String getOauth2redirectUri() {
+    return this.oauth2redirectUri;
   }
 
-  public void setOauth2redirectUrl(String oauth2redirectUrl) {
-    this.oauth2redirectUrl = oauth2redirectUrl;
+  public void setOauth2redirectUri(String oauth2redirectUri) {
+    this.oauth2redirectUri = oauth2redirectUri;
   }
 
   public String getHttp_proxy_host() {

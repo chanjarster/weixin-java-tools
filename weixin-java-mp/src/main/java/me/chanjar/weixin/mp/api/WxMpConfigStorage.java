@@ -25,7 +25,7 @@ public interface WxMpConfigStorage {
 
   public int getExpiresIn();
 
-  public String getOauth2redirectUrl();
+  public String getOauth2redirectUri();
 
   public String getHttp_proxy_host();
 

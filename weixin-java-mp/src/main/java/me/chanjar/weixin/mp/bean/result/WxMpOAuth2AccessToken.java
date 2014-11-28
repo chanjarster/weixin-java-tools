@@ -1,6 +1,7 @@
 package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**
  * Created by qianjia on 14/11/26.
@@ -58,7 +59,17 @@ public class WxMpOAuth2AccessToken {
   }
 
   public static WxMpOAuth2AccessToken fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMpOAuth2AccessToken.class);
+    return WxMpGsonBuilder.create().fromJson(json, WxMpOAuth2AccessToken.class);
   }
 
+  @Override
+  public String toString() {
+    return "WxMpOAuth2AccessToken{" +
+        "accessToken='" + accessToken + '\'' +
+        ", expiresIn=" + expiresIn +
+        ", refreshToken='" + refreshToken + '\'' +
+        ", openId='" + openId + '\'' +
+        ", scope='" + scope + '\'' +
+        '}';
+  }
 }
