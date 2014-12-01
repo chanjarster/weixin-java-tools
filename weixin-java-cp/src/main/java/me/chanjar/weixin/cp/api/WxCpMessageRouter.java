@@ -77,6 +77,9 @@ public class WxCpMessageRouter {
     for (final Rule rule : rules) {
       if (rule.test(wxMessage)) {
         matchRules.add(rule);
+        if(!rule.reEnter) {
+          break;
+        }
       }
     }
 
@@ -91,9 +94,6 @@ public class WxCpMessageRouter {
         public void run() {
           for (final Rule rule : matchRules) {
             rule.service(wxMessage);
-            if (!rule.reEnter) {
-              break;
-            }
           }
         }
       });
