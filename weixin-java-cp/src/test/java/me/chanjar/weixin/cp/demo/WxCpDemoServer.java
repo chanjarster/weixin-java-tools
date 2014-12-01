@@ -1,6 +1,5 @@
 package me.chanjar.weixin.cp.demo;
 
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.cp.api.*;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
@@ -20,22 +19,24 @@ public class WxCpDemoServer {
   private static WxCpMessageRouter wxCpMessageRouter;
 
   public static void main(String[] args) throws Exception {
+    initWeixin();
+
     Server server = new Server(8080);
 
-    ServletHandler handler = new ServletHandler();
-    server.setHandler(handler);
+    ServletHandler servletHandler = new ServletHandler();
+    server.setHandler(servletHandler);
 
     ServletHolder endpointServletHolder = new ServletHolder(new WxCpEndpointServlet(wxCpConfigStorage, wxCpService, wxCpMessageRouter));
-    handler.addServletWithMapping(endpointServletHolder, "/*");
+    servletHandler.addServletWithMapping(endpointServletHolder, "/*");
 
     ServletHolder oauthServletHolder = new ServletHolder(new WxCpOAuth2Servlet(wxCpService));
-    handler.addServletWithMapping(oauthServletHolder, "/oauth2/*");
+    servletHandler.addServletWithMapping(oauthServletHolder, "/oauth2/*");
 
     server.start();
     server.join();
   }
 
-  private static void init() {
+  private static void initWeixin() {
     try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
       WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);

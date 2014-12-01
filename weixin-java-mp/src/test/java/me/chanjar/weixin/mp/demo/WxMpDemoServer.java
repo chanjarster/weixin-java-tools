@@ -27,15 +27,15 @@ public class WxMpDemoServer {
 
     Server server = new Server(8080);
 
-    ServletHandler handler = new ServletHandler();
+    ServletHandler servletHandler = new ServletHandler();
+    server.setHandler(servletHandler);
 
     ServletHolder endpointServletHolder = new ServletHolder(new WxMpEndpointServlt(wxMpConfigStorage, wxMpService, wxMpMessageRouter));
-    handler.addServletWithMapping(endpointServletHolder, "/*");
+    servletHandler.addServletWithMapping(endpointServletHolder, "/*");
 
     ServletHolder oauthServletHolder = new ServletHolder(new WxMpOAuth2Servlet(wxMpService));
-    handler.addServletWithMapping(oauthServletHolder, "/oauth2/*");
+    servletHandler.addServletWithMapping(oauthServletHolder, "/oauth2/*");
 
-    server.setHandler(handler);
     server.start();
     server.join();
   }
