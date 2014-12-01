@@ -47,7 +47,7 @@ public class WxMpMessageRouterTest {
   @Test(dataProvider="messages-1")
   public void testSync(WxMpXmlMessage message, String expected) {
     StringBuffer sb = new StringBuffer();
-    WxMpMessageRouter router = new WxMpMessageRouter();
+    WxMpMessageRouter router = new WxMpMessageRouter(null);
     prepare(false, sb, router);
     router.route(message);
     Assert.assertEquals(sb.toString(), expected);
@@ -56,7 +56,7 @@ public class WxMpMessageRouterTest {
   @Test(dataProvider="messages-1")
   public void testAsync(WxMpXmlMessage message, String expected) throws InterruptedException {
     StringBuffer sb = new StringBuffer();
-    WxMpMessageRouter router = new WxMpMessageRouter();
+    WxMpMessageRouter router = new WxMpMessageRouter(null);
     prepare(true,  sb, router);
     router.route(message);
     Thread.sleep(500l);
@@ -64,10 +64,10 @@ public class WxMpMessageRouterTest {
   }
   
   public void testConcurrency() throws InterruptedException {
-    final WxMpMessageRouter router = new WxMpMessageRouter();
+    final WxMpMessageRouter router = new WxMpMessageRouter(null);
     router.rule().handler(new WxMpMessageHandler() {
       @Override
-      public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context) {
+      public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
         return null;
       }
     }).end();
@@ -149,7 +149,7 @@ public class WxMpMessageRouterTest {
     }
 
     @Override
-    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context) {
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService) {
       sb.append(this.echoStr).append(',');
       return null;
     }

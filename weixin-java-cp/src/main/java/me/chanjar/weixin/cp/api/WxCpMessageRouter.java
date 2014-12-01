@@ -41,16 +41,30 @@ import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
  */
 public class WxCpMessageRouter {
 
+  private static final int DEFAULT_THREAD_POOL_SIZE = 20;
+
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService es = Executors.newCachedThreadPool();
+  private final ExecutorService executorService;
+
+  private final WxCpService wxCpService;
+
+  public WxCpMessageRouter(WxCpService wxCpService) {
+    this.wxCpService = wxCpService;
+    this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+  }
+
+  public WxCpMessageRouter(WxCpService wxMpService, int threadPoolSize) {
+    this.wxCpService = wxMpService;
+    this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+  }
 
   /**
    * 开始一个新的Route规则
    * @return
    */
   public Rule rule() {
-    return new Rule(this);
+    return new Rule(this, wxCpService);
   }
 
   /**
@@ -73,7 +87,7 @@ public class WxCpMessageRouter {
     if (matchRules.get(0).async) {
       // 只要第一个是异步的，那就异步执行
       // 在另一个线程里执行
-      es.submit(new Runnable() {
+      executorService.submit(new Runnable() {
         public void run() {
           for (final Rule rule : matchRules) {
             rule.service(wxMessage);
@@ -101,7 +115,11 @@ public class WxCpMessageRouter {
 
     private final WxCpMessageRouter routerBuilder;
 
+    private final WxCpService wxCpService;
+
     private boolean async = true;
+
+    private String fromUser;
 
     private String msgType;
 
@@ -121,8 +139,9 @@ public class WxCpMessageRouter {
 
     private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
 
-    protected Rule(WxCpMessageRouter routerBuilder) {
+    protected Rule(WxCpMessageRouter routerBuilder, WxCpService wxCpService) {
       this.routerBuilder = routerBuilder;
+      this.wxCpService = wxCpService;
     }
 
     /**
@@ -196,6 +215,16 @@ public class WxCpMessageRouter {
     }
 
     /**
+     * 如果fromUser等于某值
+     * @param fromUser
+     * @return
+     */
+    public Rule fromUser(String fromUser) {
+      this.fromUser = fromUser;
+      return this;
+    }
+
+    /**
      * 设置微信消息拦截器
      * @param interceptor
      * @return
@@ -265,6 +294,8 @@ public class WxCpMessageRouter {
 
     protected boolean test(WxCpXmlMessage wxMessage) {
       return
+          (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+          &&
           (this.agentId == null || this.agentId.equals(wxMessage.getAgentId()))
           &&
           (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
@@ -288,7 +319,7 @@ public class WxCpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context)) {
+        if (!interceptor.intercept(wxMessage, context, wxCpService)) {
           return null;
         }
       }
@@ -297,7 +328,7 @@ public class WxCpMessageRouter {
       WxCpXmlOutMessage res = null;
       for (WxCpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context);
+        res = handler.handle(wxMessage, context, wxCpService);
       }
       return res;
     }

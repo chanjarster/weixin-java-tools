@@ -8,17 +8,12 @@
  */
 package me.chanjar.weixin.cp.util.json;
 
-import java.lang.reflect.Type;
-
+import com.google.gson.*;
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import org.apache.commons.lang3.StringUtils;
+import java.lang.reflect.Type;
 
 /**
  * 
@@ -36,7 +31,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
     messageJson.addProperty("msgtype", message.getMsgType());
 
     if (StringUtils.isNotBlank(message.getToParty())) {
-      messageJson.addProperty("toparty", message.getToUser());
+      messageJson.addProperty("toparty", message.getToParty());
     }
     if (StringUtils.isNotBlank(message.getToTag())) {
       messageJson.addProperty("totag", message.getToUser());
@@ -75,6 +70,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
     }
 
     if (WxConsts.CUSTOM_MSG_NEWS.equals(message.getMsgType())) {
+      JsonObject newsJsonObject = new JsonObject();
       JsonArray articleJsonArray = new JsonArray();
       for (WxCpMessage.WxArticle article : message.getArticles()) {
         JsonObject articleJson = new JsonObject();
@@ -84,7 +80,8 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
         articleJson.addProperty("picurl", article.getPicUrl());
         articleJsonArray.add(articleJson);
       }
-      messageJson.add("articles", articleJsonArray);
+      newsJsonObject.add("articles", articleJsonArray);
+      messageJson.add("news", newsJsonObject);
     }
     
     return messageJson;

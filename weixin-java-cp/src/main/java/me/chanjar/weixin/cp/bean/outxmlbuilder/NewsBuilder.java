@@ -3,14 +3,14 @@ package me.chanjar.weixin.cp.bean.outxmlbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.chanjar.weixin.cp.bean.WxCpXmlOutMewsMessage;
-import me.chanjar.weixin.cp.bean.WxCpXmlOutMewsMessage.Item;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutNewsMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutNewsMessage.Item;
 
 /**
  * 图文消息builder
  * @author Daniel Qian
  */
-public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutMewsMessage> {
+public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutNewsMessage> {
 
   protected final List<Item> articles = new ArrayList<Item>();
   
@@ -19,8 +19,8 @@ public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutMewsMe
     return this;
   }
   
-  public WxCpXmlOutMewsMessage build() {
-    WxCpXmlOutMewsMessage m = new WxCpXmlOutMewsMessage();
+  public WxCpXmlOutNewsMessage build() {
+    WxCpXmlOutNewsMessage m = new WxCpXmlOutNewsMessage();
     for(Item item : articles) {
       m.addArticle(item);
     }

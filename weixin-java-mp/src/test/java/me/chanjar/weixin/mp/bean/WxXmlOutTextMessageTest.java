@@ -13,8 +13,7 @@ public class WxXmlOutTextMessageTest {
     m.setFromUserName("from");
     m.setToUserName("to");
     
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
@@ -27,8 +26,7 @@ public class WxXmlOutTextMessageTest {
   
   public void testBuild() {
     WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT().content("content").fromUser("from").toUser("to").build();
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"

@@ -1,6 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
-import org.apache.commons.lang3.StringUtils;
+import me.chanjar.weixin.common.util.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;

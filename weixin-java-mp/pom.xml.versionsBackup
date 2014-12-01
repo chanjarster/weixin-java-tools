@@ -6,14 +6,18 @@
     <parent>
         <groupId>me.chanjar</groupId>
         <artifactId>weixin-java-parent</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.5-SNAPSHOT</version>
     </parent>
-
-    <artifactId>weixin-java-common</artifactId>
-    <name>WeiXin Java Tools - Common</name>
-    <description>微信公众号、企业号Java SDK Common</description>
+    <artifactId>weixin-java-mp</artifactId>
+    <name>WeiXin Java Tools - MP</name>
+    <description>微信公众号Java SDK</description>
 
     <dependencies>
+        <dependency>
+            <groupId>me.chanjar</groupId>
+            <artifactId>weixin-java-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

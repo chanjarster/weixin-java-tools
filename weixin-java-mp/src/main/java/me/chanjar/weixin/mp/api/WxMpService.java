@@ -330,6 +330,54 @@ public interface WxMpService {
   WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException;
 
   /**
+   * <pre>
+   * 构造oauth2授权的url连接
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
+   * </pre>
+   * @param scope
+   * @param state
+   * @return code
+   */
+  public String oauth2buildAuthorizationUrl(String scope, String state);
+
+  /**
+   * <pre>
+   * 用code换取oauth2的access token
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
+   * </pre>
+   * @param code
+   * @return
+   */
+  public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 刷新oauth2的access token
+   * </pre>
+   * @param refreshToken
+   * @return
+   */
+  public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 用oauth2获取用户信息, 当前面引导授权时的scope是snsapi_userinfo的时候才可以
+   * </pre>
+   * @param oAuth2AccessToken
+   * @param lang zh_CN, zh_TW, en
+   */
+  public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 验证oauth2的access token是否有效
+   * </pre>
+   * @param oAuth2AccessToken
+   * @return
+   */
+  public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
+
+  /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    * @param url
    * @param queryParam

@@ -40,17 +40,31 @@ import java.util.regex.Pattern;
  *
  */
 public class WxMpMessageRouter {
-  
+
+  private static final int DEFAULT_THREAD_POOL_SIZE = 20;
+
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService es = Executors.newCachedThreadPool();
-  
+  private final ExecutorService executorService;
+
+  private final WxMpService wxMpService;
+
+  public WxMpMessageRouter(WxMpService wxMpService) {
+    this.wxMpService = wxMpService;
+    this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+  }
+
+  public WxMpMessageRouter(WxMpService wxMpService, int threadPoolSize) {
+    this.wxMpService = wxMpService;
+    this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+  }
+
   /**
    * 开始一个新的Route规则
    * @return
    */
   public Rule rule() {
-    return new Rule(this);
+    return new Rule(this, wxMpService);
   }
 
   /**
@@ -73,7 +87,7 @@ public class WxMpMessageRouter {
     if (matchRules.get(0).async) {
       // 只要第一个是异步的，那就异步执行
       // 在另一个线程里执行
-      es.submit(new Runnable() {
+      executorService.execute(new Runnable() {
         public void run() {
           for (final Rule rule : matchRules) {
             rule.service(wxMessage);
@@ -101,7 +115,11 @@ public class WxMpMessageRouter {
     
     private final WxMpMessageRouter routerBuilder;
 
+    private final WxMpService wxMpService;
+
     private boolean async = true;
+
+    private String fromUser;
     
     private String msgType;
 
@@ -119,8 +137,9 @@ public class WxMpMessageRouter {
     
     private List<WxMpMessageInterceptor> interceptors = new ArrayList<WxMpMessageInterceptor>();
     
-    protected Rule(WxMpMessageRouter routerBuilder) {
+    protected Rule(WxMpMessageRouter routerBuilder, WxMpService wxMpService) {
       this.routerBuilder = routerBuilder;
+      this.wxMpService = wxMpService;
     }
     
     /**
@@ -182,7 +201,17 @@ public class WxMpMessageRouter {
       this.rContent = regex;
       return this;
     }
-    
+
+    /**
+     * 如果fromUser等于某值
+     * @param fromUser
+     * @return
+     */
+    public Rule fromUser(String fromUser) {
+      this.fromUser = fromUser;
+      return this;
+    }
+
     /**
      * 设置微信消息拦截器
      * @param interceptor
@@ -252,7 +281,9 @@ public class WxMpMessageRouter {
     }
     
     protected boolean test(WxMpXmlMessage wxMessage) {
-      return 
+      return
+          (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
+          &&
           (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
           &&
           (this.event == null || this.event.equals(wxMessage.getEvent()))
@@ -274,7 +305,7 @@ public class WxMpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context)) {
+        if (!interceptor.intercept(wxMessage, context, wxMpService)) {
           return null;
         }
       }
@@ -283,7 +314,7 @@ public class WxMpMessageRouter {
       WxMpXmlOutMessage res = null;
       for (WxMpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context);
+        res = handler.handle(wxMessage, context, wxMpService);
       }
       return res;
     }

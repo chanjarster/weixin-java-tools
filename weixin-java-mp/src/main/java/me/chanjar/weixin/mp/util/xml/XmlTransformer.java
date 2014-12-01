@@ -56,6 +56,7 @@ public class XmlTransformer {
     Marshaller m = JAXB_CONTEXT.createMarshaller();
     m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
     m.setProperty(CharacterEscapeHandler.class.getName(), CHAR_ESCAPE_HANDLER);
+    m.setProperty(Marshaller.JAXB_FRAGMENT, true);
     m.marshal(object, writer);
   }
 
@@ -76,7 +77,7 @@ public class XmlTransformer {
       return JAXBContext.newInstance(
           WxMpXmlOutMessage.class,
           WxMpMpXmlOutImageMessage.class,
-          WxMpXmlOutMewsMessage.class,
+          WxMpXmlOutNewsMessage.class,
           WxMpXmlOutMusicMessage.class,
           WxMpXmlOutTextMessage.class,
           WxMpXmlOutVideoMessage.class,

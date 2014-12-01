@@ -16,6 +16,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String aesKey;
   protected int expiresIn;
 
+  protected String oauth2redirectUri;
+
   protected String http_proxy_host;
   protected int http_proxy_port;
   protected String http_proxy_username;
@@ -76,6 +78,15 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   public void setExpiresIn(int expiresIn) {
     this.expiresIn = expiresIn;
+  }
+
+  @Override
+  public String getOauth2redirectUri() {
+    return this.oauth2redirectUri;
+  }
+
+  public void setOauth2redirectUri(String oauth2redirectUri) {
+    this.oauth2redirectUri = oauth2redirectUri;
   }
 
   public String getHttp_proxy_host() {

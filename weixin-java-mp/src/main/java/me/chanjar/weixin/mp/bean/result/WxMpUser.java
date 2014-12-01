@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  */
 public class WxMpUser {
 
-  protected boolean subscribe;
+  protected Boolean subscribe;
   protected String openId;
   protected String nickname;
   protected String sex;
@@ -18,13 +18,13 @@ public class WxMpUser {
   protected String province;
   protected String country;
   protected String headImgUrl;
-  protected long subscribeTime;
+  protected Long subscribeTime;
   protected String unionId;
   
-  public boolean isSubscribe() {
+  public Boolean isSubscribe() {
     return subscribe;
   }
-  public void setSubscribe(boolean subscribe) {
+  public void setSubscribe(Boolean subscribe) {
     this.subscribe = subscribe;
   }
   public String getOpenId() {
@@ -75,10 +75,10 @@ public class WxMpUser {
   public void setHeadImgUrl(String headImgUrl) {
     this.headImgUrl = headImgUrl;
   }
-  public long getSubscribeTime() {
+  public Long getSubscribeTime() {
     return subscribeTime;
   }
-  public void setSubscribeTime(long subscribeTime) {
+  public void setSubscribeTime(Long subscribeTime) {
     this.subscribeTime = subscribeTime;
   }
   public String getUnionId() {
@@ -91,5 +91,21 @@ public class WxMpUser {
   public static WxMpUser fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
   }
-  
+
+  @Override
+  public String toString() {
+    return "WxMpUser{" +
+        "subscribe=" + subscribe +
+        ", openId='" + openId + '\'' +
+        ", nickname='" + nickname + '\'' +
+        ", sex='" + sex + '\'' +
+        ", language='" + language + '\'' +
+        ", city='" + city + '\'' +
+        ", province='" + province + '\'' +
+        ", country='" + country + '\'' +
+        ", headImgUrl='" + headImgUrl + '\'' +
+        ", subscribeTime=" + subscribeTime +
+        ", unionId='" + unionId + '\'' +
+        '}';
+  }
 }

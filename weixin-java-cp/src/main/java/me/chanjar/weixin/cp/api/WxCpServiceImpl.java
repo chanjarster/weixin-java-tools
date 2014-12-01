@@ -1,25 +1,27 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.cp.bean.*;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
+import me.chanjar.weixin.common.util.fs.FileUtils;
+import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.cp.bean.WxCpDepart;
+import me.chanjar.weixin.cp.bean.WxCpMessage;
+import me.chanjar.weixin.cp.bean.WxCpTag;
+import me.chanjar.weixin.cp.bean.WxCpUser;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -33,20 +35,13 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import me.chanjar.weixin.cp.bean.WxCpDepart;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.cp.bean.WxCpUser;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
-
-import com.google.gson.JsonElement;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WxCpServiceImpl implements WxCpService {
 
@@ -320,6 +315,41 @@ public class WxCpServiceImpl implements WxCpService {
     jsonObject.add("userlist", jsonArray);
     execute(new SimplePostRequestExecutor(), url, jsonObject.toString());
   }
+
+  @Override
+  public String oauth2buildAuthorizationUrl(String state) {
+    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
+    url += "appid=" + wxCpConfigStorage.getCorpId();
+    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxCpConfigStorage.getOauth2redirectUri());
+    url += "&response_type=code";
+    url += "&scope=snsapi_base";
+    if (state != null) {
+      url += "&state=" + state;
+    }
+    url += "#wechat_redirect";
+    return url;
+  }
+
+  @Override
+  public String[] oauth2getUserInfo(String code) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?";
+    url += "access_token=" + wxCpConfigStorage.getAccessToken();
+    url += "&code=" + code;
+    url += "agendid=" + wxCpConfigStorage.getAgentId();
+
+    try {
+      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
+      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
+      JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
+      JsonObject jo = je.getAsJsonObject();
+      return new String[] {GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
+    } catch (ClientProtocolException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);

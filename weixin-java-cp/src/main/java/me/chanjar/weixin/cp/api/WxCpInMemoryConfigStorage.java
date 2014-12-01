@@ -18,6 +18,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected String agentId;
   protected int expiresIn;
 
+  protected String oauth2redirectUri;
+
   protected String http_proxy_host;
   protected int http_proxy_port;
   protected String http_proxy_username;
@@ -86,6 +88,15 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 
   public void setAgentId(String agentId) {
     this.agentId = agentId;
+  }
+
+  @Override
+  public String getOauth2redirectUri() {
+    return this.oauth2redirectUri;
+  }
+
+  public void setOauth2redirectUri(String oauth2redirectUri) {
+    this.oauth2redirectUri = oauth2redirectUri;
   }
 
   public String getHttp_proxy_host() {

@@ -7,20 +7,19 @@ import org.testng.annotations.Test;
 public class WxCpXmlOutNewsMessageTest {
 
   public void test() {
-    WxCpXmlOutMewsMessage m = new WxCpXmlOutMewsMessage();
+    WxCpXmlOutNewsMessage m = new WxCpXmlOutNewsMessage();
     m.setCreateTime(1122l);
     m.setFromUserName("fromUser");
     m.setToUserName("toUser");
     
-    WxCpXmlOutMewsMessage.Item item = new WxCpXmlOutMewsMessage.Item();
+    WxCpXmlOutNewsMessage.Item item = new WxCpXmlOutNewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
     item.setUrl("url");
     m.addArticle(item);
     m.addArticle(item);
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
@@ -46,20 +45,19 @@ public class WxCpXmlOutNewsMessageTest {
   }
   
   public void testBuild() {
-    WxCpXmlOutMewsMessage.Item item = new WxCpXmlOutMewsMessage.Item();
+    WxCpXmlOutNewsMessage.Item item = new WxCpXmlOutNewsMessage.Item();
     item.setDescription("description");
     item.setPicUrl("picUrl");
     item.setTitle("title");
     item.setUrl("url");
     
-    WxCpXmlOutMewsMessage m = WxCpXmlOutMessage.NEWS()
+    WxCpXmlOutNewsMessage m = WxCpXmlOutMessage.NEWS()
           .fromUser("fromUser")
           .toUser("toUser")
           .addArticle(item)
           .addArticle(item)
           .build();
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"

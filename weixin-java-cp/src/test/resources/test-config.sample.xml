@@ -9,4 +9,5 @@
     <userId>企业号通讯录里的某个userid</userId>
     <departmentId>企业号通讯录的某个部门id</departmentId>
     <tagId>企业号通讯录里的某个tagid</tagId>
+    <oauth2redirectUri>网页授权获取用户信息回调地址</oauth2redirectUri>
 </xml>

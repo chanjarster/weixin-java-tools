@@ -17,8 +17,7 @@ public class WxXmlOutMusicMessageTest {
     m.setFromUserName("fromUser");
     m.setToUserName("toUser");
     
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
@@ -45,8 +44,7 @@ public class WxXmlOutMusicMessageTest {
           .musicUrl("musicUrl")
           .thumbMediaId("thumbMediaId")
           .build();
-    String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" 
-        + "<xml>"
+    String expected = "<xml>"
         + "<ToUserName><![CDATA[toUser]]></ToUserName>"
         + "<FromUserName><![CDATA[fromUser]]></FromUserName>"
         + "<CreateTime>1122</CreateTime>"
