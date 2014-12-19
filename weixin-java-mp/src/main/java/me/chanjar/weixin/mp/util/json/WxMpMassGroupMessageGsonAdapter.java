@@ -22,13 +22,18 @@ import java.lang.reflect.Type;
  * @author qianjia
  *
  */
-public class WxMpMassMessageGsonAdapter implements JsonSerializer<WxMpMassGroupMessage> {
+public class WxMpMassGroupMessageGsonAdapter implements JsonSerializer<WxMpMassGroupMessage> {
 
   public JsonElement serialize(WxMpMassGroupMessage message, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject messageJson = new JsonObject();
     
     JsonObject filter = new JsonObject();
-    filter.addProperty("group_id", message.getGroupId());
+    if(null == message.getGroupId()) {
+      filter.addProperty("is_to_all", true);
+    } else {
+      filter.addProperty("is_to_all", false);
+      filter.addProperty("group_id", message.getGroupId());
+    }
     messageJson.add("filter", filter);
     
     if (WxConsts.MASS_MSG_NEWS.equals(message.getMsgtype())) {
