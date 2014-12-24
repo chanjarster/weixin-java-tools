@@ -382,7 +382,7 @@ public class WxMpXmlMessage {
   public static WxMpXmlMessage fromXml(String xml) {
     try {
       // 操蛋的微信，模板消息推送成功的消息是MsgID，其他消息推送过来是MsgId
-      xml = xml.replaceAll("<MsgID>", "<MsgId>").replaceAll("</MsgID>", "</MsgID>");
+      xml = xml.replaceAll("<MsgID>", "<MsgId>").replaceAll("</MsgID>", "</MsgId>");
       return XmlTransformer.fromXml(WxMpXmlMessage.class, xml);
     } catch (JAXBException e) {
       throw new RuntimeException(e);
