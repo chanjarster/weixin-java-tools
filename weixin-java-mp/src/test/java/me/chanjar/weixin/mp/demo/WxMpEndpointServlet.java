@@ -22,13 +22,13 @@ import java.util.Map;
 /**
  * @author Daniel Qian
  */
-public class WxMpEndpointServlt extends HttpServlet {
+public class WxMpEndpointServlet extends HttpServlet {
 
   protected WxMpConfigStorage wxMpConfigStorage;
   protected WxMpService wxMpService;
   protected WxMpMessageRouter wxMpMessageRouter;
 
-  public WxMpEndpointServlt(WxMpConfigStorage wxMpConfigStorage, WxMpService wxMpService,
+  public WxMpEndpointServlet(WxMpConfigStorage wxMpConfigStorage, WxMpService wxMpService,
       WxMpMessageRouter wxMpMessageRouter) {
     this.wxMpConfigStorage = wxMpConfigStorage;
     this.wxMpService = wxMpService;
