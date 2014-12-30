@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  */
 public class WxMpMassGroupMessage {
   
-  private long groupId;
+  private Long groupId;
   private String msgtype;
   private String content;
   private String mediaId;
@@ -58,11 +58,15 @@ public class WxMpMassGroupMessage {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
-  public long getGroupId() {
+  public Long getGroupId() {
     return groupId;
   }
 
-  public void setGroupId(long groupId) {
+  /**
+   * 如果不设置则就意味着发给所有用户
+   * @param groupId
+   */
+  public void setGroupId(Long groupId) {
     this.groupId = groupId;
   }
 

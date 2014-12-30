@@ -77,6 +77,9 @@ public class WxMpMessageRouter {
     for (final Rule rule : rules) {
       if (rule.test(wxMessage)) {
         matchRules.add(rule);
+        if(!rule.reEnter) {
+          break;
+        }
       }
     }
     
@@ -84,28 +87,17 @@ public class WxMpMessageRouter {
       return null;
     }
     
-    if (matchRules.get(0).async) {
-      // 只要第一个是异步的，那就异步执行
-      // 在另一个线程里执行
-      executorService.execute(new Runnable() {
-        public void run() {
-          for (final Rule rule : matchRules) {
-            rule.service(wxMessage);
-            if (!rule.reEnter) {
-              break;
-            }
-          }
-        }
-      });
-      return null;
-    }
-    
     WxMpXmlOutMessage res = null;
     for (final Rule rule : matchRules) {
-      // 返回最后一个匹配规则的结果
-      res = rule.service(wxMessage);
-      if (!rule.reEnter) {
-        break;
+      // 返回最后一个非异步的rule的执行结果
+      if(rule.async) {
+        executorService.submit(new Runnable() {
+          public void run() {
+            rule.service(wxMessage);
+          }
+        });
+      } else {
+        res = rule.service(wxMessage);
       }
     }
     return res;

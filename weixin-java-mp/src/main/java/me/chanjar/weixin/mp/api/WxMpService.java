@@ -315,8 +315,9 @@ public interface WxMpService {
    * </pre>
    * @param templateMessage
    * @throws WxErrorException
+   * @return msgid
    */
-  public void templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
+  public String templateSend(WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
    * <pre>

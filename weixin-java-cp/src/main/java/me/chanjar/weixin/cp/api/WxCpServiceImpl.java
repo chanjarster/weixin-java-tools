@@ -335,7 +335,7 @@ public class WxCpServiceImpl implements WxCpService {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?";
     url += "access_token=" + wxCpConfigStorage.getAccessToken();
     url += "&code=" + code;
-    url += "agendid=" + wxCpConfigStorage.getAgentId();
+    url += "&agendid=" + wxCpConfigStorage.getAgentId();
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();

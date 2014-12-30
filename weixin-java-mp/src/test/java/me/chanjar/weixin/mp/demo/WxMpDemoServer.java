@@ -30,7 +30,7 @@ public class WxMpDemoServer {
     ServletHandler servletHandler = new ServletHandler();
     server.setHandler(servletHandler);
 
-    ServletHolder endpointServletHolder = new ServletHolder(new WxMpEndpointServlt(wxMpConfigStorage, wxMpService, wxMpMessageRouter));
+    ServletHolder endpointServletHolder = new ServletHolder(new WxMpEndpointServlet(wxMpConfigStorage, wxMpService, wxMpMessageRouter));
     servletHandler.addServletWithMapping(endpointServletHolder, "/*");
 
     ServletHolder oauthServletHolder = new ServletHolder(new WxMpOAuth2Servlet(wxMpService));

@@ -14,7 +14,7 @@ public class WxMpGsonBuilder {
     INSTANCE.disableHtmlEscaping();
     INSTANCE.registerTypeAdapter(WxMpCustomMessage.class, new WxMpCustomMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassNews.class, new WxMpMassNewsGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMpMassGroupMessage.class, new WxMpMassMessageGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpMassGroupMessage.class, new WxMpMassGroupMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassOpenIdsMessage.class, new WxMpMassOpenIdsMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpGroup.class, new WxMpGroupGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpUser.class, new WxUserGsonAdapter());
