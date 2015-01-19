@@ -8,6 +8,9 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 import java.io.Writer;
 
@@ -18,6 +21,7 @@ public class XStreamInitializer {
 
   public static XStream getInstance() {
     XStream xstream = new XStream(new XppDriver() {
+
       @Override
       public HierarchicalStreamWriter createWriter(Writer out) {
         return new PrettyPrintWriter(out, getNameCoder()) {
@@ -39,7 +43,10 @@ public class XStreamInitializer {
         };
       }
     });
+    xstream.ignoreUnknownElements();
     xstream.setMode(XStream.NO_REFERENCES);
+    xstream.addPermission(NullPermission.NULL);
+    xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
     return xstream;
   }
 

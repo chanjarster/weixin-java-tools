@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
  */
 @Test(groups = "baseAPI")
 @Guice(modules = ApiTestModule.class)
-public class WxBaseAPITest {
+public class WxMpBaseAPITest {
 
   @Inject
   protected WxMpServiceImpl wxService;
