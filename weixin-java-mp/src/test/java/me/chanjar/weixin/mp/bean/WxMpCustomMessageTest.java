@@ -1,10 +1,9 @@
 package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage.WxArticle;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage.WxArticle;
 
 @Test
 public class WxMpCustomMessageTest {

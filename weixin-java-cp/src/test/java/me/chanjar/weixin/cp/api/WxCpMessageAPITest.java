@@ -1,13 +1,11 @@
 package me.chanjar.weixin.cp.api;
 
+import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
-
-import me.chanjar.weixin.common.exception.WxErrorException;
-
-import com.google.inject.Inject;
 
 /***
  * 测试发送消息

@@ -2,10 +2,10 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
-import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.io.File;
 import java.io.IOException;

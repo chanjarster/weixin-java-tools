@@ -4,14 +4,14 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.*;
-import me.chanjar.weixin.mp.bean.WxMpMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutImageMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.*;
+import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -41,7 +41,6 @@ public class WxMpDemoServer {
   }
 
   private static void initWeixin() {
-    try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
       WxMpDemoInMemoryConfigStorage config = WxMpDemoInMemoryConfigStorage.fromXml(is1);
 
@@ -67,7 +66,7 @@ public class WxMpDemoServer {
           try {
             WxMediaUploadResult wxMediaUploadResult = wxMpService
                 .mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, ClassLoader.getSystemResourceAsStream("mm.jpeg"));
-            WxMpMpXmlOutImageMessage m
+            WxMpXmlOutImageMessage m
                 = WxMpXmlOutMessage
                 .IMAGE()
                 .mediaId(wxMediaUploadResult.getMediaId())
@@ -117,8 +116,5 @@ public class WxMpDemoServer {
           .end()
       ;
 
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

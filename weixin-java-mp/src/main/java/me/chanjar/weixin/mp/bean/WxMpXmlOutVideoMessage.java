@@ -1,19 +1,14 @@
 package me.chanjar.weixin.mp.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
 
-  @XmlElement(name = "Video")
+  @XStreamAlias("Video")
   protected final Video video = new Video();
 
   public WxMpXmlOutVideoMessage() {
@@ -45,20 +40,19 @@ public class WxMpXmlOutVideoMessage extends WxMpXmlOutMessage {
   }
   
 
-  @XmlRootElement(name = "Video")
-  @XmlAccessorType(XmlAccessType.FIELD)
-  private static class Video {
+  @XStreamAlias("Video")
+    public static class Video {
     
-    @XmlElement(name = "MediaId")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("MediaId")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String mediaId;
 
-    @XmlElement(name = "Title")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Title")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String title;
 
-    @XmlElement(name = "Description")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Description")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String description;
 
     public String getMediaId() {

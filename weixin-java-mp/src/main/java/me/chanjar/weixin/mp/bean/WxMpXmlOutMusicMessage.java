@@ -1,19 +1,14 @@
 package me.chanjar.weixin.mp.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
 
-  @XmlElement(name = "Music")
+  @XStreamAlias("Music")
   protected final Music music = new Music();
 
   public WxMpXmlOutMusicMessage() {
@@ -60,28 +55,27 @@ public class WxMpXmlOutMusicMessage extends WxMpXmlOutMessage {
     music.setHqMusicUrl(hqMusicUrl);
   }
   
-  @XmlRootElement(name = "Music")
-  @XmlAccessorType(XmlAccessType.FIELD)
-  private static class Music {
+  @XStreamAlias("Music")
+  public static class Music {
     
-    @XmlElement(name = "Title")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Title")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String title;
 
-    @XmlElement(name = "Description")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Description")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String description;
 
-    @XmlElement(name="ThumbMediaId")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("ThumbMediaId")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String thumbMediaId;
     
-    @XmlElement(name="MusicUrl")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("MusicUrl")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String musicUrl;
     
-    @XmlElement(name="HQMusicUrl")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("HQMusicUrl")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String hqMusicUrl;
     
     public String getTitle() {

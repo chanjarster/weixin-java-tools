@@ -1,10 +1,10 @@
 package me.chanjar.weixin.cp.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.chanjar.weixin.cp.bean.messagebuilder.*;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 消息

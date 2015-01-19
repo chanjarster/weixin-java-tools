@@ -1,18 +1,14 @@
 package me.chanjar.weixin.cp.api;
 
-import javax.xml.bind.JAXBException;
-
+import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
-
-import com.google.inject.Inject;
-
-import me.chanjar.weixin.common.bean.WxMenu.WxMenuButton;
-import me.chanjar.weixin.common.exception.WxErrorException;
 
 /**
  * 测试菜单
@@ -42,7 +38,7 @@ public class WxMenuAPITest {
   }
   
   @DataProvider(name="menu")
-  public Object[][] getMenu() throws JAXBException {
+  public Object[][] getMenu() {
     WxMenu menu = new WxMenu();
     WxMenuButton button1 = new WxMenuButton();
     button1.setType(WxConsts.BUTTON_CLICK);

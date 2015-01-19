@@ -1,22 +1,20 @@
 package me.chanjar.weixin.mp.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
 
-  @XmlElement(name = "ArticleCount")
+  @XStreamAlias("ArticleCount")
   protected int articleCount;
   
-  @XmlElementWrapper(name="Articles")
-  @XmlElement(name = "item")
+  @XStreamAlias("Articles")
   protected final List<Item> articles = new ArrayList<Item>();
   
   public WxMpXmlOutNewsMessage() {
@@ -37,24 +35,23 @@ public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {
   }
   
   
-  @XmlRootElement(name = "Item")
-  @XmlAccessorType(XmlAccessType.FIELD)
+  @XStreamAlias("item")
   public static class Item {
     
-    @XmlElement(name = "Title")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Title")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String Title;
 
-    @XmlElement(name = "Description")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Description")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String Description;
 
-    @XmlElement(name="PicUrl")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("PicUrl")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String PicUrl;
     
-    @XmlElement(name="Url")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Url")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String Url;
     
     public String getTitle() {

@@ -1,20 +1,15 @@
 package me.chanjar.weixin.mp.bean;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 public class WxMpXmlOutTextMessage extends WxMpXmlOutMessage {
   
-  @XmlElement(name="Content")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Content")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String content;
 
   public WxMpXmlOutTextMessage() {

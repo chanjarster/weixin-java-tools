@@ -1,14 +1,13 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
-import me.chanjar.weixin.cp.util.xml.XmlTransformer;
+import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
 import org.apache.commons.io.IOUtils;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,103 +24,102 @@ import java.util.List;
  *
  * @author Daniel Qian
  */
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 public class WxCpXmlMessage {
 
   ///////////////////////
   // 以下都是微信推送过来的消息的xml的element所对应的属性
   ///////////////////////
 
-  @XmlElement(name="AgentID")
+  @XStreamAlias("AgentID")
   private Integer agentId;
 
-  @XmlElement(name = "ToUserName")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("ToUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String toUserName;
 
-  @XmlElement(name = "FromUserName")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("FromUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String fromUserName;
 
-  @XmlElement(name = "CreateTime")
+  @XStreamAlias("CreateTime")
   private Long createTime;
 
-  @XmlElement(name = "MsgType")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("MsgType")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String msgType;
 
-  @XmlElement(name = "Content")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Content")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String content;
 
-  @XmlElement(name = "MsgId")
+  @XStreamAlias("MsgId")
   private Long msgId;
 
-  @XmlElement(name = "PicUrl")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("PicUrl")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String picUrl;
 
-  @XmlElement(name = "MediaId")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("MediaId")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String mediaId;
 
-  @XmlElement(name = "Format")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Format")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String format;
 
-  @XmlElement(name = "ThumbMediaId")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("ThumbMediaId")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String thumbMediaId;
 
-  @XmlElement(name = "Location_X")
+  @XStreamAlias("Location_X")
   private Double locationX;
 
-  @XmlElement(name = "Location_Y")
+  @XStreamAlias("Location_Y")
   private Double locationY;
 
-  @XmlElement(name = "Scale")
+  @XStreamAlias("Scale")
   private Double scale;
 
-  @XmlElement(name = "Label")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Label")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String label;
 
-  @XmlElement(name = "Title")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Title")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String title;
 
-  @XmlElement(name = "Description")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Description")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String description;
 
-  @XmlElement(name = "Url")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Url")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String url;
 
-  @XmlElement(name = "Event")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Event")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String event;
 
-  @XmlElement(name = "EventKey")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("EventKey")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String eventKey;
 
-  @XmlElement(name = "Ticket")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Ticket")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String ticket;
 
-  @XmlElement(name = "Latitude")
+  @XStreamAlias("Latitude")
   private Double latitude;
 
-  @XmlElement(name = "Longitude")
+  @XStreamAlias("Longitude")
   private Double longitude;
 
-  @XmlElement(name = "Precision")
+  @XStreamAlias("Precision")
   private Double precision;
 
-  @XmlElement(name = "Recognition")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Recognition")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String recognition;
 
   ///////////////////////////////////////
@@ -130,37 +128,37 @@ public class WxCpXmlMessage {
   /**
    * 群发的结果
    */
-  @XmlElement(name = "Status")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("Status")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   private String status;
   /**
    * group_id下粉丝数；或者openid_list中的粉丝数
    */
-  @XmlElement(name = "TotalCount")
+  @XStreamAlias("TotalCount")
   private Integer totalCount;
   /**
    * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，filterCount = sentCount + errorCount
    */
-  @XmlElement(name = "FilterCount")
+  @XStreamAlias("FilterCount")
   private Integer filterCount;
   /**
    * 发送成功的粉丝数
    */
-  @XmlElement(name = "SentCount")
+  @XStreamAlias("SentCount")
   private Integer sentCount;
   /**
    * 发送失败的粉丝数
    */
-  @XmlElement(name = "ErrorCount")
+  @XStreamAlias("ErrorCount")
   private Integer errorCount;
 
-  @XmlElement(name = "ScanCodeInfo")
+  @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
-  @XmlElement(name = "SendPicsInfo")
+  @XStreamAlias("SendPicsInfo")
   private SendPicsInfo sendPicsInfo = new SendPicsInfo();
 
-  @XmlElement(name = "SendLocationInfo")
+  @XStreamAlias("SendLocationInfo")
   private SendLocationInfo sendLocationInfo = new SendLocationInfo();
 
   public Integer getAgentId() {
@@ -390,19 +388,11 @@ public class WxCpXmlMessage {
   }
 
   protected static WxCpXmlMessage fromXml(String xml) {
-    try {
-      return XmlTransformer.fromXml(WxCpXmlMessage.class, xml);
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
+    return XStreamTransformer.fromXml(WxCpXmlMessage.class, xml);
   }
 
   protected static WxCpXmlMessage fromXml(InputStream is) {
-    try {
-      return XmlTransformer.fromXml(WxCpXmlMessage.class, is);
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
+    return XStreamTransformer.fromXml(WxCpXmlMessage.class, is);
   }
 
   /**
@@ -499,16 +489,15 @@ public class WxCpXmlMessage {
     this.sendLocationInfo = sendLocationInfo;
   }
 
-  @XmlRootElement(name = "ScanCodeInfo")
-  @XmlAccessorType(XmlAccessType.FIELD)
+  @XStreamAlias("ScanCodeInfo")
   public static class ScanCodeInfo {
 
-    @XmlElement(name = "ScanType")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("ScanType")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String scanType;
 
-    @XmlElement(name = "ScanResult")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("ScanResult")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String scanResult;
 
     /**
@@ -538,15 +527,13 @@ public class WxCpXmlMessage {
 
   }
 
-  @XmlRootElement(name = "SendPicsInfo")
-  @XmlAccessorType(XmlAccessType.FIELD)
+  @XStreamAlias("SendPicsInfo")
   public static class SendPicsInfo {
 
-    @XmlElement(name = "Count")
+    @XStreamAlias("Count")
     private Long count;
 
-    @XmlElementWrapper(name="PicList")
-    @XmlElement(name = "item")
+    @XStreamAlias("PicList")
     protected final List<Item> picList = new ArrayList<Item>();
 
     public Long getCount() {
@@ -561,13 +548,11 @@ public class WxCpXmlMessage {
       return picList;
     }
 
-    @XmlRootElement(name = "item")
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "WxXmlMessage.SendPicsInfo.Item")
+    @XStreamAlias("item")
     public static class Item {
 
-      @XmlElement(name = "PicMd5Sum")
-      @XmlJavaTypeAdapter(AdapterCDATA.class)
+      @XStreamAlias("PicMd5Sum")
+      @XStreamConverter(value=XStreamCDataConverter.class)
       private String PicMd5Sum;
 
       public String getPicMd5Sum() {
@@ -580,28 +565,27 @@ public class WxCpXmlMessage {
     }
   }
 
-  @XmlRootElement(name = "SendLocationInfo")
-  @XmlAccessorType(XmlAccessType.FIELD)
+  @XStreamAlias("SendLocationInfo")
   public static class SendLocationInfo {
 
-    @XmlElement(name = "Location_X")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Location_X")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String locationX;
 
-    @XmlElement(name = "Location_Y")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Location_Y")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String locationY;
 
-    @XmlElement(name = "Scale")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Scale")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String scale;
 
-    @XmlElement(name = "Label")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Label")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String label;
 
-    @XmlElement(name = "Poiname")
-    @XmlJavaTypeAdapter(AdapterCDATA.class)
+    @XStreamAlias("Poiname")
+    @XStreamConverter(value=XStreamCDataConverter.class)
     private String poiname;
 
     public String getLocationX() {

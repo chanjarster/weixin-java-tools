@@ -2,11 +2,12 @@ package me.chanjar.weixin.cp.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.util.json.WxMediaUploadResultAdapter;
 import me.chanjar.weixin.common.util.json.WxErrorAdapter;
-import me.chanjar.weixin.cp.bean.*;
+import me.chanjar.weixin.cp.bean.WxCpDepart;
+import me.chanjar.weixin.cp.bean.WxCpMessage;
+import me.chanjar.weixin.cp.bean.WxCpTag;
+import me.chanjar.weixin.cp.bean.WxCpUser;
 
 public class WxCpGsonBuilder {
 

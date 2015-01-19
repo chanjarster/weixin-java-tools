@@ -1,9 +1,9 @@
 package me.chanjar.weixin.cp.api;
 
-import java.util.Map;
-
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
+
+import java.util.Map;
 
 /**
  * 处理微信推送消息的处理器接口

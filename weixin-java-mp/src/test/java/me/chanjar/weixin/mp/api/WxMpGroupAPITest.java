@@ -1,15 +1,13 @@
 package me.chanjar.weixin.mp.api;
 
-import java.util.List;
-
+import com.google.inject.Inject;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.WxMpGroup;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
-
-import com.google.inject.Inject;
+import java.util.List;
 
 /**
  * 测试分组接口
