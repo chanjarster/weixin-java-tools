@@ -1,7 +1,6 @@
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
-import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 

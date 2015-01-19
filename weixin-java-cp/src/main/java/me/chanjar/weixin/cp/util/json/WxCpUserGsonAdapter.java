@@ -8,11 +8,11 @@
  */
 package me.chanjar.weixin.cp.util.json;
 
-import java.lang.reflect.Type;
-
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.bean.WxCpUser;
+
+import java.lang.reflect.Type;
 
 /**
  * @author Daniel Qian

@@ -1,8 +1,8 @@
 package me.chanjar.weixin.cp.api;
 
-import java.util.Map;
-
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
+
+import java.util.Map;
 
 /**
  * 微信消息拦截器，可以用来做验证

@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.bean.result;
 
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 /**

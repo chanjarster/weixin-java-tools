@@ -8,9 +8,10 @@
  */
 package me.chanjar.weixin.mp.util.json;
 
-import com.google.gson.*;
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 

@@ -1,21 +1,16 @@
 package me.chanjar.weixin.cp.demo;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.cp.api.WxCpInMemoryConfigStorage;
-import org.xml.sax.InputSource;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.InputStream;
 
 /**
  * @author Daniel Qian
  */
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XStreamAlias("xml")
 class WxCpDemoInMemoryConfigStorage extends WxCpInMemoryConfigStorage {
 
   @Override
@@ -25,11 +20,10 @@ class WxCpDemoInMemoryConfigStorage extends WxCpInMemoryConfigStorage {
   }
 
 
-  public static WxCpDemoInMemoryConfigStorage fromXml(InputStream is) throws JAXBException {
-    Unmarshaller um = JAXBContext.newInstance(WxCpDemoInMemoryConfigStorage.class).createUnmarshaller();
-    InputSource inputSource = new InputSource(is);
-    inputSource.setEncoding("utf-8");
-    return (WxCpDemoInMemoryConfigStorage) um.unmarshal(inputSource);
+  public static WxCpDemoInMemoryConfigStorage fromXml(InputStream is) {
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.processAnnotations(WxCpDemoInMemoryConfigStorage.class);
+    return (WxCpDemoInMemoryConfigStorage) xstream.fromXML(is);
   }
 
 }

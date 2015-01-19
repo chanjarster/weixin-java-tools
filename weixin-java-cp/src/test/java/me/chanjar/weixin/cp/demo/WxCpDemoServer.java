@@ -8,7 +8,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -37,7 +36,6 @@ public class WxCpDemoServer {
   }
 
   private static void initWeixin() {
-    try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
       WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);
 
@@ -87,8 +85,5 @@ public class WxCpDemoServer {
           .end()
       ;
 
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

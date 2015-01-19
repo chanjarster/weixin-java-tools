@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 
 public class WxMpGsonBuilder {
 
