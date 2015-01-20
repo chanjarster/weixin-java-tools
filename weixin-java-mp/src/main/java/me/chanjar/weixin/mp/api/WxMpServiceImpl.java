@@ -126,8 +126,8 @@ public class WxMpServiceImpl implements WxMpService {
     try {
       return SHA1.genWithAmple(
           "jsapi_ticket=" + jsapiTicket,
-          "timestamp=" + timestamp,
           "noncestr=" + noncestr,
+          "timestamp=" + timestamp,
           "url=" + url
       );
     } catch (NoSuchAlgorithmException e) {
