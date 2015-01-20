@@ -71,7 +71,10 @@ public class WxCpServiceImpl implements WxCpService {
     execute(new SimpleGetRequestExecutor(), url, null);
   }
 
-  public String getAccessToken() throws WxErrorException {
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxCpConfigStorage.expireAccessToken();
+    }
     if (wxCpConfigStorage.isAccessTokenExpired()) {
       synchronized (GLOBAL_ACCESS_TOKEN_REFRESH_LOCK) {
         if (wxCpConfigStorage.isAccessTokenExpired()) {
@@ -359,7 +362,7 @@ public class WxCpServiceImpl implements WxCpService {
    * @throws WxErrorException
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
-    String accessToken = getAccessToken();
+    String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;

@@ -69,7 +69,10 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
   
-  public String getAccessToken() throws WxErrorException {
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxMpConfigStorage.expireAccessToken();
+    }
     if (wxMpConfigStorage.isAccessTokenExpired()) {
       synchronized (GLOBAL_ACCESS_TOKEN_REFRESH_LOCK) {
         if (wxMpConfigStorage.isAccessTokenExpired()) {
@@ -104,7 +107,10 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
 
-  public String getJsapiTicket() throws WxErrorException {
+  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxMpConfigStorage.expireJsapiTicket();
+    }
     if (wxMpConfigStorage.isJsapiTicketExpired()) {
       synchronized (GLOBAL_JSAPI_TICKET_REFRESH_LOCK) {
         if (wxMpConfigStorage.isJsapiTicketExpired()) {
@@ -122,7 +128,7 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   public String createJsapiSignature(String timestamp, String noncestr, String url) throws WxErrorException {
-    String jsapiTicket = getJsapiTicket();
+    String jsapiTicket = getJsapiTicket(false);
     try {
       return SHA1.genWithAmple(
           "jsapi_ticket=" + jsapiTicket,
@@ -436,7 +442,7 @@ public class WxMpServiceImpl implements WxMpService {
    * @throws WxErrorException
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
-    String accessToken = getAccessToken();
+    String accessToken = getAccessToken(false);
     
     String uriWithAccessToken = uri;
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
