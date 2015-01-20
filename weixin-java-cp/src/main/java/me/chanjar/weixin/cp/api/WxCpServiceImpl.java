@@ -71,6 +71,10 @@ public class WxCpServiceImpl implements WxCpService {
     execute(new SimpleGetRequestExecutor(), url, null);
   }
 
+  public String getAccessToken() throws WxErrorException {
+    return getAccessToken(false);
+  }
+
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
       wxCpConfigStorage.expireAccessToken();

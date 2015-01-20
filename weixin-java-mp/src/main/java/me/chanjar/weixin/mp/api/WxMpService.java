@@ -28,7 +28,15 @@ public interface WxMpService {
    * @return
    */
   public boolean checkSignature(String timestamp, String nonce, String signature);
-  
+
+  /**
+   * 获取access_token, 不强制刷新access_token
+   * @see #getAccessToken(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getAccessToken() throws WxErrorException;
+
   /**
    * <pre>
    * 获取access_token，本方法线程安全
@@ -45,6 +53,14 @@ public interface WxMpService {
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
   public String getAccessToken(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * 获得jsapi_ticket,不强制刷新jsapi_ticket
+   * @see #getJsapiTicket(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket() throws WxErrorException;
 
   /**
    * <pre>

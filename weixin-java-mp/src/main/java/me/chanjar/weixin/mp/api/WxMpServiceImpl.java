@@ -68,7 +68,11 @@ public class WxMpServiceImpl implements WxMpService {
       return false;
     }
   }
-  
+
+  public String getAccessToken() throws WxErrorException {
+    return getAccessToken(false);
+  }
+
   public String getAccessToken(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {
       wxMpConfigStorage.expireAccessToken();
@@ -106,6 +110,9 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getAccessToken();
   }
 
+  public String getJsapiTicket() throws WxErrorException {
+    return getJsapiTicket(false);
+  }
 
   public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
     if (forceRefresh) {

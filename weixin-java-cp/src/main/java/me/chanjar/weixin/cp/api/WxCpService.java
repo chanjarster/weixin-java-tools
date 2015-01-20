@@ -44,6 +44,14 @@ public interface WxCpService {
   public void userAuthenticated(String userId) throws WxErrorException;
 
   /**
+   * 获取access_token, 不强制刷新access_token
+   * @see #getAccessToken(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getAccessToken() throws WxErrorException;
+
+  /**
    * <pre>
    * 获取access_token，本方法线程安全
    * 且在多线程同时刷新时只刷新一次，避免超出2000次/日的调用次数上限
