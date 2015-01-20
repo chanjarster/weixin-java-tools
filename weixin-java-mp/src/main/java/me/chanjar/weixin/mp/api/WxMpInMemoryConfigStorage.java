@@ -9,6 +9,8 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
  */
 public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
+  private static final long l = 7000 * 1000l;
+
   protected String appId;
   protected String secret;
   protected String token;
@@ -23,11 +25,14 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String http_proxy_username;
   protected String http_proxy_password;
 
-  public void updateAccessToken(WxAccessToken accessToken) {
+  protected String jsapiTicket;
+  protected long jsapiTicketExpiresTime;
+
+  public synchronized void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
   
-  public void updateAccessToken(String accessToken, int expiresIn) {
+  public synchronized void updateAccessToken(String accessToken, int expiresIn) {
     this.accessToken = accessToken;
     this.expiresIn = expiresIn;
   }
@@ -119,6 +124,21 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   public void setHttp_proxy_password(String http_proxy_password) {
     this.http_proxy_password = http_proxy_password;
+  }
+
+
+  public String getJsapiTicket() {
+    return jsapiTicket;
+  }
+
+  public boolean isJsapiTokenExpired() {
+    return System.currentTimeMillis() > this.jsapiTicketExpiresTime;
+  }
+
+  public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
+    this.jsapiTicket = jsapiTicket;
+    // 预留200秒的时间
+    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
   }
 
   @Override

@@ -43,17 +43,42 @@ public interface WxMpService {
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
   public void accessTokenRefresh() throws WxErrorException;
-  
+
+  /**
+   * <pre>
+   * 获得jsapi_ticket
+   * 获得时会检查jsapiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 创建调用jsapi时所需要的签名
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param timestamp 时间戳
+   * @param noncestr  用户自己生成的随机字符串
+   * @param url       url
+   * @return
+   */
+  public String createJsapiSignature(String timestamp, String noncestr, String url) throws WxErrorException;
+
   /**
    * <pre>
    * 上传多媒体文件
-   * 
+   *
    * 上传的多媒体文件有格式和大小限制，如下：
    *   图片（image）: 1M，支持JPG格式
    *   语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
    *   视频（video）：10MB，支持MP4格式
    *   缩略图（thumb）：64KB，支持JPG格式
-   *    
+   *
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}

@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -106,7 +107,38 @@ public class WxMpServiceImpl implements WxMpService {
       // 刷新完毕了，就没他什么事儿了
     }
   }
-  
+
+  public String getJsapiTicket() throws WxErrorException {
+    if (wxMpConfigStorage.isJsapiTokenExpired()) {
+      synchronized (wxMpConfigStorage) {
+        if (wxMpConfigStorage.isJsapiTokenExpired()) {
+          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+          String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
+          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+          wxMpConfigStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
+        }
+      }
+    }
+    return wxMpConfigStorage.getJsapiTicket();
+  }
+
+  public String createJsapiSignature(String timestamp, String noncestr, String url) throws WxErrorException {
+    String jsapiTicket = getJsapiTicket();
+    try {
+      return SHA1.genWithAmple(
+          "jsapi_ticket=" + jsapiTicket,
+          "timestamp=" + timestamp,
+          "noncestr=" + noncestr,
+          "url=" + url
+      );
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
