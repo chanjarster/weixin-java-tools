@@ -13,6 +13,7 @@
 			<class name="me.chanjar.weixin.mp.api.WxMpQrCodeAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpShortUrlAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpMessageRouterTest" />
+      <class name="me.chanjar.weixin.mp.api.WxMpJsAPITest" />
 		</classes>
 	</test>
 

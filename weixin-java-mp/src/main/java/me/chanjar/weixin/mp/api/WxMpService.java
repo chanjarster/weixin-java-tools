@@ -70,7 +70,7 @@ public interface WxMpService {
    * @param url       url
    * @return
    */
-  public String createJsapiSignature(String timestamp, String noncestr, String url) throws WxErrorException;
+  public String createJsapiSignature(long timestamp, String noncestr, String url) throws WxErrorException;
 
   /**
    * <pre>

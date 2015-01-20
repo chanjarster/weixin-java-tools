@@ -127,7 +127,7 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getJsapiTicket();
   }
 
-  public String createJsapiSignature(String timestamp, String noncestr, String url) throws WxErrorException {
+  public String createJsapiSignature(long timestamp, String noncestr, String url) throws WxErrorException {
     String jsapiTicket = getJsapiTicket(false);
     try {
       return SHA1.genWithAmple(

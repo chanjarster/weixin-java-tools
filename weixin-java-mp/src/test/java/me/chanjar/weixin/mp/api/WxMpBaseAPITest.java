@@ -25,7 +25,6 @@ public class WxMpBaseAPITest {
     wxService.getAccessToken(false);
 
     String after = configStorage.getAccessToken();
-
     Assert.assertNotEquals(before, after);
     Assert.assertTrue(StringUtils.isNotBlank(after));
   }
