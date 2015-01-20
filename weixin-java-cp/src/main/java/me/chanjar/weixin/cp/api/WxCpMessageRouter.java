@@ -1,5 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.util.WxMsgIdDuplicateChecker;
+import me.chanjar.weixin.common.util.WxMsgIdInMemoryDuplicateChecker;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 
@@ -45,18 +47,38 @@ public class WxCpMessageRouter {
 
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService executorService;
-
   private final WxCpService wxCpService;
+
+  private ExecutorService executorService;
+
+  private WxMsgIdDuplicateChecker wxMsgIdDuplicateChecker;
 
   public WxCpMessageRouter(WxCpService wxCpService) {
     this.wxCpService = wxCpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+    this.wxMsgIdDuplicateChecker = new WxMsgIdInMemoryDuplicateChecker();
   }
 
   public WxCpMessageRouter(WxCpService wxMpService, int threadPoolSize) {
     this.wxCpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+    this.wxMsgIdDuplicateChecker = new WxMsgIdInMemoryDuplicateChecker();
+  }
+
+  /**
+   * 设置自定义的ExecutorService
+   * @param executorService
+   */
+  public void setExecutorService(ExecutorService executorService) {
+    this.executorService = executorService;
+  }
+
+  /**
+   * 设置自定义的WxMsgIdDuplicateChecker
+   * @param wxMsgIdDuplicateChecker
+   */
+  public void setWxMsgIdDuplicateChecker(WxMsgIdDuplicateChecker wxMsgIdDuplicateChecker) {
+    this.wxMsgIdDuplicateChecker = wxMsgIdDuplicateChecker;
   }
 
   /**
@@ -72,6 +94,11 @@ public class WxCpMessageRouter {
    * @param wxMessage
    */
   public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
+    if (wxMsgIdDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
+      // 如果是重复消息，那么就不做处理
+      return null;
+    }
+    
     final List<Rule> matchRules = new ArrayList<Rule>();
     // 收集匹配的规则
     for (final Rule rule : rules) {
