@@ -16,7 +16,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String token;
   protected String accessToken;
   protected String aesKey;
-  protected int expiresIn;
+  protected long expiresTime;
 
   protected String oauth2redirectUri;
 
@@ -28,17 +28,43 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected String jsapiTicket;
   protected long jsapiTicketExpiresTime;
 
+  public String getAccessToken() {
+    return this.accessToken;
+  }
+
+  public boolean isAccessTokenExpired() {
+    return System.currentTimeMillis() > this.expiresTime;
+  }
+
   public synchronized void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
   
-  public synchronized void updateAccessToken(String accessToken, int expiresIn) {
+  public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     this.accessToken = accessToken;
-    this.expiresIn = expiresIn;
+    this.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
   }
 
-  public String getAccessToken() {
-    return this.accessToken;
+  public void expireAccessToken() {
+    this.expiresTime = 0;
+  }
+
+  public String getJsapiTicket() {
+    return jsapiTicket;
+  }
+
+  public boolean isJsapiTicketExpired() {
+    return System.currentTimeMillis() > this.jsapiTicketExpiresTime;
+  }
+
+  public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
+    this.jsapiTicket = jsapiTicket;
+    // 预留200秒的时间
+    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+  }
+
+  public void expireJsapiTicket() {
+    this.jsapiTicketExpiresTime = 0;
   }
 
   public String getAppId() {
@@ -53,8 +79,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.token;
   }
 
-  public int getExpiresIn() {
-    return this.expiresIn;
+  public long getExpiresTime() {
+    return this.expiresTime;
   }
 
   public void setAppId(String appId) {
@@ -81,8 +107,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.accessToken = accessToken;
   }
 
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
+  public void setExpiresTime(long expiresTime) {
+    this.expiresTime = expiresTime;
   }
 
   @Override
@@ -127,20 +153,6 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   }
 
 
-  public String getJsapiTicket() {
-    return jsapiTicket;
-  }
-
-  public boolean isJsapiTokenExpired() {
-    return System.currentTimeMillis() > this.jsapiTicketExpiresTime;
-  }
-
-  public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
-    this.jsapiTicket = jsapiTicket;
-    // 预留200秒的时间
-    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
-  }
-
   @Override
   public String toString() {
     return "WxMpInMemoryConfigStorage{" +
@@ -149,7 +161,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         ", token='" + token + '\'' +
         ", accessToken='" + accessToken + '\'' +
         ", aesKey='" + aesKey + '\'' +
-        ", expiresIn=" + expiresIn +
+        ", expiresTime=" + expiresTime +
         ", http_proxy_host='" + http_proxy_host + '\'' +
         ", http_proxy_port=" + http_proxy_port +
         ", http_proxy_username='" + http_proxy_username + '\'' +

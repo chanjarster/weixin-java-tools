@@ -42,7 +42,7 @@ public class ApiTestModule implements Module {
     @Override
     public String toString() {
       return "SimpleWxConfigProvider [appId=" + appId + ", secret=" + secret + ", accessToken=" + accessToken
-          + ", expiresIn=" + expiresIn + ", token=" + token + ", openId=" + openId + "]";
+          + ", expiresTime=" + expiresTime + ", token=" + token + ", openId=" + openId + "]";
     }
      
   }

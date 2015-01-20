@@ -16,7 +16,7 @@ class WxMpDemoInMemoryConfigStorage extends WxMpInMemoryConfigStorage {
   @Override
   public String toString() {
     return "SimpleWxConfigProvider [appId=" + appId + ", secret=" + secret + ", accessToken=" + accessToken
-        + ", expiresIn=" + expiresIn + ", token=" + token + ", aesKey=" + aesKey + "]";
+        + ", expiresTime=" + expiresTime + ", token=" + token + ", aesKey=" + aesKey + "]";
   }
 
 

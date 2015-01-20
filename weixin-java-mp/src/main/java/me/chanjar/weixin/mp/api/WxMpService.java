@@ -40,9 +40,10 @@ public interface WxMpService {
 
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
    * </pre>
+   * @return
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
-  public void accessTokenRefresh() throws WxErrorException;
+  public String getAccessToken() throws WxErrorException;
 
   /**
    * <pre>
