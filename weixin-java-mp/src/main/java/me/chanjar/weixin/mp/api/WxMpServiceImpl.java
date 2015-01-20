@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,12 +44,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class WxMpServiceImpl implements WxMpService {
 
   /**
-   * 全局的是否正在刷新Access Token的flag
-   * true: 正在刷新
-   * false: 没有刷新
+   * 全局的是否正在刷新access token的锁
    */
-  protected static final AtomicBoolean GLOBAL_ACCESS_TOKEN_REFRESH_FLAG = new AtomicBoolean(false);
-  
+  protected static final Object GLOBAL_ACCESS_TOKEN_REFRESH_LOCK = new Object();
+
+  /**
+   * 全局的是否正在刷新jsapi_ticket的锁
+   */
+  protected static final Object GLOBAL_JSAPI_TICKET_REFRESH_LOCK = new Object();
+
   protected WxMpConfigStorage wxMpConfigStorage;
   
   protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
@@ -65,48 +69,78 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
   
-  public void accessTokenRefresh() throws WxErrorException {
-    if (!GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.getAndSet(true)) {
-      try {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
-            + "&appid=" + wxMpConfigStorage.getAppId()
-            + "&secret=" + wxMpConfigStorage.getSecret()
-            ;
-        try {
-          HttpGet httpGet = new HttpGet(url);
-          if (httpProxy != null) {
-            RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-            httpGet.setConfig(config);
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxMpConfigStorage.expireAccessToken();
+    }
+    if (wxMpConfigStorage.isAccessTokenExpired()) {
+      synchronized (GLOBAL_ACCESS_TOKEN_REFRESH_LOCK) {
+        if (wxMpConfigStorage.isAccessTokenExpired()) {
+          String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
+              + "&appid=" + wxMpConfigStorage.getAppId()
+              + "&secret=" + wxMpConfigStorage.getSecret()
+              ;
+          try {
+            HttpGet httpGet = new HttpGet(url);
+            if (httpProxy != null) {
+              RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+              httpGet.setConfig(config);
+            }
+            CloseableHttpClient httpclient = getHttpclient();
+            CloseableHttpResponse response = httpclient.execute(httpGet);
+            String resultContent = new BasicResponseHandler().handleResponse(response);
+            WxError error = WxError.fromJson(resultContent);
+            if (error.getErrorCode() != 0) {
+              throw new WxErrorException(error);
+            }
+            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+            wxMpConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
+          } catch (ClientProtocolException e) {
+            throw new RuntimeException(e);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
           }
-          CloseableHttpClient httpclient = getHttpclient();
-          CloseableHttpResponse response = httpclient.execute(httpGet);
-          String resultContent = new BasicResponseHandler().handleResponse(response);
-          WxError error = WxError.fromJson(resultContent);
-          if (error.getErrorCode() != 0) {
-            throw new WxErrorException(error);
-          }
-          WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-          wxMpConfigStorage.updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
-        } catch (ClientProtocolException e) {
-          throw new RuntimeException(e);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      } finally {
-        GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.set(false);
-      }
-    } else {
-      // 每隔100ms检查一下是否刷新完毕了
-      while (GLOBAL_ACCESS_TOKEN_REFRESH_FLAG.get()) {
-        try {
-          Thread.sleep(100);
-        } catch (InterruptedException e) {
         }
       }
-      // 刷新完毕了，就没他什么事儿了
+    }
+    return wxMpConfigStorage.getAccessToken();
+  }
+
+
+  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxMpConfigStorage.expireJsapiTicket();
+    }
+    if (wxMpConfigStorage.isJsapiTicketExpired()) {
+      synchronized (GLOBAL_JSAPI_TICKET_REFRESH_LOCK) {
+        if (wxMpConfigStorage.isJsapiTicketExpired()) {
+          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+          String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
+          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+          wxMpConfigStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
+        }
+      }
+    }
+    return wxMpConfigStorage.getJsapiTicket();
+  }
+
+  public String createJsapiSignature(long timestamp, String noncestr, String url) throws WxErrorException {
+    String jsapiTicket = getJsapiTicket(false);
+    try {
+      return SHA1.genWithAmple(
+          "jsapi_ticket=" + jsapiTicket,
+          "noncestr=" + noncestr,
+          "timestamp=" + timestamp,
+          "url=" + url
+      );
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
     }
   }
-  
+
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
     execute(new SimplePostRequestExecutor(), url, message.toJson());
@@ -408,10 +442,7 @@ public class WxMpServiceImpl implements WxMpService {
    * @throws WxErrorException
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
-    if (StringUtils.isBlank(wxMpConfigStorage.getAccessToken())) {
-      accessTokenRefresh();
-    }
-    String accessToken = wxMpConfigStorage.getAccessToken();
+    String accessToken = getAccessToken(false);
     
     String uriWithAccessToken = uri;
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
@@ -426,7 +457,8 @@ public class WxMpServiceImpl implements WxMpService {
        * 42001 access_token超时
        */
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
-        accessTokenRefresh();
+        // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
+        wxMpConfigStorage.expireAccessToken();
         return execute(executor, uri, data);
       }
       /**

@@ -51,10 +51,11 @@ public interface WxCpService {
    * 程序员在非必要情况下尽量不要主动调用此方法
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
    * </pre>
-   *
+   * @param forceRefresh 强制刷新
+   * @return
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
-  public void accessTokenRefresh() throws WxErrorException;
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>

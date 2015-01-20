@@ -65,7 +65,7 @@ public class WxMpOAuth2AccessToken {
   public String toString() {
     return "WxMpOAuth2AccessToken{" +
         "accessToken='" + accessToken + '\'' +
-        ", expiresIn=" + expiresIn +
+        ", expiresTime=" + expiresIn +
         ", refreshToken='" + refreshToken + '\'' +
         ", openId='" + openId + '\'' +
         ", scope='" + scope + '\'' +
