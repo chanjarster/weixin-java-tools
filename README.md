@@ -33,6 +33,20 @@ weixin-java-tools
 </dependency>
 ```
 
+## SNAPSHOT版
+
+本项目的BUG修复和新特性一般会先发布在*-SNAPSHOT版里供大家预览，如果要使用*-SNAPSHOT版，则需要在你的pom.xml中添加这段：
+
+```xml
+<repositories>
+  <repository>
+      <snapshots />
+      <id>sonatype snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+  </repository>
+</repositories>
+```
+
 ## 升级指南
 
 原``1.0.0~1.0.2``版本用户无法平滑升级到``1.0.3``。需要做的是：
