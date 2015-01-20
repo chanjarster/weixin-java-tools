@@ -22,7 +22,7 @@ public class WxCpBaseAPITest {
   public void testRefreshAccessToken() throws WxErrorException {
     WxCpConfigStorage configStorage = wxService.wxCpConfigStorage;
     String before = configStorage.getAccessToken();
-    wxService.getAccessToken();
+    wxService.getAccessToken(false);
 
     String after = configStorage.getAccessToken();
 
