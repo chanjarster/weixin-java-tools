@@ -39,19 +39,18 @@ import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WxMpServiceImpl implements WxMpService {
 
   /**
    * 全局的是否正在刷新access token的锁
    */
-  protected static final Object GLOBAL_ACCESS_TOKEN_REFRESH_LOCK = new Object();
+  protected final Object globalAccessTokenRefreshLock = new Object();
 
   /**
    * 全局的是否正在刷新jsapi_ticket的锁
    */
-  protected static final Object GLOBAL_JSAPI_TICKET_REFRESH_LOCK = new Object();
+  protected final Object globalJsapiTicketRefreshLock = new Object();
 
   protected WxMpConfigStorage wxMpConfigStorage;
   
@@ -78,7 +77,7 @@ public class WxMpServiceImpl implements WxMpService {
       wxMpConfigStorage.expireAccessToken();
     }
     if (wxMpConfigStorage.isAccessTokenExpired()) {
-      synchronized (GLOBAL_ACCESS_TOKEN_REFRESH_LOCK) {
+      synchronized (globalAccessTokenRefreshLock) {
         if (wxMpConfigStorage.isAccessTokenExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"
               + "&appid=" + wxMpConfigStorage.getAppId()
@@ -119,7 +118,7 @@ public class WxMpServiceImpl implements WxMpService {
       wxMpConfigStorage.expireJsapiTicket();
     }
     if (wxMpConfigStorage.isJsapiTicketExpired()) {
-      synchronized (GLOBAL_JSAPI_TICKET_REFRESH_LOCK) {
+      synchronized (globalJsapiTicketRefreshLock) {
         if (wxMpConfigStorage.isJsapiTicketExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
           String responseContent = execute(new SimpleGetRequestExecutor(), url, null);

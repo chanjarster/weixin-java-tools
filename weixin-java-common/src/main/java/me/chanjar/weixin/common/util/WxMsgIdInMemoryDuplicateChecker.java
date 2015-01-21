@@ -14,12 +14,12 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
   /**
    * 一个消息ID在内存的过期时间：15秒
    */
-  private final Long TIME_TO_LIVE;
+  private final Long timeToLive;
 
   /**
    * 每隔多少周期检查消息ID是否过期：5秒
    */
-  private final Long CLEAR_PERIOD;
+  private final Long clearPeriod;
 
   private final ConcurrentHashMap<Long, Long> msgId2Timestamp = new ConcurrentHashMap<Long, Long>();
 
@@ -31,8 +31,8 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
    * </pre>
    */
   public WxMsgIdInMemoryDuplicateChecker() {
-    this.TIME_TO_LIVE = 15 * 1000l;
-    this.CLEAR_PERIOD = 5 * 1000l;
+    this.timeToLive = 15 * 1000l;
+    this.clearPeriod = 5 * 1000l;
     this.start();
   }
 
@@ -42,8 +42,8 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
    * @param clearPeriod 每隔多少周期检查消息ID是否过期：毫秒
    */
   public WxMsgIdInMemoryDuplicateChecker(Long timeToLive, Long clearPeriod) {
-    this.TIME_TO_LIVE = timeToLive;
-    this.CLEAR_PERIOD = clearPeriod;
+    this.timeToLive = timeToLive;
+    this.clearPeriod = clearPeriod;
     this.start();
   }
 
@@ -53,10 +53,10 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
       public void run() {
         try {
           while (true) {
-            Thread.sleep(CLEAR_PERIOD);
+            Thread.sleep(clearPeriod);
             Long now = System.currentTimeMillis();
             for (Map.Entry<Long, Long> entry : msgId2Timestamp.entrySet()) {
-              if (now - entry.getValue() > TIME_TO_LIVE) {
+              if (now - entry.getValue() > timeToLive) {
                 msgId2Timestamp.entrySet().remove(entry);
               }
             }
