@@ -1,11 +1,15 @@
 package me.chanjar.weixin.common.session;
 
 import me.chanjar.weixin.common.util.res.StringManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionManagerImpl implements WxSessionManager, InternalSessionManager {
+
+  protected final Logger log = LoggerFactory.getLogger(SessionManagerImpl.class);
 
   protected static final StringManager sm =
       StringManager.getManager(Constants.Package);
@@ -226,7 +230,7 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
     int expireHere = 0 ;
 
     if(log.isDebugEnabled())
-      log.debug("Start expire sessions " + getName() + " at " + timeNow + " sessioncount " + sessions.length);
+      log.debug("Start expire sessions {} at {} sessioncount {}", getName(), timeNow, sessions.length);
     for (int i = 0; i < sessions.length; i++) {
       if (sessions[i]!=null && !sessions[i].isValid()) {
         expireHere++;
@@ -234,7 +238,7 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
     }
     long timeEnd = System.currentTimeMillis();
     if(log.isDebugEnabled())
-      log.debug("End expire sessions " + getName() + " processingTime " + (timeEnd - timeNow) + " expired sessions: " + expireHere);
+      log.debug("End expire sessions {} processingTime {} expired sessions: {}", getName(), timeEnd - timeNow, expireHere);
     processingTime += ( timeEnd - timeNow );
 
   }

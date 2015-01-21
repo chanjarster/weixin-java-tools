@@ -34,6 +34,8 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +46,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WxCpServiceImpl implements WxCpService {
+
+  protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -380,7 +384,7 @@ public class WxCpServiceImpl implements WxCpService {
         if (error.getErrorCode() == -1) {
           int sleepMillis = retrySleepMillis * (1 << retryTimes);
           try {
-            System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试(第" + (retryTimes + 1) + "次)");
+            log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
             throw new RuntimeException(e1);
