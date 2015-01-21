@@ -14,9 +14,6 @@ import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 import java.io.Writer;
 
-/**
- * Created by qianjia on 15/1/19.
- */
 public class XStreamInitializer {
 
   public static XStream getInstance() {
