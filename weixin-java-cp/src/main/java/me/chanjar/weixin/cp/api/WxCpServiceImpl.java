@@ -52,11 +52,13 @@ public class WxCpServiceImpl implements WxCpService {
 
   protected WxCpConfigStorage wxCpConfigStorage;
 
-  protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
-
   protected CloseableHttpClient httpClient;
 
   protected HttpHost httpProxy;
+
+  private int retrySleepMillis = 1000;
+
+  private int maxRetryTimes = 5;
 
   public boolean checkSignature(String msgSignature, String timestamp, String nonce, String data) {
     try {
@@ -366,6 +368,33 @@ public class WxCpServiceImpl implements WxCpService {
    * @throws WxErrorException
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    int retryTimes = 0;
+    do {
+      try {
+        return executeInternal(executor, uri, data);
+      } catch (WxErrorException e) {
+        WxError error = e.getError();
+        /**
+         * -1 系统繁忙, 1000ms后重试
+         */
+        if (error.getErrorCode() == -1) {
+          int sleepMillis = retrySleepMillis * (1 << retryTimes);
+          try {
+            System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试(第" + (retryTimes + 1) + "次)");
+            Thread.sleep(sleepMillis);
+          } catch (InterruptedException e1) {
+            throw new RuntimeException(e1);
+          }
+        } else {
+          throw e;
+        }
+      }
+    } while(++retryTimes < maxRetryTimes);
+
+    throw new RuntimeException("微信服务端异常，超出重试次数");
+  }
+
+  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;
@@ -381,30 +410,9 @@ public class WxCpServiceImpl implements WxCpService {
        * 42001 access_token超时
        */
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
-        // 强制设置wxCpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
+        // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         wxCpConfigStorage.expireAccessToken();
         return execute(executor, uri, data);
-      }
-      /**
-       * -1 系统繁忙, 1000ms后重试
-       */
-      if (error.getErrorCode() == -1) {
-        if (retryTimes.get() == null) {
-          retryTimes.set(0);
-        }
-        if (retryTimes.get() > 4) {
-          retryTimes.set(0);
-          throw new RuntimeException("微信服务端异常，超出重试次数");
-        }
-        int sleepMillis = 1000 * (1 << retryTimes.get());
-        try {
-          System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试");
-          Thread.sleep(sleepMillis);
-          retryTimes.set(retryTimes.get() + 1);
-          return execute(executor, uri, data);
-        } catch (InterruptedException e1) {
-          throw new RuntimeException(e1);
-        }
       }
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
@@ -416,7 +424,6 @@ public class WxCpServiceImpl implements WxCpService {
       throw new RuntimeException(e);
     }
   }
-
   protected CloseableHttpClient getHttpclient() {
     return httpClient;
   }
@@ -449,6 +456,17 @@ public class WxCpServiceImpl implements WxCpService {
     } else {
       httpClient = HttpClients.createDefault();
     }
+  }
+
+  @Override
+  public void setRetrySleepMillis(int retrySleepMillis) {
+    this.retrySleepMillis = retrySleepMillis;
+  }
+
+
+  @Override
+  public void setMaxRetryTimes(int maxRetryTimes) {
+    this.maxRetryTimes = maxRetryTimes;
   }
 
 }
