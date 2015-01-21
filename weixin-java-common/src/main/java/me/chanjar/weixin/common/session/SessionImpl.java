@@ -308,4 +308,40 @@ public class SessionImpl implements WxSession, InternalSession {
 
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof SessionImpl)) return false;
+
+    SessionImpl session = (SessionImpl) o;
+
+    if (creationTime != session.creationTime) return false;
+    if (expiring != session.expiring) return false;
+    if (isValid != session.isValid) return false;
+    if (maxInactiveInterval != session.maxInactiveInterval) return false;
+    if (thisAccessedTime != session.thisAccessedTime) return false;
+    if (!accessCount.equals(session.accessCount)) return false;
+    if (!attributes.equals(session.attributes)) return false;
+    if (!facade.equals(session.facade)) return false;
+    if (!id.equals(session.id)) return false;
+    if (!manager.equals(session.manager)) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = attributes.hashCode();
+    result = 31 * result + id.hashCode();
+    result = 31 * result + (isValid ? 1 : 0);
+    result = 31 * result + (expiring ? 1 : 0);
+    result = 31 * result + manager.hashCode();
+    result = 31 * result + (int) (creationTime ^ (creationTime >>> 32));
+    result = 31 * result + (int) (thisAccessedTime ^ (thisAccessedTime >>> 32));
+    result = 31 * result + maxInactiveInterval;
+    result = 31 * result + facade.hashCode();
+    result = 31 * result + accessCount.hashCode();
+    return result;
+  }
+
 }

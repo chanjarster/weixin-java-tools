@@ -12,7 +12,7 @@ import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.SessionManagerImpl;
+import me.chanjar.weixin.common.session.InMemorySessionManager;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -46,7 +46,6 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WxCpServiceImpl implements WxCpService {
 
@@ -67,7 +66,7 @@ public class WxCpServiceImpl implements WxCpService {
 
   private int maxRetryTimes = 5;
 
-  protected WxSessionManager sessionManager = new SessionManagerImpl();
+  protected WxSessionManager sessionManager = new InMemorySessionManager();
 
   public boolean checkSignature(String msgSignature, String timestamp, String nonce, String data) {
     try {

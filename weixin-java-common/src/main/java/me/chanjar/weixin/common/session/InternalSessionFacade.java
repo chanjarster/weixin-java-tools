@@ -10,7 +10,7 @@ public class InternalSessionFacade implements WxSession {
   private WxSession session = null;
 
   public InternalSessionFacade(WxSession session) {
-    session = session;
+    this.session = session;
   }
 
   @Override

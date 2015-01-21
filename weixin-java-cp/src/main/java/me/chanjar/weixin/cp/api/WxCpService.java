@@ -392,7 +392,7 @@ public interface WxCpService {
   /**
    * <pre>
    * 设置WxSessionManager，只有当需要使用个性化的WxSessionManager的时候才需要调用此方法，
-   * WxCpService默认使用的是{@link me.chanjar.weixin.common.session.SessionManagerImpl}
+   * WxCpService默认使用的是{@link me.chanjar.weixin.common.session.InMemorySessionManager}
    * </pre>
    * @param sessionManager
    */

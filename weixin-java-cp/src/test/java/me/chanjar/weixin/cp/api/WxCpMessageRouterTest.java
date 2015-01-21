@@ -1,6 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import org.testng.Assert;
@@ -67,7 +68,8 @@ public class WxCpMessageRouterTest {
     final WxCpMessageRouter router = new WxCpMessageRouter(null);
     router.rule().handler(new WxCpMessageHandler() {
       @Override
-      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
+      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService,
+          WxSessionManager sessionManager) {
         return null;
       }
     }).end();
@@ -149,7 +151,8 @@ public class WxCpMessageRouterTest {
     }
 
     @Override
-    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
+    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService,
+        WxSessionManager sessionManager) {
       sb.append(this.echoStr).append(',');
       return null;
     }

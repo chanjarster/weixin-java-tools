@@ -1,7 +1,7 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.session.InternalSession;
-import me.chanjar.weixin.common.session.SessionManagerImpl;
+import me.chanjar.weixin.common.session.InMemorySessionManager;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
@@ -59,15 +59,15 @@ public class WxMpMessageRouter {
 
   private ExecutorService executorService;
 
-  private WxMessageDuplicateChecker wxMessageDuplicateChecker;
+  private WxMessageDuplicateChecker messageDuplicateChecker;
 
   private WxSessionManager sessionManager;
 
   public WxMpMessageRouter(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
-    this.wxMessageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
-    this.sessionManager = new SessionManagerImpl();
+    this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
+    this.sessionManager = new InMemorySessionManager();
   }
 
   /**
@@ -86,10 +86,10 @@ public class WxMpMessageRouter {
    * 设置自定义的 {@link me.chanjar.weixin.common.util.WxMessageDuplicateChecker}
    * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker}
    * </pre>
-   * @param wxMessageDuplicateChecker
+   * @param messageDuplicateChecker
    */
-  public void setWxMessageDuplicateChecker(WxMessageDuplicateChecker wxMessageDuplicateChecker) {
-    this.wxMessageDuplicateChecker = wxMessageDuplicateChecker;
+  public void setMessageDuplicateChecker(WxMessageDuplicateChecker messageDuplicateChecker) {
+    this.messageDuplicateChecker = messageDuplicateChecker;
   }
 
   /**
@@ -108,7 +108,7 @@ public class WxMpMessageRouter {
    * @return
    */
   public Rule rule() {
-    return new Rule(this, wxMpService);
+    return new Rule(this, wxMpService, sessionManager);
   }
 
   /**
@@ -116,7 +116,7 @@ public class WxMpMessageRouter {
    * @param wxMessage
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
-    if (wxMessageDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
+    if (messageDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
@@ -195,6 +195,8 @@ public class WxMpMessageRouter {
 
     private final WxMpService wxMpService;
 
+    private final WxSessionManager sessionManager;
+
     private boolean async = true;
 
     private String fromUser;
@@ -214,10 +216,11 @@ public class WxMpMessageRouter {
     private List<WxMpMessageHandler> handlers = new ArrayList<WxMpMessageHandler>();
     
     private List<WxMpMessageInterceptor> interceptors = new ArrayList<WxMpMessageInterceptor>();
-    
-    protected Rule(WxMpMessageRouter routerBuilder, WxMpService wxMpService) {
+
+    protected Rule(WxMpMessageRouter routerBuilder, WxMpService wxMpService, WxSessionManager sessionManager) {
       this.routerBuilder = routerBuilder;
       this.wxMpService = wxMpService;
+      this.sessionManager = sessionManager;
     }
     
     /**
@@ -383,7 +386,7 @@ public class WxMpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context, wxMpService)) {
+        if (!interceptor.intercept(wxMessage, context, wxMpService, sessionManager)) {
           return null;
         }
       }
@@ -392,7 +395,7 @@ public class WxMpMessageRouter {
       WxMpXmlOutMessage res = null;
       for (WxMpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context, wxMpService);
+        res = handler.handle(wxMessage, context, wxMpService, sessionManager);
       }
       return res;
     }

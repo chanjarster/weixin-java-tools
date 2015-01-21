@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SessionManagerImpl implements WxSessionManager, InternalSessionManager {
+public class InMemorySessionManager implements WxSessionManager, InternalSessionManager {
 
-  protected final Logger log = LoggerFactory.getLogger(SessionManagerImpl.class);
+  protected final Logger log = LoggerFactory.getLogger(InMemorySessionManager.class);
 
   protected static final StringManager sm =
       StringManager.getManager(Constants.Package);
@@ -104,6 +104,11 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
    * checks will occur).
    */
   protected int processExpiresFrequency = 6;
+
+  /**
+   * background processor delay in seconds
+   */
+  protected int backgroundProcessorDelay = 10;
 
   /**
    * 后台清理线程是否已经开启
@@ -204,7 +209,7 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
           while (true) {
             try {
               // 每秒清理一次
-              Thread.sleep(1000l);
+              Thread.sleep(backgroundProcessorDelay * 1000l);
               backgroundProcess();
             } catch (InterruptedException e) {
               log.error("SessionManagerImpl.backgroundProcess error", e);
@@ -225,6 +230,7 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
         }
       }
     }
+    
   }
 
   /**
@@ -268,6 +274,34 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
 
   }
 
+
+  @Override
+  public void setMaxInactiveInterval(int interval) {
+
+    this.maxInactiveInterval = interval;
+
+  }
+
+  /**
+   * Set the manager checks frequency.
+   *
+   * @param processExpiresFrequency the new manager checks frequency
+   */
+  @Override
+  public void setProcessExpiresFrequency(int processExpiresFrequency) {
+
+    if (processExpiresFrequency <= 0) {
+      return;
+    }
+
+    this.processExpiresFrequency = processExpiresFrequency;
+
+  }
+
+  @Override
+  public void setBackgroundProcessorDelay(int backgroundProcessorDelay) {
+    this.backgroundProcessorDelay = backgroundProcessorDelay;
+  }
 
   /**
    * Return the descriptive short name of this Manager implementation.

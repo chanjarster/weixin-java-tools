@@ -60,4 +60,15 @@ public interface InternalSessionManager {
    */
   public void backgroundProcess();
 
+  /**
+   * Set the default maximum inactive interval (in seconds)
+   * for Sessions created by this Manager.
+   *
+   * @param interval The new default value
+   */
+  void setMaxInactiveInterval(int interval);
+
+  void setProcessExpiresFrequency(int processExpiresFrequency);
+
+  void setBackgroundProcessorDelay(int backgroundProcessorDelay);
 }
