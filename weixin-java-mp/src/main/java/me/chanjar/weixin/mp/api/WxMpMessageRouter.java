@@ -4,14 +4,13 @@ import me.chanjar.weixin.common.session.InternalSession;
 import me.chanjar.weixin.common.session.SessionManagerImpl;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.util.WxMsgIdDuplicateChecker;
-import me.chanjar.weixin.common.util.WxMsgIdMemoryDuplicateChecker;
+import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
+import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +51,7 @@ public class WxMpMessageRouter {
 
   protected final Logger log = LoggerFactory.getLogger(WxMpMessageRouter.class);
 
-  private static final int DEFAULT_THREAD_POOL_SIZE = 20;
+  private static final int DEFAULT_THREAD_POOL_SIZE = 100;
 
   private final List<Rule> rules = new ArrayList<Rule>();
 
@@ -60,24 +59,22 @@ public class WxMpMessageRouter {
 
   private ExecutorService executorService;
 
-  private WxMsgIdDuplicateChecker wxMsgIdDuplicateChecker;
+  private WxMessageDuplicateChecker wxMessageDuplicateChecker;
 
-  protected WxSessionManager sessionManager = new SessionManagerImpl();
+  private WxSessionManager sessionManager;
 
   public WxMpMessageRouter(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
-    this.wxMsgIdDuplicateChecker = new WxMsgIdMemoryDuplicateChecker();
-  }
-
-  public WxMpMessageRouter(WxMpService wxMpService, int threadPoolSize) {
-    this.wxMpService = wxMpService;
-    this.executorService = Executors.newFixedThreadPool(threadPoolSize);
-    this.wxMsgIdDuplicateChecker = new WxMsgIdMemoryDuplicateChecker();
+    this.wxMessageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
+    this.sessionManager = new SessionManagerImpl();
   }
 
   /**
-   * 设置自定义的ExecutorService
+   * <pre>
+   * 设置自定义的 {@link ExecutorService}
+   * 如果不调用该方法，默认使用 Executors.newFixedThreadPool(100)
+   * </pre>
    * @param executorService
    */
   public void setExecutorService(ExecutorService executorService) {
@@ -85,11 +82,25 @@ public class WxMpMessageRouter {
   }
 
   /**
-   * 设置自定义的WxMsgIdDuplicateChecker
-   * @param wxMsgIdDuplicateChecker
+   * <pre>
+   * 设置自定义的 {@link me.chanjar.weixin.common.util.WxMessageDuplicateChecker}
+   * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker}
+   * </pre>
+   * @param wxMessageDuplicateChecker
    */
-  public void setWxMsgIdDuplicateChecker(WxMsgIdDuplicateChecker wxMsgIdDuplicateChecker) {
-    this.wxMsgIdDuplicateChecker = wxMsgIdDuplicateChecker;
+  public void setWxMessageDuplicateChecker(WxMessageDuplicateChecker wxMessageDuplicateChecker) {
+    this.wxMessageDuplicateChecker = wxMessageDuplicateChecker;
+  }
+
+  /**
+   * <pre>
+   * 设置自定义的{@link me.chanjar.weixin.common.session.WxSessionManager}
+   * 如果不调用该方法，默认使用 {@linke SessionManagerImpl}
+   * </pre>
+   * @param sessionManager
+   */
+  public void setSessionManager(WxSessionManager sessionManager) {
+    this.sessionManager = sessionManager;
   }
 
   /**
@@ -105,7 +116,7 @@ public class WxMpMessageRouter {
    * @param wxMessage
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
-    if (wxMsgIdDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
+    if (wxMessageDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
@@ -167,6 +178,10 @@ public class WxMpMessageRouter {
     return res;
   }
 
+  /**
+   * 对session的访问结束
+   * @param wxMessage
+   */
   protected void sessionEndAccess(WxMpXmlMessage wxMessage) {
     WxSession session = sessionManager.getSession(wxMessage.getFromUserName(), false);
     if (session != null) {

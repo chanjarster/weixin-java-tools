@@ -152,7 +152,6 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.http_proxy_password = http_proxy_password;
   }
 
-
   @Override
   public String toString() {
     return "WxMpInMemoryConfigStorage{" +
@@ -166,6 +165,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         ", http_proxy_port=" + http_proxy_port +
         ", http_proxy_username='" + http_proxy_username + '\'' +
         ", http_proxy_password='" + http_proxy_password + '\'' +
+        ", jsapiTicket='" + jsapiTicket + '\'' +
+        ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
         '}';
   }
 
