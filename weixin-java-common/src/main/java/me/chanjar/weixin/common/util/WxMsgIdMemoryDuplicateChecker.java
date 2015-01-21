@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 将每个消息id保存在内存里，每隔5秒清理已经过期的消息id，每个消息id的过期时间是15秒
  * </pre>
  */
-public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
+public class WxMsgIdMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
 
   /**
    * 一个消息ID在内存的过期时间：15秒
@@ -30,7 +30,7 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
    * 每隔多少周期检查消息ID是否过期：5秒
    * </pre>
    */
-  public WxMsgIdInMemoryDuplicateChecker() {
+  public WxMsgIdMemoryDuplicateChecker() {
     this.timeToLive = 15 * 1000l;
     this.clearPeriod = 5 * 1000l;
     this.start();
@@ -41,7 +41,7 @@ public class WxMsgIdInMemoryDuplicateChecker implements WxMsgIdDuplicateChecker 
    * @param timeToLive 一个消息ID在内存的过期时间：毫秒
    * @param clearPeriod 每隔多少周期检查消息ID是否过期：毫秒
    */
-  public WxMsgIdInMemoryDuplicateChecker(Long timeToLive, Long clearPeriod) {
+  public WxMsgIdMemoryDuplicateChecker(Long timeToLive, Long clearPeriod) {
     this.timeToLive = timeToLive;
     this.clearPeriod = clearPeriod;
     this.start();
