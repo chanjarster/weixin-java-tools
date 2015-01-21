@@ -1,16 +1,25 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.session.InternalSession;
+import me.chanjar.weixin.common.session.SessionManagerImpl;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.WxMsgIdDuplicateChecker;
 import me.chanjar.weixin.common.util.WxMsgIdMemoryDuplicateChecker;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
 /**
@@ -41,6 +50,8 @@ import java.util.regex.Pattern;
  */
 public class WxMpMessageRouter {
 
+  protected final Logger log = LoggerFactory.getLogger(WxMpMessageRouter.class);
+
   private static final int DEFAULT_THREAD_POOL_SIZE = 20;
 
   private final List<Rule> rules = new ArrayList<Rule>();
@@ -50,6 +61,8 @@ public class WxMpMessageRouter {
   private ExecutorService executorService;
 
   private WxMsgIdDuplicateChecker wxMsgIdDuplicateChecker;
+
+  protected WxSessionManager sessionManager = new SessionManagerImpl();
 
   public WxMpMessageRouter(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
@@ -113,21 +126,54 @@ public class WxMpMessageRouter {
     }
     
     WxMpXmlOutMessage res = null;
+    final List<Future> futures = new ArrayList<Future>();
     for (final Rule rule : matchRules) {
       // 返回最后一个非异步的rule的执行结果
       if(rule.async) {
-        executorService.submit(new Runnable() {
-          public void run() {
-            rule.service(wxMessage);
-          }
-        });
+        futures.add(
+          executorService.submit(new Runnable() {
+            public void run() {
+              rule.service(wxMessage);
+            }
+          })
+        );
       } else {
         res = rule.service(wxMessage);
       }
     }
+
+    // 告诉session，它已经用不着了
+    if (futures.size() > 0) {
+      executorService.submit(new Runnable() {
+        @Override
+        public void run() {
+          for (Future future : futures) {
+            try {
+              future.get();
+            } catch (InterruptedException e) {
+              log.error("Error happened when wait task finish", e);
+            } catch (ExecutionException e) {
+              log.error("Error happened when wait task finish", e);
+            }
+          }
+          // 在这里session再也不会被使用了
+          sessionEndAccess(wxMessage);
+        }
+      });
+    } else {
+      // 在这里session再也不会被使用了
+      sessionEndAccess(wxMessage);
+    }
     return res;
   }
-  
+
+  protected void sessionEndAccess(WxMpXmlMessage wxMessage) {
+    WxSession session = sessionManager.getSession(wxMessage.getFromUserName(), false);
+    if (session != null) {
+      ((InternalSession) session).endAccess();
+    }
+  }
+
   public static class Rule {
     
     private final WxMpMessageRouter routerBuilder;

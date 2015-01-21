@@ -4,6 +4,7 @@ import me.chanjar.weixin.common.util.res.StringManager;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SessionImpl implements WxSession, InternalSession {
 
@@ -91,11 +92,6 @@ public class SessionImpl implements WxSession, InternalSession {
   protected volatile boolean isValid = false;
 
   /**
-   * Flag indicating whether this session is new or not.
-   */
-  protected boolean isNew = false;
-
-  /**
    * We are currently processing a session expiration, so bypass
    * certain IllegalStateException tests.  NOTE:  This value is not
    * included in the serialized version of this object.
@@ -124,11 +120,6 @@ public class SessionImpl implements WxSession, InternalSession {
   protected volatile long thisAccessedTime = creationTime;
 
   /**
-   * The last accessed time for this Session.
-   */
-  protected volatile long lastAccessedTime = creationTime;
-
-  /**
    * The default maximum inactive interval for Sessions created by
    * this Manager.
    */
@@ -140,9 +131,15 @@ public class SessionImpl implements WxSession, InternalSession {
    */
   protected transient InternalSessionFacade facade = null;
 
+  /**
+   * The access count for this session.
+   */
+  protected transient AtomicInteger accessCount = null;
+
 
   public SessionImpl(InternalSessionManager manager) {
     this.manager = manager;
+    this.accessCount = new AtomicInteger();
   }
 
 
@@ -176,7 +173,28 @@ public class SessionImpl implements WxSession, InternalSession {
 
   @Override
   public boolean isValid() {
-    return isValid;
+    if (!this.isValid) {
+      return false;
+    }
+
+    if (this.expiring) {
+      return true;
+    }
+
+    if (accessCount.get() > 0) {
+      return true;
+    }
+
+    if (maxInactiveInterval > 0) {
+      long timeNow = System.currentTimeMillis();
+      int timeIdle;
+      timeIdle = (int) ((timeNow - thisAccessedTime) / 1000L);
+      if (timeIdle >= maxInactiveInterval) {
+        expire();
+      }
+    }
+
+    return this.isValid;
   }
 
   @Override
@@ -215,6 +233,8 @@ public class SessionImpl implements WxSession, InternalSession {
       // Mark this session as "being expired"
       expiring = true;
 
+      accessCount.set(0);
+
       // Remove this session from our manager's active sessions
       manager.remove(this, true);
 
@@ -238,23 +258,23 @@ public class SessionImpl implements WxSession, InternalSession {
   public void access() {
 
     this.thisAccessedTime = System.currentTimeMillis();
+    accessCount.incrementAndGet();
 
   }
 
 
   @Override
-  public void setNew(boolean isNew) {
+  public void endAccess() {
 
-    this.isNew = isNew;
+    this.thisAccessedTime = System.currentTimeMillis();
+    accessCount.decrementAndGet();
 
   }
-
 
   @Override
   public void setCreationTime(long time) {
 
     this.creationTime = time;
-    this.lastAccessedTime = time;
     this.thisAccessedTime = time;
 
   }

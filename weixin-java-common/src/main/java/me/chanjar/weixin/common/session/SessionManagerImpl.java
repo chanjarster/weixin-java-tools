@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SessionManagerImpl implements WxSessionManager, InternalSessionManager {
 
@@ -104,6 +105,11 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
    */
   protected int processExpiresFrequency = 6;
 
+  /**
+   * 后台清理线程是否已经开启
+   */
+  private final AtomicBoolean backgroundProcessStarted = new AtomicBoolean(false);
+
   @Override
   public void remove(InternalSession session) {
     remove(session, false);
@@ -155,7 +161,6 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
     InternalSession session = createEmptySession();
 
     // Initialize the properties of the new session and return it
-    session.setNew(true);
     session.setValid(true);
     session.setCreationTime(System.currentTimeMillis());
     session.setMaxInactiveInterval(this.maxInactiveInterval);
@@ -190,6 +195,26 @@ public class SessionManagerImpl implements WxSessionManager, InternalSessionMana
 
   @Override
   public void add(InternalSession session) {
+
+    // 当第一次有session创建的时候，开启session清理线程
+    if (!backgroundProcessStarted.getAndSet(true)) {
+      Thread t = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          while (true) {
+            try {
+              // 每秒清理一次
+              Thread.sleep(1000l);
+              backgroundProcess();
+            } catch (InterruptedException e) {
+              log.error("SessionManagerImpl.backgroundProcess error", e);
+            }
+          }
+        }
+      });
+      t.setDaemon(true);
+      t.start();
+    }
 
     sessions.put(session.getIdInternal(), session);
     int size = getActiveSessions();

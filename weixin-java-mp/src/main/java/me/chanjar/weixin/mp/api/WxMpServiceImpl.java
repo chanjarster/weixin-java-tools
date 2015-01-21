@@ -10,6 +10,9 @@ import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.SessionManagerImpl;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -65,6 +68,8 @@ public class WxMpServiceImpl implements WxMpService {
   private int retrySleepMillis = 1000;
 
   private int maxRetryTimes = 5;
+
+  protected WxSessionManager sessionManager = new SessionManagerImpl();
 
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
@@ -544,7 +549,6 @@ public class WxMpServiceImpl implements WxMpService {
       httpClient = HttpClients.createDefault();
     }
   }
-
 
   @Override
   public void setRetrySleepMillis(int retrySleepMillis) {

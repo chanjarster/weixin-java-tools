@@ -3,6 +3,8 @@ package me.chanjar.weixin.mp.api;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
@@ -456,10 +458,10 @@ public interface WxMpService {
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-    /**
-     * 注入 {@link WxMpConfigStorage} 的实现
-     * @param wxConfigProvider
-     */
+  /**
+   * 注入 {@link WxMpConfigStorage} 的实现
+   * @param wxConfigProvider
+   */
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
 
   /**
@@ -479,4 +481,5 @@ public interface WxMpService {
    * @param maxRetryTimes
    */
   void setMaxRetryTimes(int maxRetryTimes);
+
 }

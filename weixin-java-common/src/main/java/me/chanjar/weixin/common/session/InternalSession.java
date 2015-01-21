@@ -39,11 +39,9 @@ public interface InternalSession {
   void access();
 
   /**
-   * Set the <code>isNew</code> flag for this session.
-   *
-   * @param isNew The new value for the <code>isNew</code> flag
+   * End the access.
    */
-  void setNew(boolean isNew);
+  void endAccess();
 
   /**
    * Set the creation time for this session.  This method is called by the

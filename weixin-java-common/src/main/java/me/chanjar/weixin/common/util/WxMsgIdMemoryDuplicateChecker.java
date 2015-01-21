@@ -2,6 +2,7 @@ package me.chanjar.weixin.common.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * <pre>
@@ -21,7 +22,15 @@ public class WxMsgIdMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
    */
   private final Long clearPeriod;
 
+  /**
+   * 消息id->消息时间戳的map
+   */
   private final ConcurrentHashMap<Long, Long> msgId2Timestamp = new ConcurrentHashMap<Long, Long>();
+
+  /**
+   * 后台清理线程是否已经开启
+   */
+  private final AtomicBoolean backgroundProcessStarted = new AtomicBoolean(false);
 
   /**
    * WxMsgIdInMemoryDuplicateChecker构造函数
@@ -33,7 +42,6 @@ public class WxMsgIdMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
   public WxMsgIdMemoryDuplicateChecker() {
     this.timeToLive = 15 * 1000l;
     this.clearPeriod = 5 * 1000l;
-    this.start();
   }
 
   /**
@@ -44,10 +52,12 @@ public class WxMsgIdMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
   public WxMsgIdMemoryDuplicateChecker(Long timeToLive, Long clearPeriod) {
     this.timeToLive = timeToLive;
     this.clearPeriod = clearPeriod;
-    this.start();
   }
 
-  private void start() {
+  protected void checkBackgroundProcessStarted() {
+    if (backgroundProcessStarted.getAndSet(true)) {
+      return;
+    }
     Thread t = new Thread(new Runnable() {
       @Override
       public void run() {
@@ -72,6 +82,7 @@ public class WxMsgIdMemoryDuplicateChecker implements WxMsgIdDuplicateChecker {
 
   @Override
   public boolean isDuplicate(Long wxMsgId) {
+    checkBackgroundProcessStarted();
     Long timestamp = msgId2Timestamp.putIfAbsent(wxMsgId, System.currentTimeMillis());
     if (timestamp == null) {
       // 第一次接收到这个消息

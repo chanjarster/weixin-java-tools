@@ -3,6 +3,8 @@ package me.chanjar.weixin.cp.api;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
@@ -371,4 +373,28 @@ public interface WxCpService {
    * @param maxRetryTimes
    */
   void setMaxRetryTimes(int maxRetryTimes);
+
+  /**
+   * 获取某个sessionId对应的session,如果sessionId没有对应的session，则新建一个并返回。
+   * @param id id可以为任意字符串，建议使用FromUserName作为id
+   * @return
+   */
+  WxSession getSession(String id);
+
+  /**
+   * 获取某个sessionId对应的session,如果sessionId没有对应的session，若create为true则新建一个，否则返回null。
+   * @param id id可以为任意字符串，建议使用FromUserName作为id
+   * @param create
+   * @return
+   */
+  WxSession getSession(String id, boolean create);
+
+  /**
+   * <pre>
+   * 设置WxSessionManager，只有当需要使用个性化的WxSessionManager的时候才需要调用此方法，
+   * WxCpService默认使用的是{@link me.chanjar.weixin.common.session.SessionManagerImpl}
+   * </pre>
+   * @param sessionManager
+   */
+  void setSessionManager(WxSessionManager sessionManager);
 }
