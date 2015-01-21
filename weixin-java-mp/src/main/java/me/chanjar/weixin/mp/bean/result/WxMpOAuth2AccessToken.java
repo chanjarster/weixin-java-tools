@@ -2,9 +2,6 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
-/**
- * Created by qianjia on 14/11/26.
- */
 public class WxMpOAuth2AccessToken {
 
   private String accessToken;

@@ -2,9 +2,6 @@ package me.chanjar.weixin.common.session;
 
 import java.util.Enumeration;
 
-/**
- * Created by qianjia on 15/1/21.
- */
 public interface WxSession {
 
   public Object getAttribute(String name);

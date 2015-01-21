@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Created by qianjia on 14/11/28.
- */
 public class WxCpOAuth2Servlet extends HttpServlet {
 
   protected WxCpService wxCpService;

@@ -14,11 +14,6 @@ import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxMpMassOpenIdsMessageGsonAdapter implements JsonSerializer<WxMpMassOpenIdsMessage> {
 
   public JsonElement serialize(WxMpMassOpenIdsMessage message, Type typeOfSrc, JsonSerializationContext context) {

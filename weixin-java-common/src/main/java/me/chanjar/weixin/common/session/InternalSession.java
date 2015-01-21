@@ -1,8 +1,5 @@
 package me.chanjar.weixin.common.session;
 
-/**
- * Created by qianjia on 15/1/21.
- */
 public interface InternalSession {
 
   /**

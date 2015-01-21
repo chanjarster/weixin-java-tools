@@ -14,11 +14,6 @@ import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxUserListGsonAdapter implements JsonDeserializer<WxMpUserList> {
 
   public WxMpUserList deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

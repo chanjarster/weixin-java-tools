@@ -5,9 +5,6 @@ import me.chanjar.weixin.common.util.res.StringManager;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by qianjia on 15/1/21.
- */
 public class SessionImpl implements WxSession, InternalSession {
 
   /**

@@ -1,7 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
 import me.chanjar.weixin.common.util.WxMsgIdDuplicateChecker;
-import me.chanjar.weixin.common.util.WxMsgIdInMemoryDuplicateChecker;
+import me.chanjar.weixin.common.util.WxMsgIdMemoryDuplicateChecker;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 
@@ -56,13 +56,13 @@ public class WxCpMessageRouter {
   public WxCpMessageRouter(WxCpService wxCpService) {
     this.wxCpService = wxCpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
-    this.wxMsgIdDuplicateChecker = new WxMsgIdInMemoryDuplicateChecker();
+    this.wxMsgIdDuplicateChecker = new WxMsgIdMemoryDuplicateChecker();
   }
 
   public WxCpMessageRouter(WxCpService wxMpService, int threadPoolSize) {
     this.wxCpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(threadPoolSize);
-    this.wxMsgIdDuplicateChecker = new WxMsgIdInMemoryDuplicateChecker();
+    this.wxMsgIdDuplicateChecker = new WxMsgIdMemoryDuplicateChecker();
   }
 
   /**
