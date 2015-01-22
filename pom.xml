@@ -43,6 +43,7 @@
     <downloadSources>true</downloadSources>
     <httpclient.version>4.3.5</httpclient.version>
     <slf4j.version>1.7.10</slf4j.version>
+    <logback.version>1.1.2</logback.version>
   </properties>
 
   <dependencies>
@@ -52,9 +53,9 @@
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${slf4j.version}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

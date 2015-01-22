@@ -148,7 +148,7 @@ public class WxMpMessageRouter {
       } else {
         res = rule.service(wxMessage);
         // 在同步操作结束，session访问结束
-        log.trace("End session access after sync operation finish {}", wxMessage.getFromUserName());
+        log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
         sessionEndAccess(wxMessage);
       }
     }
@@ -160,7 +160,7 @@ public class WxMpMessageRouter {
           for (Future future : futures) {
             try {
               future.get();
-              log.trace("End session access after async operation finish {}", wxMessage.getFromUserName());
+              log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
               // 异步操作结束，session访问结束
               sessionEndAccess(wxMessage);
             } catch (InterruptedException e) {
