@@ -44,14 +44,12 @@ public class WxMpDemoServer {
     WxMpMessageHandler textHandler = new DemoTextHandler();
     WxMpMessageHandler imageHandler = new DemoImageHandler();
     WxMpMessageHandler oauth2handler = new DemoOAuth2Handler();
-    WxMpMessageHandler checkAnswerHandler = new DemoCheckAnswerHandler();
-    DemoStartGuessNumberHandler startGuessNumberHandler = new DemoStartGuessNumberHandler();
+    DemoGuessNumberHandler guessNumberHandler = new DemoGuessNumberHandler();
 
     wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
       wxMpMessageRouter
           .rule().handler(logHandler).next()
-          .rule().msgType(WxConsts.XML_MSG_TEXT).content("猜数字").handler(startGuessNumberHandler).next()
-          .rule().msgType(WxConsts.XML_MSG_TEXT).rContent("\\d+").handler(checkAnswerHandler).end()
+          .rule().msgType(WxConsts.XML_MSG_TEXT).matcher(guessNumberHandler).handler(guessNumberHandler).end()
           .rule().async(false).content("哈哈").handler(textHandler).end()
           .rule().async(false).content("图片").handler(imageHandler).end()
           .rule().async(false).content("oauth").handler(oauth2handler).end()
