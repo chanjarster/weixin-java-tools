@@ -181,7 +181,11 @@ public class WxCpMessageRouter {
 
     String messageId = "";
     if (wxMessage.getMsgId() == null) {
-      messageId = wxMessage.getFromUserName() + "-" + String.valueOf(wxMessage.getCreateTime());
+      messageId = String.valueOf(wxMessage.getCreateTime())
+          + "-" +String.valueOf(wxMessage.getAgentId() == null ? "" : wxMessage.getAgentId())
+          + "-" + wxMessage.getFromUserName()
+          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEvent());
+      ;
     } else {
       messageId = String.valueOf(wxMessage.getMsgId());
     }

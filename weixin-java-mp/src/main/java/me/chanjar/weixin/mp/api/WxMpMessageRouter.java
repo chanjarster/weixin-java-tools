@@ -180,7 +180,10 @@ public class WxMpMessageRouter {
 
     String messageId = "";
     if (wxMessage.getMsgId() == null) {
-      messageId = wxMessage.getFromUserName() + "-" + String.valueOf(wxMessage.getCreateTime());
+      messageId = String.valueOf(wxMessage.getCreateTime())
+          + "-" + wxMessage.getFromUserName()
+          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEvent());
+      ;
     } else {
       messageId = String.valueOf(wxMessage.getMsgId());
     }
