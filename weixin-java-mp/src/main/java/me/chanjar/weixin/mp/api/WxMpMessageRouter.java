@@ -106,7 +106,7 @@ public class WxMpMessageRouter {
    * @return
    */
   public Rule rule() {
-    return new Rule(this, wxMpService, sessionManager);
+    return new Rule(this);
   }
 
   /**
@@ -142,12 +142,12 @@ public class WxMpMessageRouter {
         futures.add(
             executorService.submit(new Runnable() {
               public void run() {
-                rule.service(wxMessage);
+                rule.service(wxMessage, wxMpService, sessionManager);
               }
             })
         );
       } else {
-        res = rule.service(wxMessage);
+        res = rule.service(wxMessage, wxMpService, sessionManager);
         // 在同步操作结束，session访问结束
         log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
         sessionEndAccess(wxMessage);
@@ -212,10 +212,6 @@ public class WxMpMessageRouter {
     
     private final WxMpMessageRouter routerBuilder;
 
-    private final WxMpService wxMpService;
-
-    private final WxSessionManager sessionManager;
-
     private boolean async = true;
 
     private String fromUser;
@@ -236,10 +232,8 @@ public class WxMpMessageRouter {
     
     private List<WxMpMessageInterceptor> interceptors = new ArrayList<WxMpMessageInterceptor>();
 
-    protected Rule(WxMpMessageRouter routerBuilder, WxMpService wxMpService, WxSessionManager sessionManager) {
+    protected Rule(WxMpMessageRouter routerBuilder) {
       this.routerBuilder = routerBuilder;
-      this.wxMpService = wxMpService;
-      this.sessionManager = sessionManager;
     }
     
     /**
@@ -401,7 +395,7 @@ public class WxMpMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage) {
+    protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxMpMessageInterceptor interceptor : this.interceptors) {

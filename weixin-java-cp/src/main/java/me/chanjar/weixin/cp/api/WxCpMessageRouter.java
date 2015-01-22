@@ -107,7 +107,7 @@ public class WxCpMessageRouter {
    * @return
    */
   public Rule rule() {
-    return new Rule(this, wxCpService, sessionManager);
+    return new Rule(this);
   }
 
   /**
@@ -143,12 +143,12 @@ public class WxCpMessageRouter {
         futures.add(
             executorService.submit(new Runnable() {
               public void run() {
-                rule.service(wxMessage);
+                rule.service(wxMessage, wxCpService, sessionManager);
               }
             })
         );
       } else {
-        res = rule.service(wxMessage);
+        res = rule.service(wxMessage, wxCpService, sessionManager);
         // 在同步操作结束，session访问结束
         log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
         sessionEndAccess(wxMessage);
@@ -214,10 +214,6 @@ public class WxCpMessageRouter {
 
     private final WxCpMessageRouter routerBuilder;
 
-    private final WxCpService wxCpService;
-
-    private final WxSessionManager sessionManager;
-
     private boolean async = true;
 
     private String fromUser;
@@ -240,10 +236,8 @@ public class WxCpMessageRouter {
 
     private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
 
-    protected Rule(WxCpMessageRouter routerBuilder, WxCpService wxCpService, WxSessionManager sessionManager) {
+    protected Rule(WxCpMessageRouter routerBuilder) {
       this.routerBuilder = routerBuilder;
-      this.wxCpService = wxCpService;
-      this.sessionManager = sessionManager;
     }
 
     /**
@@ -417,7 +411,7 @@ public class WxCpMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected WxCpXmlOutMessage service(WxCpXmlMessage wxMessage) {
+    protected WxCpXmlOutMessage service(WxCpXmlMessage wxMessage, WxCpService wxCpService, WxSessionManager sessionManager) {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
