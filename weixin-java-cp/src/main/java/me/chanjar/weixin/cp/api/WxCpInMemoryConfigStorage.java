@@ -16,7 +16,7 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected String accessToken;
   protected String aesKey;
   protected String agentId;
-  protected int expiresIn;
+  protected long expiresTime;
 
   protected String oauth2redirectUri;
 
@@ -25,17 +25,25 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected String http_proxy_username;
   protected String http_proxy_password;
 
-  public void updateAccessToken(WxAccessToken accessToken) {
+  public String getAccessToken() {
+    return this.accessToken;
+  }
+
+  public boolean isAccessTokenExpired() {
+    return System.currentTimeMillis() > this.expiresTime;
+  }
+
+  public void expireAccessToken() {
+    this.expiresTime = 0;
+  }
+
+  public synchronized void updateAccessToken(WxAccessToken accessToken) {
     updateAccessToken(accessToken.getAccessToken(), accessToken.getExpiresIn());
   }
   
-  public void updateAccessToken(String accessToken, int expiresIn) {
+  public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     this.accessToken = accessToken;
-    this.expiresIn = expiresIn;
-  }
-
-  public String getAccessToken() {
-    return this.accessToken;
+    this.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
   }
 
   public String getCorpId() {
@@ -50,8 +58,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
     return this.token;
   }
 
-  public int getExpiresIn() {
-    return this.expiresIn;
+  public long getExpiresTime() {
+    return this.expiresTime;
   }
 
   public void setCorpId(String corpId) {
@@ -78,8 +86,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
     this.accessToken = accessToken;
   }
 
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
+  public void setExpiresTime(long expiresTime) {
+    this.expiresTime = expiresTime;
   }
 
   public String getAgentId() {
@@ -140,7 +148,7 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
         ", accessToken='" + accessToken + '\'' +
         ", aesKey='" + aesKey + '\'' +
         ", agentId='" + agentId + '\'' +
-        ", expiresIn=" + expiresIn +
+        ", expiresTime=" + expiresTime +
         ", http_proxy_host='" + http_proxy_host + '\'' +
         ", http_proxy_port=" + http_proxy_port +
         ", http_proxy_username='" + http_proxy_username + '\'' +

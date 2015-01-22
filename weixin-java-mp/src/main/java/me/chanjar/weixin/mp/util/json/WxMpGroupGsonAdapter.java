@@ -14,11 +14,6 @@ import me.chanjar.weixin.mp.bean.WxMpGroup;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxMpGroupGsonAdapter implements JsonSerializer<WxMpGroup>, JsonDeserializer<WxMpGroup> {
 
   public JsonElement serialize(WxMpGroup group, Type typeOfSrc, JsonSerializationContext context) {

@@ -1,12 +1,12 @@
 package me.chanjar.weixin.mp.bean.outxmlbuilder;
 
-import me.chanjar.weixin.mp.bean.WxMpMpXmlOutImageMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutImageMessage;
 
 /**
  * 图片消息builder
  * @author chanjarster
  */
-public final class ImageBuilder extends BaseBuilder<ImageBuilder, WxMpMpXmlOutImageMessage> {
+public final class ImageBuilder extends BaseBuilder<ImageBuilder, WxMpXmlOutImageMessage> {
 
   private String mediaId;
 
@@ -15,8 +15,8 @@ public final class ImageBuilder extends BaseBuilder<ImageBuilder, WxMpMpXmlOutIm
     return this;
   }
 
-  public WxMpMpXmlOutImageMessage build() {
-    WxMpMpXmlOutImageMessage m = new WxMpMpXmlOutImageMessage();
+  public WxMpXmlOutImageMessage build() {
+    WxMpXmlOutImageMessage m = new WxMpXmlOutImageMessage();
     setCommon(m);
     m.setMediaId(this.mediaId);
     return m;

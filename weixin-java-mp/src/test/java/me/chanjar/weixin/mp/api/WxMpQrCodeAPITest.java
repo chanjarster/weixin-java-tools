@@ -1,15 +1,13 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
-
+import com.google.inject.Inject;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
-
-import com.google.inject.Inject;
+import java.io.File;
 
 /**
  * 测试用户相关的接口

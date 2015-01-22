@@ -1,13 +1,15 @@
 package me.chanjar.weixin.cp.api;
 
-import java.util.Map;
-
 import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 /**
  * 测试消息路由器
@@ -67,7 +69,8 @@ public class WxCpMessageRouterTest {
     final WxCpMessageRouter router = new WxCpMessageRouter(null);
     router.rule().handler(new WxCpMessageHandler() {
       @Override
-      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
+      public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService,
+          WxSessionManager sessionManager) {
         return null;
       }
     }).end();
@@ -149,10 +152,144 @@ public class WxCpMessageRouterTest {
     }
 
     @Override
-    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService) {
+    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService,
+        WxSessionManager sessionManager) {
       sb.append(this.echoStr).append(',');
       return null;
     }
+
+  }
+
+  @DataProvider
+  public Object[][] standardSessionManager() {
+
+    // 故意把session存活时间变短，清理更频繁
+    StandardSessionManager ism = new StandardSessionManager();
+    ism.setMaxInactiveInterval(1);
+    ism.setProcessExpiresFrequency(1);
+    ism.setBackgroundProcessorDelay(1);
+
+    return new Object[][] {
+        new Object[] { ism }
+    };
+
+  }
+
+  @Test(dataProvider = "standardSessionManager")
+  public void testSessionClean1(StandardSessionManager ism) throws InterruptedException {
+
+    // 两个同步请求，看是否处理完毕后会被清理掉
+    final WxCpMessageRouter router = new WxCpMessageRouter(null);
+    router.setSessionManager(ism);
+    router
+        .rule().async(false).handler(new WxSessionMessageHandler()).next()
+        .rule().async(false).handler(new WxSessionMessageHandler()).end();
+
+    WxCpXmlMessage msg = new WxCpXmlMessage();
+    msg.setFromUserName("abc");
+    router.route(msg);
+
+    Thread.sleep(2000l);
+    Assert.assertEquals(ism.getActiveSessions(), 0);
+
+  }
+
+  @Test(dataProvider = "standardSessionManager")
+  public void testSessionClean2(StandardSessionManager ism) throws InterruptedException {
+
+    // 1个同步,1个异步请求，看是否处理完毕后会被清理掉
+    {
+      final WxCpMessageRouter router = new WxCpMessageRouter(null);
+      router.setSessionManager(ism);
+      router
+          .rule().async(false).handler(new WxSessionMessageHandler()).next()
+          .rule().async(true).handler(new WxSessionMessageHandler()).end();
+
+      WxCpXmlMessage msg = new WxCpXmlMessage();
+      msg.setFromUserName("abc");
+      router.route(msg);
+
+      Thread.sleep(2000l);
+      Assert.assertEquals(ism.getActiveSessions(), 0);
+    }
+    {
+      final WxCpMessageRouter router = new WxCpMessageRouter(null);
+      router.setSessionManager(ism);
+      router
+          .rule().async(true).handler(new WxSessionMessageHandler()).next()
+          .rule().async(false).handler(new WxSessionMessageHandler()).end();
+
+      WxCpXmlMessage msg = new WxCpXmlMessage();
+      msg.setFromUserName("abc");
+      router.route(msg);
+
+      Thread.sleep(2000l);
+      Assert.assertEquals(ism.getActiveSessions(), 0);
+    }
+
+  }
+
+  @Test(dataProvider = "standardSessionManager")
+  public void testSessionClean3(StandardSessionManager ism) throws InterruptedException {
+
+    // 2个异步请求，看是否处理完毕后会被清理掉
+    final WxCpMessageRouter router = new WxCpMessageRouter(null);
+    router.setSessionManager(ism);
+    router
+        .rule().async(true).handler(new WxSessionMessageHandler()).next()
+        .rule().async(true).handler(new WxSessionMessageHandler()).end();
+
+    WxCpXmlMessage msg = new WxCpXmlMessage();
+    msg.setFromUserName("abc");
+    router.route(msg);
+
+    Thread.sleep(2000l);
+    Assert.assertEquals(ism.getActiveSessions(), 0);
+
+  }
+
+  @Test(dataProvider = "standardSessionManager")
+  public void testSessionClean4(StandardSessionManager ism) throws InterruptedException {
+
+    // 一个同步请求，看是否处理完毕后会被清理掉
+    {
+      final WxCpMessageRouter router = new WxCpMessageRouter(null);
+      router.setSessionManager(ism);
+      router
+          .rule().async(false).handler(new WxSessionMessageHandler()).end();
+
+      WxCpXmlMessage msg = new WxCpXmlMessage();
+      msg.setFromUserName("abc");
+      router.route(msg);
+
+      Thread.sleep(2000l);
+      Assert.assertEquals(ism.getActiveSessions(), 0);
+    }
+
+    {
+      final WxCpMessageRouter router = new WxCpMessageRouter(null);
+      router.setSessionManager(ism);
+      router
+          .rule().async(true).handler(new WxSessionMessageHandler()).end();
+
+      WxCpXmlMessage msg = new WxCpXmlMessage();
+      msg.setFromUserName("abc");
+      router.route(msg);
+
+      Thread.sleep(2000l);
+      Assert.assertEquals(ism.getActiveSessions(), 0);
+    }
+  }
+
+  public static class WxSessionMessageHandler implements  WxCpMessageHandler {
+
+    @Override
+    public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context, WxCpService wxCpService,
+        WxSessionManager sessionManager) {
+      sessionManager.getSession(wxMessage.getFromUserName());
+      return null;
+    }
+
 
   }
 

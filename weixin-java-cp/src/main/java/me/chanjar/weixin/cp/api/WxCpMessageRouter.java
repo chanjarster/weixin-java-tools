@@ -1,15 +1,22 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.session.*;
+import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
+import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
+import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
+import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Pattern;
-
-import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
-import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 
 /**
  * <pre>
@@ -41,22 +48,58 @@ import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
  */
 public class WxCpMessageRouter {
 
-  private static final int DEFAULT_THREAD_POOL_SIZE = 20;
+  protected final Logger log = LoggerFactory.getLogger(WxCpMessageRouter.class);
+
+  private static final int DEFAULT_THREAD_POOL_SIZE = 100;
 
   private final List<Rule> rules = new ArrayList<Rule>();
 
-  private final ExecutorService executorService;
-
   private final WxCpService wxCpService;
+
+  private ExecutorService executorService;
+
+  private WxMessageDuplicateChecker messageDuplicateChecker;
+
+  private WxSessionManager sessionManager;
 
   public WxCpMessageRouter(WxCpService wxCpService) {
     this.wxCpService = wxCpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+    this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
+    this.sessionManager = new StandardSessionManager();
   }
 
-  public WxCpMessageRouter(WxCpService wxMpService, int threadPoolSize) {
-    this.wxCpService = wxMpService;
-    this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+  /**
+   * <pre>
+   * 设置自定义的 {@link ExecutorService}
+   * 如果不调用该方法，默认使用 Executors.newFixedThreadPool(100)
+   * </pre>
+   * @param executorService
+   */
+  public void setExecutorService(ExecutorService executorService) {
+    this.executorService = executorService;
+  }
+
+  /**
+   * <pre>
+   * 设置自定义的 {@link me.chanjar.weixin.common.util.WxMessageDuplicateChecker}
+   * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker}
+   * </pre>
+   * @param messageDuplicateChecker
+   */
+  public void setMessageDuplicateChecker(WxMessageDuplicateChecker messageDuplicateChecker) {
+    this.messageDuplicateChecker = messageDuplicateChecker;
+  }
+
+  /**
+   * <pre>
+   * 设置自定义的{@link me.chanjar.weixin.common.session.WxSessionManager}
+   * 如果不调用该方法，默认使用 {@linke SessionManagerImpl}
+   * </pre>
+   * @param sessionManager
+   */
+  public void setSessionManager(WxSessionManager sessionManager) {
+    this.sessionManager = sessionManager;
   }
 
   /**
@@ -64,7 +107,7 @@ public class WxCpMessageRouter {
    * @return
    */
   public Rule rule() {
-    return new Rule(this, wxCpService);
+    return new Rule(this, wxCpService, sessionManager);
   }
 
   /**
@@ -72,6 +115,11 @@ public class WxCpMessageRouter {
    * @param wxMessage
    */
   public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
+    if (isDuplicateMessage(wxMessage)) {
+      // 如果是重复消息，那么就不做处理
+      return null;
+    }
+    
     final List<Rule> matchRules = new ArrayList<Rule>();
     // 收集匹配的规则
     for (final Rule rule : rules) {
@@ -88,19 +136,74 @@ public class WxCpMessageRouter {
     }
 
     WxCpXmlOutMessage res = null;
+    final List<Future> futures = new ArrayList<Future>();
     for (final Rule rule : matchRules) {
       // 返回最后一个非异步的rule的执行结果
       if(rule.async) {
-        executorService.submit(new Runnable() {
-          public void run() {
-            rule.service(wxMessage);
-          }
-        });
+        futures.add(
+            executorService.submit(new Runnable() {
+              public void run() {
+                rule.service(wxMessage);
+              }
+            })
+        );
       } else {
         res = rule.service(wxMessage);
+        // 在同步操作结束，session访问结束
+        log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
+        sessionEndAccess(wxMessage);
       }
     }
+
+    if (futures.size() > 0) {
+      executorService.submit(new Runnable() {
+        @Override
+        public void run() {
+          for (Future future : futures) {
+            try {
+              future.get();
+              log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
+              // 异步操作结束，session访问结束
+              sessionEndAccess(wxMessage);
+            } catch (InterruptedException e) {
+              log.error("Error happened when wait task finish", e);
+            } catch (ExecutionException e) {
+              log.error("Error happened when wait task finish", e);
+            }
+          }
+        }
+      });
+    }
     return res;
+  }
+
+  protected boolean isDuplicateMessage(WxCpXmlMessage wxMessage) {
+
+    String messageId = "";
+    if (wxMessage.getMsgId() == null) {
+      messageId = wxMessage.getFromUserName() + "-" + String.valueOf(wxMessage.getCreateTime());
+    } else {
+      messageId = String.valueOf(wxMessage.getMsgId());
+    }
+
+    if (messageDuplicateChecker.isDuplicate(messageId)) {
+      return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * 对session的访问结束
+   * @param wxMessage
+   */
+  protected void sessionEndAccess(WxCpXmlMessage wxMessage) {
+
+    InternalSession session = ((InternalSessionManager)sessionManager).findSession(wxMessage.getFromUserName());
+    if (session != null) {
+      session.endAccess();
+    }
+
   }
 
   public static class Rule {
@@ -108,6 +211,8 @@ public class WxCpMessageRouter {
     private final WxCpMessageRouter routerBuilder;
 
     private final WxCpService wxCpService;
+
+    private final WxSessionManager sessionManager;
 
     private boolean async = true;
 
@@ -131,9 +236,10 @@ public class WxCpMessageRouter {
 
     private List<WxCpMessageInterceptor> interceptors = new ArrayList<WxCpMessageInterceptor>();
 
-    protected Rule(WxCpMessageRouter routerBuilder, WxCpService wxCpService) {
+    protected Rule(WxCpMessageRouter routerBuilder, WxCpService wxCpService, WxSessionManager sessionManager) {
       this.routerBuilder = routerBuilder;
       this.wxCpService = wxCpService;
+      this.sessionManager = sessionManager;
     }
 
     /**
@@ -311,7 +417,7 @@ public class WxCpMessageRouter {
       Map<String, Object> context = new HashMap<String, Object>();
       // 如果拦截器不通过
       for (WxCpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context, wxCpService)) {
+        if (!interceptor.intercept(wxMessage, context, wxCpService, sessionManager)) {
           return null;
         }
       }
@@ -320,7 +426,7 @@ public class WxCpMessageRouter {
       WxCpXmlOutMessage res = null;
       for (WxCpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
-        res = handler.handle(wxMessage, context, wxCpService);
+        res = handler.handle(wxMessage, context, wxCpService, sessionManager);
       }
       return res;
     }

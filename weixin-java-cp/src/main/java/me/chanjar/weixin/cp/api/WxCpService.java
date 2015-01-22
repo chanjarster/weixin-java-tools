@@ -1,17 +1,20 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.cp.bean.WxCpDepart;
+import me.chanjar.weixin.cp.bean.WxCpMessage;
+import me.chanjar.weixin.cp.bean.WxCpTag;
+import me.chanjar.weixin.cp.bean.WxCpUser;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
-import me.chanjar.weixin.common.bean.WxMenu;
-import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.cp.bean.*;
-import me.chanjar.weixin.cp.bean.WxCpDepart;
-import me.chanjar.weixin.cp.bean.WxCpUser;
-import me.chanjar.weixin.common.exception.WxErrorException;
 
 /**
  * 微信API的Service
@@ -43,6 +46,14 @@ public interface WxCpService {
   public void userAuthenticated(String userId) throws WxErrorException;
 
   /**
+   * 获取access_token, 不强制刷新access_token
+   * @see #getAccessToken(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getAccessToken() throws WxErrorException;
+
+  /**
    * <pre>
    * 获取access_token，本方法线程安全
    * 且在多线程同时刷新时只刷新一次，避免超出2000次/日的调用次数上限
@@ -50,10 +61,11 @@ public interface WxCpService {
    * 程序员在非必要情况下尽量不要主动调用此方法
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
    * </pre>
-   *
+   * @param forceRefresh 强制刷新
+   * @return
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
-  public void accessTokenRefresh() throws WxErrorException;
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -343,4 +355,46 @@ public interface WxCpService {
    * @param wxConfigProvider
    */
   public void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider);
+
+  /**
+   * <pre>
+   * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
+   * 默认：1000ms
+   * </pre>
+   * @param retrySleepMillis
+   */
+  void setRetrySleepMillis(int retrySleepMillis);
+
+  /**
+   * <pre>
+   * 设置当微信系统响应系统繁忙时，最大重试次数
+   * 默认：5次
+   * </pre>
+   * @param maxRetryTimes
+   */
+  void setMaxRetryTimes(int maxRetryTimes);
+
+  /**
+   * 获取某个sessionId对应的session,如果sessionId没有对应的session，则新建一个并返回。
+   * @param id id可以为任意字符串，建议使用FromUserName作为id
+   * @return
+   */
+  WxSession getSession(String id);
+
+  /**
+   * 获取某个sessionId对应的session,如果sessionId没有对应的session，若create为true则新建一个，否则返回null。
+   * @param id id可以为任意字符串，建议使用FromUserName作为id
+   * @param create
+   * @return
+   */
+  WxSession getSession(String id, boolean create);
+
+  /**
+   * <pre>
+   * 设置WxSessionManager，只有当需要使用个性化的WxSessionManager的时候才需要调用此方法，
+   * WxCpService默认使用的是{@link me.chanjar.weixin.common.session.StandardSessionManager}
+   * </pre>
+   * @param sessionManager
+   */
+  void setSessionManager(WxSessionManager sessionManager);
 }

@@ -1,5 +1,6 @@
 package me.chanjar.weixin.cp.demo;
 
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.cp.api.*;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
@@ -8,7 +9,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -37,7 +37,6 @@ public class WxCpDemoServer {
   }
 
   private static void initWeixin() {
-    try {
       InputStream is1 = ClassLoader.getSystemResourceAsStream("test-config.xml");
       WxCpDemoInMemoryConfigStorage config = WxCpDemoInMemoryConfigStorage.fromXml(is1);
 
@@ -48,7 +47,7 @@ public class WxCpDemoServer {
       WxCpMessageHandler handler = new WxCpMessageHandler() {
         @Override
         public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
-            WxCpService wxCpService) {
+            WxCpService wxCpService, WxSessionManager sessionManager) {
           WxCpXmlOutTextMessage m = WxCpXmlOutMessage
               .TEXT()
               .content("测试加密消息")
@@ -62,7 +61,7 @@ public class WxCpDemoServer {
       WxCpMessageHandler oauth2handler = new WxCpMessageHandler() {
         @Override
         public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
-            WxCpService wxCpService) {
+            WxCpService wxCpService, WxSessionManager sessionManager) {
           String href = "<a href=\"" + wxCpService.oauth2buildAuthorizationUrl(null)
               + "\">测试oauth2</a>";
           return WxCpXmlOutMessage
@@ -87,8 +86,5 @@ public class WxCpDemoServer {
           .end()
       ;
 
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

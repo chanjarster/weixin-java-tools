@@ -1,35 +1,29 @@
 package me.chanjar.weixin.cp.bean;
 
-import me.chanjar.weixin.common.util.xml.AdapterCDATA;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import me.chanjar.weixin.common.util.xml.XStreamCDataConverter;
 import me.chanjar.weixin.cp.api.WxCpConfigStorage;
 import me.chanjar.weixin.cp.bean.outxmlbuilder.*;
 import me.chanjar.weixin.cp.util.crypto.WxCpCryptUtil;
-import me.chanjar.weixin.cp.util.xml.XmlTransformer;
+import me.chanjar.weixin.cp.util.xml.XStreamTransformer;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+@XStreamAlias("xml")
+public abstract class WxCpXmlOutMessage {
 
-@XmlRootElement(name = "xml")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class WxCpXmlOutMessage {
-
-  @XmlElement(name="ToUserName")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("ToUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   protected String toUserName;
   
-  @XmlElement(name="FromUserName")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("FromUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   protected String fromUserName;
   
-  @XmlElement(name="CreateTime")
+  @XStreamAlias("CreateTime")
   protected Long createTime;
   
-  @XmlElement(name="MsgType")
-  @XmlJavaTypeAdapter(AdapterCDATA.class)
+  @XStreamAlias("MsgType")
+  @XStreamConverter(value=XStreamCDataConverter.class)
   protected String msgType;
 
   public String getToUserName() {
@@ -65,11 +59,7 @@ public class WxCpXmlOutMessage {
   }
   
   protected String toXml() {
-    try {
-      return XmlTransformer.toXml((Class)this.getClass(), this);
-    } catch (JAXBException e) {
-      throw new RuntimeException(e);
-    }
+    return XStreamTransformer.toXml((Class)this.getClass(), this);
   }
 
   /**

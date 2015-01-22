@@ -3,7 +3,8 @@
 <suite name="Weixin-java-tool-suite" verbose="1">
 	<test name="API_Test">
 		<classes>
-			<class name="me.chanjar.weixin.mp.api.WxBaseAPITest" />
+      <class name="me.chanjar.weixin.mp.api.WxMpBusyRetryTest" />
+			<class name="me.chanjar.weixin.mp.api.WxMpBaseAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpCustomMessageAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpMenuAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpGroupAPITest" />
@@ -13,6 +14,7 @@
 			<class name="me.chanjar.weixin.mp.api.WxMpQrCodeAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpShortUrlAPITest" />
 			<class name="me.chanjar.weixin.mp.api.WxMpMessageRouterTest" />
+      <class name="me.chanjar.weixin.mp.api.WxMpJsAPITest" />
 		</classes>
 	</test>
 

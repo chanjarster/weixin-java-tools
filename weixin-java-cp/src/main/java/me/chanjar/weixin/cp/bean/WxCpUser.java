@@ -21,6 +21,8 @@ public class WxCpUser {
   private String tel;
   private String email;
   private String weiXinId;
+  private String avatar;
+  private Integer status;
   private final List<Attr> extAttrs = new ArrayList<Attr>();
 
   public String getUserId() {
@@ -93,6 +95,22 @@ public class WxCpUser {
 
   public void setWeiXinId(String weiXinId) {
     this.weiXinId = weiXinId;
+  }
+
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
   }
 
   public void addExtAttr(String name, String value) {

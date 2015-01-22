@@ -5,7 +5,7 @@
     <token>企业号应用Token</token>
     <aesKey>企业号应用EncodingAESKey</aesKey>
     <accessToken>可以不填写</accessToken>
-    <expiresIn>可以不填写</expiresIn>
+    <expiresTime>可以不填写</expiresTime>
     <userId>企业号通讯录里的某个userid</userId>
     <departmentId>企业号通讯录的某个部门id</departmentId>
     <tagId>企业号通讯录里的某个tagid</tagId>

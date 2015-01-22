@@ -10,8 +10,6 @@ package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
-import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
-import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
 
 import java.lang.reflect.Type;

@@ -1,10 +1,9 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.google.inject.Inject;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 import me.chanjar.weixin.mp.bean.WxMpMassNews;
 import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
@@ -16,9 +15,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
 
-import me.chanjar.weixin.common.exception.WxErrorException;
-
-import com.google.inject.Inject;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 测试群发消息

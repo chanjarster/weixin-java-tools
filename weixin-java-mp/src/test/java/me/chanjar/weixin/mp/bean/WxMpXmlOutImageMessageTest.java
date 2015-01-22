@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 public class WxMpXmlOutImageMessageTest {
 
   public void test() {
-    WxMpMpXmlOutImageMessage m = new WxMpMpXmlOutImageMessage();
+    WxMpXmlOutImageMessage m = new WxMpXmlOutImageMessage();
     m.setMediaId("ddfefesfsdfef");
     m.setCreateTime(1122l);
     m.setFromUserName("from");
@@ -25,7 +25,7 @@ public class WxMpXmlOutImageMessageTest {
   }
   
   public void testBuild() {
-    WxMpMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
+    WxMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId("ddfefesfsdfef").fromUser("from").toUser("to").build();
     String expected = "<xml>"
         + "<ToUserName><![CDATA[to]]></ToUserName>"
         + "<FromUserName><![CDATA[from]]></FromUserName>"

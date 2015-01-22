@@ -2,10 +2,12 @@ package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSession;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
-import me.chanjar.weixin.common.exception.WxErrorException;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +30,15 @@ public interface WxMpService {
    * @return
    */
   public boolean checkSignature(String timestamp, String nonce, String signature);
-  
+
+  /**
+   * 获取access_token, 不强制刷新access_token
+   * @see #getAccessToken(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getAccessToken() throws WxErrorException;
+
   /**
    * <pre>
    * 获取access_token，本方法线程安全
@@ -40,20 +50,56 @@ public interface WxMpService {
 
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
    * </pre>
+   * @param forceRefresh 强制刷新
+   * @return
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
-  public void accessTokenRefresh() throws WxErrorException;
-  
+  public String getAccessToken(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * 获得jsapi_ticket,不强制刷新jsapi_ticket
+   * @see #getJsapiTicket(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获得jsapi_ticket
+   * 获得时会检查jsapiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param forceRefresh 强制刷新
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 创建调用jsapi时所需要的签名
+   *
+   * 详情请见：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param timestamp 时间戳
+   * @param noncestr  用户自己生成的随机字符串
+   * @param url       url
+   * @return
+   */
+  public String createJsapiSignature(long timestamp, String noncestr, String url) throws WxErrorException;
+
   /**
    * <pre>
    * 上传多媒体文件
-   * 
+   *
    * 上传的多媒体文件有格式和大小限制，如下：
    *   图片（image）: 1M，支持JPG格式
    *   语音（voice）：2M，播放长度不超过60s，支持AMR\MP3格式
    *   视频（video）：10MB，支持MP4格式
    *   缩略图（thumb）：64KB，支持JPG格式
-   *    
+   *
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
@@ -412,9 +458,28 @@ public interface WxMpService {
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-    /**
-     * 注入 {@link WxMpConfigStorage} 的实现
-     * @param wxConfigProvider
-     */
+  /**
+   * 注入 {@link WxMpConfigStorage} 的实现
+   * @param wxConfigProvider
+   */
   public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
+
+  /**
+   * <pre>
+   * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
+   * 默认：1000ms
+   * </pre>
+   * @param retrySleepMillis
+   */
+  void setRetrySleepMillis(int retrySleepMillis);
+
+  /**
+   * <pre>
+   * 设置当微信系统响应系统繁忙时，最大重试次数
+   * 默认：5次
+   * </pre>
+   * @param maxRetryTimes
+   */
+  void setMaxRetryTimes(int maxRetryTimes);
+
 }

@@ -9,12 +9,20 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
  */
 public interface WxCpConfigStorage {
 
-  public void updateAccessToken(WxAccessToken accessToken);
-  
-  public void updateAccessToken(String accessToken, int expiresIn);
-  
   public String getAccessToken();
-  
+
+  public boolean isAccessTokenExpired();
+
+  /**
+   * 强制将access token过期掉
+   */
+  public void expireAccessToken();
+
+  public void updateAccessToken(WxAccessToken accessToken);
+
+  public void updateAccessToken(String accessToken, int expiresIn);
+
+
   public String getCorpId();
   
   public String getCorpSecret();
@@ -25,7 +33,7 @@ public interface WxCpConfigStorage {
 
   public String getAesKey();
 
-  public int getExpiresIn();
+  public long getExpiresTime();
 
   public String getOauth2redirectUri();
 

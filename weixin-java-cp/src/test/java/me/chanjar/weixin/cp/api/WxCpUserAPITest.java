@@ -1,9 +1,9 @@
 package me.chanjar.weixin.cp.api;
 
 import com.google.inject.Inject;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpUser;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Test;
@@ -26,30 +26,30 @@ public class WxCpUserAPITest {
 
   public void testUserCreate() throws WxErrorException {
     WxCpUser user = new WxCpUser();
-    user.setUserId("xiaohe.yang");
-    user.setName("杨宝");
+    user.setUserId("some.woman");
+    user.setName("Some Woman");
     user.setDepartIds(new Integer[] { 9, 8 });
-    user.setEmail("yangxiaohe@ddd.com");
+    user.setEmail("none@none.com");
     user.setGender("女");
-    user.setMobile("13564684979");
-    user.setPosition("老婆");
+    user.setMobile("13560084979");
+    user.setPosition("woman");
     user.setTel("3300393");
-    user.addExtAttr("爱好", "老公");
+    user.addExtAttr("爱好", "table");
     wxCpService.userCreate(user);
   }
 
   @Test(dependsOnMethods = "testUserCreate")
   public void testUserUpdate() throws WxErrorException {
     WxCpUser user = new WxCpUser();
-    user.setUserId("xiaohe.yang");
-    user.setName("杨宝");
-    user.addExtAttr("爱好", "老公2");
+    user.setUserId("some.woman");
+    user.setName("Some Woman");
+    user.addExtAttr("爱好", "table2");
     wxCpService.userUpdate(user);
   }
 
   @Test(dependsOnMethods = "testUserUpdate")
   public void testUserGet() throws WxErrorException {
-    WxCpUser user = wxCpService.userGet("xiaohe.yang");
+    WxCpUser user = wxCpService.userGet("some.woman");
     Assert.assertNotNull(user);
   }
 
@@ -61,6 +61,6 @@ public class WxCpUserAPITest {
 
   @Test(dependsOnMethods = "testDepartGetUsers")
   public void testUserDelete() throws WxErrorException {
-    wxCpService.userDelete("xiaohe.yang");
+    wxCpService.userDelete("some.woman");
   }
 }

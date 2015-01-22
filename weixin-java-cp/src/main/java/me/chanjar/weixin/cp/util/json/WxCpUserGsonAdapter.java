@@ -8,11 +8,11 @@
  */
 package me.chanjar.weixin.cp.util.json;
 
-import java.lang.reflect.Type;
-
 import com.google.gson.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.bean.WxCpUser;
+
+import java.lang.reflect.Type;
 
 /**
  * @author Daniel Qian
@@ -49,6 +49,8 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     user.setTel(GsonHelper.getString(o, "tel"));
     user.setEmail(GsonHelper.getString(o, "email"));
     user.setWeiXinId(GsonHelper.getString(o, "weixinid"));
+    user.setAvatar(GsonHelper.getString(o, "avatar"));
+    user.setStatus(GsonHelper.getInteger(o, "status"));
 
     if (GsonHelper.isNotNull(o.get("extattr"))) {
       JsonArray attrJsonElements = o.get("extattr").getAsJsonObject().get("attrs").getAsJsonArray();
@@ -96,6 +98,12 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     }
     if (user.getWeiXinId() != null) {
       o.addProperty("weixinid", user.getWeiXinId());
+    }
+    if (user.getAvatar() != null) {
+      o.addProperty("avatar", user.getAvatar());
+    }
+    if (user.getStatus() != null) {
+      o.addProperty("status", user.getStatus());
     }
     if (user.getExtAttrs().size() > 0) {
       JsonArray attrsJsonArray = new JsonArray();
