@@ -60,7 +60,9 @@ public class WxMpEndpointServlet extends HttpServlet {
       // 明文传输的消息
       WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
       WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-      response.getWriter().write(outMessage.toXml());
+      if (outMessage != null) {
+        response.getWriter().write(outMessage.toXml());
+      }
       return;
     }
 
