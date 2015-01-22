@@ -619,4 +619,41 @@ public class WxMpXmlMessage {
     }
   }
 
+  @Override
+  public String toString() {
+    return "WxMpXmlMessage{" +
+        "toUserName='" + toUserName + '\'' +
+        ", fromUserName='" + fromUserName + '\'' +
+        ", createTime=" + createTime +
+        ", msgType='" + msgType + '\'' +
+        ", content='" + content + '\'' +
+        ", msgId=" + msgId +
+        ", picUrl='" + picUrl + '\'' +
+        ", mediaId='" + mediaId + '\'' +
+        ", format='" + format + '\'' +
+        ", thumbMediaId='" + thumbMediaId + '\'' +
+        ", locationX=" + locationX +
+        ", locationY=" + locationY +
+        ", scale=" + scale +
+        ", label='" + label + '\'' +
+        ", title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", url='" + url + '\'' +
+        ", event='" + event + '\'' +
+        ", eventKey='" + eventKey + '\'' +
+        ", ticket='" + ticket + '\'' +
+        ", latitude=" + latitude +
+        ", longitude=" + longitude +
+        ", precision=" + precision +
+        ", recognition='" + recognition + '\'' +
+        ", status='" + status + '\'' +
+        ", totalCount=" + totalCount +
+        ", filterCount=" + filterCount +
+        ", sentCount=" + sentCount +
+        ", errorCount=" + errorCount +
+        ", scanCodeInfo=" + scanCodeInfo +
+        ", sendPicsInfo=" + sendPicsInfo +
+        ", sendLocationInfo=" + sendLocationInfo +
+        '}';
+  }
 }
