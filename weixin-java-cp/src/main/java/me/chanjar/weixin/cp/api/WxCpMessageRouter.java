@@ -228,6 +228,8 @@ public class WxCpMessageRouter {
 
     private String rContent;
 
+    private WxCpMessageMatcher matcher;
+
     private boolean reEnter = false;
 
     private Integer agentId;
@@ -321,6 +323,16 @@ public class WxCpMessageRouter {
     }
 
     /**
+     * 如果消息匹配某个matcher，用在用户需要自定义更复杂的匹配规则的时候
+     * @param matcher
+     * @return
+     */
+    public Rule matcher(WxCpMessageMatcher matcher) {
+      this.matcher = matcher;
+      return this;
+    }
+
+    /**
      * 设置微信消息拦截器
      * @param interceptor
      * @return
@@ -403,6 +415,8 @@ public class WxCpMessageRouter {
           (this.content == null || this.content.equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
           &&
           (this.rContent == null || Pattern.matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
+          &&
+          (this.matcher == null || this.matcher.match(wxMessage))
       ;
     }
 

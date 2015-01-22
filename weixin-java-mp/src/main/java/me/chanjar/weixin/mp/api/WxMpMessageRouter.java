@@ -225,7 +225,9 @@ public class WxMpMessageRouter {
     private String content;
     
     private String rContent;
-    
+
+    private WxMpMessageMatcher matcher;
+
     private boolean reEnter = false;
     
     private List<WxMpMessageHandler> handlers = new ArrayList<WxMpMessageHandler>();
@@ -303,6 +305,16 @@ public class WxMpMessageRouter {
      */
     public Rule fromUser(String fromUser) {
       this.fromUser = fromUser;
+      return this;
+    }
+
+    /**
+     * 如果消息匹配某个matcher，用在用户需要自定义更复杂的匹配规则的时候
+     * @param matcher
+     * @return
+     */
+    public Rule matcher(WxMpMessageMatcher matcher) {
+      this.matcher = matcher;
       return this;
     }
 
@@ -387,6 +399,8 @@ public class WxMpMessageRouter {
           (this.content == null || this.content.equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
           &&
           (this.rContent == null || Pattern.matches(this.rContent, wxMessage.getContent() == null ? "" : wxMessage.getContent().trim()))
+          &&
+          (this.matcher == null || this.matcher.match(wxMessage))
       ;
     }
     

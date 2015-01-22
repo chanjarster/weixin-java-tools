@@ -42,6 +42,12 @@ public class WxCpMessageRouterTest {
       .rule().async(async).eventKey("KEY_1").handler(new WxEchoCpMessageHandler(sb, "KEY_1")).end()
       .rule().async(async).content("CONTENT_1").handler(new WxEchoCpMessageHandler(sb, "CONTENT_1")).end()
       .rule().async(async).rContent(".*bc.*").handler(new WxEchoCpMessageHandler(sb, "abcd")).end()
+      .rule().async(async).matcher(new WxCpMessageMatcher() {
+        @Override
+        public boolean match(WxCpXmlMessage message) {
+          return "strangeformat".equals(message.getFormat());
+        }
+      }).handler(new WxEchoCpMessageHandler(sb, "matcher")).end()
       .rule().async(async).handler(new WxEchoCpMessageHandler(sb, "ALL")).end();
     ;
   }
@@ -92,6 +98,7 @@ public class WxCpMessageRouterTest {
     
     Thread.sleep(1000l * 2);
   }
+
   @DataProvider(name="messages-1")
   public Object[][] messages2() {
     WxCpXmlMessage message1 = new WxCpXmlMessage();
@@ -109,9 +116,12 @@ public class WxCpMessageRouterTest {
     WxCpXmlMessage message5 = new WxCpXmlMessage();
     message5.setContent("BLA");
     
-    WxCpXmlMessage message6 =  new WxCpXmlMessage();
+    WxCpXmlMessage message6 = new WxCpXmlMessage();
     message6.setContent("abcd");
-    
+
+    WxCpXmlMessage message7 = new WxCpXmlMessage();
+    message7.setFormat("strangeformat");
+
     WxCpXmlMessage c2 = new WxCpXmlMessage();
     c2.setMsgType(WxConsts.XML_MSG_TEXT);
     c2.setEvent(WxConsts.EVT_CLICK);
@@ -126,7 +136,8 @@ public class WxCpMessageRouterTest {
     c4.setEvent(WxConsts.EVT_CLICK);
     c4.setEventKey("KEY_1");
     c4.setContent("CONTENT_1");
-    
+
+
     return new Object[][] {
         new Object[] { message1, WxConsts.XML_MSG_TEXT + "," },
         new Object[] { message2, WxConsts.EVT_CLICK + "," },
@@ -134,6 +145,7 @@ public class WxCpMessageRouterTest {
         new Object[] { message4, "CONTENT_1," },
         new Object[] { message5, "ALL," },
         new Object[] { message6, "abcd," },
+        new Object[] { message7, "matcher," },
         new Object[] { c2, "COMBINE_2," },
         new Object[] { c3, "COMBINE_3," },
         new Object[] { c4, "COMBINE_4," }
@@ -289,7 +301,6 @@ public class WxCpMessageRouterTest {
       sessionManager.getSession(wxMessage.getFromUserName());
       return null;
     }
-
 
   }
 

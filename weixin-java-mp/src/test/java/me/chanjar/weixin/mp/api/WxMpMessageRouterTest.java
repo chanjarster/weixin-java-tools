@@ -42,6 +42,12 @@ public class WxMpMessageRouterTest {
       .rule().async(async).eventKey("KEY_1").handler(new WxEchoMpMessageHandler(sb, "KEY_1")).end()
       .rule().async(async).content("CONTENT_1").handler(new WxEchoMpMessageHandler(sb, "CONTENT_1")).end()
       .rule().async(async).rContent(".*bc.*").handler(new WxEchoMpMessageHandler(sb, "abcd")).end()
+      .rule().async(async).matcher(new WxMpMessageMatcher() {
+        @Override
+        public boolean match(WxMpXmlMessage message) {
+          return "strangeformat".equals(message.getFormat());
+        }
+      }).handler(new WxEchoMpMessageHandler(sb, "matcher")).end()
       .rule().async(async).handler(new WxEchoMpMessageHandler(sb, "ALL")).end();
     ;
   }
@@ -109,9 +115,12 @@ public class WxMpMessageRouterTest {
     WxMpXmlMessage message5 = new WxMpXmlMessage();
     message5.setContent("BLA");
     
-    WxMpXmlMessage message6 =  new WxMpXmlMessage();
+    WxMpXmlMessage message6 = new WxMpXmlMessage();
     message6.setContent("abcd");
-    
+
+    WxMpXmlMessage message7 = new WxMpXmlMessage();
+    message7.setFormat("strangeformat");
+
     WxMpXmlMessage c2 = new WxMpXmlMessage();
     c2.setMsgType(WxConsts.XML_MSG_TEXT);
     c2.setEvent(WxConsts.EVT_CLICK);
@@ -134,6 +143,7 @@ public class WxMpMessageRouterTest {
         new Object[] { message4, "CONTENT_1," },
         new Object[] { message5, "ALL," },
         new Object[] { message6, "abcd," },
+        new Object[] { message7, "matcher," },
         new Object[] { c2, "COMBINE_2," },
         new Object[] { c3, "COMBINE_3," },
         new Object[] { c4, "COMBINE_4," }
