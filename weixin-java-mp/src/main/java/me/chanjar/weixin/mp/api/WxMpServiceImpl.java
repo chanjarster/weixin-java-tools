@@ -10,7 +10,7 @@ import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.InMemorySessionManager;
+import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
@@ -68,7 +68,7 @@ public class WxMpServiceImpl implements WxMpService {
 
   private int maxRetryTimes = 5;
 
-  protected WxSessionManager sessionManager = new InMemorySessionManager();
+  protected WxSessionManager sessionManager = new StandardSessionManager();
 
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {

@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SessionImpl implements WxSession, InternalSession {
+public class StandardSession implements WxSession, InternalSession {
 
   /**
    * The string manager for this package.
@@ -129,7 +129,7 @@ public class SessionImpl implements WxSession, InternalSession {
    * The facade associated with this session.  NOTE:  This value is not
    * included in the serialized version of this object.
    */
-  protected transient InternalSessionFacade facade = null;
+  protected transient StandardSessionFacade facade = null;
 
   /**
    * The access count for this session.
@@ -137,7 +137,7 @@ public class SessionImpl implements WxSession, InternalSession {
   protected transient AtomicInteger accessCount = null;
 
 
-  public SessionImpl(InternalSessionManager manager) {
+  public StandardSession(InternalSessionManager manager) {
     this.manager = manager;
     this.accessCount = new AtomicInteger();
   }
@@ -147,7 +147,7 @@ public class SessionImpl implements WxSession, InternalSession {
   public WxSession getSession() {
 
     if (facade == null){
-      facade = new InternalSessionFacade(this);
+      facade = new StandardSessionFacade(this);
     }
     return (facade);
 
@@ -281,7 +281,6 @@ public class SessionImpl implements WxSession, InternalSession {
 
   @Override
   public void setMaxInactiveInterval(int interval) {
-    int oldMaxInactiveInterval = this.maxInactiveInterval;
     this.maxInactiveInterval = interval;
   }
 
@@ -311,9 +310,9 @@ public class SessionImpl implements WxSession, InternalSession {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (!(o instanceof SessionImpl)) return false;
+    if (!(o instanceof StandardSession)) return false;
 
-    SessionImpl session = (SessionImpl) o;
+    StandardSession session = (StandardSession) o;
 
     if (creationTime != session.creationTime) return false;
     if (expiring != session.expiring) return false;

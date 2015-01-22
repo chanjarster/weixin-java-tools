@@ -8,9 +8,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class InMemorySessionManager implements WxSessionManager, InternalSessionManager {
+/**
+ * 基于内存的session manager
+ */
+public class StandardSessionManager implements WxSessionManager, InternalSessionManager {
 
-  protected final Logger log = LoggerFactory.getLogger(InMemorySessionManager.class);
+  protected final Logger log = LoggerFactory.getLogger(StandardSessionManager.class);
 
   protected static final StringManager sm =
       StringManager.getManager(Constants.Package);
@@ -128,18 +131,9 @@ public class InMemorySessionManager implements WxSessionManager, InternalSession
   }
 
 
-  /**
-   * Return the active Session, associated with this Manager, with the
-   * specified session id (if any); otherwise return <code>null</code>.
-   *
-   * @param id The session id for the session to be returned
-   *
-   * @exception IllegalStateException if a new session cannot be
-   *  instantiated for any reason
-   * @exception java.io.IOException if an input/output error occurs while
-   *  processing this request
-   */
-  protected InternalSession findSession(String id) {
+
+  @Override
+  public InternalSession findSession(String id) {
 
     if (id == null)
       return (null);
@@ -189,12 +183,11 @@ public class InMemorySessionManager implements WxSessionManager, InternalSession
     return (getNewSession());
   }
 
-
   /**
    * Get new session class to be used in the doLoad() method.
    */
   protected InternalSession getNewSession() {
-    return new SessionImpl(this);
+    return new StandardSession(this);
   }
 
 
@@ -309,6 +302,19 @@ public class InMemorySessionManager implements WxSessionManager, InternalSession
   public String getName() {
 
     return (name);
+
+  }
+
+  /**
+   * Set the maximum number of active Sessions allowed, or -1 for
+   * no limit.
+   *
+   * @param max The new maximum number of sessions
+   */
+  @Override
+  public void setMaxActiveSessions(int max) {
+
+    this.maxActiveSessions = max;
 
   }
 

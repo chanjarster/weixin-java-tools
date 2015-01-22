@@ -3,6 +3,19 @@ package me.chanjar.weixin.common.session;
 public interface InternalSessionManager {
 
   /**
+   * Return the active Session, associated with this Manager, with the
+   * specified session id (if any); otherwise return <code>null</code>.
+   *
+   * @param id The session id for the session to be returned
+   *
+   * @exception IllegalStateException if a new session cannot be
+   *  instantiated for any reason
+   * @exception java.io.IOException if an input/output error occurs while
+   *  processing this request
+   */
+  InternalSession findSession(String id);
+
+  /**
    * Construct and return a new session object, based on the default
    * settings specified by this Manager's properties.  The session
    * id specified will be used as the session id.
@@ -68,7 +81,33 @@ public interface InternalSessionManager {
    */
   void setMaxInactiveInterval(int interval);
 
+  /**
+   * <pre>
+   * Set the manager checks frequency.
+   * 设置每尝试多少次清理过期session，才真的会执行一次清理动作
+   * 要和{@link #setBackgroundProcessorDelay(int)}联合起来看
+   * 如果把这个数字设置为6（默认），那么就是说manager要等待 6 * backgroundProcessorDay的时间才会清理过期session
+   * </pre>
+   * @param processExpiresFrequency the new manager checks frequency
+   */
   void setProcessExpiresFrequency(int processExpiresFrequency);
 
+  /**
+   * <pre>
+   * Set the manager background processor delay
+   * 设置manager sleep几秒，尝试执行一次background操作（清理过期session）
+   * </pre>
+   * @param backgroundProcessorDelay
+   */
   void setBackgroundProcessorDelay(int backgroundProcessorDelay);
+
+
+  /**
+   * Set the maximum number of active Sessions allowed, or -1 for
+   * no limit.
+   * 设置最大活跃session数，默认无限
+   * @param max The new maximum number of sessions
+   */
+  void setMaxActiveSessions(int max);
+
 }

@@ -2,15 +2,19 @@ package me.chanjar.weixin.common.session;
 
 import java.util.Enumeration;
 
-public class InternalSessionFacade implements WxSession {
+public class StandardSessionFacade implements WxSession {
 
   /**
    * Wrapped session object.
    */
   private WxSession session = null;
 
-  public InternalSessionFacade(WxSession session) {
+  public StandardSessionFacade(StandardSession session) {
     this.session = session;
+  }
+
+  public InternalSession getInternalSession() {
+    return (InternalSession) session;
   }
 
   @Override
@@ -37,4 +41,5 @@ public class InternalSessionFacade implements WxSession {
   public void invalidate() {
     session.invalidate();
   }
+
 }

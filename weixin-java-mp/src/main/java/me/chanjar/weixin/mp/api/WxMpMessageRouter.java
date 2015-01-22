@@ -1,9 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
-import me.chanjar.weixin.common.session.InternalSession;
-import me.chanjar.weixin.common.session.InMemorySessionManager;
-import me.chanjar.weixin.common.session.WxSession;
-import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.session.*;
 import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
 import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
@@ -67,7 +64,7 @@ public class WxMpMessageRouter {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
-    this.sessionManager = new InMemorySessionManager();
+    this.sessionManager = new StandardSessionManager();
   }
 
   /**
@@ -131,29 +128,31 @@ public class WxMpMessageRouter {
         }
       }
     }
-    
+
     if (matchRules.size() == 0) {
       return null;
     }
-    
+
     WxMpXmlOutMessage res = null;
     final List<Future> futures = new ArrayList<Future>();
     for (final Rule rule : matchRules) {
       // 返回最后一个非异步的rule的执行结果
       if(rule.async) {
         futures.add(
-          executorService.submit(new Runnable() {
-            public void run() {
-              rule.service(wxMessage);
-            }
-          })
+            executorService.submit(new Runnable() {
+              public void run() {
+                rule.service(wxMessage);
+              }
+            })
         );
       } else {
         res = rule.service(wxMessage);
+        // 在同步操作结束，session访问结束
+        log.trace("End session access after sync operation finish {}", wxMessage.getFromUserName());
+        sessionEndAccess(wxMessage);
       }
     }
 
-    // 告诉session，它已经用不着了
     if (futures.size() > 0) {
       executorService.submit(new Runnable() {
         @Override
@@ -161,19 +160,17 @@ public class WxMpMessageRouter {
           for (Future future : futures) {
             try {
               future.get();
+              log.trace("End session access after async operation finish {}", wxMessage.getFromUserName());
+              // 异步操作结束，session访问结束
+              sessionEndAccess(wxMessage);
             } catch (InterruptedException e) {
               log.error("Error happened when wait task finish", e);
             } catch (ExecutionException e) {
               log.error("Error happened when wait task finish", e);
             }
           }
-          // 在这里session再也不会被使用了
-          sessionEndAccess(wxMessage);
         }
       });
-    } else {
-      // 在这里session再也不会被使用了
-      sessionEndAccess(wxMessage);
     }
     return res;
   }
@@ -183,10 +180,12 @@ public class WxMpMessageRouter {
    * @param wxMessage
    */
   protected void sessionEndAccess(WxMpXmlMessage wxMessage) {
-    WxSession session = sessionManager.getSession(wxMessage.getFromUserName(), false);
+
+    InternalSession session = ((InternalSessionManager)sessionManager).findSession(wxMessage.getFromUserName());
     if (session != null) {
-      ((InternalSession) session).endAccess();
+      session.endAccess();
     }
+
   }
 
   public static class Rule {

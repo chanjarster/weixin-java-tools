@@ -82,6 +82,9 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
 
   @Override
   public boolean isDuplicate(Long wxMsgId) {
+    if (wxMsgId == null) {
+      return false;
+    }
     checkBackgroundProcessStarted();
     Long timestamp = msgId2Timestamp.putIfAbsent(wxMsgId, System.currentTimeMillis());
     if (timestamp == null) {
