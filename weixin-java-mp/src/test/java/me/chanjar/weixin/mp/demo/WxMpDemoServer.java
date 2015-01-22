@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.demo;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.*;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutImageMessage;
@@ -51,7 +52,7 @@ public class WxMpDemoServer {
       WxMpMessageHandler textHandler = new WxMpMessageHandler() {
         @Override
         public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-            WxMpService wxMpService) {
+            WxMpService wxMpService, WxSessionManager sessionManager) {
           WxMpXmlOutTextMessage m
               = WxMpXmlOutMessage.TEXT().content("测试加密消息").fromUser(wxMessage.getToUserName())
               .toUser(wxMessage.getFromUserName()).build();
@@ -62,7 +63,7 @@ public class WxMpDemoServer {
       WxMpMessageHandler imageHandler = new WxMpMessageHandler() {
         @Override
         public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-            WxMpService wxMpService) {
+            WxMpService wxMpService, WxSessionManager sessionManager) {
           try {
             WxMediaUploadResult wxMediaUploadResult = wxMpService
                 .mediaUpload(WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, ClassLoader.getSystemResourceAsStream("mm.jpeg"));
@@ -86,7 +87,7 @@ public class WxMpDemoServer {
       WxMpMessageHandler oauth2handler = new WxMpMessageHandler() {
         @Override
         public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-            WxMpService wxMpService) {
+            WxMpService wxMpService, WxSessionManager sessionManager) {
           String href = "<a href=\"" + wxMpService.oauth2buildAuthorizationUrl(WxConsts.OAUTH2_SCOPE_USER_INFO, null)
               + "\">测试oauth2</a>";
           return WxMpXmlOutMessage

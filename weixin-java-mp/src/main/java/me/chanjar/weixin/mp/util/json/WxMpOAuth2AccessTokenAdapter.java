@@ -6,9 +6,6 @@ import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 
 import java.lang.reflect.Type;
 
-/**
- * Created by qianjia on 14/11/28.
- */
 public class WxMpOAuth2AccessTokenAdapter implements JsonDeserializer<WxMpOAuth2AccessToken> {
 
   public WxMpOAuth2AccessToken deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws

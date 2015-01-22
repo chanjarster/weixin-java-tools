@@ -17,9 +17,6 @@ import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 
 import java.lang.reflect.Type;
 
-/**
- * @author qianjia
- */
 public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTemplateMessage> {
 
   public JsonElement serialize(WxMpTemplateMessage message, Type typeOfSrc, JsonSerializationContext context) {

@@ -17,11 +17,6 @@ import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxMpMassGroupMessageGsonAdapter implements JsonSerializer<WxMpMassGroupMessage> {
 
   public JsonElement serialize(WxMpMassGroupMessage message, Type typeOfSrc, JsonSerializationContext context) {

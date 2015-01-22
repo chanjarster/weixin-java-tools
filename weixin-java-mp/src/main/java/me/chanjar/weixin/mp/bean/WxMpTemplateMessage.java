@@ -5,9 +5,6 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by qianjia on 14/11/1.
- */
 public class WxMpTemplateMessage {
 
   private String toUser;

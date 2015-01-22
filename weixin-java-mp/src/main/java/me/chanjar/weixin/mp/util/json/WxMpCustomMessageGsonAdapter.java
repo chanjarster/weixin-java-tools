@@ -14,11 +14,6 @@ import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxMpCustomMessageGsonAdapter implements JsonSerializer<WxMpCustomMessage> {
 
   public JsonElement serialize(WxMpCustomMessage message, Type typeOfSrc, JsonSerializationContext context) {

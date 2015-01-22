@@ -10,6 +10,8 @@ import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -31,6 +33,8 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +45,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class WxMpServiceImpl implements WxMpService {
+
+  protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
 
   /**
    * 全局的是否正在刷新access token的锁
@@ -54,11 +60,15 @@ public class WxMpServiceImpl implements WxMpService {
 
   protected WxMpConfigStorage wxMpConfigStorage;
   
-  protected final ThreadLocal<Integer> retryTimes = new ThreadLocal<Integer>();
-
   protected CloseableHttpClient httpClient;
 
   protected HttpHost httpProxy;
+
+  private int retrySleepMillis = 1000;
+
+  private int maxRetryTimes = 5;
+
+  protected WxSessionManager sessionManager = new StandardSessionManager();
 
   public boolean checkSignature(String timestamp, String nonce, String signature) {
     try {
@@ -439,7 +449,7 @@ public class WxMpServiceImpl implements WxMpService {
     return execute(new SimplePostRequestExecutor(), url, postData);
   }
 
-   /**
+  /**
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    * @param executor
    * @param uri
@@ -448,6 +458,33 @@ public class WxMpServiceImpl implements WxMpService {
    * @throws WxErrorException
    */
   public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    int retryTimes = 0;
+    do {
+      try {
+        return executeInternal(executor, uri, data);
+      } catch (WxErrorException e) {
+        WxError error = e.getError();
+        /**
+         * -1 系统繁忙, 1000ms后重试
+         */
+        if (error.getErrorCode() == -1) {
+          int sleepMillis = retrySleepMillis * (1 << retryTimes);
+          try {
+            log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
+            Thread.sleep(sleepMillis);
+          } catch (InterruptedException e1) {
+            throw new RuntimeException(e1);
+          }
+        } else {
+          throw e;
+        }
+      }
+    } while(++retryTimes < maxRetryTimes);
+
+    throw new RuntimeException("微信服务端异常，超出重试次数");
+  }
+
+  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     String accessToken = getAccessToken(false);
     
     String uriWithAccessToken = uri;
@@ -466,27 +503,6 @@ public class WxMpServiceImpl implements WxMpService {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         wxMpConfigStorage.expireAccessToken();
         return execute(executor, uri, data);
-      }
-      /**
-       * -1 系统繁忙, 1000ms后重试
-       */
-      if (error.getErrorCode() == -1) {
-        if(retryTimes.get() == null) {
-          retryTimes.set(0);
-        }
-        if (retryTimes.get() > 4) {
-          retryTimes.set(0);
-          throw new RuntimeException("微信服务端异常，超出重试次数");
-        }
-        int sleepMillis = 1000 *  (1 << retryTimes.get());
-        try {
-          System.out.println("微信系统繁忙，" + sleepMillis + "ms后重试");
-          Thread.sleep(sleepMillis);
-          retryTimes.set(retryTimes.get() + 1);
-          return execute(executor, uri, data);
-        } catch (InterruptedException e1) {
-          throw new RuntimeException(e1);
-        }
       }
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
@@ -531,6 +547,17 @@ public class WxMpServiceImpl implements WxMpService {
     } else {
       httpClient = HttpClients.createDefault();
     }
+  }
+
+  @Override
+  public void setRetrySleepMillis(int retrySleepMillis) {
+    this.retrySleepMillis = retrySleepMillis;
+  }
+
+
+  @Override
+  public void setMaxRetryTimes(int maxRetryTimes) {
+    this.maxRetryTimes = maxRetryTimes;
   }
 
 }

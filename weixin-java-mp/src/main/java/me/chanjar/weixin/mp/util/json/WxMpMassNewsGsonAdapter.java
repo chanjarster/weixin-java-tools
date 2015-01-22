@@ -13,11 +13,6 @@ import me.chanjar.weixin.mp.bean.WxMpMassNews;
 
 import java.lang.reflect.Type;
 
-/**
- * 
- * @author qianjia
- *
- */
 public class WxMpMassNewsGsonAdapter implements JsonSerializer<WxMpMassNews> {
 
   public JsonElement serialize(WxMpMassNews message, Type typeOfSrc, JsonSerializationContext context) {
