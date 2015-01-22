@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.session.*;
 import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
 import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
@@ -113,7 +114,7 @@ public class WxMpMessageRouter {
    * @param wxMessage
    */
   public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
-    if (messageDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
+    if (isDuplicateMessage(wxMessage)) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
@@ -173,6 +174,22 @@ public class WxMpMessageRouter {
       });
     }
     return res;
+  }
+
+  protected boolean isDuplicateMessage(WxMpXmlMessage wxMessage) {
+
+    String messageId = "";
+    if (wxMessage.getMsgId() == null) {
+      messageId = wxMessage.getFromUserName() + "-" + String.valueOf(wxMessage.getCreateTime());
+    } else {
+      messageId = String.valueOf(wxMessage.getMsgId());
+    }
+
+    if (messageDuplicateChecker.isDuplicate(messageId)) {
+      return true;
+    }
+    return false;
+
   }
 
   /**

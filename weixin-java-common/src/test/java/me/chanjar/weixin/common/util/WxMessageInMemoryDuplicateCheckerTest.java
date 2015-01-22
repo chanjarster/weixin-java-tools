@@ -12,21 +12,21 @@ public class WxMessageInMemoryDuplicateCheckerTest {
 
     // 第一次检查
     for (Long msgId : msgIds) {
-      boolean result = checker.isDuplicate(msgId);
+      boolean result = checker.isDuplicate(String.valueOf(msgId));
       Assert.assertFalse(result);
     }
 
     // 过1秒再检查
     Thread.sleep(1000l);
     for (Long msgId : msgIds) {
-      boolean result = checker.isDuplicate(msgId);
+      boolean result = checker.isDuplicate(String.valueOf(msgId));
       Assert.assertTrue(result);
     }
 
     // 过1.5秒再检查
     Thread.sleep(1500l);
     for (Long msgId : msgIds) {
-      boolean result = checker.isDuplicate(msgId);
+      boolean result = checker.isDuplicate(String.valueOf(msgId));
       Assert.assertFalse(result);
     }
 

@@ -115,7 +115,7 @@ public class WxCpMessageRouter {
    * @param wxMessage
    */
   public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
-    if (messageDuplicateChecker.isDuplicate(wxMessage.getMsgId())) {
+    if (isDuplicateMessage(wxMessage)) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
@@ -175,6 +175,22 @@ public class WxCpMessageRouter {
       });
     }
     return res;
+  }
+
+  protected boolean isDuplicateMessage(WxCpXmlMessage wxMessage) {
+
+    String messageId = "";
+    if (wxMessage.getMsgId() == null) {
+      messageId = wxMessage.getFromUserName() + "-" + String.valueOf(wxMessage.getCreateTime());
+    } else {
+      messageId = String.valueOf(wxMessage.getMsgId());
+    }
+
+    if (messageDuplicateChecker.isDuplicate(messageId)) {
+      return true;
+    }
+    return false;
+
   }
 
   /**

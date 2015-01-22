@@ -25,7 +25,7 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
   /**
    * 消息id->消息时间戳的map
    */
-  private final ConcurrentHashMap<Long, Long> msgId2Timestamp = new ConcurrentHashMap<Long, Long>();
+  private final ConcurrentHashMap<String, Long> msgId2Timestamp = new ConcurrentHashMap<String, Long>();
 
   /**
    * 后台清理线程是否已经开启
@@ -65,7 +65,7 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
           while (true) {
             Thread.sleep(clearPeriod);
             Long now = System.currentTimeMillis();
-            for (Map.Entry<Long, Long> entry : msgId2Timestamp.entrySet()) {
+            for (Map.Entry<String, Long> entry : msgId2Timestamp.entrySet()) {
               if (now - entry.getValue() > timeToLive) {
                 msgId2Timestamp.entrySet().remove(entry);
               }
@@ -81,12 +81,12 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
   }
 
   @Override
-  public boolean isDuplicate(Long wxMsgId) {
-    if (wxMsgId == null) {
+  public boolean isDuplicate(String messageId) {
+    if (messageId == null) {
       return false;
     }
     checkBackgroundProcessStarted();
-    Long timestamp = msgId2Timestamp.putIfAbsent(wxMsgId, System.currentTimeMillis());
+    Long timestamp = msgId2Timestamp.putIfAbsent(messageId, System.currentTimeMillis());
     if (timestamp == null) {
       // 第一次接收到这个消息
       return false;
