@@ -9,24 +9,22 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
  */
 public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
-  private static final long l = 7000 * 1000l;
+  protected volatile String appId;
+  protected volatile String secret;
+  protected volatile String token;
+  protected volatile String accessToken;
+  protected volatile String aesKey;
+  protected volatile long expiresTime;
 
-  protected String appId;
-  protected String secret;
-  protected String token;
-  protected String accessToken;
-  protected String aesKey;
-  protected long expiresTime;
+  protected volatile String oauth2redirectUri;
 
-  protected String oauth2redirectUri;
+  protected volatile String http_proxy_host;
+  protected volatile int http_proxy_port;
+  protected volatile String http_proxy_username;
+  protected volatile String http_proxy_password;
 
-  protected String http_proxy_host;
-  protected int http_proxy_port;
-  protected String http_proxy_username;
-  protected String http_proxy_password;
-
-  protected String jsapiTicket;
-  protected long jsapiTicketExpiresTime;
+  protected volatile String jsapiTicket;
+  protected volatile long jsapiTicketExpiresTime;
 
   public String getAccessToken() {
     return this.accessToken;

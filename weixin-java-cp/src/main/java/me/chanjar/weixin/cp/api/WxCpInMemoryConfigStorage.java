@@ -9,21 +9,21 @@ import me.chanjar.weixin.common.bean.WxAccessToken;
  */
 public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 
-  protected String corpId;
-  protected String corpSecret;
+  protected volatile String corpId;
+  protected volatile String corpSecret;
 
-  protected String token;
-  protected String accessToken;
-  protected String aesKey;
-  protected String agentId;
-  protected long expiresTime;
+  protected volatile String token;
+  protected volatile String accessToken;
+  protected volatile String aesKey;
+  protected volatile String agentId;
+  protected volatile long expiresTime;
 
-  protected String oauth2redirectUri;
+  protected volatile String oauth2redirectUri;
 
-  protected String http_proxy_host;
-  protected int http_proxy_port;
-  protected String http_proxy_username;
-  protected String http_proxy_password;
+  protected volatile String http_proxy_host;
+  protected volatile int http_proxy_port;
+  protected volatile String http_proxy_username;
+  protected volatile String http_proxy_password;
 
   public String getAccessToken() {
     return this.accessToken;
