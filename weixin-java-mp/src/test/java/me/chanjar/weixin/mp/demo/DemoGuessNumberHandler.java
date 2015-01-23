@@ -35,7 +35,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
 
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
-      WxSessionManager sessionManager) {
+      WxSessionManager sessionManager) throws WxErrorException {
 
     if (isUserWantGuess(wxMessage)) {
       letsGo(wxMessage, wxMpService, sessionManager);
@@ -49,7 +49,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
 
   }
 
-  protected void letsGo(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) {
+  protected void letsGo(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
     WxSession session = sessionManager.getSession(wxMessage.getFromUserName());
     if (session.getAttribute("guessing") == null) {
       WxMpCustomMessage m = WxMpCustomMessage
@@ -57,22 +57,14 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("请猜一个100以内的数字")
           .build();
-      try {
-        wxMpService.customMessageSend(m);
-      } catch (WxErrorException e) {
-        e.printStackTrace();
-      }
+      wxMpService.customMessageSend(m);
     } else {
       WxMpCustomMessage m = WxMpCustomMessage
           .TEXT()
           .toUser(wxMessage.getFromUserName())
           .content("放弃了吗？那请重新猜一个100以内的数字")
           .build();
-      try {
-        wxMpService.customMessageSend(m);
-      } catch (WxErrorException e) {
-        e.printStackTrace();
-      }
+      wxMpService.customMessageSend(m);
     }
 
     session.setAttribute("guessing", Boolean.TRUE);
@@ -80,7 +72,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
   }
 
 
-  protected void giveHint(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) {
+  protected void giveHint(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
 
     WxSession session = sessionManager.getSession(wxMessage.getFromUserName());
 
@@ -100,11 +92,7 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("小了")
           .build();
-      try {
-        wxMpService.customMessageSend(m);
-      } catch (WxErrorException e) {
-        e.printStackTrace();
-      }
+      wxMpService.customMessageSend(m);
 
     } else if (guessNumber > answer) {
       WxMpCustomMessage m = WxMpCustomMessage
@@ -112,23 +100,15 @@ public class DemoGuessNumberHandler implements WxMpMessageHandler, WxMpMessageMa
           .toUser(wxMessage.getFromUserName())
           .content("大了")
           .build();
-      try {
-        wxMpService.customMessageSend(m);
-      } catch (WxErrorException e) {
-        e.printStackTrace();
-      }
+      wxMpService.customMessageSend(m);
     } else {
       WxMpCustomMessage m = WxMpCustomMessage
           .TEXT()
           .toUser(wxMessage.getFromUserName())
           .content("Bingo!")
           .build();
-      try {
-        session.removeAttribute("guessing");
-        wxMpService.customMessageSend(m);
-      } catch (WxErrorException e) {
-        e.printStackTrace();
-      }
+      session.removeAttribute("guessing");
+      wxMpService.customMessageSend(m);
     }
 
   }

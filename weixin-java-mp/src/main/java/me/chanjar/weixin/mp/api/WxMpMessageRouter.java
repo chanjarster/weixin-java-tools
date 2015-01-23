@@ -1,7 +1,12 @@
 package me.chanjar.weixin.mp.api;
 
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.session.*;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.session.InternalSession;
+import me.chanjar.weixin.common.session.InternalSessionManager;
+import me.chanjar.weixin.common.session.StandardSessionManager;
+import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.LogExceptionHandler;
+import me.chanjar.weixin.common.util.WxErrorExceptionHandler;
 import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
 import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
@@ -61,11 +66,14 @@ public class WxMpMessageRouter {
 
   private WxSessionManager sessionManager;
 
+  private WxErrorExceptionHandler exceptionHandler;
+
   public WxMpMessageRouter(WxMpService wxMpService) {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.sessionManager = new StandardSessionManager();
+    this.exceptionHandler = new LogExceptionHandler();
   }
 
   /**
@@ -142,12 +150,12 @@ public class WxMpMessageRouter {
         futures.add(
             executorService.submit(new Runnable() {
               public void run() {
-                rule.service(wxMessage, wxMpService, sessionManager);
+                rule.service(wxMessage, wxMpService, sessionManager, exceptionHandler);
               }
             })
         );
       } else {
-        res = rule.service(wxMessage, wxMpService, sessionManager);
+        res = rule.service(wxMessage, wxMpService, sessionManager, exceptionHandler);
         // 在同步操作结束，session访问结束
         log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
         sessionEndAccess(wxMessage);
@@ -409,22 +417,33 @@ public class WxMpMessageRouter {
      * @param wxMessage
      * @return true 代表继续执行别的router，false 代表停止执行别的router
      */
-    protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage, WxMpService wxMpService, WxSessionManager sessionManager) {
-      Map<String, Object> context = new HashMap<String, Object>();
-      // 如果拦截器不通过
-      for (WxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context, wxMpService, sessionManager)) {
-          return null;
+    protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage,
+                                        WxMpService wxMpService,
+                                        WxSessionManager sessionManager,
+                                        WxErrorExceptionHandler exceptionHandler) {
+
+      try {
+
+        Map<String, Object> context = new HashMap<String, Object>();
+        // 如果拦截器不通过
+        for (WxMpMessageInterceptor interceptor : this.interceptors) {
+          if (!interceptor.intercept(wxMessage, context, wxMpService, sessionManager)) {
+            return null;
+          }
         }
+
+        // 交给handler处理
+        WxMpXmlOutMessage res = null;
+        for (WxMpMessageHandler handler : this.handlers) {
+          // 返回最后handler的结果
+          res = handler.handle(wxMessage, context, wxMpService, sessionManager);
+        }
+        return res;
+      } catch (WxErrorException e) {
+        exceptionHandler.handle(e);
       }
-      
-      // 交给handler处理
-      WxMpXmlOutMessage res = null;
-      for (WxMpMessageHandler handler : this.handlers) {
-        // 返回最后handler的结果
-        res = handler.handle(wxMessage, context, wxMpService, sessionManager);
-      }
-      return res;
+      return null;
+
     }
     
   }

@@ -1,5 +1,6 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 
@@ -24,6 +25,6 @@ public interface WxCpMessageInterceptor {
   public boolean intercept(WxCpXmlMessage wxMessage,
                           Map<String, Object> context,
                           WxCpService wxCpService,
-                          WxSessionManager sessionManager);
+                          WxSessionManager sessionManager) throws WxErrorException;
 
 }

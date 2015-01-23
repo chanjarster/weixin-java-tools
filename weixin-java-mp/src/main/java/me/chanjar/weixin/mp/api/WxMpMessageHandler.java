@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.bean.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
@@ -23,6 +24,6 @@ public interface WxMpMessageHandler {
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                   Map<String, Object> context,
                                   WxMpService wxMpService,
-                                  WxSessionManager sessionManager);
+                                  WxSessionManager sessionManager) throws WxErrorException;
 
 }
