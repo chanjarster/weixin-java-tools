@@ -89,6 +89,7 @@ public class WxConsts {
   public static final String EVT_PIC_WEIXIN = "pic_weixin";
   public static final String EVT_LOCATION_SELECT = "location_select";
   public static final String EVT_TEMPLATESENDJOBFINISH = "TEMPLATESENDJOBFINISH";
+  public static final String EVT_ENTER_AGENT = "enter_agent";
 
   ///////////////////////
   // 上传多媒体文件的类型
