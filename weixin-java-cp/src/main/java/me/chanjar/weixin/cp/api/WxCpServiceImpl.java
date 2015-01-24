@@ -370,6 +370,19 @@ public class WxCpServiceImpl implements WxCpService {
     return tmpJsonElement.getAsJsonObject().get("type").getAsInt();
   }
 
+  @Override
+  public String[] getCallbackIp() throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/getcallbackip";
+    String responseContent = get(url, null);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonArray jsonArray = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
+    String[] ips = new String[jsonArray.size()];
+    for(int i = 0; i < jsonArray.size(); i++) {
+      ips[i] = jsonArray.get(i).getAsString();
+    }
+    return ips;
+  }
+
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);
   }

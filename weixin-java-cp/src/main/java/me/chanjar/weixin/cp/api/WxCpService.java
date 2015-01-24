@@ -328,6 +328,16 @@ public interface WxCpService {
   public int invite(String userId, String inviteTips) throws WxErrorException;
 
   /**
+   * <pre>
+   * 获取微信服务器的ip段
+   * http://qydev.weixin.qq.com/wiki/index.php?title=回调模式#.E8.8E.B7.E5.8F.96.E5.BE.AE.E4.BF.A1.E6.9C.8D.E5.8A.A1.E5.99.A8.E7.9A.84ip.E6.AE.B5
+   * </pre>
+   * @return { "ip_list": ["101.226.103.*", "101.226.62.*"] }
+   * @throws WxErrorException
+   */
+  String[] getCallbackIp() throws WxErrorException;
+
+  /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    * @param url
    * @param queryParam
