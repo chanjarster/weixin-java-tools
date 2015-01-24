@@ -220,6 +220,18 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
+  public void userDelete(String[] userids) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/batchdelete";
+    JsonObject jsonObject = new JsonObject();
+    JsonArray jsonArray = new JsonArray();
+    for (int i = 0; i < userids.length; i++) {
+      jsonArray.add(new JsonPrimitive(userids[i]));
+    }
+    jsonObject.add("useridlist", jsonArray);
+    post(url, jsonObject.toString());
+  }
+
+  @Override
   public WxCpUser userGet(String userid) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?userid=" + userid;
     String responseContent = get(url, null);

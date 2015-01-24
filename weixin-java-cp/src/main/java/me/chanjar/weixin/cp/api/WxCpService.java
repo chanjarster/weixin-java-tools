@@ -250,6 +250,17 @@ public interface WxCpService {
   void userDelete(String userid) throws WxErrorException;
 
   /**
+   * <pre>
+   * 批量删除成员
+   *
+   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E6.89.B9.E9.87.8F.E5.88.A0.E9.99.A4.E6.88.90.E5.91.98
+   * </pre>
+   * @param userids   员工UserID列表。对应管理端的帐号
+   * @throws WxErrorException
+   */
+  void userDelete(String[] userids) throws WxErrorException;
+
+  /**
    * 获取用户
    *
    * @param userid
