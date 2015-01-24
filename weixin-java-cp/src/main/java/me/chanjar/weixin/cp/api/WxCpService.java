@@ -316,6 +316,18 @@ public interface WxCpService {
   public void tagRemoveUsers(String tagId, List<String> userIds) throws WxErrorException;
 
   /**
+   * <pre>
+   * 邀请成员关注
+   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E9.82.80.E8.AF.B7.E6.88.90.E5.91.98.E5.85.B3.E6.B3.A8
+   * </pre>
+   * @param userId      用户的userid
+   * @param inviteTips  推送到微信上的提示语（只有认证号可以使用）。当使用微信推送时，该字段默认为“请关注XXX企业号”，邮件邀请时，该字段无效。
+   * @return 1:微信邀请 2.邮件邀请
+   * @throws WxErrorException
+   */
+  public int invite(String userId, String inviteTips) throws WxErrorException;
+
+  /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    * @param url
    * @param queryParam

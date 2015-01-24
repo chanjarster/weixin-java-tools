@@ -357,6 +357,18 @@ public class WxCpServiceImpl implements WxCpService {
     }
   }
 
+  @Override
+  public int invite(String userId, String inviteTips) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/invite/send";
+    JsonObject jsonObject = new JsonObject();
+    jsonObject.addProperty("userid", userId);
+    if (StringUtils.isNotEmpty(inviteTips)) {
+      jsonObject.addProperty("invite_tips", inviteTips);
+    }
+    String responseContent = execute(new SimplePostRequestExecutor(), url, jsonObject.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return tmpJsonElement.getAsJsonObject().get("type").getAsInt();
+  }
 
   public String get(String url, String queryParam) throws WxErrorException {
     return execute(new SimpleGetRequestExecutor(), url, queryParam);
