@@ -197,7 +197,25 @@ public interface WxCpService {
   void departDelete(Integer departId) throws WxErrorException;
 
   /**
+   * <pre>
+   * 获取部门成员(详情)
+   *
+   * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E8.8E.B7.E5.8F.96.E9.83.A8.E9.97.A8.E6.88.90.E5.91.98.28.E8.AF.A6.E6.83.85.29
+   * </pre>
+   * @param departId    必填。部门id
+   * @param fetchChild  非必填。1/0：是否递归获取子部门下面的成员
+   * @param status      非必填。0获取全部员工，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加
+   * @return
+   * @throws WxErrorException
+   */
+  List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取部门成员
+   *
    * http://qydev.weixin.qq.com/wiki/index.php?title=管理成员#.E8.8E.B7.E5.8F.96.E9.83.A8.E9.97.A8.E6.88.90.E5.91.98
+   * </pre>
    *
    * @param departId   必填。部门id
    * @param fetchChild 非必填。1/0：是否递归获取子部门下面的成员

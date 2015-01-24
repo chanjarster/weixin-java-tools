@@ -227,6 +227,28 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
+  public List<WxCpUser> userList(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/list?department_id=" + departId;
+    String params = "";
+    if (fetchChild != null) {
+      params += "&fetch_child=" + (fetchChild ? "1" : "0");
+    }
+    if (status != null) {
+      params += "&status=" + status;
+    } else {
+      params += "&status=0";
+    }
+
+    String responseContent = get(url, params);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxCpGsonBuilder.INSTANCE.create()
+        .fromJson(
+            tmpJsonElement.getAsJsonObject().get("userlist"),
+            new TypeToken<List<WxCpUser>>() { }.getType()
+        );
+  }
+
+  @Override
   public List<WxCpUser> departGetUsers(Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?department_id=" + departId;
     String params = "";
