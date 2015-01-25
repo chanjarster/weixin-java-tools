@@ -13,7 +13,7 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
@@ -23,7 +23,7 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
