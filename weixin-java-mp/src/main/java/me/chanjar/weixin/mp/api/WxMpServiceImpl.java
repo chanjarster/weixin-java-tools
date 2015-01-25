@@ -42,9 +42,14 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class WxMpServiceImpl implements WxMpService {
+
+  protected final String RANDOM_STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  protected final Random RANDOM = new Random();
 
   protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
 
@@ -59,7 +64,7 @@ public class WxMpServiceImpl implements WxMpService {
   protected final Object globalJsapiTicketRefreshLock = new Object();
 
   protected WxMpConfigStorage wxMpConfigStorage;
-  
+
   protected CloseableHttpClient httpClient;
 
   protected HttpHost httpProxy;
@@ -143,18 +148,34 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getJsapiTicket();
   }
 
-  public String createJsapiSignature(long timestamp, String noncestr, String url) throws WxErrorException {
+  public WxMpJsapiSignature createJsapiSignature(String url) throws WxErrorException {
+    long timestamp = System.currentTimeMillis() / 1000;
+    String noncestr = getRandomStr();
     String jsapiTicket = getJsapiTicket(false);
     try {
-      return SHA1.genWithAmple(
+      String signature = SHA1.genWithAmple(
           "jsapi_ticket=" + jsapiTicket,
           "noncestr=" + noncestr,
           "timestamp=" + timestamp,
           "url=" + url
       );
+      WxMpJsapiSignature jsapiSignature = new WxMpJsapiSignature();
+      jsapiSignature.setTimestamp(timestamp);
+      jsapiSignature.setNoncestr(noncestr);
+      jsapiSignature.setUrl(url);
+      jsapiSignature.setSignature(signature);
+      return jsapiSignature;
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  protected String getRandomStr() {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 16; i++) {
+      sb.append(RANDOM_STR.charAt(RANDOM.nextInt(RANDOM_STR.length())));
+    }
+    return sb.toString();
   }
 
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {
