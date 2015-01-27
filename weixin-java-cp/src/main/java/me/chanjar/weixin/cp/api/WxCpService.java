@@ -1,5 +1,6 @@
 package me.chanjar.weixin.cp.api;
 
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -66,6 +67,38 @@ public interface WxCpService {
    * @throws me.chanjar.weixin.common.exception.WxErrorException
    */
   String getAccessToken(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * 获得jsapi_ticket,不强制刷新jsapi_ticket
+   * @see #getJsapiTicket(boolean)
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获得jsapi_ticket
+   * 获得时会检查jsapiToken是否过期，如果过期了，那么就刷新一下，否则就什么都不干
+   *
+   * 详情请见：http://qydev.weixin.qq.com/wiki/index.php?title=微信JS接口#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param forceRefresh 强制刷新
+   * @return
+   * @throws WxErrorException
+   */
+  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 创建调用jsapi时所需要的签名
+   *
+   * 详情请见：http://qydev.weixin.qq.com/wiki/index.php?title=微信JS接口#.E9.99.84.E5.BD.951-JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * </pre>
+   * @param url       url
+   * @return
+   */
+  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
 
   /**
    * <pre>
