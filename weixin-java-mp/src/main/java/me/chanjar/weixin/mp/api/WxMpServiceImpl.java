@@ -7,11 +7,13 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -42,14 +44,9 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class WxMpServiceImpl implements WxMpService {
-
-  protected final String RANDOM_STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  protected final Random RANDOM = new Random();
 
   protected final Logger log = LoggerFactory.getLogger(WxMpServiceImpl.class);
 
@@ -148,9 +145,9 @@ public class WxMpServiceImpl implements WxMpService {
     return wxMpConfigStorage.getJsapiTicket();
   }
 
-  public WxMpJsapiSignature createJsapiSignature(String url) throws WxErrorException {
+  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
-    String noncestr = getRandomStr();
+    String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsapiTicket(false);
     try {
       String signature = SHA1.genWithAmple(
@@ -159,7 +156,7 @@ public class WxMpServiceImpl implements WxMpService {
           "timestamp=" + timestamp,
           "url=" + url
       );
-      WxMpJsapiSignature jsapiSignature = new WxMpJsapiSignature();
+      WxJsapiSignature jsapiSignature = new WxJsapiSignature();
       jsapiSignature.setTimestamp(timestamp);
       jsapiSignature.setNoncestr(noncestr);
       jsapiSignature.setUrl(url);
@@ -168,14 +165,6 @@ public class WxMpServiceImpl implements WxMpService {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  protected String getRandomStr() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 16; i++) {
-      sb.append(RANDOM_STR.charAt(RANDOM.nextInt(RANDOM_STR.length())));
-    }
-    return sb.toString();
   }
 
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException {

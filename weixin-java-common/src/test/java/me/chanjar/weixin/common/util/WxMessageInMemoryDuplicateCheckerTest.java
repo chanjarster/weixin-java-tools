@@ -1,5 +1,6 @@
 package me.chanjar.weixin.common.util;
 
+import me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -1,9 +1,9 @@
-package me.chanjar.weixin.mp.bean.result;
+package me.chanjar.weixin.common.bean;
 
 /**
  * jspai signature
  */
-public class WxMpJsapiSignature {
+public class WxJsapiSignature {
 
   private String noncestr;
 

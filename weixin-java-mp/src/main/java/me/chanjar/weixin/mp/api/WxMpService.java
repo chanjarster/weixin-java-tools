@@ -1,10 +1,9 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.WxSession;
-import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
@@ -86,7 +85,7 @@ public interface WxMpService {
    * @param url       url
    * @return
    */
-  public WxMpJsapiSignature createJsapiSignature(String url) throws WxErrorException;
+  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
 
   /**
    * <pre>

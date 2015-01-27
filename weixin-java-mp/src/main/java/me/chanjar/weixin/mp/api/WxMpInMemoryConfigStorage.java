@@ -51,6 +51,18 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return jsapiTicket;
   }
 
+  public void setJsapiTicket(String jsapiTicket) {
+    this.jsapiTicket = jsapiTicket;
+  }
+
+  public long getJsapiTicketExpiresTime() {
+    return jsapiTicketExpiresTime;
+  }
+
+  public void setJsapiTicketExpiresTime(long jsapiTicketExpiresTime) {
+    this.jsapiTicketExpiresTime = jsapiTicketExpiresTime;
+  }
+
   public boolean isJsapiTicketExpired() {
     return System.currentTimeMillis() > this.jsapiTicketExpiresTime;
   }
@@ -167,5 +179,4 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
         '}';
   }
-
 }

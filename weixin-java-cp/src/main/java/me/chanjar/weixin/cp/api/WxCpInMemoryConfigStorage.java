@@ -25,6 +25,9 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected volatile String http_proxy_username;
   protected volatile String http_proxy_password;
 
+  protected volatile String jsapiTicket;
+  protected volatile long jsapiTicketExpiresTime;
+
   public String getAccessToken() {
     return this.accessToken;
   }
@@ -44,6 +47,37 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
     this.accessToken = accessToken;
     this.expiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+  }
+
+  @Override
+  public String getJsapiTicket() {
+    return jsapiTicket;
+  }
+
+  public void setJsapiTicket(String jsapiTicket) {
+    this.jsapiTicket = jsapiTicket;
+  }
+
+  public long getJsapiTicketExpiresTime() {
+    return jsapiTicketExpiresTime;
+  }
+
+  public void setJsapiTicketExpiresTime(long jsapiTicketExpiresTime) {
+    this.jsapiTicketExpiresTime = jsapiTicketExpiresTime;
+  }
+
+  public boolean isJsapiTicketExpired() {
+    return System.currentTimeMillis() > this.jsapiTicketExpiresTime;
+  }
+
+  public synchronized void updateJsapiTicket(String jsapiTicket, int expiresInSeconds) {
+    this.jsapiTicket = jsapiTicket;
+    // 预留200秒的时间
+    this.jsapiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+  }
+
+  public void expireJsapiTicket() {
+    this.jsapiTicketExpiresTime = 0;
   }
 
   public String getCorpId() {
@@ -153,6 +187,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
         ", http_proxy_port=" + http_proxy_port +
         ", http_proxy_username='" + http_proxy_username + '\'' +
         ", http_proxy_password='" + http_proxy_password + '\'' +
+        ", jsapiTicket='" + jsapiTicket + '\'' +
+        ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
         '}';
   }
 

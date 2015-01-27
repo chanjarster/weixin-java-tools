@@ -8,6 +8,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
@@ -15,6 +16,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSession;
 import me.chanjar.weixin.common.session.WxSessionManager;
+import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
@@ -44,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +57,12 @@ public class WxCpServiceImpl implements WxCpService {
   /**
    * 全局的是否正在刷新access token的锁
    */
-  protected static final Object GLOBAL_ACCESS_TOKEN_REFRESH_LOCK = new Object();
+  protected final Object globalAccessTokenRefreshLock = new Object();
+
+  /**
+   * 全局的是否正在刷新jsapi_ticket的锁
+   */
+  protected final Object globalJsapiTicketRefreshLock = new Object();
 
   protected WxCpConfigStorage wxCpConfigStorage;
 
@@ -90,7 +98,7 @@ public class WxCpServiceImpl implements WxCpService {
       wxCpConfigStorage.expireAccessToken();
     }
     if (wxCpConfigStorage.isAccessTokenExpired()) {
-      synchronized (GLOBAL_ACCESS_TOKEN_REFRESH_LOCK) {
+      synchronized (globalAccessTokenRefreshLock) {
         if (wxCpConfigStorage.isAccessTokenExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
               + "&corpid=" + wxCpConfigStorage.getCorpId()
@@ -119,6 +127,52 @@ public class WxCpServiceImpl implements WxCpService {
       }
     }
     return wxCpConfigStorage.getAccessToken();
+  }
+
+  public String getJsapiTicket() throws WxErrorException {
+    return getJsapiTicket(false);
+  }
+
+  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
+    if (forceRefresh) {
+      wxCpConfigStorage.expireJsapiTicket();
+    }
+    if (wxCpConfigStorage.isJsapiTicketExpired()) {
+      synchronized (globalJsapiTicketRefreshLock) {
+        if (wxCpConfigStorage.isJsapiTicketExpired()) {
+          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+          JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
+          String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
+          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+          wxCpConfigStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
+        }
+      }
+    }
+    return wxCpConfigStorage.getJsapiTicket();
+  }
+
+  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException {
+    long timestamp = System.currentTimeMillis() / 1000;
+    String noncestr = RandomUtils.getRandomStr();
+    String jsapiTicket = getJsapiTicket(false);
+    try {
+      String signature = SHA1.genWithAmple(
+          "jsapi_ticket=" + jsapiTicket,
+          "noncestr=" + noncestr,
+          "timestamp=" + timestamp,
+          "url=" + url
+      );
+      WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+      jsapiSignature.setTimestamp(timestamp);
+      jsapiSignature.setNoncestr(noncestr);
+      jsapiSignature.setUrl(url);
+      jsapiSignature.setSignature(signature);
+      return jsapiSignature;
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void messageSend(WxCpMessage message) throws WxErrorException {
@@ -477,7 +531,7 @@ public class WxCpServiceImpl implements WxCpService {
        * 42001 access_token超时
        */
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
-        // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
+        // 强制设置wxCpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         wxCpConfigStorage.expireAccessToken();
         return execute(executor, uri, data);
       }

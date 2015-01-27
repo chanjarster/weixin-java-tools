@@ -1,5 +1,6 @@
 package me.chanjar.weixin.common.util;
 
+import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,9 +5,9 @@ import me.chanjar.weixin.common.session.InternalSessionManager;
 import me.chanjar.weixin.common.session.StandardSessionManager;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.LogExceptionHandler;
-import me.chanjar.weixin.common.util.WxErrorExceptionHandler;
-import me.chanjar.weixin.common.util.WxMessageDuplicateChecker;
-import me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker;
+import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
+import me.chanjar.weixin.common.api.WxMessageDuplicateChecker;
+import me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 import org.slf4j.Logger;
@@ -87,8 +87,8 @@ public class WxCpMessageRouter {
 
   /**
    * <pre>
-   * 设置自定义的 {@link me.chanjar.weixin.common.util.WxMessageDuplicateChecker}
-   * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.WxMessageInMemoryDuplicateChecker}
+   * 设置自定义的 {@link me.chanjar.weixin.common.api.WxMessageDuplicateChecker}
+   * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.api.WxMessageInMemoryDuplicateChecker}
    * </pre>
    * @param messageDuplicateChecker
    */
@@ -109,7 +109,7 @@ public class WxCpMessageRouter {
 
   /**
    * <pre>
-   * 设置自定义的{@link me.chanjar.weixin.common.util.WxErrorExceptionHandler}
+   * 设置自定义的{@link me.chanjar.weixin.common.api.WxErrorExceptionHandler}
    * 如果不调用该方法，默认使用 {@link me.chanjar.weixin.common.util.LogExceptionHandler}
    * </pre>
    * @param exceptionHandler
