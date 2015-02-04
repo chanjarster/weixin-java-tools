@@ -204,7 +204,8 @@ public class WxCpMessageRouter {
       messageId = String.valueOf(wxMessage.getCreateTime())
           + "-" +String.valueOf(wxMessage.getAgentId() == null ? "" : wxMessage.getAgentId())
           + "-" + wxMessage.getFromUserName()
-          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey());
+          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
+          + "-" + String.valueOf(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
       ;
     } else {
       messageId = String.valueOf(wxMessage.getMsgId());

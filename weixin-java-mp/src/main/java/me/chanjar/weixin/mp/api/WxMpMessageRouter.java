@@ -203,7 +203,8 @@ public class WxMpMessageRouter {
     if (wxMessage.getMsgId() == null) {
       messageId = String.valueOf(wxMessage.getCreateTime())
           + "-" + wxMessage.getFromUserName()
-          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey());
+          + "-" + String.valueOf(wxMessage.getEventKey() == null ? "" : wxMessage.getEventKey())
+          + "-" + String.valueOf(wxMessage.getEvent() == null ? "" : wxMessage.getEvent())
       ;
     } else {
       messageId = String.valueOf(wxMessage.getMsgId());
