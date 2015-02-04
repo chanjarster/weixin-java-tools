@@ -140,7 +140,7 @@ public class WxCpServiceImpl implements WxCpService {
     if (wxCpConfigStorage.isJsapiTicketExpired()) {
       synchronized (globalJsapiTicketRefreshLock) {
         if (wxCpConfigStorage.isJsapiTicketExpired()) {
-          String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+          String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
           String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
