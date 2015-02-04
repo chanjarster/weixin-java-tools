@@ -435,7 +435,7 @@ public class WxMpServiceImpl implements WxMpService {
   @Override
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
     String url = "https://api.weixin.qq.com/sns/auth?";
-    url += "access_token=" + oAuth2AccessToken;
+    url += "access_token=" + oAuth2AccessToken.getAccessToken();
     url += "&openid=" + oAuth2AccessToken.getOpenId();
 
     try {
