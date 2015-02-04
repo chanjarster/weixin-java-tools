@@ -40,3 +40,9 @@ weixin-java-tools
   </repository>
 </repositories>
 ```
+
+## 升级指南
+
+[1.0.3升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_0_3升级指南)
+[1.1.0升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_1_0升级指南)
+[1.1.1升级指南](https://github.com/chanjarster/weixin-java-tools/wiki/1_1_1升级指南)
