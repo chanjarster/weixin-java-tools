@@ -1,4 +1,4 @@
-weixin-java-tools
+weixin-java-tools[![Build Status](https://travis-ci.org/chanjarster/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/chanjarster/weixin-java-tools)
 ===========
 
 微信公众号、企业号Java SDK。
