@@ -427,22 +427,13 @@ public class WxCpServiceImpl implements WxCpService {
 
   @Override
   public String[] oauth2getUserInfo(String code) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?";
-    url += "access_token=" + wxCpConfigStorage.getAccessToken();
-    url += "&code=" + code;
-    url += "&agendid=" + wxCpConfigStorage.getAgentId();
-
-    try {
-      RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), httpProxy, url, null);
-      JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
-      JsonObject jo = je.getAsJsonObject();
-      return new String[] {GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
-    } catch (ClientProtocolException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
+                    + "code=" + code
+                    + "&agendid=" + wxCpConfigStorage.getAgentId();
+    String responseText = get(url, null);
+    JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
+    JsonObject jo = je.getAsJsonObject();
+    return new String[] {GsonHelper.getString(jo, "UserId"), GsonHelper.getString(jo, "DeviceId")};
   }
 
   @Override
