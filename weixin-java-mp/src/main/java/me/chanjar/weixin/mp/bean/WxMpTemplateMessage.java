@@ -2,10 +2,11 @@ package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WxMpTemplateMessage {
+public class WxMpTemplateMessage implements Serializable {
 
   private String toUser;
   private String templateId;

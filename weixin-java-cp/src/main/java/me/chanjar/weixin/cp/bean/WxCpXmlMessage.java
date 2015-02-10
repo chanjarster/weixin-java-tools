@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
  * @author Daniel Qian
  */
 @XStreamAlias("xml")
-public class WxCpXmlMessage {
+public class WxCpXmlMessage implements Serializable {
 
   ///////////////////////
   // 以下都是微信推送过来的消息的xml的element所对应的属性

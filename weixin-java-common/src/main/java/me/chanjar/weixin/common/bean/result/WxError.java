@@ -2,13 +2,15 @@ package me.chanjar.weixin.common.bean.result;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 微信错误码说明
  * http://mp.weixin.qq.com/wiki/index.php?title=全局返回码说明
  * @author Daniel Qian
  *
  */
-public class WxError {
+public class WxError implements Serializable {
 
   private int errorCode;
   

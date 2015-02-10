@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 微信用户信息
  * @author chanjarster
  *
  */
-public class WxMpUser {
+public class WxMpUser implements Serializable {
 
   protected Boolean subscribe;
   protected String openId;

@@ -2,12 +2,14 @@ package me.chanjar.weixin.cp.bean;
 
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 微信部门
  *
  * @author Daniel Qian
  */
-public class WxCpDepart {
+public class WxCpDepart implements Serializable {
 
   private Integer id;
   private String name;

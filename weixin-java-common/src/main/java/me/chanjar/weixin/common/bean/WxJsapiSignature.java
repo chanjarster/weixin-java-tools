@@ -1,9 +1,11 @@
 package me.chanjar.weixin.common.bean;
 
+import java.io.Serializable;
+
 /**
  * jspai signature
  */
-public class WxJsapiSignature {
+public class WxJsapiSignature implements Serializable {
 
   private String noncestr;
 

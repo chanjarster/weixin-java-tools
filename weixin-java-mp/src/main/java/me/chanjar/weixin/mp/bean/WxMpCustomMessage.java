@@ -3,6 +3,7 @@ package me.chanjar.weixin.mp.bean;
 import me.chanjar.weixin.mp.bean.custombuilder.*;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author chanjarster
  *
  */
-public class WxMpCustomMessage {
+public class WxMpCustomMessage implements Serializable {
 
   private String toUser;
   private String msgType;

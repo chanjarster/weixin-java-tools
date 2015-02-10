@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 分组群发的消息
  * 
  * @author chanjarster
  */
-public class WxMpMassGroupMessage {
+public class WxMpMassGroupMessage implements Serializable {
   
   private Long groupId;
   private String msgtype;
