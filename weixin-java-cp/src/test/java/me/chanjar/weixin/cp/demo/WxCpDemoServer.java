@@ -62,7 +62,7 @@ public class WxCpDemoServer {
         @Override
         public WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage, Map<String, Object> context,
             WxCpService wxCpService, WxSessionManager sessionManager) {
-          String href = "<a href=\"" + wxCpService.oauth2buildAuthorizationUrl(null)
+          String href = "<a href=\"" + wxCpService.oauth2buildAuthorizationUrl(wxCpConfigStorage.getOauth2redirectUri(), null)
               + "\">测试oauth2</a>";
           return WxCpXmlOutMessage
               .TEXT()

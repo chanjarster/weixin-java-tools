@@ -412,10 +412,10 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public String oauth2buildAuthorizationUrl(String state) {
+  public String oauth2buildAuthorizationUrl(String redirectUri, String state) {
     String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" ;
     url += "appid=" + wxCpConfigStorage.getCorpId();
-    url += "&redirect_uri=" + URIUtil.encodeURIComponent(wxCpConfigStorage.getOauth2redirectUri());
+    url += "&redirect_uri=" + URIUtil.encodeURIComponent(redirectUri);
     url += "&response_type=code";
     url += "&scope=snsapi_base";
     if (state != null) {

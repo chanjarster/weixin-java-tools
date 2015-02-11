@@ -353,10 +353,11 @@ public interface WxCpService {
    * 构造oauth2授权的url连接
    * 详情请见: http://qydev.weixin.qq.com/wiki/index.php?title=企业获取code
    * </pre>
+   * @param redirectUri
    * @param state
    * @return code
    */
-  String oauth2buildAuthorizationUrl(String state);
+  String oauth2buildAuthorizationUrl(String redirectUri, String state);
 
   /**
    * <pre>
