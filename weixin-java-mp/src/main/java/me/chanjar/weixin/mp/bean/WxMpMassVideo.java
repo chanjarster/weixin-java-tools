@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 群发时用到的视频素材
  * 
  * @author chanjarster
  */
-public class WxMpMassVideo {
+public class WxMpMassVideo implements Serializable {
 
   private String mediaId;
   private String title;

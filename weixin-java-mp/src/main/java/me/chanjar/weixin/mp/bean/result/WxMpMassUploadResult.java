@@ -2,6 +2,8 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  * 上传群发用的素材的结果
@@ -10,7 +12,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  * @author chanjarster
  *
  */
-public class WxMpMassUploadResult {
+public class WxMpMassUploadResult implements Serializable {
 
   private String type;
   private String mediaId;

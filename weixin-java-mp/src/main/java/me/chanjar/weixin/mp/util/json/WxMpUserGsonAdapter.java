@@ -14,7 +14,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.lang.reflect.Type;
 
-public class WxUserGsonAdapter implements JsonDeserializer<WxMpUser> {
+public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
 
   public WxMpUser deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     JsonObject o = json.getAsJsonObject();
@@ -29,10 +29,11 @@ public class WxUserGsonAdapter implements JsonDeserializer<WxMpUser> {
     wxMpUser.setProvince(GsonHelper.getString(o, "province"));
     wxMpUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
     wxMpUser.setUnionId(GsonHelper.getString(o, "unionid"));
-    Integer sex = GsonHelper.getInteger(o, "sex");
-    if(new Integer(1).equals(sex)) {
+    Integer sexId = GsonHelper.getInteger(o, "sex");
+    wxMpUser.setSexId(sexId);
+    if(new Integer(1).equals(sexId)) {
       wxMpUser.setSex("男");
-    } else if (new Integer(2).equals(sex)) {
+    } else if (new Integer(2).equals(sexId)) {
       wxMpUser.setSex("女");
     } else {
       wxMpUser.setSex("未知");

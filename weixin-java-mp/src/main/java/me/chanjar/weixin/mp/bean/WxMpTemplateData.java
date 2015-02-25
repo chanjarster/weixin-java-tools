@@ -1,9 +1,11 @@
 package me.chanjar.weixin.mp.bean;
 
+import java.io.Serializable;
+
 /**
  * @author Daniel Qian
  */
-public class WxMpTemplateData {
+public class WxMpTemplateData implements Serializable {
 
   private String name;
   private String value;

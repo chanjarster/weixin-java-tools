@@ -1,0 +1,13 @@
+language: java
+jdk:
+  - oraclejdk7
+
+script: "mvn clean install -Dmaven.test.skip=true"
+
+branches:
+  only:
+    - develop
+
+notifications:
+  email:
+    - chanjarster@gmail.com

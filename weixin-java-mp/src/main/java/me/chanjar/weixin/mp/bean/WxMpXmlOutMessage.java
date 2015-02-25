@@ -8,8 +8,10 @@ import me.chanjar.weixin.mp.bean.outxmlbuilder.*;
 import me.chanjar.weixin.mp.util.crypto.WxMpCryptUtil;
 import me.chanjar.weixin.mp.util.xml.XStreamTransformer;
 
+import java.io.Serializable;
+
 @XStreamAlias("xml")
-public abstract class WxMpXmlOutMessage {
+public abstract class WxMpXmlOutMessage implements Serializable {
 
   @XStreamAlias("ToUserName")
   @XStreamConverter(value=XStreamCDataConverter.class)

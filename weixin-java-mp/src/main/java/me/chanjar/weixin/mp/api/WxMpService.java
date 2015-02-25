@@ -1,10 +1,9 @@
 package me.chanjar.weixin.mp.api;
 
 import me.chanjar.weixin.common.bean.WxMenu;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.common.session.WxSession;
-import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
@@ -12,13 +11,16 @@ import me.chanjar.weixin.mp.bean.result.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
  * 微信API的Service
  */
 public interface WxMpService {
-  
+
+  public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
   /**
    * <pre>
    * 验证推送过来的消息的正确性
@@ -86,7 +88,7 @@ public interface WxMpService {
    * @param url       url
    * @return
    */
-  public WxMpJsapiSignature createJsapiSignature(String url) throws WxErrorException;
+  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
 
   /**
    * <pre>
@@ -421,6 +423,40 @@ public interface WxMpService {
    * @return
    */
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
+
+  /**
+   * <pre>
+   * 获取微信服务器IP地址
+   * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  String[] getCallbackIP() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取用户增减数据
+   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+   * </pre>
+   * @param beginDate 最大时间跨度7天
+   * @param endDate   endDate不能早于begingDate
+   * @return
+   * @throws WxErrorException
+   */
+  List<WxMpUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取累计用户数据
+   * http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+   * </pre>
+   * @param beginDate 最大时间跨度7天
+   * @param endDate   endDate不能早于begingDate
+   * @return
+   * @throws WxErrorException
+   */
+  List<WxMpUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求

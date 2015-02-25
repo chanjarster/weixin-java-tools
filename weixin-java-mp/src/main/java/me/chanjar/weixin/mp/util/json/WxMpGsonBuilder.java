@@ -16,7 +16,7 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpMassGroupMessage.class, new WxMpMassGroupMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassOpenIdsMessage.class, new WxMpMassOpenIdsMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpGroup.class, new WxMpGroupGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMpUser.class, new WxUserGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpUser.class, new WxMpUserGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpUserList.class, new WxUserListGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassVideo.class, new WxMpMassVideoAdapter());
     INSTANCE.registerTypeAdapter(WxMpMassSendResult.class, new WxMpMassSendResultAdapter());
@@ -25,6 +25,8 @@ public class WxMpGsonBuilder {
     INSTANCE.registerTypeAdapter(WxMpTemplateMessage.class, new WxMpTemplateMessageGsonAdapter());
     INSTANCE.registerTypeAdapter(WxMpSemanticQueryResult.class, new WxMpSemanticQueryResultAdapter());
     INSTANCE.registerTypeAdapter(WxMpOAuth2AccessToken.class, new WxMpOAuth2AccessTokenAdapter());
+    INSTANCE.registerTypeAdapter(WxMpUserSummary.class, new WxMpUserSummaryGsonAdapter());
+    INSTANCE.registerTypeAdapter(WxMpUserCumulate.class, new WxMpUserCumulateGsonAdapter());
   }
   
   public static Gson create() {

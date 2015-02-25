@@ -2,7 +2,7 @@ package me.chanjar.weixin.cp.api;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
-import me.chanjar.weixin.common.util.WxErrorExceptionHandler;
+import me.chanjar.weixin.common.api.WxErrorExceptionHandler;
 import me.chanjar.weixin.cp.bean.WxCpXmlMessage;
 import me.chanjar.weixin.cp.bean.WxCpXmlOutMessage;
 

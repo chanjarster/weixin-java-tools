@@ -2,6 +2,8 @@ package me.chanjar.weixin.mp.bean;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 语义理解查询用对象
  *
@@ -9,7 +11,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  *
  * @author Daniel Qian
  */
-public class WxMpSemanticQuery {
+public class WxMpSemanticQuery implements Serializable {
 
   private String query;
   private String category;

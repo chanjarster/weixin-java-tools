@@ -2,7 +2,9 @@ package me.chanjar.weixin.common.bean.result;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
-public class WxMediaUploadResult {
+import java.io.Serializable;
+
+public class WxMediaUploadResult implements Serializable {
 
   private String type;
   private String mediaId;

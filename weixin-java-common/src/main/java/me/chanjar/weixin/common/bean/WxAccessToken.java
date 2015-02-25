@@ -2,7 +2,9 @@ package me.chanjar.weixin.common.bean;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
-public class WxAccessToken {
+import java.io.Serializable;
+
+public class WxAccessToken implements Serializable {
 
   private String accessToken;
   

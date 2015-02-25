@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 换取二维码的Ticket
  * 
  * @author chanjarster
  */
-public class WxMpQrCodeTicket {
+public class WxMpQrCodeTicket implements Serializable {
   
   protected String ticket;
   protected int expire_seconds = -1;

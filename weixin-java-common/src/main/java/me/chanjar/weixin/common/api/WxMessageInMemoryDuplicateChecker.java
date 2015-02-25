@@ -1,4 +1,4 @@
-package me.chanjar.weixin.common.util;
+package me.chanjar.weixin.common.api;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -2,7 +2,9 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
-public class WxMpOAuth2AccessToken {
+import java.io.Serializable;
+
+public class WxMpOAuth2AccessToken implements Serializable {
 
   private String accessToken;
 

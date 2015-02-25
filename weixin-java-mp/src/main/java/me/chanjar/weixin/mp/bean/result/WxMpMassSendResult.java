@@ -2,6 +2,8 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  * 群发消息一发送就返回的结果
@@ -13,7 +15,7 @@ import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
  * @author chanjarster
  *
  */
-public class WxMpMassSendResult {
+public class WxMpMassSendResult implements Serializable {
 
   private String errorCode;
   private String errorMsg;

@@ -2,12 +2,14 @@ package me.chanjar.weixin.mp.bean.result;
 
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
+import java.io.Serializable;
+
 /**
  * 微信用户信息
  * @author chanjarster
  *
  */
-public class WxMpUser {
+public class WxMpUser implements Serializable {
 
   protected Boolean subscribe;
   protected String openId;
@@ -20,7 +22,11 @@ public class WxMpUser {
   protected String headImgUrl;
   protected Long subscribeTime;
   protected String unionId;
-  
+  protected Integer sexId;
+
+  public Boolean getSubscribe() {
+    return subscribe;
+  }
   public Boolean isSubscribe() {
     return subscribe;
   }
@@ -87,7 +93,16 @@ public class WxMpUser {
   public void setUnionId(String unionId) {
     this.unionId = unionId;
   }
-  
+
+  public Integer getSexId() {
+
+    return sexId;
+  }
+
+  public void setSexId(Integer sexId) {
+    this.sexId = sexId;
+  }
+
   public static WxMpUser fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
   }

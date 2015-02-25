@@ -3,6 +3,7 @@ package me.chanjar.weixin.cp.bean;
 import me.chanjar.weixin.cp.bean.messagebuilder.*;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Daniel Qian
  *
  */
-public class WxCpMessage {
+public class WxCpMessage implements Serializable {
 
   private String toUser;
   private String toParty;
