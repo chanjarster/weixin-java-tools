@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.api;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
@@ -449,6 +450,19 @@ public class WxMpServiceImpl implements WxMpService {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public String[] getCallbackIP() throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/getcallbackip";
+    String responseContent = get(url, null);
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
+    String[] ipArray = new String[ipList.size()];
+    for (int i = 0; i < ipList.size(); i++) {
+      ipArray[i] = ipList.get(i).getAsString();
+    }
+    return ipArray;
   }
 
   public String get(String url, String queryParam) throws WxErrorException {

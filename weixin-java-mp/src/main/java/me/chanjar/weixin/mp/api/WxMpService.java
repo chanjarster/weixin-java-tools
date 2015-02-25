@@ -422,6 +422,16 @@ public interface WxMpService {
   public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
 
   /**
+   * <pre>
+   * 获取微信服务器IP地址
+   * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  String[] getCallbackIP() throws WxErrorException;
+
+  /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    * @param url
    * @param queryParam
