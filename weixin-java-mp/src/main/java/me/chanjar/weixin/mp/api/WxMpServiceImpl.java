@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -463,6 +464,29 @@ public class WxMpServiceImpl implements WxMpService {
       ipArray[i] = ipList.get(i).getAsString();
     }
     return ipArray;
+  }
+
+
+  @Override
+  public List<WxMpUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/datacube/getusersummary";
+    JsonObject param = new JsonObject();
+    param.addProperty("begin_date", SIMPLE_DATE_FORMAT.format(beginDate));
+    param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
+    String responseContent = post(url, param.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserSummary>>(){}.getType());
+  }
+
+  @Override
+  public List<WxMpUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/datacube/getusercumulate";
+    JsonObject param = new JsonObject();
+    param.addProperty("begin_date", SIMPLE_DATE_FORMAT.format(beginDate));
+    param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
+    String responseContent = post(url, param.toString());
+    JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserCumulate>>(){}.getType());
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
