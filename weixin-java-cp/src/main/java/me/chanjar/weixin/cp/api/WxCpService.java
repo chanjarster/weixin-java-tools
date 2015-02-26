@@ -155,7 +155,10 @@ public interface WxCpService {
    * <pre>
    * 自定义菜单创建接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   *
+   * 注意: 这个方法使用WxCpConfigStorage里的agentId
    * </pre>
+   * @see #menuCreate(String, me.chanjar.weixin.common.bean.WxMenu)
    *
    * @param menu
    * @throws WxErrorException
@@ -164,9 +167,27 @@ public interface WxCpService {
 
   /**
    * <pre>
+   * 自定义菜单创建接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   *
+   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
+   * </pre>
+   * @see #menuCreate(me.chanjar.weixin.common.bean.WxMenu)
+   *
+   * @param agentId 企业号应用的id
+   * @param menu
+   * @throws WxErrorException
+   */
+  void menuCreate(String agentId, WxMenu menu) throws WxErrorException;
+
+  /**
+   * <pre>
    * 自定义菜单删除接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+   *
+   * 注意: 这个方法使用WxCpConfigStorage里的agentId
    * </pre>
+   * @see #menuDelete(String)
    *
    * @throws WxErrorException
    */
@@ -174,14 +195,46 @@ public interface WxCpService {
 
   /**
    * <pre>
+   * 自定义菜单删除接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
+   *
+   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
+   * </pre>
+   * @see #menuDelete()
+   *
+   * @param agentId 企业号应用的id
+   * @throws WxErrorException
+   */
+  void menuDelete(String agentId) throws WxErrorException;
+
+  /**
+   * <pre>
    * 自定义菜单查询接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+   *
+   * 注意: 这个方法使用WxCpConfigStorage里的agentId
    * </pre>
+   * @see #menuGet(String)
    *
    * @return
    * @throws WxErrorException
    */
   WxMenu menuGet() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 自定义菜单查询接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
+   *
+   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
+   * </pre>
+   * @see #menuGet()
+   *
+   * @param agentId 企业号应用的id
+   * @return
+   * @throws WxErrorException
+   */
+  WxMenu menuGet(String agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -364,11 +417,32 @@ public interface WxCpService {
    * 用oauth2获取用户信息
    * http://qydev.weixin.qq.com/wiki/index.php?title=根据code获取成员信息
    * 因为企业号oauth2.0必须在应用设置里设置通过ICP备案的可信域名，所以无法测试，因此这个方法很可能是坏的。
+   *
+   * 注意: 这个方法使用WxCpConfigStorage里的agentId
    * </pre>
+   * @see #oauth2getUserInfo(String, String)
+   *
    * @param code
    * @return [userid, deviceid]
    */
   String[] oauth2getUserInfo(String code) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 用oauth2获取用户信息
+   * http://qydev.weixin.qq.com/wiki/index.php?title=根据code获取成员信息
+   * 因为企业号oauth2.0必须在应用设置里设置通过ICP备案的可信域名，所以无法测试，因此这个方法很可能是坏的。
+   *
+   * 注意: 这个方法不使用WxCpConfigStorage里的agentId，需要开发人员自己给出
+   * </pre>
+   * @see #oauth2getUserInfo(String)
+   *
+   * @param agentId 企业号应用的id
+   * @param code
+   * @return [userid, deviceid]
+   */
+  String[] oauth2getUserInfo(String agentId, String code) throws WxErrorException;
+
 
   /**
    * 移除标签成员
