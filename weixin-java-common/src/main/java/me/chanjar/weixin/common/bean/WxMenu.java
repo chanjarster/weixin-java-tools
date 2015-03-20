@@ -36,7 +36,14 @@ public class WxMenu implements Serializable {
   public static WxMenu fromJson(InputStream is) {
     return WxGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
   }
-  
+
+  @Override
+  public String toString() {
+    return "WxMenu{" +
+        "buttons=" + buttons +
+        '}';
+  }
+
   public static class WxMenuButton {
 
     private String type;
@@ -85,7 +92,17 @@ public class WxMenu implements Serializable {
     public void setSubButtons(List<WxMenuButton> subButtons) {
       this.subButtons = subButtons;
     }
-    
+
+    @Override
+    public String toString() {
+      return "WxMenuButton{" +
+          "type='" + type + '\'' +
+          ", name='" + name + '\'' +
+          ", key='" + key + '\'' +
+          ", url='" + url + '\'' +
+          ", subButtons=" + subButtons +
+          '}';
+    }
   }
 
 }
