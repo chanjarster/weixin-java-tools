@@ -3,10 +3,12 @@ package me.chanjar.weixin.common.bean;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import org.apache.commons.codec.Charsets;
 
 /**
  * 企业号菜单
@@ -46,7 +48,7 @@ public class WxMenu implements Serializable {
    * @return
    */
   public static WxMenu fromJson(InputStream is) {
-    return WxGsonBuilder.create().fromJson(new InputStreamReader(is), WxMenu.class);
+    return WxGsonBuilder.create().fromJson(new InputStreamReader(is, Charsets.UTF_8), WxMenu.class);
   }
 
   @Override
