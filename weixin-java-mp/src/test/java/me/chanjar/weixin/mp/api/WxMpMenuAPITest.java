@@ -24,9 +24,54 @@ public class WxMpMenuAPITest {
   
   @Test(dataProvider = "menu")
   public void testCreateMenu(WxMenu wxMenu) throws WxErrorException {
+    System.out.println(wxMenu.toJson());
     wxService.menuCreate(wxMenu);
   }
-  
+
+  @Test
+  public void testCreateMenu2() throws WxErrorException {
+    String a = "{\n"
+        + "  \"menu\": {\n"
+        + "    \"button\": [\n"
+        + "      {\n"
+        + "        \"type\": \"click\",\n"
+        + "        \"name\": \"今日歌曲\",\n"
+        + "        \"key\": \"V1001_TODAY_MUSIC\"\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"type\": \"click\",\n"
+        + "        \"name\": \"歌手简介\",\n"
+        + "        \"key\": \"V1001_TODAY_SINGER\"\n"
+        + "      },\n"
+        + "      {\n"
+        + "        \"name\": \"菜单\",\n"
+        + "        \"sub_button\": [\n"
+        + "          {\n"
+        + "            \"type\": \"view\",\n"
+        + "            \"name\": \"搜索\",\n"
+        + "            \"url\": \"http://www.soso.com/\"\n"
+        + "          },\n"
+        + "          {\n"
+        + "            \"type\": \"view\",\n"
+        + "            \"name\": \"视频\",\n"
+        + "            \"url\": \"http://v.qq.com/\"\n"
+        + "          },\n"
+        + "          {\n"
+        + "            \"type\": \"click\",\n"
+        + "            \"name\": \"赞一下我们\",\n"
+        + "            \"key\": \"V1001_GOOD\"\n"
+        + "          }\n"
+        + "        ]\n"
+        + "      }\n"
+        + "    ]\n"
+        + "  }\n"
+        + "}";
+
+    WxMenu menu = WxMenu.fromJson(a);
+    System.out.println(menu.toJson());
+    wxService.menuCreate(menu);
+  }
+
   @Test(dependsOnMethods = { "testCreateMenu"})
   public void testGetMenu() throws WxErrorException {
     Assert.assertNotNull(wxService.menuGet());

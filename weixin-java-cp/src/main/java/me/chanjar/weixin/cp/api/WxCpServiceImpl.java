@@ -180,18 +180,36 @@ public class WxCpServiceImpl implements WxCpService {
     post(url, message.toJson());
   }
 
+  @Override
   public void menuCreate(WxMenu menu) throws WxErrorException {
+    menuCreate(wxCpConfigStorage.getAgentId(), menu);
+  }
+
+  @Override
+  public void menuCreate(String agentId, WxMenu menu) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid=" + wxCpConfigStorage.getAgentId();
     post(url, menu.toJson());
   }
 
+  @Override
   public void menuDelete() throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + wxCpConfigStorage.getAgentId();
+    menuDelete(wxCpConfigStorage.getAgentId());
+  }
+
+  @Override
+  public void menuDelete(String agentId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + agentId;
     get(url, null);
   }
 
+  @Override
   public WxMenu menuGet() throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + wxCpConfigStorage.getAgentId();
+    return menuGet(wxCpConfigStorage.getAgentId());
+  }
+
+  @Override
+  public WxMenu menuGet(String agentId) throws WxErrorException {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + agentId;
     try {
       String resultContent = get(url, null);
       return WxMenu.fromJson(resultContent);
@@ -427,9 +445,14 @@ public class WxCpServiceImpl implements WxCpService {
 
   @Override
   public String[] oauth2getUserInfo(String code) throws WxErrorException {
+    return oauth2getUserInfo(code, wxCpConfigStorage.getAgentId());
+  }
+
+  @Override
+  public String[] oauth2getUserInfo(String agentId, String code) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
-                    + "code=" + code
-                    + "&agendid=" + wxCpConfigStorage.getAgentId();
+        + "code=" + code
+        + "&agendid=" + agentId;
     String responseText = get(url, null);
     JsonElement je = Streams.parse(new JsonReader(new StringReader(responseText)));
     JsonObject jo = je.getAsJsonObject();
