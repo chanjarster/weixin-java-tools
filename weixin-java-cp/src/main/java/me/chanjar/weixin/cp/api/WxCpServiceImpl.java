@@ -445,7 +445,7 @@ public class WxCpServiceImpl implements WxCpService {
 
   @Override
   public String[] oauth2getUserInfo(String code) throws WxErrorException {
-    return oauth2getUserInfo(code, wxCpConfigStorage.getAgentId());
+    return oauth2getUserInfo(wxCpConfigStorage.getAgentId(), code);
   }
 
   @Override
