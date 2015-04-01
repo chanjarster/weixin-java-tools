@@ -389,6 +389,18 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 构造oauth2授权的url连接
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
+   * </pre>
+   * @param redirectURI
+   *   用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
+   * @param scope
+   * @param state
+   * @return code
+   */
+  public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state);
+  /**
+   * <pre>
    * 用code换取oauth2的access token
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
