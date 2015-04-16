@@ -34,7 +34,7 @@ public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
       messageJson.addProperty("toparty", message.getToParty());
     }
     if (StringUtils.isNotBlank(message.getToTag())) {
-      messageJson.addProperty("totag", message.getToUser());
+      messageJson.addProperty("totag", message.getToTag());
     }
     if (WxConsts.CUSTOM_MSG_TEXT.equals(message.getMsgType())) {
       JsonObject text = new JsonObject();

@@ -7,6 +7,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.sun.media.sound.SoftTuning;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
@@ -46,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
@@ -445,7 +447,7 @@ public class WxCpServiceImpl implements WxCpService {
 
   @Override
   public String[] oauth2getUserInfo(String code) throws WxErrorException {
-    return oauth2getUserInfo(code, wxCpConfigStorage.getAgentId());
+    return oauth2getUserInfo(wxCpConfigStorage.getAgentId(), code);
   }
 
   @Override
@@ -626,4 +628,12 @@ public class WxCpServiceImpl implements WxCpService {
     this.sessionManager = sessionManager;
   }
 
+  public static void main(String[] args) {
+    Float a = 3.1f;
+    System.out.println(3.1d);
+    System.out.println(new BigDecimal(3.1d));
+    System.out.println(new BigDecimal(a));
+    System.out.println(a.toString());
+    System.out.println(a.doubleValue());
+  }
 }
