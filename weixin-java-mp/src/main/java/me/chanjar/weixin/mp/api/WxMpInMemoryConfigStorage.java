@@ -11,6 +11,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   protected volatile String appId;
   protected volatile String secret;
+    protected volatile String partnerId;
+    protected volatile String partnerKey;
   protected volatile String token;
   protected volatile String accessToken;
   protected volatile String aesKey;
@@ -168,6 +170,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         "appId='" + appId + '\'' +
         ", secret='" + secret + '\'' +
         ", token='" + token + '\'' +
+        ", partnerId='" + partnerId + '\'' +
+        ", partnerKey='" + partnerKey + '\'' +
         ", accessToken='" + accessToken + '\'' +
         ", aesKey='" + aesKey + '\'' +
         ", expiresTime=" + expiresTime +
@@ -179,4 +183,22 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
         '}';
   }
+
+    @Override
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    @Override
+    public String getPartnerKey() {
+        return partnerKey;
+    }
+
+    public void setPartnerKey(String partnerKey) {
+        this.partnerKey = partnerKey;
+    }
 }
