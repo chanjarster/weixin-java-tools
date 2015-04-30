@@ -50,6 +50,10 @@ public interface WxMpConfigStorage {
 
   public String getSecret();
 
+    public String getPartnerId();
+
+    public String getPartnerKey();
+
   public String getToken();
 
   public String getAesKey();
