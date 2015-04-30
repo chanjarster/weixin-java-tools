@@ -334,17 +334,17 @@ public interface WxMpService {
    */
   public WxMpQrCodeTicket qrCodeCreateLastTicket(int scene_id) throws WxErrorException;
 
-    /**
-     * <pre>
-     * 换取永久字符串二维码ticket
-     * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
-     * </pre>
-     *
-     * @param scene_str 参数。字符串类型长度现在为1到64
-     * @return
-     * @throws WxErrorException
-     */
-    public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
+  /**
+   * <pre>
+   * 换取永久字符串二维码ticket
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   *
+   * @param scene_str 参数。字符串类型长度现在为1到64
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
 
   /**
    * <pre>
