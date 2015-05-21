@@ -164,6 +164,7 @@ public class WxMpServiceImpl implements WxMpService {
           "url=" + url
       );
       WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+      jsapiSignature.setAppid(wxMpConfigStorage.getAppId());
       jsapiSignature.setTimestamp(timestamp);
       jsapiSignature.setNoncestr(noncestr);
       jsapiSignature.setUrl(url);
