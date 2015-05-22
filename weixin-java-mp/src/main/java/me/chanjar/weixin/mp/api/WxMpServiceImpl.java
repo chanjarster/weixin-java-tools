@@ -705,4 +705,48 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("sign", finalSign);
     return payInfo;
   }
+
+  @Override
+  public WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo) {
+      String nonce_str = System.currentTimeMillis() + "";
+
+      SortedMap<String, String> packageParams = new TreeMap<String, String>();
+      packageParams.put("appid", wxMpConfigStorage.getAppId());
+      packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+      packageParams.put("transaction_id", transactionId);
+      packageParams.put("out_trade_no", outTradeNo);
+      packageParams.put("nonce_str", nonce_str);
+
+      String sign = WxCryptUtil.createSign(packageParams, wxMpConfigStorage.getPartnerKey());
+      String xml = "<xml>" +
+              "<appid>" + wxMpConfigStorage.getAppId() + "</appid>" +
+              "<mch_id>" + wxMpConfigStorage.getPartnerId() + "</mch_id>" +
+              "<transaction_id>" + transactionId + "</transaction_id>" +
+              "<out_trade_no>" + outTradeNo + "</out_trade_no>" +
+              "<nonce_str>" + nonce_str + "</nonce_str>" +
+              "<sign>" + sign + "</sign>" +
+              "</xml>";
+
+      HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/pay/orderquery");
+      if (httpProxy != null) {
+        RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+        httpPost.setConfig(config);
+      }
+
+      StringEntity entity = new StringEntity(xml, Consts.UTF_8);
+      httpPost.setEntity(entity);
+      try {
+        CloseableHttpResponse response = httpClient.execute(httpPost);
+        String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+        XStream xstream = XStreamInitializer.getInstance();
+        xstream.alias("xml", WxMpPayResult.class);
+        WxMpPayResult wxMpPayResult = (WxMpPayResult) xstream.fromXML(responseContent);
+        return wxMpPayResult;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return new WxMpPayResult();
+  }
+  
+  
 }

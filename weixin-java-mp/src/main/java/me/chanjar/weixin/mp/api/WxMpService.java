@@ -543,7 +543,7 @@ public interface WxMpService {
   void setMaxRetryTimes(int maxRetryTimes);
 
     /**
-     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=9_1)
+     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
      * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
      * @param openId 支付人openId
      * @param outTradeNo 商户端对应订单号
@@ -570,4 +570,11 @@ public interface WxMpService {
      */
     Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
 
+    /**
+     * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
+     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+     * @param transactionId
+     * @param outTradeNo
+     */
+    WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
 }
