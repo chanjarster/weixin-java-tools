@@ -747,6 +747,19 @@ public class WxMpServiceImpl implements WxMpService {
       }
       return new WxMpPayResult();
   }
+
+  @Override
+  public WxMpPayCallback getJSSDKCallbackData(String xmlData) {
+    try {
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.alias("xml", WxMpPayResult.class);
+      WxMpPayCallback wxMpCallback = (WxMpPayCallback) xstream.fromXML(xmlData);
+      return wxMpCallback;
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+    return new WxMpPayCallback();
+  }
   
   
 }

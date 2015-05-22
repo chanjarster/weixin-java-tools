@@ -577,4 +577,12 @@ public interface WxMpService {
      * @param outTradeNo
      */
     WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
+    
+    /**
+     * 读取支付结果通知
+     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+     * @param xmlData
+     * @return
+     */
+    WxMpPayCallback getJSSDKCallbackData(String xmlData);
 }
