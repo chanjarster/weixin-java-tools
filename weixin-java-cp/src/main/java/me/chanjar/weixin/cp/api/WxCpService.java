@@ -399,7 +399,7 @@ public interface WxCpService {
    * @param tagId
    * @param userIds
    */
-  void tagAddUsers(String tagId, List<String> userIds) throws WxErrorException;
+  void tagAddUsers(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException;
 
   /**
    * <pre>

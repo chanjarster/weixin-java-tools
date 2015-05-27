@@ -271,7 +271,8 @@ public class WxCpServiceImpl implements WxCpService {
     return WxCpGsonBuilder.INSTANCE.create()
         .fromJson(
             tmpJsonElement.getAsJsonObject().get("department"),
-            new TypeToken<List<WxCpDepart>>() { }.getType()
+            new TypeToken<List<WxCpDepart>>() {
+            }.getType()
         );
   }
 
@@ -389,7 +390,8 @@ public class WxCpServiceImpl implements WxCpService {
     return WxCpGsonBuilder.INSTANCE.create()
         .fromJson(
             tmpJsonElement.getAsJsonObject().get("taglist"),
-            new TypeToken<List<WxCpTag>>() { }.getType()
+            new TypeToken<List<WxCpTag>>() {
+            }.getType()
         );
   }
 
@@ -406,15 +408,24 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   @Override
-  public void tagAddUsers(String tagId, List<String> userIds) throws WxErrorException {
+  public void tagAddUsers(String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
-    JsonArray jsonArray = new JsonArray();
-    for (String userId : userIds) {
-      jsonArray.add(new JsonPrimitive(userId));
+    if (userIds != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (String userId : userIds) {
+        jsonArray.add(new JsonPrimitive(userId));
+      }
+      jsonObject.add("userlist", jsonArray);
     }
-    jsonObject.add("userlist", jsonArray);
+    if (partyIds != null) {
+      JsonArray jsonArray = new JsonArray();
+      for (String userId : partyIds) {
+        jsonArray.add(new JsonPrimitive(userId));
+      }
+      jsonObject.add("partylist", jsonArray);
+    }
     post(url, jsonObject.toString());
   }
 

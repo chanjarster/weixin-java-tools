@@ -11,9 +11,11 @@ import me.chanjar.weixin.mp.bean.result.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 微信API的Service
@@ -334,6 +336,18 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 换取永久字符串二维码ticket
+   * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * </pre>
+   *
+   * @param scene_str 参数。字符串类型长度现在为1到64
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpQrCodeTicket qrCodeCreateLastTicket(String scene_str) throws WxErrorException;
+
+  /**
+   * <pre>
    * 换取二维码图片文件，jpg格式
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
    * </pre>
@@ -527,5 +541,33 @@ public interface WxMpService {
    * @param maxRetryTimes
    */
   void setMaxRetryTimes(int maxRetryTimes);
+
+    /**
+     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=9_1)
+     * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
+     * @param openId 支付人openId
+     * @param outTradeNo 商户端对应订单号
+     * @param amt 金额(单位元)
+     * @param body 商品描述
+     * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
+     * @param ip 发起支付的客户端IP
+     * @param notifyUrl 通知地址
+     * @return
+     */
+    WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+
+    /**
+     * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
+     * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+     * @param openId 支付人openId
+     * @param outTradeNo 商户端对应订单号
+     * @param amt 金额(单位元)
+     * @param body 商品描述
+     * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
+     * @param ip 发起支付的客户端IP
+     * @param notifyUrl 通知地址
+     * @return
+     */
+    Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
 
 }

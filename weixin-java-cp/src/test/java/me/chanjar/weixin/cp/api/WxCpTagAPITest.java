@@ -42,7 +42,7 @@ public class WxCpTagAPITest {
   public void testTagAddUsers() throws Exception {
     List<String> userIds = new ArrayList<String>();
     userIds.add(((ApiTestModule.WxXmlCpInMemoryConfigStorage)configStorage).getUserId());
-    wxService.tagAddUsers(tagId, userIds);
+    wxService.tagAddUsers(tagId, userIds, null);
   }
 
   @Test(dependsOnMethods = "testTagAddUsers")
