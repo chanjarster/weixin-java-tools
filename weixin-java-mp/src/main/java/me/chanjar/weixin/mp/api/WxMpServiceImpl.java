@@ -108,8 +108,7 @@ public class WxMpServiceImpl implements WxMpService {
               RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
               httpGet.setConfig(config);
             }
-            CloseableHttpClient httpclient = getHttpclient();
-            CloseableHttpResponse response = httpclient.execute(httpGet);
+            CloseableHttpResponse response = getHttpclient().execute(httpGet);
             String resultContent = new BasicResponseHandler().handleResponse(response);
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
@@ -673,7 +672,7 @@ public class WxMpServiceImpl implements WxMpService {
     StringEntity entity = new StringEntity(xml, Consts.UTF_8);
     httpPost.setEntity(entity);
     try {
-      CloseableHttpResponse response = httpClient.execute(httpPost);
+      CloseableHttpResponse response = getHttpclient().execute(httpPost);
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
       xstream.alias("xml", WxMpPrepayIdResult.class);
