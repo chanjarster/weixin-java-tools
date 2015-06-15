@@ -1,5 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
+import java.io.File;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 
 /**
@@ -27,6 +29,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 
   protected volatile String jsapiTicket;
   protected volatile long jsapiTicketExpiresTime;
+
+  protected volatile File tmpDirFile;
 
   public String getAccessToken() {
     return this.accessToken;
@@ -189,7 +193,16 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
         ", http_proxy_password='" + http_proxy_password + '\'' +
         ", jsapiTicket='" + jsapiTicket + '\'' +
         ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
+        ", tmpDirFile='" + tmpDirFile + '\'' +
         '}';
+  }
+
+  public File getTmpDirFile() {
+    return tmpDirFile;
+  }
+
+  public void setTmpDirFile(File tmpDirFile) {
+    this.tmpDirFile = tmpDirFile;
   }
 
 }

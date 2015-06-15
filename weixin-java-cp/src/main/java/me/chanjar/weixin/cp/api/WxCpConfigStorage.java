@@ -1,5 +1,7 @@
 package me.chanjar.weixin.cp.api;
 
+import java.io.File;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 
 /**
@@ -58,5 +60,7 @@ public interface WxCpConfigStorage {
   public String getHttp_proxy_username();
 
   public String getHttp_proxy_password();
+  
+  public File getTmpDirFile();
 
 }
