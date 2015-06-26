@@ -25,6 +25,18 @@ import java.util.regex.Pattern;
  *
  */
 public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
+	
+  private File tmpDirFile;
+
+  public MediaDownloadRequestExecutor() {
+    super();
+  }
+
+  public MediaDownloadRequestExecutor(File tmpDirFile) {
+    super();
+    this.tmpDirFile = tmpDirFile;
+  }
+  
 
   @Override
   public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, ClientProtocolException, IOException {
@@ -59,7 +71,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       return null;
     }
     String[] name_ext = fileName.split("\\.");
-    File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1]);
+    File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
     return localFile;
   }
 

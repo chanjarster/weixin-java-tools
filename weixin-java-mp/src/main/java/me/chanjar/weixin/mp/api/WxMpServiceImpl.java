@@ -7,6 +7,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.thoughtworks.xstream.XStream;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxMenu;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
@@ -27,6 +28,7 @@ import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
 import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -108,8 +110,7 @@ public class WxMpServiceImpl implements WxMpService {
               RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
               httpGet.setConfig(config);
             }
-            CloseableHttpClient httpclient = getHttpclient();
-            CloseableHttpResponse response = httpclient.execute(httpGet);
+            CloseableHttpResponse response = getHttpclient().execute(httpGet);
             String resultContent = new BasicResponseHandler().handleResponse(response);
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
@@ -214,7 +215,7 @@ public class WxMpServiceImpl implements WxMpService {
   
   public File mediaDownload(String media_id) throws WxErrorException {
     String url = "http://file.api.weixin.qq.com/cgi-bin/media/get";
-    return execute(new MediaDownloadRequestExecutor(), url, "media_id=" + media_id);
+    return execute(new MediaDownloadRequestExecutor(wxMpConfigStorage.getTmpDirFile()), url, "media_id=" + media_id);
   }
 
   public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
@@ -672,7 +673,7 @@ public class WxMpServiceImpl implements WxMpService {
     StringEntity entity = new StringEntity(xml, Consts.UTF_8);
     httpPost.setEntity(entity);
     try {
-      CloseableHttpResponse response = httpClient.execute(httpPost);
+      CloseableHttpResponse response = getHttpclient().execute(httpPost);
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
       xstream.alias("xml", WxMpPrepayIdResult.class);
