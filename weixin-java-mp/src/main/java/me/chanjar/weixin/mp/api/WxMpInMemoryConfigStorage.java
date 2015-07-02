@@ -192,26 +192,31 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         '}';
   }
 
-    @Override
-    public String getPartnerId() {
-        return partnerId;
-    }
+  @Override
+  public String getPartnerId() {
+      return partnerId;
+  }
 
-    public void setPartnerId(String partnerId) {
-        this.partnerId = partnerId;
-    }
+  public void setPartnerId(String partnerId) {
+      this.partnerId = partnerId;
+  }
 
-    @Override
-    public String getPartnerKey() {
-        return partnerKey;
-    }
+  @Override
+  public String getPartnerKey() {
+      return partnerKey;
+  }
 
-    public void setPartnerKey(String partnerKey) {
-        this.partnerKey = partnerKey;
-    }
+  public void setPartnerKey(String partnerKey) {
+      this.partnerKey = partnerKey;
+  }
 
-    @Override
-    public File getTmpDirFile() {
-      return this.getTmpDirFile();
-    }
+  @Override
+  public File getTmpDirFile() {
+    return this.tmpDirFile;
+  }
+
+  public void setTmpDirFile(File tmpDirFile) {
+    this.tmpDirFile = tmpDirFile;
+  }
+
 }
