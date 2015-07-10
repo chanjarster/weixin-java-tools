@@ -27,7 +27,7 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>1.1.6</version>
+  <version>1.1.7</version>
 </dependency>
 ```
 
