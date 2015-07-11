@@ -30,6 +30,8 @@ public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
     wxMpUser.setSubscribeTime(GsonHelper.getLong(o, "subscribe_time"));
     wxMpUser.setUnionId(GsonHelper.getString(o, "unionid"));
     Integer sexId = GsonHelper.getInteger(o, "sex");
+    wxMpUser.setRemark(GsonHelper.getString(o, "remark"));
+    wxMpUser.setGroupId(GsonHelper.getInteger(o, "groupid"));
     wxMpUser.setSexId(sexId);
     if(new Integer(1).equals(sexId)) {
       wxMpUser.setSex("男");
