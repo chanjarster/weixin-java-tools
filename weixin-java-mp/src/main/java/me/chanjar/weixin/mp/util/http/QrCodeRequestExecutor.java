@@ -47,20 +47,21 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
       httpGet.setConfig(config);
     }
 
-    CloseableHttpResponse response = httpclient.execute(httpGet);
-
-    Header[] contentTypeHeader = response.getHeaders("Content-Type");
-    if (contentTypeHeader != null && contentTypeHeader.length > 0) {
-      // 出错
-      if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
-        String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-        throw new WxErrorException(WxError.fromJson(responseContent));
+    try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
+      Header[] contentTypeHeader = response.getHeaders("Content-Type");
+      if (contentTypeHeader != null && contentTypeHeader.length > 0) {
+        // 出错
+        if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
+          String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+          throw new WxErrorException(WxError.fromJson(responseContent));
+        }
       }
+      InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
+
+      File localFile = FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
+      return localFile;
     }
-    InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
-    
-    File localFile = FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
-    return localFile;
+
   }
 
 }

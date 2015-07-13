@@ -53,19 +53,17 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       httpGet.setConfig(config);
     }
 
-    CloseableHttpResponse response = httpclient.execute(httpGet);
+    try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
 
-    Header[] contentTypeHeader = response.getHeaders("Content-Type");
-    if (contentTypeHeader != null && contentTypeHeader.length > 0) {
-      // 下载媒体文件出错
-      if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
-        String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-        throw new WxErrorException(WxError.fromJson(responseContent));
+      Header[] contentTypeHeader = response.getHeaders("Content-Type");
+      if (contentTypeHeader != null && contentTypeHeader.length > 0) {
+        // 下载媒体文件出错
+        if (ContentType.TEXT_PLAIN.getMimeType().equals(contentTypeHeader[0].getValue())) {
+          String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+          throw new WxErrorException(WxError.fromJson(responseContent));
+        }
       }
-    }
-    InputStream inputStream = null;
-    try {
-      inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
+      InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
 
       // 视频文件不支持下载
       String fileName = getFileName(response);
@@ -75,11 +73,9 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
       String[] name_ext = fileName.split("\\.");
       File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
       return localFile;
-    } finally {
-      if (inputStream != null) {
-        inputStream.close();
-      }
+
     }
+
   }
 
   protected String getFileName(CloseableHttpResponse response) {

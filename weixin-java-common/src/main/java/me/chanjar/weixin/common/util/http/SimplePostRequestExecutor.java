@@ -40,13 +40,14 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
       httpPost.setEntity(entity);
     }
 
-    CloseableHttpResponse response = httpclient.execute(httpPost);
-    String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
+    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      WxError error = WxError.fromJson(responseContent);
+      if (error.getErrorCode() != 0) {
+        throw new WxErrorException(error);
+      }
+      return responseContent;
     }
-    return responseContent;
   }
 
 }
