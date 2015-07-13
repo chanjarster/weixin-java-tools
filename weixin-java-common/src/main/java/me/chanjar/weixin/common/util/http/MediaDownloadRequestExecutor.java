@@ -63,16 +63,23 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
         throw new WxErrorException(WxError.fromJson(responseContent));
       }
     }
-    InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
-    
-    // 视频文件不支持下载
-    String fileName = getFileName(response);
-    if (StringUtils.isBlank(fileName)) {
-      return null;
+    InputStream inputStream = null;
+    try {
+      inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
+
+      // 视频文件不支持下载
+      String fileName = getFileName(response);
+      if (StringUtils.isBlank(fileName)) {
+        return null;
+      }
+      String[] name_ext = fileName.split("\\.");
+      File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
+      return localFile;
+    } finally {
+      if (inputStream != null) {
+        inputStream.close();
+      }
     }
-    String[] name_ext = fileName.split("\\.");
-    File localFile = FileUtils.createTmpFile(inputStream, name_ext[0], name_ext[1], tmpDirFile);
-    return localFile;
   }
 
   protected String getFileName(CloseableHttpResponse response) {
