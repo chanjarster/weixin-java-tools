@@ -33,13 +33,14 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
       httpGet.setConfig(config);
     }
 
-    CloseableHttpResponse response = httpclient.execute(httpGet);
-    String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
+    try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      WxError error = WxError.fromJson(responseContent);
+      if (error.getErrorCode() != 0) {
+        throw new WxErrorException(error);
+      }
+      return responseContent;
     }
-    return responseContent;
   }
 
 }
