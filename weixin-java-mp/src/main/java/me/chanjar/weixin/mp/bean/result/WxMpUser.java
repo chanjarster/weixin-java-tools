@@ -23,6 +23,8 @@ public class WxMpUser implements Serializable {
   protected Long subscribeTime;
   protected String unionId;
   protected Integer sexId;
+  protected String remark;
+  protected Integer groupId;
 
   public Boolean getSubscribe() {
     return subscribe;
@@ -103,6 +105,19 @@ public class WxMpUser implements Serializable {
     this.sexId = sexId;
   }
 
+  public String getRemark() {
+    return remark;
+  }
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+  public Integer getGroupId() {
+    return groupId;
+  }
+  public void setGroupId(Integer groupId) {
+    this.groupId = groupId;
+  }
+
   public static WxMpUser fromJson(String json) {
     return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
   }
@@ -121,6 +136,8 @@ public class WxMpUser implements Serializable {
         ", headImgUrl='" + headImgUrl + '\'' +
         ", subscribeTime=" + subscribeTime +
         ", unionId='" + unionId + '\'' +
+        ", remark='" + remark + '\'' +
+        ", groupId='" + groupId + '\'' +
         '}';
   }
 }
