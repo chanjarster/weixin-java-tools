@@ -204,15 +204,21 @@ public class WxMpMessageRouterRule {
     return end();
   }
 
+  /**
+   * 将微信自定义的事件修正为不区分大小写,
+   * 比如框架定义的事件常量为click，但微信传递过来的却是CLICK
+   * @param wxMessage
+   * @return
+   */
   protected boolean test(WxMpXmlMessage wxMessage) {
     return
         (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
             &&
-            (this.msgType == null || this.msgType.equals(wxMessage.getMsgType()))
+            (this.msgType == null || this.msgType.toLowerCase().equals((wxMessage.getMsgType()==null?null:wxMessage.getMsgType().toLowerCase())))
             &&
-            (this.event == null || this.event.equals(wxMessage.getEvent()))
+            (this.event == null || this.event.toLowerCase().equals((wxMessage.getEvent()==null?null:wxMessage.getEvent().toLowerCase())))
             &&
-            (this.eventKey == null || this.eventKey.equals(wxMessage.getEventKey()))
+            (this.eventKey == null || this.eventKey.toLowerCase().equals((wxMessage.getEventKey()==null?null:wxMessage.getEventKey().toLowerCase())))
             &&
             (this.content == null || this.content
                 .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
