@@ -214,11 +214,11 @@ public class WxMpMessageRouterRule {
     return
         (this.fromUser == null || this.fromUser.equals(wxMessage.getFromUserName()))
             &&
-            (this.msgType == null || this.msgType.toLowerCase().equals(wxMessage.getMsgType()==null?null:wxMessage.getMsgType().toLowerCase()))
+            (this.msgType == null || this.msgType.toLowerCase().equals((wxMessage.getMsgType()==null?null:wxMessage.getMsgType().toLowerCase())))
             &&
-            (this.event == null || this.event.toLowerCase().equals(wxMessage.getEvent()==null?null:wxMessage.getEvent().toLowerCase()))
+            (this.event == null || this.event.toLowerCase().equals((wxMessage.getEvent()==null?null:wxMessage.getEvent().toLowerCase())))
             &&
-            (this.eventKey == null || this.eventKey.toLowerCase().equals(wxMessage.getEventKey()==null?null:wxMessage.getEventKey().toLowerCase()))
+            (this.eventKey == null || this.eventKey.toLowerCase().equals((wxMessage.getEventKey()==null?null:wxMessage.getEventKey().toLowerCase())))
             &&
             (this.content == null || this.content
                 .equals(wxMessage.getContent() == null ? null : wxMessage.getContent().trim()))
