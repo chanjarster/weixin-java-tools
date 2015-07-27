@@ -6,20 +6,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 群发时用到的图文消息素材
- *
- * @author chanjarster
- */
-public class WxMpMassNews implements Serializable {
+public class WxMpMaterialNews implements Serializable {
 
-  private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
+  private List<WxMpMaterialNewsArticle> articles = new ArrayList<WxMpMaterialNewsArticle>();
 
-  public List<WxMpMassNewsArticle> getArticles() {
+  public List<WxMpMaterialNewsArticle> getArticles() {
     return articles;
   }
 
-  public void addArticle(WxMpMassNewsArticle article) {
+  public void addArticle(WxMpMaterialNewsArticle article) {
     this.articles.add(article);
   }
 
@@ -45,7 +40,7 @@ public class WxMpMassNews implements Serializable {
    *
    * @author chanjarster
    */
-  public static class WxMpMassNewsArticle {
+  public static class WxMpMaterialNewsArticle {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
      */
@@ -141,6 +136,6 @@ public class WxMpMassNews implements Serializable {
 
   @Override
   public String toString() {
-    return "WxMpMassNews [" + "articles=" + articles + "]";
+    return "WxMpMaterialNews [" + "articles=" + articles + "]";
   }
 }
