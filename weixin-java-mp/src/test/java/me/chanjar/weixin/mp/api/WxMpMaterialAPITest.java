@@ -195,7 +195,7 @@ public class WxMpMaterialAPITest {
 
   @Test(dependsOnMethods = {"testUpdateNewsInfo"})
   public void testMaterialNewsList() throws WxErrorException {
-    WxMpMaterialNewsBatchGetResult wxMpMaterialNewsBatchGetResult = wxService.materialNewsBatchGet(WxConsts.MATERIAL_NEWS, 0, 20);
+    WxMpMaterialNewsBatchGetResult wxMpMaterialNewsBatchGetResult = wxService.materialNewsBatchGet(0, 20);
     return;
   }
 

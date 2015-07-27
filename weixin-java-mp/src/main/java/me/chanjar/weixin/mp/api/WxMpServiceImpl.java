@@ -8,6 +8,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.thoughtworks.xstream.XStream;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
@@ -272,10 +273,10 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
-  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(String type, int offset, int count) throws WxErrorException {
+  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put("type", type);
+    params.put("type", WxConsts.MATERIAL_NEWS);
     params.put("offset", offset);
     params.put("count", count);
     String responseText = post(url, new Gson().toJson(params));
