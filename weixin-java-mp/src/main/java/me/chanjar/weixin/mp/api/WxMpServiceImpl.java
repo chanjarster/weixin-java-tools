@@ -1,6 +1,5 @@
 package me.chanjar.weixin.mp.api;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,6 +23,7 @@ import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
 import me.chanjar.weixin.mp.bean.*;
 import me.chanjar.weixin.mp.bean.result.*;
@@ -275,11 +275,11 @@ public class WxMpServiceImpl implements WxMpService {
 
   public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<String, Object>();
+    Map<String, Object> params = new HashMap<>();
     params.put("type", WxConsts.MATERIAL_NEWS);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = post(url, new Gson().toJson(params));
+    String responseText = post(url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
@@ -290,11 +290,11 @@ public class WxMpServiceImpl implements WxMpService {
 
   public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<String, Object>();
+    Map<String, Object> params = new HashMap<>();
     params.put("type", type);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = post(url, new Gson().toJson(params));
+    String responseText = post(url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
