@@ -349,8 +349,9 @@ public class WxMpServiceImpl implements WxMpService {
      * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxMpGroup>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"),
+        new TypeToken<List<WxMpGroup>>() {
+        }.getType());
   }
 
   public long userGetGroup(String openid) throws WxErrorException {
@@ -597,8 +598,9 @@ public class WxMpServiceImpl implements WxMpService {
     param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
     String responseContent = post(url, param.toString());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserCumulate>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
+        new TypeToken<List<WxMpUserCumulate>>() {
+        }.getType());
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
@@ -646,6 +648,9 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    if (uri.indexOf("access_token=") != -1) {
+      throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
+    }
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;

@@ -551,6 +551,9 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    if (uri.indexOf("access_token=") != -1) {
+      throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
+    }
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;
