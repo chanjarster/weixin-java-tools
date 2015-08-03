@@ -29,6 +29,7 @@ public class WxConsts {
   public static final String CUSTOM_MSG_MUSIC = "music";
   public static final String CUSTOM_MSG_NEWS = "news";
   public static final String CUSTOM_MSG_FILE = "file";
+  public static final String CUSTOM_MSG_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
   
   ///////////////////////
   // 群发消息的消息类型

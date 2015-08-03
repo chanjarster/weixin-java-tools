@@ -121,4 +121,12 @@ public abstract class WxMpXmlOutMessage implements Serializable {
   public static NewsBuilder NEWS() {
     return new NewsBuilder();
   }
+ /**
+   * 获得客服消息builder
+   *
+   * @return
+   */
+  public static TransferCustomerServiceBuilder TRANSFER_CUSTOMER_SERVICE() {
+    return new TransferCustomerServiceBuilder();
+  }
 }
