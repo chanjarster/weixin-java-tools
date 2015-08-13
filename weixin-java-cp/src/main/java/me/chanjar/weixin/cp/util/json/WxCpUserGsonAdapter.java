@@ -98,6 +98,9 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     if (user.getStatus() != null) {
       o.addProperty("status", user.getStatus());
     }
+    if (user.getEnable() != null) {
+      o.addProperty("enable", user.getEnable());
+    }
     if (user.getExtAttrs().size() > 0) {
       JsonArray attrsJsonArray = new JsonArray();
       for (WxCpUser.Attr attr : user.getExtAttrs()) {
