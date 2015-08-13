@@ -49,7 +49,7 @@ public class WxError implements Serializable {
 
   @Override
   public String toString() {
-    return "微信错误 errcode=" + errorCode + ", errmsg=" + errorMsg + "\njson:" + json;
+    return "微信错误: errcode=" + errorCode + ", errmsg=" + errorMsg + "\njson:" + json;
   }
 
 }
