@@ -556,4 +556,18 @@ public interface WxCpService {
    * @param sessionManager
    */
   void setSessionManager(WxSessionManager sessionManager);
+  
+  /**
+   * 上传部门列表覆盖企业号上的部门信息
+   * @param mediaId
+   * @throws WxErrorException
+   */
+  void replaceParty(String mediaId) throws WxErrorException;
+  
+  /**
+   * 上传用户列表覆盖企业号上的用户信息
+   * @param mediaId
+   * @throws WxErrorException
+   */
+  void replaceUser(String mediaId) throws WxErrorException;
 }
