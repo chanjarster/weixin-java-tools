@@ -562,12 +562,20 @@ public interface WxCpService {
    * @param mediaId
    * @throws WxErrorException
    */
-  void replaceParty(String mediaId) throws WxErrorException;
+  String replaceParty(String mediaId) throws WxErrorException;
   
   /**
    * 上传用户列表覆盖企业号上的用户信息
    * @param mediaId
    * @throws WxErrorException
    */
-  void replaceUser(String mediaId) throws WxErrorException;
+  String replaceUser(String mediaId) throws WxErrorException;
+  
+  /**
+   * 获取异步任务结果
+   * @param joinId
+   * @return
+   * @throws WxErrorException
+   */
+  String getTaskResult(String joinId) throws WxErrorException;
 }

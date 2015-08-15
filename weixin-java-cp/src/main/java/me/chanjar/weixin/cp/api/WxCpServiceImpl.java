@@ -656,19 +656,25 @@ public class WxCpServiceImpl implements WxCpService {
   }
   
   @Override
-  public void replaceParty(String mediaId) throws WxErrorException {
+  public String replaceParty(String mediaId) throws WxErrorException {
 	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceparty";
 	  JsonObject jsonObject = new JsonObject();
 	  jsonObject.addProperty("media_id", mediaId);
-	  post(url, jsonObject.toString());
+	  return post(url, jsonObject.toString());
   }
 
   @Override
-  public void replaceUser(String mediaId) throws WxErrorException {
+  public String replaceUser(String mediaId) throws WxErrorException {
 	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceuser";
 	  JsonObject jsonObject = new JsonObject();
 	  jsonObject.addProperty("media_id", mediaId);
-	  post(url, jsonObject.toString());
+	  return post(url, jsonObject.toString());
+  }
+
+  @Override
+  public String getTaskResult(String joinId) throws WxErrorException {
+	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/getresult?jobid="+joinId;
+	  return get(url, null);
   }
 
   public File getTmpDirFile() {
