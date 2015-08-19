@@ -1,12 +1,20 @@
 package me.chanjar.weixin.mp.api;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.thoughtworks.xstream.XStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.UUID;
+
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
@@ -21,14 +29,53 @@ import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
-import me.chanjar.weixin.mp.util.http.*;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.WxMpGroup;
+import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassNews;
+import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassVideo;
+import me.chanjar.weixin.mp.bean.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
+import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
+import me.chanjar.weixin.mp.bean.result.WxMpPayResult;
+import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
+import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialVideoInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
+import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -47,12 +94,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.thoughtworks.xstream.XStream;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -796,7 +844,7 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("signType", "MD5");
 
     String finalSign = WxCryptUtil.createSign(payInfo, wxMpConfigStorage.getPartnerKey());
-    payInfo.put("sign", finalSign);
+    payInfo.put("paySign", finalSign);
     return payInfo;
   }
 
@@ -846,7 +894,7 @@ public class WxMpServiceImpl implements WxMpService {
   public WxMpPayCallback getJSSDKCallbackData(String xmlData) {
     try {
       XStream xstream = XStreamInitializer.getInstance();
-      xstream.alias("xml", WxMpPayResult.class);
+      xstream.alias("xml", WxMpPayCallback.class);
       WxMpPayCallback wxMpCallback = (WxMpPayCallback) xstream.fromXML(xmlData);
       return wxMpCallback;
     } catch (Exception e){
