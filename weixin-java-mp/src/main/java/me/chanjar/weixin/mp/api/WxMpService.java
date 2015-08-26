@@ -526,7 +526,7 @@ public interface WxMpService {
    * </pre>
    * @param scope
    * @param state
-   * @return code
+   * @return url
    */
   public String oauth2buildAuthorizationUrl(String scope, String state);
 
@@ -539,7 +539,7 @@ public interface WxMpService {
    *   用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @param scope
    * @param state
-   * @return code
+   * @return url
    */
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state);
   /**

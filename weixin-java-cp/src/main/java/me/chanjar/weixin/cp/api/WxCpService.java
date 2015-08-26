@@ -408,7 +408,7 @@ public interface WxCpService {
    * </pre>
    * @param redirectUri
    * @param state
-   * @return code
+   * @return url
    */
   String oauth2buildAuthorizationUrl(String redirectUri, String state);
 
