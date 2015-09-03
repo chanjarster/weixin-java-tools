@@ -35,7 +35,8 @@ public class WxMpMaterialNews implements Serializable {
    * 4. contentSourceUrl 在图文消息页面点击“阅读原文”后的页面链接
    * 5. content (必填)  图文消息页面的内容，支持HTML标签
    * 6. digest          图文消息的描述
-   * 7, showCoverPic  是否显示封面，true为显示，false为不显示
+   * 7. showCoverPic  是否显示封面，true为显示，false为不显示
+   * 8. url           点击图文消息跳转链接
    * </pre>
    *
    * @author chanjarster
@@ -69,6 +70,12 @@ public class WxMpMaterialNews implements Serializable {
      * 是否显示封面，true为显示，false为不显示
      */
     private boolean showCoverPic;
+
+    /**
+     * 点击图文消息跳转链接
+     * @return
+    */
+    private String url;
 
     public String getThumbMediaId() {
       return thumbMediaId;
@@ -126,11 +133,19 @@ public class WxMpMaterialNews implements Serializable {
       this.showCoverPic = showCoverPic;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
       return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + ", author=" + author + ", title=" + title +
           ", contentSourceUrl=" + contentSourceUrl + ", content=" + content + ", digest=" + digest +
-          ", showCoverPic=" + showCoverPic + "]";
+          ", showCoverPic=" + showCoverPic +", url=" + url + "]";
     }
   }
 
