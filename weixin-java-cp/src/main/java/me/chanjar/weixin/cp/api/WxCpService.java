@@ -556,4 +556,26 @@ public interface WxCpService {
    * @param sessionManager
    */
   void setSessionManager(WxSessionManager sessionManager);
+  
+  /**
+   * 上传部门列表覆盖企业号上的部门信息
+   * @param mediaId
+   * @throws WxErrorException
+   */
+  String replaceParty(String mediaId) throws WxErrorException;
+  
+  /**
+   * 上传用户列表覆盖企业号上的用户信息
+   * @param mediaId
+   * @throws WxErrorException
+   */
+  String replaceUser(String mediaId) throws WxErrorException;
+  
+  /**
+   * 获取异步任务结果
+   * @param joinId
+   * @return
+   * @throws WxErrorException
+   */
+  String getTaskResult(String joinId) throws WxErrorException;
 }
