@@ -1,13 +1,21 @@
 package me.chanjar.weixin.mp.api;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.thoughtworks.xstream.XStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.UUID;
+
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
@@ -21,13 +29,53 @@ import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.crypto.WxCryptUtil;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
 import me.chanjar.weixin.common.util.json.GsonHelper;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.common.util.xml.XStreamInitializer;
-import me.chanjar.weixin.mp.bean.*;
-import me.chanjar.weixin.mp.bean.result.*;
-import me.chanjar.weixin.mp.util.http.*;
+import me.chanjar.weixin.mp.bean.WxMpCustomMessage;
+import me.chanjar.weixin.mp.bean.WxMpGroup;
+import me.chanjar.weixin.mp.bean.WxMpMassGroupMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassNews;
+import me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage;
+import me.chanjar.weixin.mp.bean.WxMpMassVideo;
+import me.chanjar.weixin.mp.bean.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate;
+import me.chanjar.weixin.mp.bean.WxMpMaterialNews;
+import me.chanjar.weixin.mp.bean.WxMpSemanticQuery;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpMassSendResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMassUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialCountResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialFileBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.result.WxMpMaterialVideoInfoResult;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpPayCallback;
+import me.chanjar.weixin.mp.bean.result.WxMpPayResult;
+import me.chanjar.weixin.mp.bean.result.WxMpPrepayIdResult;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.bean.result.WxMpSemanticQueryResult;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.result.WxMpUserCumulate;
+import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+import me.chanjar.weixin.mp.bean.result.WxMpUserSummary;
+import me.chanjar.weixin.mp.util.http.MaterialDeleteRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialNewsInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialUploadRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialVideoInfoRequestExecutor;
+import me.chanjar.weixin.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
+import me.chanjar.weixin.mp.util.http.QrCodeRequestExecutor;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -46,12 +94,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.thoughtworks.xstream.XStream;
 
 public class WxMpServiceImpl implements WxMpService {
 
@@ -162,6 +211,7 @@ public class WxMpServiceImpl implements WxMpService {
           "url=" + url
       );
       WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+      jsapiSignature.setAppid(wxMpConfigStorage.getAppId());
       jsapiSignature.setTimestamp(timestamp);
       jsapiSignature.setNoncestr(noncestr);
       jsapiSignature.setUrl(url);
@@ -271,13 +321,13 @@ public class WxMpServiceImpl implements WxMpService {
     }
   }
 
-  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(String type, int offset, int count) throws WxErrorException {
+  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put("type", type);
+    Map<String, Object> params = new HashMap<>();
+    params.put("type", WxConsts.MATERIAL_NEWS);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = post(url, new Gson().toJson(params));
+    String responseText = post(url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
@@ -288,11 +338,11 @@ public class WxMpServiceImpl implements WxMpService {
 
   public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-    Map<String, Object> params = new HashMap<String, Object>();
+    Map<String, Object> params = new HashMap<>();
     params.put("type", type);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = post(url, new Gson().toJson(params));
+    String responseText = post(url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
@@ -347,8 +397,9 @@ public class WxMpServiceImpl implements WxMpService {
      * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
      */
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"), new TypeToken<List<WxMpGroup>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("groups"),
+        new TypeToken<List<WxMpGroup>>() {
+        }.getType());
   }
 
   public long userGetGroup(String openid) throws WxErrorException {
@@ -595,8 +646,9 @@ public class WxMpServiceImpl implements WxMpService {
     param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
     String responseContent = post(url, param.toString());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserCumulate>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
+        new TypeToken<List<WxMpUserCumulate>>() {
+        }.getType());
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
@@ -644,6 +696,9 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    if (uri.indexOf("access_token=") != -1) {
+      throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
+    }
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;
@@ -789,7 +844,64 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("signType", "MD5");
 
     String finalSign = WxCryptUtil.createSign(payInfo, wxMpConfigStorage.getPartnerKey());
-    payInfo.put("sign", finalSign);
+    payInfo.put("paySign", finalSign);
     return payInfo;
   }
+
+  @Override
+  public WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo) {
+      String nonce_str = System.currentTimeMillis() + "";
+
+      SortedMap<String, String> packageParams = new TreeMap<String, String>();
+      packageParams.put("appid", wxMpConfigStorage.getAppId());
+      packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+      packageParams.put("transaction_id", transactionId);
+      packageParams.put("out_trade_no", outTradeNo);
+      packageParams.put("nonce_str", nonce_str);
+
+      String sign = WxCryptUtil.createSign(packageParams, wxMpConfigStorage.getPartnerKey());
+      String xml = "<xml>" +
+              "<appid>" + wxMpConfigStorage.getAppId() + "</appid>" +
+              "<mch_id>" + wxMpConfigStorage.getPartnerId() + "</mch_id>" +
+              "<transaction_id>" + transactionId + "</transaction_id>" +
+              "<out_trade_no>" + outTradeNo + "</out_trade_no>" +
+              "<nonce_str>" + nonce_str + "</nonce_str>" +
+              "<sign>" + sign + "</sign>" +
+              "</xml>";
+
+      HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/pay/orderquery");
+      if (httpProxy != null) {
+        RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+        httpPost.setConfig(config);
+      }
+
+      StringEntity entity = new StringEntity(xml, Consts.UTF_8);
+      httpPost.setEntity(entity);
+      try {
+        CloseableHttpResponse response = httpClient.execute(httpPost);
+        String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+        XStream xstream = XStreamInitializer.getInstance();
+        xstream.alias("xml", WxMpPayResult.class);
+        WxMpPayResult wxMpPayResult = (WxMpPayResult) xstream.fromXML(responseContent);
+        return wxMpPayResult;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return new WxMpPayResult();
+  }
+
+  @Override
+  public WxMpPayCallback getJSSDKCallbackData(String xmlData) {
+    try {
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.alias("xml", WxMpPayCallback.class);
+      WxMpPayCallback wxMpCallback = (WxMpPayCallback) xstream.fromXML(xmlData);
+      return wxMpCallback;
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+    return new WxMpPayCallback();
+  }
+  
+  
 }

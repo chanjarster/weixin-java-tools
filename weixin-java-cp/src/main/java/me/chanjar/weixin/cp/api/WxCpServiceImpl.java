@@ -1,13 +1,14 @@
 package me.chanjar.weixin.cp.api;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.sun.media.sound.SoftTuning;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.UUID;
+
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
@@ -21,13 +22,19 @@ import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.*;
+import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
+import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.URIUtil;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
+
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -43,14 +50,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.UUID;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 public class WxCpServiceImpl implements WxCpService {
 
@@ -243,7 +249,6 @@ public class WxCpServiceImpl implements WxCpService {
 
   public File mediaDownload(String media_id) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/media/get";
-    
     return execute(new MediaDownloadRequestExecutor(wxCpConfigStorage.getTmpDirFile()), url, "media_id=" + media_id);
   }
 
@@ -551,6 +556,9 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+    if (uri.indexOf("access_token=") != -1) {
+      throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
+    }
     String accessToken = getAccessToken(false);
 
     String uriWithAccessToken = uri;
@@ -647,6 +655,28 @@ public class WxCpServiceImpl implements WxCpService {
     this.sessionManager = sessionManager;
   }
   
+  @Override
+  public String replaceParty(String mediaId) throws WxErrorException {
+	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceparty";
+	  JsonObject jsonObject = new JsonObject();
+	  jsonObject.addProperty("media_id", mediaId);
+	  return post(url, jsonObject.toString());
+  }
+
+  @Override
+  public String replaceUser(String mediaId) throws WxErrorException {
+	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceuser";
+	  JsonObject jsonObject = new JsonObject();
+	  jsonObject.addProperty("media_id", mediaId);
+	  return post(url, jsonObject.toString());
+  }
+
+  @Override
+  public String getTaskResult(String joinId) throws WxErrorException {
+	  String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/getresult?jobid="+joinId;
+	  return get(url, null);
+  }
+
   public File getTmpDirFile() {
     return tmpDirFile;
   }

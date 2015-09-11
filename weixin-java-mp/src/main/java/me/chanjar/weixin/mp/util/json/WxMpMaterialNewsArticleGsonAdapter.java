@@ -32,6 +32,9 @@ public class WxMpMaterialNewsArticleGsonAdapter implements JsonSerializer<WxMpMa
       articleJson.addProperty("digest", article.getDigest());
     }
     articleJson.addProperty("show_cover_pic", article.isShowCoverPic() ? "1" : "0");
+    if (null != article.getUrl()) {
+      articleJson.addProperty("url", article.getUrl());
+    }
     return articleJson;
   }
 
@@ -66,6 +69,10 @@ public class WxMpMaterialNewsArticleGsonAdapter implements JsonSerializer<WxMpMa
     JsonElement showCoverPic = articleInfo.get("show_cover_pic");
     if (showCoverPic != null && !showCoverPic.isJsonNull()) {
       article.setShowCoverPic(GsonHelper.getAsBoolean(showCoverPic));
+    }
+    JsonElement url = articleInfo.get("url");
+    if (url != null && !url.isJsonNull()) {
+      article.setUrl(GsonHelper.getAsString(url));
     }
     return article;
   }

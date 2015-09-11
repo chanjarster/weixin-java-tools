@@ -24,6 +24,7 @@ public class WxCpUser implements Serializable {
   private String weiXinId;
   private String avatar;
   private Integer status;
+  private Integer enable;
   private final List<Attr> extAttrs = new ArrayList<Attr>();
 
   public String getUserId() {
@@ -114,6 +115,14 @@ public class WxCpUser implements Serializable {
     this.status = status;
   }
 
+  public Integer getEnable() {
+	return enable;
+  }
+	
+  public void setEnable(Integer enable) {
+	this.enable = enable;
+  }
+	
   public void addExtAttr(String name, String value) {
     this.extAttrs.add(new Attr(name, value));
   }

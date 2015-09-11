@@ -6,10 +6,9 @@ import java.io.Serializable;
  * jspai signature
  */
 public class WxJsapiSignature implements Serializable {
-
+  private String appid;
+  
   private String noncestr;
-
-  private String jsapiTicket;
 
   private long timestamp;
 
@@ -33,14 +32,6 @@ public class WxJsapiSignature implements Serializable {
     this.noncestr = noncestr;
   }
 
-  public String getJsapiTicket() {
-    return jsapiTicket;
-  }
-
-  public void setJsapiTicket(String jsapiTicket) {
-    this.jsapiTicket = jsapiTicket;
-  }
-
   public long getTimestamp() {
     return timestamp;
   }
@@ -55,6 +46,14 @@ public class WxJsapiSignature implements Serializable {
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  public String getAppid() {
+	  return appid;
+  }
+
+  public void setAppid(String appid) {
+	  this.appid = appid;
   }
 
 }

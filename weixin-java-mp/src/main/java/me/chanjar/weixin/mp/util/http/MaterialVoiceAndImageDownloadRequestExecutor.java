@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.util.http;
 
-import com.google.gson.Gson;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.InputStreamResponseHandler;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -41,9 +41,9 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
       httpPost.setConfig(config);
     }
 
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(new Gson().toJson(params)));
+    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
     CloseableHttpResponse response = httpclient.execute(httpPost);
     // 下载媒体文件出错
     InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
@@ -51,7 +51,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
     String responseContentString = new String(responseContent, "UTF-8");
     if (responseContentString.length() < 100) {
       try {
-        WxError wxError = new Gson().fromJson(responseContentString, WxError.class);
+        WxError wxError = WxGsonBuilder.create().fromJson(responseContentString, WxError.class);
         if (wxError.getErrorCode() != 0) {
           throw new WxErrorException(wxError);
         }

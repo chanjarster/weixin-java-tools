@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.util.http;
 
-import com.google.gson.Gson;
 import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
 import me.chanjar.weixin.common.util.http.Utf8ResponseHandler;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
@@ -31,9 +31,9 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
       httpPost.setConfig(config);
     }
 
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(new Gson().toJson(params)));
+    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
     CloseableHttpResponse response = httpclient.execute(httpPost);
     String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
     WxError error = WxError.fromJson(responseContent);

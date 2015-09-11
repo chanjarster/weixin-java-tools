@@ -38,14 +38,7 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
 
     user.setPosition(GsonHelper.getString(o, "position"));
     user.setMobile(GsonHelper.getString(o, "mobile"));
-    Integer gender = GsonHelper.getInteger(o, "gender");
-    if (new Integer(1).equals(gender)) {
-      user.setGender("男");
-    } else if (new Integer(2).equals(gender)) {
-      user.setGender("女");
-    } else {
-      user.setGender("未知");
-    }
+    user.setGender(GsonHelper.getString(o, "gender"));
     user.setTel(GsonHelper.getString(o, "tel"));
     user.setEmail(GsonHelper.getString(o, "email"));
     user.setWeiXinId(GsonHelper.getString(o, "weixinid"));
@@ -88,7 +81,7 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
       o.addProperty("mobile", user.getMobile());
     }
     if (user.getGender() != null) {
-      o.addProperty("gender", user.getGender().equals("男") ? 0 : 1);
+      o.addProperty("gender", user.getGender());
     }
     if (user.getTel() != null) {
       o.addProperty("tel", user.getTel());
@@ -104,6 +97,9 @@ public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSeri
     }
     if (user.getStatus() != null) {
       o.addProperty("status", user.getStatus());
+    }
+    if (user.getEnable() != null) {
+      o.addProperty("enable", user.getEnable());
     }
     if (user.getExtAttrs().size() > 0) {
       JsonArray attrsJsonArray = new JsonArray();

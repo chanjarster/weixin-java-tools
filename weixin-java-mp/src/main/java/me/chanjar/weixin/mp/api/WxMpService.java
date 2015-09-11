@@ -47,9 +47,9 @@ public interface WxMpService {
    * <pre>
    * 获取access_token，本方法线程安全
    * 且在多线程同时刷新时只刷新一次，避免超出2000次/日的调用次数上限
-   * 
+   *
    * 另：本service的所有方法都会在access_token过期是调用此方法
-   * 
+   *
    * 程序员在非必要情况下尽量不要主动调用此方法
 
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取access_token
@@ -112,13 +112,142 @@ public interface WxMpService {
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException, IOException;
 
   /**
+   * <pre>
+   * 上传非图文永久素材
+   *
+   * 上传的多媒体文件有格式和大小限制，如下：
+   *   图片（image）: 图片大小不超过2M，支持bmp/png/jpeg/jpg/gif格式
+   *   语音（voice）：语音大小不超过5M，长度不超过60秒，支持mp3/wma/wav/amr格式
+   *   视频（video）：在上传视频素材时需要POST另一个表单，id为description，包含素材的描述信息，内容格式为JSON
+   *   缩略图（thumb）：文档未说明
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
+   * </pre>
+   * @param mediaType         媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param material          上传的素材, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterial}
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialUploadResult materialFileUpload(String mediaType, WxMpMaterial material) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 上传永久图文素材
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/14/7e6c03263063f4813141c3e17dd4350a.html
+   * </pre>
+   * @param news              上传的图文消息, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialNews}
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialUploadResult materialNewsUpload(WxMpMaterialNews news) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 下载声音或者图片永久素材
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
+   * </pre>
+   * @param media_id          永久素材的id
+   * @return
+   * @throws WxErrorException
+   */
+  public InputStream materialImageOrVoiceDownload(String media_id) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取视频永久素材的信息和下载地址
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
+   * </pre>
+   * @param media_id          永久素材的id
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialVideoInfoResult materialVideoInfo(String media_id) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取图文永久素材的信息
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/4/b3546879f07623cb30df9ca0e420a5d0.html
+   * </pre>
+   * @param media_id          永久素材的id
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialNews materialNewsInfo(String media_id) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 更新图文永久素材
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/4/19a59cba020d506e767360ca1be29450.html
+   * </pre>
+   * @param wxMpMaterialArticleUpdate     用来更新图文素材的bean, 请看{@link me.chanjar.weixin.mp.bean.WxMpMaterialArticleUpdate}
+   * @return
+   * @throws WxErrorException
+   */
+  public boolean materialNewsUpdate(WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 删除永久素材
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/5/e66f61c303db51a6c0f90f46b15af5f5.html
+   * </pre>
+   * @param media_id          永久素材的id
+   * @return
+   * @throws WxErrorException
+   */
+  public boolean materialDelete(String media_id) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取各类素材总数
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/16/8cc64f8c189674b421bee3ed403993b8.html
+   * </pre>
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialCountResult materialCount() throws WxErrorException;
+
+  /**
+   * <pre>
+   * 分页获取图文素材列表
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/12/2108cd7aafff7f388f41f37efa710204.html
+   * </pre>
+   * @param offset      从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+   * @param count       返回素材的数量，取值在1到20之间
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 分页获取其他媒体素材列表
+   *
+   * 详情请见: http://mp.weixin.qq.com/wiki/12/2108cd7aafff7f388f41f37efa710204.html
+   * </pre>
+   * @param type        媒体类型, 请看{@link me.chanjar.weixin.common.api.WxConsts}
+   * @param offset      从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+   * @param count       返回素材的数量，取值在1到20之间
+   * @return
+   * @throws WxErrorException
+   */
+  public WxMpMaterialFileBatchGetResult materialFileBatchGet(String type, int offset, int count) throws WxErrorException;
+
+  /**
    * @see #mediaUpload(String, String, InputStream)
    * @param mediaType
    * @param file
    * @throws WxErrorException
    */
   public WxMediaUploadResult mediaUpload(String mediaType, File file) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 下载多媒体文件
@@ -130,7 +259,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public File mediaDownload(String media_id) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 发送客服消息
@@ -140,11 +269,11 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public void customMessageSend(WxMpCustomMessage message) throws WxErrorException;
-  
+
   /**
    * <pre>
-   * 上传群发用的图文消息，上传后才能群发图文消息 
-   * 
+   * 上传群发用的图文消息，上传后才能群发图文消息
+   *
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口
    * </pre>
    * @param news
@@ -153,7 +282,7 @@ public interface WxMpService {
    * @see #massOpenIdsMessageSend(me.chanjar.weixin.mp.bean.WxMpMassOpenIdsMessage)
    */
   public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 上传群发用的视频，上传后才能群发视频消息
@@ -175,10 +304,10 @@ public interface WxMpService {
    * </pre>
    * @param message
    * @throws WxErrorException
-   * @return 
+   * @return
    */
   public WxMpMassSendResult massGroupMessageSend(WxMpMassGroupMessage message) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 按openId列表群发消息
@@ -201,7 +330,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public void menuCreate(WxMenu menu) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 自定义菜单删除接口
@@ -210,7 +339,7 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public void menuDelete() throws WxErrorException;
-  
+
   /**
    * <pre>
    * 自定义菜单查询接口
@@ -227,11 +356,11 @@ public interface WxMpService {
    * 最多支持创建500个分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
-   * @param name 分组名字（30个字符以内） 
+   * @param name 分组名字（30个字符以内）
    * @throws WxErrorException
    */
   public WxMpGroup groupCreate(String name) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 分组管理接口 - 查询所有分组
@@ -241,34 +370,34 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public List<WxMpGroup> groupGet() throws WxErrorException;
-  
+
   /**
    * <pre>
    * 分组管理接口 - 查询用户所在分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
    * </pre>
-   * @param openid 微信用户的openid 
+   * @param openid 微信用户的openid
    * @throws WxErrorException
    */
   public long userGetGroup(String openid) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 分组管理接口 - 修改分组名
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   * 
+   *
    * 如果id为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
    * </pre>
-   * @param group 要更新的group，group的id,name必须设置 
+   * @param group 要更新的group，group的id,name必须设置
    * @throws WxErrorException
    */
   public void groupUpdate(WxMpGroup group) throws WxErrorException;
-  
+
   /**
    * <pre>
    * 分组管理接口 - 移动用户分组
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=分组管理接口
-   * 
+   *
    * 如果to_groupid为0(未分组),1(黑名单),2(星标组)，或者不存在的id，微信会返回系统繁忙的错误
    * </pre>
    * @param openid      用户openid
@@ -294,7 +423,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=获取用户基本信息
    * </pre>
    * @param openid  用户openid
-   * @param lang    语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语 
+   * @param lang    语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语
    * @return
    * @throws WxErrorException
    */
@@ -397,7 +526,7 @@ public interface WxMpService {
    * </pre>
    * @param scope
    * @param state
-   * @return code
+   * @return url
    */
   public String oauth2buildAuthorizationUrl(String scope, String state);
 
@@ -410,7 +539,7 @@ public interface WxMpService {
    *   用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @param scope
    * @param state
-   * @return code
+   * @return url
    */
   public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state);
   /**
@@ -543,7 +672,7 @@ public interface WxMpService {
   void setMaxRetryTimes(int maxRetryTimes);
 
     /**
-     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/index.php?chapter=9_1)
+     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
      * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
      * @param openId 支付人openId
      * @param outTradeNo 商户端对应订单号
@@ -570,4 +699,19 @@ public interface WxMpService {
      */
     Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
 
+    /**
+     * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。
+     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
+     * @param transactionId
+     * @param outTradeNo
+     */
+    WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo);
+
+    /**
+     * 读取支付结果通知
+     * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
+     * @param xmlData
+     * @return
+     */
+    WxMpPayCallback getJSSDKCallbackData(String xmlData);
 }

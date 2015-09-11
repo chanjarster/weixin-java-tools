@@ -17,7 +17,7 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-mp</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -27,7 +27,7 @@ weixin-java-tools
 <dependency>
   <groupId>me.chanjar</groupId>
   <artifactId>weixin-java-cp</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
@@ -54,3 +54,5 @@ weixin-java-tools
 ## 关于Pull Request
 
 非常欢迎和感谢对本项目发起Pull Request的同学，不过本项目基于[git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)开发流程，因此在发起Pull Request的时候请选择develop分支。
+
+且本项目代码风格是用2个空格代表一个tab，因此在发起PR时注意一下，否则很容易发生在IDE格式化代码后与原代码产生大量diff，这样我在阅读PR的时候就很困难。

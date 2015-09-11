@@ -31,7 +31,7 @@ public class WxMpMaterialAPITest {
   @Inject
   protected WxMpServiceImpl wxService;
 
-  private Map<String, Map<String, Object>> media_ids = new LinkedHashMap<String, Map<String, Object>>();
+  private Map<String, Map<String, Object>> media_ids = new LinkedHashMap<>();
   // 缩略图的id，测试上传图文使用
   private String thumbMediaId = "";
   // 单图文消息media_id
@@ -64,7 +64,7 @@ public class WxMpMaterialAPITest {
       thumbMediaId = res.getMediaId();
     }
 
-    Map<String, Object> materialInfo = new HashMap<String, Object>();
+    Map<String, Object> materialInfo = new HashMap<>();
     materialInfo.put("media_id", res.getMediaId());
     materialInfo.put("length", tempFile.length());
     materialInfo.put("filename", tempFile.getName());
@@ -195,7 +195,7 @@ public class WxMpMaterialAPITest {
 
   @Test(dependsOnMethods = {"testUpdateNewsInfo"})
   public void testMaterialNewsList() throws WxErrorException {
-    WxMpMaterialNewsBatchGetResult wxMpMaterialNewsBatchGetResult = wxService.materialNewsBatchGet(WxConsts.MATERIAL_NEWS, 0, 20);
+    WxMpMaterialNewsBatchGetResult wxMpMaterialNewsBatchGetResult = wxService.materialNewsBatchGet(0, 20);
     return;
   }
 
@@ -217,8 +217,8 @@ public class WxMpMaterialAPITest {
   public Object[][] downloadMaterial() {
     Object[][] params = new Object[this.media_ids.size()][];
     int index = 0;
-    for (Iterator<String> iterator = this.media_ids.keySet().iterator(); iterator.hasNext(); ) {
-      params[index] = new Object[]{iterator.next()};
+    for (String mediaId : this.media_ids.keySet()) {
+      params[index] = new Object[]{mediaId};
       index++;
     }
     return params;
@@ -226,9 +226,9 @@ public class WxMpMaterialAPITest {
 
   @DataProvider
   public Iterator<Object[]> allTestMaterial() {
-    List<Object[]> params = new ArrayList<Object[]>();
-    for (Iterator<String> iterator = this.media_ids.keySet().iterator(); iterator.hasNext(); ) {
-      params.add(new Object[]{iterator.next()});
+    List<Object[]> params = new ArrayList<>();
+    for (String mediaId : this.media_ids.keySet()) {
+      params.add(new Object[]{mediaId});
     }
     params.add(new Object[]{this.singleNewsMediaId});
     params.add(new Object[]{this.multiNewsMediaId});
