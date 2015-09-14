@@ -634,8 +634,9 @@ public class WxMpServiceImpl implements WxMpService {
     param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
     String responseContent = post(url, param.toString());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserSummary>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
+        new TypeToken<List<WxMpUserSummary>>() {
+        }.getType());
   }
 
   @Override
@@ -695,7 +696,7 @@ public class WxMpServiceImpl implements WxMpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
