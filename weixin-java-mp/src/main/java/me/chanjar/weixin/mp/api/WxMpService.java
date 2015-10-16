@@ -671,33 +671,57 @@ public interface WxMpService {
    */
   void setMaxRetryTimes(int maxRetryTimes);
 
-    /**
-     * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
-     * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
-     * @param openId 支付人openId
-     * @param outTradeNo 商户端对应订单号
-     * @param amt 金额(单位元)
-     * @param body 商品描述
-     * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
-     * @param ip 发起支付的客户端IP
-     * @param notifyUrl 通知地址
-     * @return
-     */
-    WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+  /**
+   * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
+   * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
+   * @param openId 支付人openId
+   * @param outTradeNo 商户端对应订单号
+   * @param amt 金额(单位元)
+   * @param body 商品描述
+   * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
+   * @param ip 发起支付的客户端IP
+   * @param notifyUrl 通知地址
+   * @return
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getPrepayId(Map<String, String>) instead
+   */
+  @Deprecated
+  WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
 
-    /**
-     * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
-     * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
-     * @param openId 支付人openId
-     * @param outTradeNo 商户端对应订单号
-     * @param amt 金额(单位元)
-     * @param body 商品描述
-     * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
-     * @param ip 发起支付的客户端IP
-     * @param notifyUrl 通知地址
-     * @return
-     */
-    Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+  /**
+   * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
+   * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
+   * 
+   * @param parameters
+   *            All required/optional parameters for weixin payment
+   * @return
+   * @throws IllegalArgumentException
+   */
+  WxMpPrepayIdResult getPrepayId(Map<String, String> parameters);
+
+  /**
+   * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
+   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * @param parameters
+   *            the required or optional parameters
+   * @return
+   */
+  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters);  	
+  	
+  /**
+   * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
+   * 详见http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E5.8F.91.E8.B5.B7.E4.B8.80.E4.B8.AA.E5.BE.AE.E4.BF.A1.E6.94.AF.E4.BB.98.E8.AF.B7.E6.B1.82
+   * @param openId 支付人openId
+   * @param outTradeNo 商户端对应订单号
+   * @param amt 金额(单位元)
+   * @param body 商品描述
+   * @param tradeType 交易类型 JSAPI，NATIVE，APP，WAP
+   * @param ip 发起支付的客户端IP
+   * @param notifyUrl 通知地址
+   * @return
+   * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getJSSDKPayInfo(Map<String, String>) instead
+   */
+  @Deprecated
+  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
 
     /**
      * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。

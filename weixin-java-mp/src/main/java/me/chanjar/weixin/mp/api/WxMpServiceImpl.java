@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -634,8 +635,9 @@ public class WxMpServiceImpl implements WxMpService {
     param.addProperty("end_date", SIMPLE_DATE_FORMAT.format(endDate));
     String responseContent = post(url, param.toString());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"), new TypeToken<List<WxMpUserSummary>>() {
-    }.getType());
+    return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement.getAsJsonObject().get("list"),
+        new TypeToken<List<WxMpUserSummary>>() {
+        }.getType());
   }
 
   @Override
@@ -695,7 +697,7 @@ public class WxMpServiceImpl implements WxMpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -776,35 +778,37 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpPrepayIdResult getPrepayId(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl) {
-    String nonce_str = System.currentTimeMillis() + "";
-
-    SortedMap<String, String> packageParams = new TreeMap<String, String>();
+    Map<String, String> packageParams = new HashMap<String, String>();
     packageParams.put("appid", wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
-    packageParams.put("nonce_str", nonce_str);
     packageParams.put("body", body);
     packageParams.put("out_trade_no", outTradeNo);
-
     packageParams.put("total_fee", (int) (amt * 100) + "");
     packageParams.put("spbill_create_ip", ip);
     packageParams.put("notify_url", callbackUrl);
     packageParams.put("trade_type", tradeType);
     packageParams.put("openid", openId);
 
+    return getPrepayId(packageParams);
+  }
+
+  public WxMpPrepayIdResult getPrepayId(final Map<String, String> parameters) {
+    String nonce_str = System.currentTimeMillis() + "";
+
+    final SortedMap<String, String> packageParams = new TreeMap<String, String>(parameters);
+    packageParams.put("appid", wxMpConfigStorage.getAppId());
+    packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+    packageParams.put("nonce_str", nonce_str);
+    checkParameters(packageParams);
+
     String sign = WxCryptUtil.createSign(packageParams, wxMpConfigStorage.getPartnerKey());
-    String xml = "<xml>" +
-        "<appid>" + wxMpConfigStorage.getAppId() + "</appid>" +
-        "<mch_id>" + wxMpConfigStorage.getPartnerId() + "</mch_id>" +
-        "<nonce_str>" + nonce_str + "</nonce_str>" +
-        "<sign>" + sign + "</sign>" +
-        "<body><![CDATA[" + body + "]]></body>" +
-        "<out_trade_no>" + outTradeNo + "</out_trade_no>" +
-        "<total_fee>" + packageParams.get("total_fee") + "</total_fee>" +
-        "<spbill_create_ip>" + ip + "</spbill_create_ip>" +
-        "<notify_url>" + callbackUrl + "</notify_url>" +
-        "<trade_type>" + tradeType + "</trade_type>" +
-        "<openid>" + openId + "</openid>" +
-        "</xml>";
+    packageParams.put("sign", sign);
+
+    StringBuilder request = new StringBuilder("<xml>");
+    for (Entry<String, String> para : packageParams.entrySet()) {
+      request.append(String.format("<%s>%s</%s>", para.getKey(), para.getValue(), para.getKey()));
+    }
+    request.append("</xml>");
 
     HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/pay/unifiedorder");
     if (httpProxy != null) {
@@ -812,7 +816,7 @@ public class WxMpServiceImpl implements WxMpService {
       httpPost.setConfig(config);
     }
 
-    StringEntity entity = new StringEntity(xml, Consts.UTF_8);
+    StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
     httpPost.setEntity(entity);
     try {
       CloseableHttpResponse response = getHttpclient().execute(httpPost);
@@ -827,9 +831,39 @@ public class WxMpServiceImpl implements WxMpService {
     return new WxMpPrepayIdResult();
   }
 
+  final String[] REQUIRED_ORDER_PARAMETERS = new String[] { "appid", "mch_id", "body", "out_trade_no", "total_fee", "spbill_create_ip", "notify_url",
+      "trade_type", };
+
+  private void checkParameters(Map<String, String> parameters) {
+    for (String para : REQUIRED_ORDER_PARAMETERS) {
+      if (!parameters.containsKey(para))
+        throw new IllegalArgumentException("Reqiured argument '" + para + "' is missing.");
+    }
+    if ("JSAPI".equals(parameters.get("trade_type")) && !parameters.containsKey("openid"))
+      throw new IllegalArgumentException("Reqiured argument 'openid' is missing when trade_type is 'JSAPI'.");
+    if ("NATIVE".equals(parameters.get("trade_type")) && !parameters.containsKey("product_id"))
+      throw new IllegalArgumentException("Reqiured argument 'product_id' is missing when trade_type is 'NATIVE'.");
+  }
+
   @Override
   public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl) {
-    WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(openId, outTradeNo, amt, body, tradeType, ip, callbackUrl);
+    Map<String, String> packageParams = new HashMap<String, String>();
+    packageParams.put("appid", wxMpConfigStorage.getAppId());
+    packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+    packageParams.put("body", body);
+    packageParams.put("out_trade_no", outTradeNo);
+    packageParams.put("total_fee", (int) (amt * 100) + "");
+    packageParams.put("spbill_create_ip", ip);
+    packageParams.put("notify_url", callbackUrl);
+    packageParams.put("trade_type", tradeType);
+    packageParams.put("openid", openId);
+
+    return getJSSDKPayInfo(packageParams);
+  }
+
+  @Override
+  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) {
+    WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
     String prepayId = wxMpPrepayIdResult.getPrepay_id();
     if (prepayId == null || prepayId.equals("")) {
       throw new RuntimeException("get prepayid error");
