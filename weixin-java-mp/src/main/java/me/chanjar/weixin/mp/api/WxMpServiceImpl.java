@@ -507,7 +507,10 @@ public class WxMpServiceImpl implements WxMpService {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
     String responseContent = execute(new SimplePostRequestExecutor(), url, templateMessage.toJson());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
-    return tmpJsonElement.getAsJsonObject().get("msgid").getAsString();
+    final JsonObject jsonObject = tmpJsonElement.getAsJsonObject();
+    if (jsonObject.get("errcode").getAsInt() == 0)
+      return jsonObject.get("msgid").getAsString();
+    throw new WxErrorException(WxError.fromJson(responseContent));
   }
 
   public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
