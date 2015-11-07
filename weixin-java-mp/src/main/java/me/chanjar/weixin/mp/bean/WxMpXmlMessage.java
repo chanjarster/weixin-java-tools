@@ -157,6 +157,10 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamConverter(value=XStreamCDataConverter.class)
   private String cardId;
 
+  @XStreamAlias("FriendUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
+  private String friendUserName;
+
   @XStreamAlias("IsGiveByFriend")
   private Integer isGiveByFriend; // 是否为转赠，1代表是，0代表否
 
@@ -483,6 +487,14 @@ public class WxMpXmlMessage implements Serializable {
 
   public void setCardId(String cardId) {
     this.cardId = cardId;
+  }
+
+  public String getFriendUserName() {
+    return friendUserName;
+  }
+
+  public void setFriendUserName(String friendUserName) {
+    this.friendUserName = friendUserName;
   }
 
   public Integer getIsGiveByFriend() {
