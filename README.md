@@ -2,12 +2,15 @@ weixin-java-tools
 
 [![Build Status](https://travis-ci.org/chanjarster/weixin-java-tools.svg?branch=develop)](https://travis-ci.org/chanjarster/weixin-java-tools)
 ![Maven Central](https://img.shields.io/maven-central/v/me.chanjar/weixin-java-parent.svg)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chanjarster/weixin-java-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ===========
 
 微信公众号、企业号Java SDK。
 
 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
+
+本项目的聊天室：请点击上方的GITTER按钮
 
 ## Quick Start
 
