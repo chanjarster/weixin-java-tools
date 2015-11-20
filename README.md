@@ -6,11 +6,14 @@ weixin-java-tools
 
 ===========
 
+* 群/聊天室：请点击上方的GITTER按钮
+* 本项目的发布周期：本人子2015年6月开始进入到了一个非常忙碌的状态，且公司目前也没有开发微信相关的项目，因此本项目的维护基本靠“等”。所以靠人不如靠自己，提交pull request吧。
+
+===========
+
 微信公众号、企业号Java SDK。
 
 详细文档请看 [wiki](https://github.com/chanjarster/weixin-java-tools/wiki)。
-
-本项目的聊天室：请点击上方的GITTER按钮
 
 ## Quick Start
 
