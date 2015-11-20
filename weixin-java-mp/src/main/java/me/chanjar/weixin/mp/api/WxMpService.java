@@ -748,4 +748,12 @@ public interface WxMpService {
      * @return
      */
     public boolean checkJSSDKCallbackDataSignature(Map<String, String> kvm, String signature);
+    
+   /**
+    * 发送微信红包给个人用户
+    * @param parameters
+    * @return
+    * @throws WxErrorException
+    */
+    public WxRedpackResult sendRedpack(Map<String, String> parameters) throws WxErrorException;
 }
