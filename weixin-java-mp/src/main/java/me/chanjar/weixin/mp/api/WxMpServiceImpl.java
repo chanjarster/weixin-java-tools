@@ -835,9 +835,8 @@ public class WxMpServiceImpl implements WxMpService {
       WxMpPrepayIdResult wxMpPrepayIdResult = (WxMpPrepayIdResult) xstream.fromXML(responseContent);
       return wxMpPrepayIdResult;
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new RuntimeException("Failed to get prepay id due to IO exception.", e);
     }
-    return new WxMpPrepayIdResult();
   }
 
   final String[] REQUIRED_ORDER_PARAMETERS = new String[] { "appid", "mch_id", "body", "out_trade_no", "total_fee", "spbill_create_ip", "notify_url",
@@ -875,7 +874,7 @@ public class WxMpServiceImpl implements WxMpService {
     WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
     String prepayId = wxMpPrepayIdResult.getPrepay_id();
     if (prepayId == null || prepayId.equals("")) {
-      throw new RuntimeException("get prepayid error");
+      throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).", wxMpPrepayIdResult.getErr_code(), wxMpPrepayIdResult.getErr_code_des()));
     }
 
     Map<String, String> payInfo = new HashMap<String, String>();
