@@ -324,6 +324,8 @@ public interface WxMpService {
    * <pre>
    * 自定义菜单创建接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口
+   * 如果要创建个性化菜单，请设置matchrule属性
+   * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
    * @param menu
    * @throws WxErrorException
@@ -341,6 +343,16 @@ public interface WxMpService {
 
   /**
    * <pre>
+   * 删除个性化菜单接口
+   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * </pre>
+   * @param menuid
+   * @throws WxErrorException
+   */
+  public void menuDelete(String menuid) throws WxErrorException;
+  
+  /**
+   * <pre>
    * 自定义菜单查询接口
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
    * </pre>
@@ -348,6 +360,16 @@ public interface WxMpService {
    * @throws WxErrorException
    */
   public WxMenu menuGet() throws WxErrorException;
+  
+  /**
+   * <pre>
+   * 测试个性化菜单匹配结果
+   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
+   * </pre>
+   * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
+   * @throws WxErrorException
+   */
+  public WxMenu menuTryMatch(String userid) throws WxErrorException;
 
   /**
    * <pre>
