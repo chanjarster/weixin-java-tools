@@ -230,13 +230,13 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   public void menuCreate(WxMenu menu) throws WxErrorException {
-		if (menu.getMatchrule() != null) {
-			String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
-			execute(new SimplePostRequestExecutor(), url, menu.toJson());
-		} else {
-			String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
-			execute(new SimplePostRequestExecutor(), url, menu.toJson());
-		}
+    if (menu.getMatchrule() != null) {
+      String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
+      execute(new SimplePostRequestExecutor(), url, menu.toJson());
+    } else {
+      String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+      execute(new SimplePostRequestExecutor(), url, menu.toJson());
+    }
   }
 
   public void menuDelete() throws WxErrorException {
@@ -245,7 +245,7 @@ public class WxMpServiceImpl implements WxMpService {
   }
   
   public void menuDelete(String menuid) throws WxErrorException {
-  	String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
     execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
   }
 
@@ -264,11 +264,11 @@ public class WxMpServiceImpl implements WxMpService {
   }
   
   public WxMenu menuTryMatch(String userid) throws WxErrorException {
-  	String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
-  	try {
-  		String resultContent = execute(new SimpleGetRequestExecutor(), url, "user_id=" + userid);
-  		return WxMenu.fromJson(resultContent);
-  	} catch (WxErrorException e) {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
+    try {
+      String resultContent = execute(new SimpleGetRequestExecutor(), url, "user_id=" + userid);
+      return WxMenu.fromJson(resultContent);
+    } catch (WxErrorException e) {
       // 46003 不存在的菜单数据     46002 不存在的菜单版本
       if (e.getError().getErrorCode() == 46003 || e.getError().getErrorCode() == 46002) {
         return null;
