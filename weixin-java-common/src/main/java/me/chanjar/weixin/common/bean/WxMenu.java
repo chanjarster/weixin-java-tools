@@ -30,11 +30,11 @@ public class WxMenu implements Serializable {
   }
   
   public WxMenuRule getMatchrule() {
-  	return matchrule;
+    return matchrule;
   }
   
   public void setMatchrule(WxMenuRule matchrule) {
-  	this.matchrule = matchrule;
+    this.matchrule = matchrule;
   }
   
   public String toJson() {
