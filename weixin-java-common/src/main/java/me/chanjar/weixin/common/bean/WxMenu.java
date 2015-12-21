@@ -197,5 +197,5 @@ public class WxMenu implements Serializable {
 			  "}";
 		}
 	}
-	
+
 }
