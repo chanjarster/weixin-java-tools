@@ -39,9 +39,9 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     }
     json.add("button", buttonArray);
     
-    if (menu.getMatchrule() != null) {
-    	Gson gson = new Gson();
-    	json.add("matchrule", gson.toJsonTree(menu.getMatchrule()));
+    if (menu.getMatchRule() != null) {
+      Gson gson = new Gson();
+      json.add("matchrule", gson.toJsonTree(menu.getMatchRule()));
     }
     
     return json;

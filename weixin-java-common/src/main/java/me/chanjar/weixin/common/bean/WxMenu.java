@@ -19,7 +19,7 @@ public class WxMenu implements Serializable {
 
   private List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
 
-  private WxMenuRule matchrule;
+  private WxMenuRule matchRule;
   
   public List<WxMenuButton> getButtons() {
     return buttons;
@@ -29,12 +29,12 @@ public class WxMenu implements Serializable {
     this.buttons = buttons;
   }
   
-  public WxMenuRule getMatchrule() {
-    return matchrule;
+  public WxMenuRule getMatchRule() {
+    return matchRule;
   }
   
-  public void setMatchrule(WxMenuRule matchrule) {
-    this.matchrule = matchrule;
+  public void setMatchRule(WxMenuRule matchRule) {
+    this.matchRule = matchRule;
   }
   
   public String toJson() {

@@ -230,7 +230,7 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   public void menuCreate(WxMenu menu) throws WxErrorException {
-    if (menu.getMatchrule() != null) {
+    if (menu.getMatchRule() != null) {
       String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
       execute(new SimplePostRequestExecutor(), url, menu.toJson());
     } else {
