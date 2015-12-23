@@ -230,13 +230,23 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   public void menuCreate(WxMenu menu) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
-    execute(new SimplePostRequestExecutor(), url, menu.toJson());
+    if (menu.getMatchRule() != null) {
+      String url = "https://api.weixin.qq.com/cgi-bin/menu/addconditional";
+      execute(new SimplePostRequestExecutor(), url, menu.toJson());
+    } else {
+      String url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+      execute(new SimplePostRequestExecutor(), url, menu.toJson());
+    }
   }
 
   public void menuDelete() throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
     execute(new SimpleGetRequestExecutor(), url, null);
+  }
+  
+  public void menuDelete(String menuid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/delconditional";
+    execute(new SimpleGetRequestExecutor(), url, "menuid=" + menuid);
   }
 
   public WxMenu menuGet() throws WxErrorException {
@@ -247,6 +257,20 @@ public class WxMpServiceImpl implements WxMpService {
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据
       if (e.getError().getErrorCode() == 46003) {
+        return null;
+      }
+      throw e;
+    }
+  }
+  
+  public WxMenu menuTryMatch(String userid) throws WxErrorException {
+    String url = "https://api.weixin.qq.com/cgi-bin/menu/trymatch";
+    try {
+      String resultContent = execute(new SimpleGetRequestExecutor(), url, "user_id=" + userid);
+      return WxMenu.fromJson(resultContent);
+    } catch (WxErrorException e) {
+      // 46003 不存在的菜单数据     46002 不存在的菜单版本
+      if (e.getError().getErrorCode() == 46003 || e.getError().getErrorCode() == 46002) {
         return null;
       }
       throw e;
