@@ -916,44 +916,44 @@ public class WxMpServiceImpl implements WxMpService {
 
   @Override
   public WxMpPayResult getJSSDKPayResult(String transactionId, String outTradeNo) {
-      String nonce_str = System.currentTimeMillis() + "";
+    String nonce_str = System.currentTimeMillis() + "";
 
-      SortedMap<String, String> packageParams = new TreeMap<String, String>();
-      packageParams.put("appid", wxMpConfigStorage.getAppId());
-      packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+    SortedMap<String, String> packageParams = new TreeMap<String, String>();
+    packageParams.put("appid", wxMpConfigStorage.getAppId());
+    packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
+    if (transactionId != null && !"".equals(transactionId.trim()))
       packageParams.put("transaction_id", transactionId);
+    else if (outTradeNo != null && !"".equals(outTradeNo.trim()))
       packageParams.put("out_trade_no", outTradeNo);
-      packageParams.put("nonce_str", nonce_str);
+    else
+      throw new IllegalArgumentException("Either 'transactionId' or 'outTradeNo' must be given.");
+    packageParams.put("nonce_str", nonce_str);
+    packageParams.put("sign", WxCryptUtil.createSign(packageParams, wxMpConfigStorage.getPartnerKey()));
 
-      String sign = WxCryptUtil.createSign(packageParams, wxMpConfigStorage.getPartnerKey());
-      String xml = "<xml>" +
-              "<appid>" + wxMpConfigStorage.getAppId() + "</appid>" +
-              "<mch_id>" + wxMpConfigStorage.getPartnerId() + "</mch_id>" +
-              "<transaction_id>" + transactionId + "</transaction_id>" +
-              "<out_trade_no>" + outTradeNo + "</out_trade_no>" +
-              "<nonce_str>" + nonce_str + "</nonce_str>" +
-              "<sign>" + sign + "</sign>" +
-              "</xml>";
+    StringBuilder request = new StringBuilder("<xml>");
+    for (Entry<String, String> para : packageParams.entrySet()) {
+      request.append(String.format("<%s>%s</%s>", para.getKey(), para.getValue(), para.getKey()));
+    }
+    request.append("</xml>");
 
-      HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/pay/orderquery");
-      if (httpProxy != null) {
-        RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-        httpPost.setConfig(config);
-      }
+    HttpPost httpPost = new HttpPost("https://api.mch.weixin.qq.com/pay/orderquery");
+    if (httpProxy != null) {
+      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+      httpPost.setConfig(config);
+    }
 
-      StringEntity entity = new StringEntity(xml, Consts.UTF_8);
-      httpPost.setEntity(entity);
-      try {
-        CloseableHttpResponse response = httpClient.execute(httpPost);
-        String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-        XStream xstream = XStreamInitializer.getInstance();
-        xstream.alias("xml", WxMpPayResult.class);
-        WxMpPayResult wxMpPayResult = (WxMpPayResult) xstream.fromXML(responseContent);
-        return wxMpPayResult;
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      return new WxMpPayResult();
+    StringEntity entity = new StringEntity(request.toString(), Consts.UTF_8);
+    httpPost.setEntity(entity);
+    try {
+      CloseableHttpResponse response = httpClient.execute(httpPost);
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      XStream xstream = XStreamInitializer.getInstance();
+      xstream.alias("xml", WxMpPayResult.class);
+      WxMpPayResult wxMpPayResult = (WxMpPayResult) xstream.fromXML(responseContent);
+      return wxMpPayResult;
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to query order due to IO exception.", e);
+    }
   }
 
   @Override
