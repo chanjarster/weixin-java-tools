@@ -1,5 +1,6 @@
 package me.chanjar.weixin.mp.bean.outxmlbuilder;
 
+import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.mp.bean.WxMpXmlOutTransferCustomerServiceMessage;
 
 /**
@@ -22,7 +23,11 @@ public final class TransferCustomerServiceBuilder extends BaseBuilder<TransferCu
   public WxMpXmlOutTransferCustomerServiceMessage build() {
     WxMpXmlOutTransferCustomerServiceMessage m = new WxMpXmlOutTransferCustomerServiceMessage();
     setCommon(m);
-    m.setKfAccount(kfAccount);
+    if(StringUtils.isNotBlank(kfAccount)){
+      WxMpXmlOutTransferCustomerServiceMessage.TransInfo transInfo = new WxMpXmlOutTransferCustomerServiceMessage.TransInfo();
+      transInfo.setKfAccount(kfAccount);
+      m.setTransInfo(transInfo);
+    }
     return m;
   }
 }
