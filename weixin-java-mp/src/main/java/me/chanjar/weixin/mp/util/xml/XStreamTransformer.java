@@ -32,6 +32,16 @@ public class XStreamTransformer {
   }
 
   /**
+   * 注册扩展消息的解析器
+   * @param clz 类型
+   * @param xStream xml解析器
+   */
+  public static void register(Class clz,XStream xStream){
+    CLASS_2_XSTREAM_INSTANCE.put(clz,xStream);
+  }
+
+
+  /**
    * pojo -> xml
    *
    * @param clazz
