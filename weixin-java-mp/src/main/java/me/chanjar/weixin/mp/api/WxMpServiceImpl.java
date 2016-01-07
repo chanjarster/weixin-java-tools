@@ -884,7 +884,7 @@ public class WxMpServiceImpl implements WxMpService {
     packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
     packageParams.put("body", body);
     packageParams.put("out_trade_no", outTradeNo);
-    packageParams.put("total_fee", (int) (amt * 100) + "");
+    packageParams.put("total_fee", String.format("%.0f", amt * 100));
     packageParams.put("spbill_create_ip", ip);
     packageParams.put("notify_url", callbackUrl);
     packageParams.put("trade_type", tradeType);
