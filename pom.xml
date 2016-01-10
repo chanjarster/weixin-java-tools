@@ -44,6 +44,7 @@
     <httpclient.version>4.5</httpclient.version>
     <slf4j.version>1.7.10</slf4j.version>
     <logback.version>1.1.2</logback.version>
+    <jodd-http.version>3.6.7</jodd-http.version>
   </properties>
 
   <dependencies>
@@ -67,6 +68,11 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
       <version>${httpclient.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-http</artifactId>
+      <version>${jodd-http.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>

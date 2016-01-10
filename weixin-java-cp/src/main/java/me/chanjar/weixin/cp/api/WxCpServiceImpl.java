@@ -25,8 +25,8 @@ import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.SimpleGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.SimplePostRequestExecutor;
+import me.chanjar.weixin.common.util.http.JoddGetRequestExecutor;
+import me.chanjar.weixin.common.util.http.JoddPostRequestExecutor;
 import me.chanjar.weixin.common.util.http.URIUtil;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
@@ -156,7 +156,7 @@ public class WxCpServiceImpl implements WxCpService {
       synchronized (globalJsapiTicketRefreshLock) {
         if (wxCpConfigStorage.isJsapiTicketExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
-          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          String responseContent = execute(new JoddGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -256,7 +256,7 @@ public class WxCpServiceImpl implements WxCpService {
   public Integer departCreate(WxCpDepart depart) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
     String responseContent = execute(
-        new SimplePostRequestExecutor(),
+        new JoddPostRequestExecutor(),
         url,
         depart.toJson());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
@@ -512,11 +512,11 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
-    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+    return execute(new JoddGetRequestExecutor(), url, queryParam);
   }
 
   public String post(String url, String postData) throws WxErrorException {
-    return execute(new SimplePostRequestExecutor(), url, postData);
+    return execute(new JoddPostRequestExecutor(), url, postData);
   }
 
   /**
@@ -685,12 +685,5 @@ public class WxCpServiceImpl implements WxCpService {
     this.tmpDirFile = tmpDirFile;
   }
 
-  public static void main(String[] args) {
-    Float a = 3.1f;
-    System.out.println(3.1d);
-    System.out.println(new BigDecimal(3.1d));
-    System.out.println(new BigDecimal(a));
-    System.out.println(a.toString());
-    System.out.println(a.doubleValue());
-  }
+
 }
