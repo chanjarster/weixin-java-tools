@@ -1051,7 +1051,7 @@ public class WxMpServiceImpl implements WxMpService {
       synchronized (globalCardApiTicketRefreshLock) {
         if (wxMpConfigStorage.isCardApiTicketExpired()) {
           String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
-          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+          String responseContent = execute(new JoddGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
