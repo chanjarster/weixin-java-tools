@@ -37,6 +37,7 @@ public class JoddPostRequestExecutor implements RequestExecutor<String, String> 
         request.bodyText(postEntity);
 
         HttpResponse response = request.open(provider).send();
+        response.charset("UTF-8");
         String result = response.bodyText();
 
         WxError error = WxError.fromJson(result);

@@ -43,6 +43,7 @@ public class JoddGetRequestExecutor implements RequestExecutor<String, String> {
         request.charset("UTF-8");
 
         HttpResponse response = request.open(provider).send();
+        response.charset("UTF-8");
         String result = response.bodyText();
 
         WxError error = WxError.fromJson(result);
