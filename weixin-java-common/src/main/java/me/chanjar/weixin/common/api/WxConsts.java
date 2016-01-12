@@ -47,7 +47,7 @@ public class WxConsts {
   ///////////////////////
   public static final String MASS_ST_SUCCESS = "send success";
   public static final String MASS_ST_FAIL = "send fail";
-  public static final String MASS_ST_涉嫌广告 = "err(10001)"; 
+  public static final String MASS_ST_涉嫌广告 = "err(10001)";
   public static final String MASS_ST_涉嫌政治 = "err(20001)";
   public static final String MASS_ST_涉嫌社会 = "err(20004)";
   public static final String MASS_ST_涉嫌色情 = "err(20002)";
@@ -93,6 +93,15 @@ public class WxConsts {
   public static final String EVT_LOCATION_SELECT = "location_select";
   public static final String EVT_TEMPLATESENDJOBFINISH = "TEMPLATESENDJOBFINISH";
   public static final String EVT_ENTER_AGENT = "enter_agent";
+  public static final String EVT_CARD_PASS_CHECK = "card_pass_check";
+  public static final String EVT_CARD_NOT_PASS_CHECK = "card_not_pass_check";
+  public static final String EVT_USER_GET_CARD = "user_get_card";
+  public static final String EVT_USER_DEL_CARD = "user_del_card";
+  public static final String EVT_USER_CONSUME_CARD = "user_consume_card";
+  public static final String EVT_USER_PAY_FROM_PAY_CELL = "user_pay_from_pay_cell";
+  public static final String EVT_USER_VIEW_CARD = "user_view_card";
+  public static final String EVT_USER_ENTER_SESSION_FROM_CARD = "user_enter_session_from_card";
+  public static final String EVT_CARD_SKU_REMIND = "card_sku_remind"; // 库存报警
 
   ///////////////////////
   // 上传多媒体文件的类型

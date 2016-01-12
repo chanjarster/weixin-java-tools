@@ -50,6 +50,21 @@ public interface WxMpConfigStorage {
    */
   public void updateJsapiTicket(String jsapiTicket, int expiresInSeconds);
 
+  public String getCardApiTicket();
+
+  public boolean isCardApiTicketExpired();
+
+  /**
+   * 强制将卡券api ticket过期掉
+   */
+  public void expireCardApiTicket();
+
+  /**
+   * 应该是线程安全的
+   * @param cardApiTicket
+   */
+  public void updateCardApiTicket(String cardApiTicket, int expiresInSeconds);
+
   public String getAppId();
 
   public String getSecret();

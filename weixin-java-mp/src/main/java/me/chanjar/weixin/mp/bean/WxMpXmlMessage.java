@@ -150,6 +150,31 @@ public class WxMpXmlMessage implements Serializable {
   @XStreamAlias("ErrorCount")
   private Integer errorCount;
 
+  ///////////////////////////////////////
+  // 卡券相关事件推送
+  ///////////////////////////////////////
+  @XStreamAlias("CardId")
+  @XStreamConverter(value=XStreamCDataConverter.class)
+  private String cardId;
+
+  @XStreamAlias("FriendUserName")
+  @XStreamConverter(value=XStreamCDataConverter.class)
+  private String friendUserName;
+
+  @XStreamAlias("IsGiveByFriend")
+  private Integer isGiveByFriend; // 是否为转赠，1代表是，0代表否
+
+  @XStreamAlias("UserCardCode")
+  @XStreamConverter(value=XStreamCDataConverter.class)
+  private String userCardCode;
+
+  @XStreamAlias("OldUserCardCode")
+  @XStreamConverter(value=XStreamCDataConverter.class)
+  private String oldUserCardCode;
+
+  @XStreamAlias("OuterId")
+  private Integer outerId;
+
   @XStreamAlias("ScanCodeInfo")
   private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
@@ -456,6 +481,54 @@ public class WxMpXmlMessage implements Serializable {
     this.errorCount = errorCount;
   }
 
+  public String getCardId() {
+    return cardId;
+  }
+
+  public void setCardId(String cardId) {
+    this.cardId = cardId;
+  }
+
+  public String getFriendUserName() {
+    return friendUserName;
+  }
+
+  public void setFriendUserName(String friendUserName) {
+    this.friendUserName = friendUserName;
+  }
+
+  public Integer getIsGiveByFriend() {
+    return isGiveByFriend;
+  }
+
+  public void setIsGiveByFriend(Integer isGiveByFriend) {
+    this.isGiveByFriend = isGiveByFriend;
+  }
+
+  public String getUserCardCode() {
+    return userCardCode;
+  }
+
+  public void setUserCardCode(String userCardCode) {
+    this.userCardCode = userCardCode;
+  }
+
+  public String getOldUserCardCode() {
+    return oldUserCardCode;
+  }
+
+  public void setOldUserCardCode(String oldUserCardCode) {
+    this.oldUserCardCode = oldUserCardCode;
+  }
+
+  public Integer getOuterId() {
+    return outerId;
+  }
+
+  public void setOuterId(Integer outerId) {
+    this.outerId = outerId;
+  }
+
   public WxMpXmlMessage.ScanCodeInfo getScanCodeInfo() {
     return scanCodeInfo;
   }
@@ -652,6 +725,11 @@ public class WxMpXmlMessage implements Serializable {
         ", filterCount=" + filterCount +
         ", sentCount=" + sentCount +
         ", errorCount=" + errorCount +
+        ", cardId='" + cardId + '\'' +
+        ", isGiveByFriend=" + isGiveByFriend +
+        ", userCardCode='" + userCardCode + '\'' +
+        ", oldUserCardCode='" + oldUserCardCode + '\'' +
+        ", outerId=" + outerId +
         ", scanCodeInfo=" + scanCodeInfo +
         ", sendPicsInfo=" + sendPicsInfo +
         ", sendLocationInfo=" + sendLocationInfo +

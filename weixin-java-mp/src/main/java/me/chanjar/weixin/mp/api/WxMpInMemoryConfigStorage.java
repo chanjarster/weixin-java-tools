@@ -32,6 +32,9 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected volatile String jsapiTicket;
   protected volatile long jsapiTicketExpiresTime;
 
+  protected volatile String cardApiTicket;
+  protected volatile long cardApiTicketExpiresTime;
+
   /**
    * 临时文件目录
    */
@@ -88,6 +91,27 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
 
   public void expireJsapiTicket() {
     this.jsapiTicketExpiresTime = 0;
+  }
+
+  /**
+   * 卡券api_ticket
+   */
+  public String getCardApiTicket() {
+    return cardApiTicket;
+  }
+
+  public boolean isCardApiTicketExpired() {
+    return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
+  }
+
+  public synchronized void updateCardApiTicket(String cardApiTicket, int expiresInSeconds) {
+    this.cardApiTicket = cardApiTicket;
+    // 预留200秒的时间
+    this.cardApiTicketExpiresTime = System.currentTimeMillis() + (expiresInSeconds - 200) * 1000l;
+  }
+
+  public void expireCardApiTicket() {
+    this.cardApiTicketExpiresTime = 0;
   }
 
   public String getAppId() {
@@ -192,6 +216,8 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
         ", http_proxy_password='" + http_proxy_password + '\'' +
         ", jsapiTicket='" + jsapiTicket + '\'' +
         ", jsapiTicketExpiresTime='" + jsapiTicketExpiresTime + '\'' +
+        ", cardApiTicket='" + cardApiTicket + '\'' +
+        ", cardApiTicketExpiresTime='" + cardApiTicketExpiresTime + '\'' +
         ", tmpDirFile='" + tmpDirFile + '\'' +
         '}';
   }
