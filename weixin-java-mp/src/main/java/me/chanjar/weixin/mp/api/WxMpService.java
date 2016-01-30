@@ -726,8 +726,9 @@ public interface WxMpService {
    * @param parameters
    *            the required or optional parameters
    * @return
+ * @throws WxErrorException 
    */
-  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters);  	
+  Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException;  	
   	
   /**
    * 该接口调用“统一下单”接口，并拼装JSSDK发起支付请求需要的参数
@@ -740,10 +741,11 @@ public interface WxMpService {
    * @param ip 发起支付的客户端IP
    * @param notifyUrl 通知地址
    * @return
+ * @throws WxErrorException 
    * @deprecated Use me.chanjar.weixin.mp.api.WxMpService.getJSSDKPayInfo(Map<String, String>) instead
    */
   @Deprecated
-  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl);
+  Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String notifyUrl) throws WxErrorException;
 
     /**
      * 该接口提供所有微信支付订单的查询,当支付通知处理异常戒丢失的情冴,商户可以通过该接口查询订单支付状态。

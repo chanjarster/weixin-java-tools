@@ -883,7 +883,8 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl) {
+  public Map<String, String> getJSSDKPayInfo(String openId, String outTradeNo, double amt, String body, String tradeType, String ip, String callbackUrl)
+      throws WxErrorException {
     Map<String, String> packageParams = new HashMap<String, String>();
     packageParams.put("appid", wxMpConfigStorage.getAppId());
     packageParams.put("mch_id", wxMpConfigStorage.getPartnerId());
@@ -899,8 +900,21 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   @Override
-  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) {
+  public Map<String, String> getJSSDKPayInfo(Map<String, String> parameters) throws WxErrorException {
     WxMpPrepayIdResult wxMpPrepayIdResult = getPrepayId(parameters);
+    
+    if (!"SUCCESS".equalsIgnoreCase(wxMpPrepayIdResult.getReturn_code())
+            ||!"SUCCESS".equalsIgnoreCase(wxMpPrepayIdResult.getResult_code())) {
+      WxError error = new WxError();
+      error.setErrorCode(-1);
+      error.setErrorMsg("return_code:" + wxMpPrepayIdResult.getReturn_code() +
+                        "return_msg:" + wxMpPrepayIdResult.getReturn_msg() +
+                        "result_code:" + wxMpPrepayIdResult.getResult_code() +
+                        "err_code" + wxMpPrepayIdResult.getErr_code() +
+                        "err_code_des" + wxMpPrepayIdResult.getErr_code_des());
+      throw new WxErrorException(error);
+    }
+    
     String prepayId = wxMpPrepayIdResult.getPrepay_id();
     if (prepayId == null || prepayId.equals("")) {
       throw new RuntimeException(String.format("Failed to get prepay id due to error code '%s'(%s).", wxMpPrepayIdResult.getErr_code(), wxMpPrepayIdResult.getErr_code_des()));
@@ -1004,11 +1018,16 @@ public class WxMpServiceImpl implements WxMpService {
       xstream.processAnnotations(WxRedpackResult.class);
       WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
       
-      if ("FAIL".equals(wxMpPayRefundResult.getResultCode())) {
-    	  WxError error = new WxError();
-    	  error.setErrorCode(-1);
-    	  error.setErrorMsg(wxMpPayRefundResult.getErrCodeDes());
-    	  throw new WxErrorException(error);
+      if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
+            ||!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getReturnCode())) {
+        WxError error = new WxError();
+        error.setErrorCode(-1);
+        error.setErrorMsg("return_code:" + wxMpPayRefundResult.getReturnCode() +
+                          "return_msg:" + wxMpPayRefundResult.getReturnMsg() +
+                          "result_code:" + wxMpPayRefundResult.getResultCode() +
+                          "err_code" + wxMpPayRefundResult.getErrCode() +
+                          "err_code_des" + wxMpPayRefundResult.getErrCodeDes());
+        throw new WxErrorException(error);
       }
       
       return wxMpPayRefundResult;
