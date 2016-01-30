@@ -908,10 +908,10 @@ public class WxMpServiceImpl implements WxMpService {
       WxError error = new WxError();
       error.setErrorCode(-1);
       error.setErrorMsg("return_code:" + wxMpPrepayIdResult.getReturn_code() +
-                        "return_msg:" + wxMpPrepayIdResult.getReturn_msg() +
-                        "result_code:" + wxMpPrepayIdResult.getResult_code() +
-                        "err_code" + wxMpPrepayIdResult.getErr_code() +
-                        "err_code_des" + wxMpPrepayIdResult.getErr_code_des());
+                        ";return_msg:" + wxMpPrepayIdResult.getReturn_msg() +
+                        ";result_code:" + wxMpPrepayIdResult.getResult_code() +
+                        ";err_code" + wxMpPrepayIdResult.getErr_code() +
+                        ";err_code_des" + wxMpPrepayIdResult.getErr_code_des());
       throw new WxErrorException(error);
     }
     
@@ -992,7 +992,7 @@ public class WxMpServiceImpl implements WxMpService {
     SortedMap<String, String> refundParams = new TreeMap<String, String>(parameters);
     refundParams.put("appid", wxMpConfigStorage.getAppId());
     refundParams.put("mch_id", wxMpConfigStorage.getPartnerId());
-    refundParams.put("nonceStr", System.currentTimeMillis() + "");
+    refundParams.put("nonce_str", System.currentTimeMillis() + "");
     refundParams.put("op_user_id", wxMpConfigStorage.getPartnerId());
     String sign = WxCryptUtil.createSign(refundParams, wxMpConfigStorage.getPartnerKey());
     refundParams.put("sign", sign);
@@ -1015,7 +1015,7 @@ public class WxMpServiceImpl implements WxMpService {
       CloseableHttpResponse response = getHttpclient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       XStream xstream = XStreamInitializer.getInstance();
-      xstream.processAnnotations(WxRedpackResult.class);
+      xstream.processAnnotations(WxMpPayRefundResult.class);
       WxMpPayRefundResult wxMpPayRefundResult = (WxMpPayRefundResult) xstream.fromXML(responseContent);
       
       if (!"SUCCESS".equalsIgnoreCase(wxMpPayRefundResult.getResultCode())
@@ -1023,10 +1023,10 @@ public class WxMpServiceImpl implements WxMpService {
         WxError error = new WxError();
         error.setErrorCode(-1);
         error.setErrorMsg("return_code:" + wxMpPayRefundResult.getReturnCode() +
-                          "return_msg:" + wxMpPayRefundResult.getReturnMsg() +
-                          "result_code:" + wxMpPayRefundResult.getResultCode() +
-                          "err_code" + wxMpPayRefundResult.getErrCode() +
-                          "err_code_des" + wxMpPayRefundResult.getErrCodeDes());
+                          ";return_msg:" + wxMpPayRefundResult.getReturnMsg() +
+                          ";result_code:" + wxMpPayRefundResult.getResultCode() +
+                          ";err_code" + wxMpPayRefundResult.getErrCode() +
+                          ";err_code_des" + wxMpPayRefundResult.getErrCodeDes());
         throw new WxErrorException(error);
       }
       
