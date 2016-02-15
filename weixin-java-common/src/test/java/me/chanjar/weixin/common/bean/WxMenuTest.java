@@ -55,6 +55,29 @@ public class WxMenuTest {
     
     Assert.assertEquals(menu.toJson(), json);
   }
+
+  @Test(dataProvider = "wxAddConditionalMenu")
+  public void testAddConditionalToJson(String json) {
+    WxMenu menu = new WxMenu();
+    WxMenuButton button1 = new WxMenuButton();
+    button1.setType("click");
+    button1.setName("今日歌曲");
+    button1.setKey("V1001_TODAY_MUSIC");
+
+    menu.getButtons().add(button1);
+
+    WxMenu.WxMenuRule wxMenuRule = new WxMenu.WxMenuRule();
+    wxMenuRule.setGroupId("2");
+    wxMenuRule.setSex("1");
+    wxMenuRule.setCountry("中国");
+    wxMenuRule.setProvince("广东");
+    wxMenuRule.setCity("广州");
+    wxMenuRule.setClientPlatformType("2");
+    wxMenuRule.setLanguage("zh_CN");
+    menu.setMatchRule(wxMenuRule);
+
+    Assert.assertEquals(menu.toJson(), json);
+  }
   
   @DataProvider
   public Object[][] wxReturnMenu() {
@@ -104,6 +127,32 @@ public class WxMenuTest {
         +"}";
     return new Object[][] {
         new Object[] { json }
+    };
+  }
+
+  @DataProvider(name = "wxAddConditionalMenu")
+  public Object[][] addConditionalMenuJson(){
+    String json =
+        "{"
+            +"\"button\":["
+            +"{"
+            +"\"type\":\"click\","
+            +"\"name\":\"今日歌曲\","
+            +"\"key\":\"V1001_TODAY_MUSIC\""
+            +"}"
+            +"],"
+            +"\"matchrule\":{"
+              +"\"group_id\":\"2\","
+              +"\"sex\":\"1\","
+              +"\"country\":\"中国\","
+              +"\"province\":\"广东\","
+              +"\"city\":\"广州\","
+              +"\"client_platform_type\":\"2\","
+              +"\"language\":\"zh_CN\""
+            +"}"
+            +"}";
+    return new Object[][]{
+        new Object[]{json}
     };
   }
   

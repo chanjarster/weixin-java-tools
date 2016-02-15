@@ -1,14 +1,13 @@
 package me.chanjar.weixin.common.bean;
 
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import org.apache.commons.codec.Charsets;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.codec.Charsets;
-
-import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 
 /**
  * 企业号菜单
@@ -136,6 +135,7 @@ public class WxMenu implements Serializable {
     private String province;
     private String city;
     private String clientPlatformType;
+    private String language;
     
     public String getGroupId() {
       return groupId;
@@ -184,8 +184,16 @@ public class WxMenu implements Serializable {
     public void setClientPlatformType(String clientPlatformType) {
       this.clientPlatformType = clientPlatformType;
     }
-	
-    @Override
+
+    public String getLanguage() {
+      return language;
+    }
+
+    public void setLanguage(String language) {
+      this.language = language;
+    }
+
+      @Override
     public String toString() {
       return "matchrule:{" +
           "group_id='" + groupId + '\'' +
@@ -194,6 +202,7 @@ public class WxMenu implements Serializable {
           ", province" + province + '\'' +
           ", city" + city + '\'' +
           ", client_platform_type" + clientPlatformType + '\'' +
+          ", language" + language + '\'' +
           "}";
     }
   }
