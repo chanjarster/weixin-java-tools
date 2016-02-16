@@ -8,9 +8,6 @@
  */
 package me.chanjar.weixin.common.util.json;
 
-import java.lang.reflect.Type;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -19,8 +16,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import me.chanjar.weixin.common.bean.WxMenu;
+
+import java.lang.reflect.Type;
 
 /**
  * 
@@ -40,8 +38,7 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
     json.add("button", buttonArray);
     
     if (menu.getMatchRule() != null) {
-      Gson gson = new Gson();
-      json.add("matchrule", gson.toJsonTree(menu.getMatchRule()));
+      json.add("matchrule", convertToJson(menu.getMatchRule()));
     }
     
     return json;
@@ -61,6 +58,18 @@ public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializ
       buttonJson.add("sub_button", buttonArray);
     }
     return buttonJson;
+  }
+
+  protected JsonObject convertToJson(WxMenu.WxMenuRule menuRule){
+    JsonObject matchRule = new JsonObject();
+    matchRule.addProperty("group_id",menuRule.getGroupId());
+    matchRule.addProperty("sex",menuRule.getSex());
+    matchRule.addProperty("country",menuRule.getCountry());
+    matchRule.addProperty("province",menuRule.getProvince());
+    matchRule.addProperty("city",menuRule.getCity());
+    matchRule.addProperty("client_platform_type",menuRule.getClientPlatformType());
+    matchRule.addProperty("language",menuRule.getLanguage());
+    return matchRule;
   }
 
   public WxMenu deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
