@@ -1,8 +1,9 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
+
+import java.io.File;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -31,6 +32,8 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
   protected volatile long jsapiTicketExpiresTime;
 
   protected volatile File tmpDirFile;
+
+  private volatile ApacheHttpClientBuilder apacheHttpClientBuilder;
 
   public String getAccessToken() {
     return this.accessToken;
@@ -205,4 +208,12 @@ public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
     this.tmpDirFile = tmpDirFile;
   }
 
+  @Override
+  public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
+    return this.apacheHttpClientBuilder;
+  }
+
+  public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
+    this.apacheHttpClientBuilder = apacheHttpClientBuilder;
+  }
 }

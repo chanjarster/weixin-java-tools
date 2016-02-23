@@ -1,8 +1,9 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-
 import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
+
+import java.io.File;
 
 /**
  * 微信客户端配置存储
@@ -63,4 +64,9 @@ public interface WxCpConfigStorage {
   
   public File getTmpDirFile();
 
+  /**
+   * http client builder
+   * @return ApacheHttpClientBuilder
+   */
+  public ApacheHttpClientBuilder getApacheHttpClientBuilder();
 }

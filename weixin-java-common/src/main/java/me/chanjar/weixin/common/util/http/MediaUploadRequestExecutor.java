@@ -1,9 +1,8 @@
 package me.chanjar.weixin.common.util.http;
 
-import java.io.File;
-import java.io.IOException;
-
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -13,10 +12,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import org.apache.http.impl.client.CloseableHttpClient;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * 上传媒体文件请求执行器，请求的参数是File, 返回的结果是String
@@ -48,6 +47,8 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
         throw new WxErrorException(error);
       }
       return WxMediaUploadResult.fromJson(responseContent);
+    }finally {
+      httpPost.releaseConnection();
     }
   }
 

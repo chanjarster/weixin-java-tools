@@ -58,8 +58,9 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
       }
       InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);
 
-      File localFile = FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
-      return localFile;
+      return FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), "jpg");
+    }finally {
+      httpGet.releaseConnection();
     }
 
   }
