@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.*;
@@ -23,6 +22,7 @@ import java.util.Map;
 
 public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMaterialUploadResult, WxMpMaterial> {
 
+  @Override
   public WxMpMaterialUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, WxMpMaterial material) throws WxErrorException, ClientProtocolException, IOException {
     HttpPost httpPost = new HttpPost(uri);
     if (httpProxy != null) {
@@ -35,10 +35,10 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
       if (file == null || !file.exists()) {
         throw new FileNotFoundException();
       }
-      BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+
       MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
       multipartEntityBuilder
-          .addPart("media", new InputStreamBody(bufferedInputStream, material.getName()))
+          .addBinaryBody("media", file)
           .setMode(HttpMultipartMode.RFC6532);
       Map<String, String> form = material.getForm();
       if (material.getForm() != null) {
@@ -48,13 +48,14 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
       httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
     }
 
-    CloseableHttpResponse response = httpclient.execute(httpPost);
-    String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    } else {
-      return WxMpMaterialUploadResult.fromJson(responseContent);
+    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      WxError error = WxError.fromJson(responseContent);
+      if (error.getErrorCode() != 0) {
+        throw new WxErrorException(error);
+      } else {
+        return WxMpMaterialUploadResult.fromJson(responseContent);
+      }
     }
   }
 
