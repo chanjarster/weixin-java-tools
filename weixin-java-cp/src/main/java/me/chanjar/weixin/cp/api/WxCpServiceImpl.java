@@ -1,14 +1,12 @@
 package me.chanjar.weixin.cp.api;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.UUID;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.internal.Streams;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import me.chanjar.weixin.common.bean.WxAccessToken;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.bean.WxMenu;
@@ -22,41 +20,30 @@ import me.chanjar.weixin.common.util.RandomUtils;
 import me.chanjar.weixin.common.util.StringUtils;
 import me.chanjar.weixin.common.util.crypto.SHA1;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
-import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
-import me.chanjar.weixin.common.util.http.RequestExecutor;
-import me.chanjar.weixin.common.util.http.JoddGetRequestExecutor;
-import me.chanjar.weixin.common.util.http.JoddPostRequestExecutor;
-import me.chanjar.weixin.common.util.http.URIUtil;
+import me.chanjar.weixin.common.util.http.*;
 import me.chanjar.weixin.common.util.json.GsonHelper;
 import me.chanjar.weixin.cp.bean.WxCpDepart;
 import me.chanjar.weixin.cp.bean.WxCpMessage;
 import me.chanjar.weixin.cp.bean.WxCpTag;
 import me.chanjar.weixin.cp.bean.WxCpUser;
 import me.chanjar.weixin.cp.util.json.WxCpGsonBuilder;
-
 import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.internal.Streams;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.UUID;
 
 public class WxCpServiceImpl implements WxCpService {
 
@@ -126,6 +113,8 @@ public class WxCpServiceImpl implements WxCpService {
             String resultContent = null;
             try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
               resultContent = new BasicResponseHandler().handleResponse(response);
+            }finally {
+              httpGet.releaseConnection();
             }
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
@@ -156,7 +145,7 @@ public class WxCpServiceImpl implements WxCpService {
       synchronized (globalJsapiTicketRefreshLock) {
         if (wxCpConfigStorage.isJsapiTicketExpired()) {
           String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
-          String responseContent = execute(new JoddGetRequestExecutor(), url, null);
+          String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -256,9 +245,9 @@ public class WxCpServiceImpl implements WxCpService {
   public Integer departCreate(WxCpDepart depart) throws WxErrorException {
     String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
     String responseContent = execute(
-        new JoddPostRequestExecutor(),
-        url,
-        depart.toJson());
+      new SimplePostRequestExecutor(),
+      url,
+      depart.toJson());
     JsonElement tmpJsonElement = Streams.parse(new JsonReader(new StringReader(responseContent)));
     return GsonHelper.getAsInteger(tmpJsonElement.getAsJsonObject().get("id"));
   }
@@ -512,11 +501,11 @@ public class WxCpServiceImpl implements WxCpService {
   }
 
   public String get(String url, String queryParam) throws WxErrorException {
-    return execute(new JoddGetRequestExecutor(), url, queryParam);
+    return execute(new SimpleGetRequestExecutor(), url, queryParam);
   }
 
   public String post(String url, String postData) throws WxErrorException {
-    return execute(new JoddPostRequestExecutor(), url, postData);
+    return execute(new SimplePostRequestExecutor(), url, postData);
   }
 
   /**
@@ -594,32 +583,16 @@ public class WxCpServiceImpl implements WxCpService {
 
   public void setWxCpConfigStorage(WxCpConfigStorage wxConfigProvider) {
     this.wxCpConfigStorage = wxConfigProvider;
-
-    String http_proxy_host = wxCpConfigStorage.getHttp_proxy_host();
-    int http_proxy_port = wxCpConfigStorage.getHttp_proxy_port();
-    String http_proxy_username = wxCpConfigStorage.getHttp_proxy_username();
-    String http_proxy_password = wxCpConfigStorage.getHttp_proxy_password();
-
-    if(StringUtils.isNotBlank(http_proxy_host)) {
-      // 使用代理服务器
-      if(StringUtils.isNotBlank(http_proxy_username)) {
-        // 需要用户认证的代理服务器
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-            new AuthScope(http_proxy_host, http_proxy_port),
-            new UsernamePasswordCredentials(http_proxy_username, http_proxy_password));
-        httpClient = HttpClients
-            .custom()
-            .setDefaultCredentialsProvider(credsProvider)
-            .build();
-      } else {
-        // 无需用户认证的代理服务器
-        httpClient = HttpClients.createDefault();
-      }
-      httpProxy = new HttpHost(http_proxy_host, http_proxy_port);
-    } else {
-      httpClient = HttpClients.createDefault();
+    ApacheHttpClientBuilder apacheHttpClientBuilder = wxCpConfigStorage.getApacheHttpClientBuilder();
+    if (null == apacheHttpClientBuilder) {
+      apacheHttpClientBuilder = DefaultApacheHttpHttpClientBuilder.get();
     }
+    apacheHttpClientBuilder.httpProxyHost(wxCpConfigStorage.getHttp_proxy_host())
+      .httpProxyPort(wxCpConfigStorage.getHttp_proxy_port())
+      .httpProxyUsername(wxCpConfigStorage.getHttp_proxy_username())
+      .httpProxyPassword(wxCpConfigStorage.getHttp_proxy_password());
+
+    httpClient = apacheHttpClientBuilder.build();
   }
 
   @Override

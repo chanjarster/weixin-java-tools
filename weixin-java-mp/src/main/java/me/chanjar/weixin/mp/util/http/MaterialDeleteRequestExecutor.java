@@ -34,13 +34,16 @@ public class MaterialDeleteRequestExecutor implements RequestExecutor<Boolean, S
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    CloseableHttpResponse response = httpclient.execute(httpPost);
-    String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
-    WxError error = WxError.fromJson(responseContent);
-    if (error.getErrorCode() != 0) {
-      throw new WxErrorException(error);
-    } else {
-      return true;
+    try(CloseableHttpResponse response = httpclient.execute(httpPost)){
+      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      WxError error = WxError.fromJson(responseContent);
+      if (error.getErrorCode() != 0) {
+        throw new WxErrorException(error);
+      } else {
+        return true;
+      }
+    }finally {
+      httpPost.releaseConnection();
     }
   }
 

@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
-
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import java.io.File;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
@@ -41,7 +41,9 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
   protected volatile File tmpDirFile;
   
   protected volatile SSLContext sslContext;
-  
+
+  protected volatile ApacheHttpClientBuilder apacheHttpClientBuilder;
+
   public String getAccessToken() {
     return this.accessToken;
   }
@@ -258,4 +260,12 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     sslContext = context;
   }
 
+  @Override
+  public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
+    return this.apacheHttpClientBuilder;
+  }
+
+  public void setApacheHttpClientBuilder(ApacheHttpClientBuilder apacheHttpClientBuilder) {
+    this.apacheHttpClientBuilder = apacheHttpClientBuilder;
+  }
 }

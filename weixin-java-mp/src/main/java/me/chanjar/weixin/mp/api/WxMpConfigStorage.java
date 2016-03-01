@@ -1,10 +1,10 @@
 package me.chanjar.weixin.mp.api;
 
-import java.io.File;
+import me.chanjar.weixin.common.bean.WxAccessToken;
+import me.chanjar.weixin.common.util.http.ApacheHttpClientBuilder;
 
 import javax.net.ssl.SSLContext;
-
-import me.chanjar.weixin.common.bean.WxAccessToken;
+import java.io.File;
 
 /**
  * 微信客户端配置存储
@@ -92,4 +92,10 @@ public interface WxMpConfigStorage {
   public File getTmpDirFile();
 
   public SSLContext getSSLContext();
+
+  /**
+   * http client builder
+   * @return ApacheHttpClientBuilder
+   */
+  public ApacheHttpClientBuilder getApacheHttpClientBuilder();
 }
