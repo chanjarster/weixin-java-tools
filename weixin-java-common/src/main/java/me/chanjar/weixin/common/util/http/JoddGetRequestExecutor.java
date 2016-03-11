@@ -33,7 +33,7 @@ public class JoddGetRequestExecutor implements RequestExecutor<String, String> {
         if (httpProxy != null) {
             ProxyInfo proxyInfoObj = new ProxyInfo(
                 ProxyInfo.ProxyType.HTTP,
-                httpProxy.getAddress().getHostAddress(),
+                httpProxy.getHostName(),
                 httpProxy.getPort(), "", "");
             provider.useProxy(proxyInfoObj);
         }
