@@ -866,6 +866,7 @@ public class WxMpServiceImpl implements WxMpService {
     payInfo.put("nonceStr", System.currentTimeMillis() + "");
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
+    payInfo.put("code_url",wxMpPrepayIdResult.getCode_url());
 
     String finalSign = WxCryptUtil.createSign(payInfo, wxMpConfigStorage.getPartnerKey());
     payInfo.put("paySign", finalSign);
