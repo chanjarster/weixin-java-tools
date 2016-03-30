@@ -47,6 +47,10 @@ public class WxMpMaterialNews implements Serializable {
      */
     private String thumbMediaId;
     /**
+     * 图文消息的封面url
+     */
+    private String thumbUrl;
+    /**
      * 图文消息的作者
      */
     private String author;
@@ -141,9 +145,17 @@ public class WxMpMaterialNews implements Serializable {
         this.url = url;
     }
 
+    public String getThumbUrl() {
+      return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+      this.thumbUrl = thumbUrl;
+    }
+
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + ", author=" + author + ", title=" + title +
+      return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + "thumbUrl=" + thumbUrl + ", author=" + author + ", title=" + title +
           ", contentSourceUrl=" + contentSourceUrl + ", content=" + content + ", digest=" + digest +
           ", showCoverPic=" + showCoverPic +", url=" + url + "]";
     }
