@@ -852,13 +852,24 @@ public interface WxMpService {
    */
   public WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume)
     throws WxErrorException;
-    
-   /**
+
+  /**
    * 卡券Code核销。核销失败会抛出异常
+   *
    * @param code 单张卡券的唯一标准
+   * @return 调用返回的JSON字符串。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * @throws WxErrorException
+   */
+  public String consumeCardCode(String code) throws WxErrorException;
+
+  /**
+   * 卡券Code核销。核销失败会抛出异常
+   *
+   * @param code   单张卡券的唯一标准
    * @param cardId 当自定义Code卡券时需要传入card_id
    * @return 调用返回的JSON字符串。
-   *         <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    * @throws WxErrorException
    */
   public String consumeCardCode(String code, String cardId) throws WxErrorException;
