@@ -790,6 +790,23 @@ public interface WxMpService {
 
    /**
     * 发送微信红包给个人用户
+    *
+    * 需要传入的必填参数如下:
+    * mch_billno//商户订单号
+    * send_name//商户名称
+    * re_openid//用户openid
+    * total_amount//红包总额
+    * total_num//红包发放总人数
+    * wishing//红包祝福语
+    * client_ip//服务器Ip地址
+    * act_name//活动名称
+    * remark //备注
+    * 文档详见:https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5
+    *
+    * 使用现金红包功能需要在xml配置文件中额外设置:
+    * <partnerId></partnerId>微信商户平台ID
+    * <partnerKey></partnerKey>商户平台设置的API密钥
+    *
     * @param parameters
     * @return
     * @throws WxErrorException
