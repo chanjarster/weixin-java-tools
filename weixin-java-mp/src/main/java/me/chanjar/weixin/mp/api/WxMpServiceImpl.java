@@ -1159,6 +1159,22 @@ public class WxMpServiceImpl implements WxMpService {
    * 卡券Code核销。核销失败会抛出异常
    *
    * @param code 单张卡券的唯一标准
+   * @return 调用返回的JSON字符串。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
+   * @throws WxErrorException
+   */
+  @Override
+  public String consumeCardCode(String code) throws WxErrorException {
+    return consumeCardCode(code, null);
+  }
+
+  /**
+   * 卡券Code核销。核销失败会抛出异常
+   *
+   * @param code   单张卡券的唯一标准
+   * @param cardId 当自定义Code卡券时需要传入card_id
+   * @return 调用返回的JSON字符串。
+   * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    * @throws WxErrorException
    */
   @Override
@@ -1168,7 +1184,7 @@ public class WxMpServiceImpl implements WxMpService {
     param.addProperty("code", code);
     
     if (cardId != null && !"".equals(cardId)) {
-    	param.addProperty("card_id", cardId);
+      param.addProperty("card_id", cardId);
     }
     
     String responseContent = post(url, param.toString());
